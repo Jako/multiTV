@@ -203,7 +203,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		fieldValue = $j.parseJSON(field.val());
 		fieldValue = (fieldValue.constructor == Array) ? fieldValue : [];
 	
-		//field.hide();
+		field.hide();
 		fieldEdit.hide();
 
 		// sortable
@@ -256,7 +256,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	} else {
 		fieldHeading.hide();
 		fieldList.hide();
-		//field.hide();
+		field.hide();
 		fieldClear.hide();
 		fieldListCopyButton.hide();
 	}
