@@ -32,7 +32,7 @@ caption | caption (horizontal) or label (vertical) for the input | -
 type | type of the input (could be set to all MODX input types - without url and richtext - and thumb for thumbnail display of image tvs - see images config for thumb) | text
 elements | could be set according to the input option values of a normal MODX template variable i.e. for a dropdown with all documents in the MODX root: ``@SELECT `pagetitle`, `id` FROM `modx_site_content` WHERE parent = 0 ORDER BY `menuindex` ASC`` | -
 thumbof | name of an image input. a thumbnail of the selected image will be rendered into this area | -
-width | the width of the input (only used if the display of the line is horizontal) | 100
+width | the width of the input (only used if the display of the list element is horizontal) | 100
 
 ### Supported MODX input types
 text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
