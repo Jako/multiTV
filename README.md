@@ -3,7 +3,7 @@ multiTV custom template varible
 
 Transform template variables into a sortable multi item list for the MODX Evolution content management framework
 
-custom template varible
+Part 1: custom template varible
 ================================================================================
 
 Features:
@@ -37,7 +37,7 @@ width | the width of the input (only used if the display of the list element is 
 ### Supported MODX input types
 text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
 
-multiTV Snippet
+Part 2: multiTV Snippet
 ================================================================================
 
 Installation:
