@@ -1,0 +1,32 @@
+<div class="multitv">
+	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/jquery-ui-1.8.18.custom.css" />
+	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/multitv.css" />
+	<script type="text/javascript" src="[+tvpath+]js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-1.8.18.custom.min.js"></script>
+	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="[+tvpath+]js/jquery-field-0.9.6.min.js"></script>
+	<script type="text/javascript" src="[+tvpath+]js/multitv.js"></script>
+	<style type="text/css">
+		[+tvcss+]
+	</style>
+	<script type="text/javascript">
+		$j(document).ready(function() {
+			TransformField('[+tvid+]', [+tvfields+], [+tvlanguage+]);
+			$j('.multitv .list .DatePicker').datetimepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: 'dd-mm-yy',
+				timeFormat: 'h:mm:ss'
+			});
+		});
+		
+	</script>
+	<input style="width:100%;" onchange="documentDirty=true;" name="[+tvid+]" id="[+tvid+]" value='[+tvvalue+]' />
+	<div id="[+tvid+]edit">[+tvlang.edit+]</div>
+	<div id="[+tvid+]clear"><a href="#">[+tvlang.clear+]</a></div>
+	[+tvheading+]
+	<ul id="[+tvid+]list" class="list sortable">
+		[+tvelement+]
+	</ul>
+</div>
+<div style="clear: left"></div>
