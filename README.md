@@ -12,7 +12,7 @@ With this code a MODX Evo template variable could be transformed into a sortable
   
 Installation:
 --------------------------------------------------------------------------------
-1. Upload the *multitv* folder into the new folder *assets/tvs*
+1. Upload all files into the new folder *assets/tvs/multitv*
 2. Create a new template variable with imput type *custom input* (if you name 
 this template variable *multidemo* it will use the multidemo config file)
 3. Insert the following code into the *input option values* 
