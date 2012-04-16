@@ -50,7 +50,6 @@ class multiTV {
 
 	// Return the include path of a configuration/template/whatever file
 	function includeFile($name, $type = 'config', $extension = '.inc.php') {
-		global $modx;
 
 		$folder = (substr($type, -1) != 'y') ? $type . 's/' : substr($folder, 0, -1) . 'ies/';
 		$allowedConfigs = glob(MTV_BASE_PATH . $folder . '*.' . $type . $extension);
@@ -90,6 +89,7 @@ class multiTV {
 				}
 		}
 		$fieldName .= '_mtv';
+		$currentClass = '';
 		$formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
 		$formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
 		$formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
@@ -115,8 +115,6 @@ class multiTV {
 
 	// build the output of multiTV script and css
 	function generateScript() {
-		global $modx;
-
 		$tvid = "tv" . $this->tvID;
 		$tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
 		$tvvalue = str_replace(array('[[', ']]'), array('[ [', '] ]'), $tvvalue);
@@ -137,6 +135,7 @@ class multiTV {
 						$tvheading .= '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>' . "\r\n";
 						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
 						$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
+						$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }' . "\r\n";
 						switch ($type) {
 							case 'thumb': {
 									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . 'preview"></div>';
@@ -144,15 +143,14 @@ class multiTV {
 									break;
 								}
 							case 'date': {
-									$this->fields[$fieldname]['width'] -= 22;
 									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname) . "\r\n";
+									$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 48) . 'px }' . "\r\n";
 									break;
 								}
 							default: {
 									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname) . "\r\n";
 								}
 						}
-						$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }' . "\r\n";
 					}
 					$tvheading .= '</div>' . "\r\n";
 					// wrap tvelements
