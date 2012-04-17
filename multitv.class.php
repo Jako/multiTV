@@ -24,6 +24,7 @@ class multiTV {
 	public $display = '';
 	public $fieldnames = array();
 	public $fields = array();
+	public $templates = array();
 	public $language = array();
 
 	// Init
@@ -73,6 +74,7 @@ class multiTV {
 	function tvSettings($settings) {
 		$this->fields = $settings['fields'];
 		$this->fieldnames = array_keys($this->fields);
+		$this->templates = $settings['templates'];
 		$this->display = $settings['display'];
 	}
 

@@ -2,7 +2,7 @@
 $settings['display'] = 'vertical';
 $settings['fields'] = array(
 	'image' => array(
-		'caption' => 'Bild',
+		'caption' => 'Image',
 		'type' => 'image'
 	),
 	'thumb' => array(
@@ -11,16 +11,20 @@ $settings['fields'] = array(
 		'thumbof' => 'image'
 	),
 	'title' => array(
-		'caption' => 'Titel',
+		'caption' => 'Title',
 		'type' => 'text',
 	),
 	'legend' => array(
-		'caption' => 'Bildlegende',
-		'type' => 'text',
+		'caption' => 'Legend',
+		'type' => 'textarea',
 	),
 	'author' => array(
-		'caption' => 'Copyright',
+		'caption' => 'Author',
 		'type' => 'text',
 	)
 );
+$settings['templates'] = array(
+	'outerTpl' => '<div class="images">[+wrapper+]</div>',
+	'rowTpl' => '<div class="image"><div class="copyrightwrapper"><img src="[+image+]" alt="[+legend+]" title="[+title+]" />[+author:ne=``:then=`<p class="copyright">[+author+]</p>`+]</div>[+legend:ne=``:then=`<p class="legend">[+legend:nl2br+]</p>`+]</div>'
+		)
 ?>

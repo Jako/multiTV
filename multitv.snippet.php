@@ -14,6 +14,8 @@ if (MODX_BASE_PATH == '') {
 	die('<h1>ERROR:</h1><p>Please use do not access this file directly.</p>');
 }
 
+global $modx;
+
 // set customtv (base) path
 $filepath = str_replace(MODX_BASE_PATH, '', dirname(__FILE__));
 
@@ -25,22 +27,26 @@ if (!class_exists('multiTV')) {
 	include MTV_BASE_PATH . 'multitv.class.php';
 }
 
-// get snippet parameter
-$tvName = isset($tvName) ? $tvName : '';
-$docid = isset($docid) ? $docid : $modx->documentObject['id'];
-$outerTpl = isset($outerTpl) ? $outerTpl : '@CODE:<select name="' . $tvName . '">[+wrapper+]</select>';
-$rowTpl = isset($rowTpl) ? $rowTpl : '@CODE:<option value="[+value+]">[+key+]</option>';
-$display = (isset($display) && $display >= 0) ? (int) $display : 5;
-$rows = isset($rows) ? explode(',', $rows) : 'all';
-
 // load template variable settings
+$tvName = isset($tvName) ? $tvName : '';
 $res = $modx->db->select('*', $modx->getFullTableName('site_tmplvars'), 'name="' . $tvName . '"');
-$row = $modx->db->getRow($res);
-if (!$row) {
+$tvSettings = $modx->db->getRow($res);
+if (!$tvSettings) {
 	return 'Template variable ' . $tvName . ' does not exists';
 }
-$multiTV = new multiTV($row);
+
+// init multiTV class
+$multiTV = new multiTV($tvSettings);
 $columns = $multiTV->fieldnames;
+$templates = $multiTV->templates;
+
+// get snippet parameter
+$docid = isset($docid) ? $docid : $modx->documentObject['id'];
+$outerTpl = isset($outerTpl) ? $outerTpl : (isset($templates['outerTpl']) ? '@CODE:' . $templates['outerTpl'] : '@CODE:<select name="' . $tvName . '">[+wrapper+]</select>');
+$rowTpl = isset($rowTpl) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $templates['rowTpl'] : '@CODE:<option value="[+value+]">[+key+]</option>');
+$display = (isset($display) && $display >= 0) ? (int) $display : 5;
+$rows = isset($rows) ? explode(',', $rows) : 'all';
+$toPlaceholder = (isset($toPlaceholder) && $toPlaceholder) ? TRUE : FALSE;
 
 // replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
 $maskedTags = array('((' => '[+', '))' => '+]');
@@ -65,6 +71,7 @@ if (!class_exists('multitvChunkie')) {
 $columnCount = count($columns);
 $wrapper = '';
 $i = 1;
+$placeholder = array();
 // rowTpl output 
 foreach ($tvOutput as $value) {
 	if ($rows != 'all') {
@@ -78,13 +85,22 @@ foreach ($tvOutput as $value) {
 		$parser->AddVar($columns[$j], $value[$j]);
 	}
 	$parser->AddVar('iteration', $i);
-	$wrapper .= $parser->Render();
+	$placeholder[$i] = $parser->Render();
+	if ($toPlaceholder) {
+		$modx->setPlaceholder($tvName . '.' . $i, $placeholder[$i]);
+	}
+	$wrapper .= $placeholder[$i];
 	$i++;
 }
-
 // wrap rowTpl output in outerTpl
 $parser = new multitvChunkie($outerTpl);
 $parser->AddVar('wrapper', $wrapper);
 $output = $parser->Render();
-return $output;
+
+if ($toPlaceholder) {
+	$modx->setPlaceholder($tvName, $output);
+	return '';
+} else {
+	return $output;
+}
 ?>
