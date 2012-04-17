@@ -138,7 +138,7 @@ class multiTV {
 						$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }' . "\r\n";
 						switch ($type) {
 							case 'thumb': {
-									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . 'preview"></div>';
+									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
 									$hasthumb = ' hasthumb';
 									break;
 								}
@@ -166,7 +166,7 @@ class multiTV {
 						$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
 						switch ($type) {
 							case 'thumb': {
-									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . 'preview"></div>';
+									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
 									$hasthumb = ' hasthumb';
 									break;
 								}

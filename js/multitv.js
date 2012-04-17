@@ -77,6 +77,17 @@ function DuplicateElement(element, elementCount) {
 	return clone;
 }
 
+function setThumbnail(fieldValue, fieldName, listElement) {
+	var thumbPath = fieldValue.split('/');
+	var thumbName = thumbPath.pop();
+	var thumbId = fieldName.replace(/^(.*?)(\d*)$/, '#$1preview$2');
+	if (thumbName != '') {
+		listElement.find(thumbId).html('<img src="../'+thumbPath.join("/")+'/.thumb_'+thumbName+'" />');
+	} else {
+		listElement.find(thumbId).html('');
+	}
+}
+
 function TransformField(tvid, tvfields, tvlanguage) {
 	var field = $j('#' + tvid);
 	var fieldValue = [];
@@ -163,19 +174,10 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			var fieldValues = [];
 			$j.each(fieldNames, function() {
 				var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
-				var fieldName = fieldInput.attr('name');
 				var fieldValue = fieldInput.getValue();
 				fieldValues.push(fieldValue);
 				if (fieldInput.hasClass('image')) {
-					// set thumbnail
-					var thumbPath = fieldValue.split('/');
-					var thumbName = thumbPath.pop();
-					var thumbId = fieldName.replace(/^(.*?)(\d*)$/, '#$1preview$2');
-					if (thumbName != '') {
-						multiElement.find(thumbId).html('<img src="../'+thumbPath.join("/")+'/.thumb_'+thumbName+'" />');
-					} else {
-						multiElement.find(thumbId).html('');
-					}
+					setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
 				}
 			});
 			values.push(fieldValues);
@@ -226,10 +228,8 @@ function TransformField(tvid, tvfields, tvlanguage) {
 					$j.each(values, function() {
 						var fieldInput = fieldListElement.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
 						fieldInput.setValue(values[i]);
-						if (fieldInput.hasClass('imageField')) {
-							var thumbPath = values[i].split('/');
-							var thumbName = thumbPath.pop();
-							fieldListElement.find('.thumb'+tvid+fieldNames[i]).attr('src', '../'+thumbPath.join("/")+'/.thumb_'+thumbName);
+						if (fieldInput.hasClass('image')) {
+							setThumbnail(values[i], fieldInput.attr('name'), fieldListElement);
 						}
 						i++;
 					}) 
@@ -242,9 +242,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 						var fieldInput = clone.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
 						fieldInput.setValue(values[i]);
 						if (fieldInput.hasClass('imageField')) {
-							var thumbPath = values[i].split('/');
-							var thumbName = thumbPath.pop();
-							clone.find('.thumb'+tvid+fieldNames[i]).attr('src', '../'+thumbPath.join("/")+'/.thumb_'+thumbName);
+							setThumbnail(values[i], fieldInput.attr('name'), clone);
 						}
 						i++;
 					}) 
