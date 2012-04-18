@@ -28,8 +28,6 @@ The display of the input fields in the multi field list could be set in `$settin
 
 The input fields of one list element could be defined in `$settings['fields']`. This variable contains an array of fieldnames and each fieldname contains an array of field properties.
 
-The output templates for the snippet could be defined in `$settings['templates']`. This variable contains an array of *rowTpl* and *outerTpl* containing template chunks.
-
 Property | Description | Default
 ---- | ----------- | -------
 caption | caption (horizontal) or label (vertical) for the input | -
@@ -38,8 +36,9 @@ elements | could be set according to the input option values of a normal MODX te
 thumbof | name of an image input. a thumbnail of the selected image will be rendered into this area | -
 width | the width of the input (only used if the display of the list element is horizontal) | 100
 
-### Supported MODX input types
-text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
+* Supported MODX input types: text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
+
+The output templates for the snippet could be defined in `$settings['templates']`. This variable contains an array of *rowTpl* and *outerTpl* containing template chunks.
 
 Part 2: multiTV Snippet
 ================================================================================
