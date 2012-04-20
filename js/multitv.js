@@ -45,49 +45,6 @@ function SetUrl(url, width, height, alt) {
 	}
 }
 
-function DuplicateElement(element, elementCount) {
-	var clone = element.clone(true).hide();
-	var elementId;
-	clone.find('[id]').each(function() {
-		elementId = $j(this).attr('id');
-		$j(this).attr('id', elementId + (elementCount));
-	});
-	clone.find('[name]').each(function() {
-		$j(this).attr('name', $j(this).attr('name') + (elementCount));
-	});
-	// clear inputs/textarea
-	var inputs = clone.find(':input');
-	inputs.each(function() {
-		var type = $j(this).attr('type');
-		switch(type) {
-			case 'button':
-				break;
-			case 'reset':
-				break;
-			case 'submit':
-				break;
-			case 'checkbox':
-			case 'radio':
-				$j(this).attr('checked', '');
-				break;
-			default:
-				$j(this).val('');
-		}
-	});
-	return clone;
-}
-
-function setThumbnail(fieldValue, fieldName, listElement) {
-	var thumbPath = fieldValue.split('/');
-	var thumbName = thumbPath.pop();
-	var thumbId = fieldName.replace(/^(.*?)(\d*)$/, '#$1preview$2');
-	if (thumbName != '') {
-		listElement.find(thumbId).html('<img src="../'+thumbPath.join("/")+'/.thumb_'+thumbName+'" />');
-	} else {
-		listElement.find(thumbId).html('');
-	}
-}
-
 function TransformField(tvid, tvfields, tvlanguage) {
 	var field = $j('#' + tvid);
 	var fieldValue = [];
@@ -101,6 +58,121 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	var fieldClear = $j('#' + tvid + 'clear');
 	var fieldListCounter = 1;
 	
+	function DuplicateElement(element, elementCount) {
+		var clone = element.clone(true).hide();
+		var elementId;
+		clone.find('[id]').each(function() {
+			elementId = $j(this).attr('id');
+			$j(this).attr('id', elementId + (elementCount));
+		});
+		clone.find('[name]').each(function() {
+			$j(this).attr('name', $j(this).attr('name') + (elementCount));
+		});
+		AddElementEvents(clone);
+
+		// clear inputs/textarea
+		var inputs = clone.find(':input');
+		inputs.each(function() {
+			var type = $j(this).attr('type');
+			switch(type) {
+				case 'button':
+					break;
+				case 'reset':
+					break;
+				case 'submit':
+					break;
+				case 'checkbox':
+				case 'radio':
+					$j(this).attr('checked', '');
+					break;
+				default:
+					$j(this).val('');
+			}
+		});
+		return clone;
+	}
+
+	function AddElementEvents(element) {
+		// datepicker
+		element.find('.DatePicker').datetimepicker({
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'dd-mm-yy',
+			timeFormat: 'h:mm:ss'
+		});
+		// file field browser
+		element.find('.browsefile').click(function() {
+			var field = $j(this).siblings('input:text');
+			BrowseFileServer(field.attr('id'));
+			return false;
+		});
+
+		// image field browser
+		element.find('.browseimage').click(function() {
+			var field = $j(this).siblings('input:text');
+			BrowseServer(field.attr('id'));
+			return false;
+		});
+		// remove element
+		element.find('.remove').click(function() {
+			if(fieldList.find('.element').length > 1) {
+				$j(this).parents('.element').remove();
+			} else {
+				// clear inputs/textarea
+				var inputs = $j(this).parent().find('[name]');
+				inputs.each(function() {
+					var type = $j(this).attr('type');
+					switch(type) {
+						case 'button':
+							break;
+						case 'reset':
+							break;
+						case 'submit':
+							break;
+						case 'checkbox':
+							$j(this).attr('checked', '');
+							break;
+						default:
+							$j(this).val('');
+					}
+				});
+			}
+			fieldList.find('li:first input:first').trigger('change');
+			return false;
+		});
+		// change field
+		element.find('[name]').bind('change keyup mouseup', function() {
+			var multiElements = fieldList.children('li');
+			var values = [];
+			multiElements.each(function() {
+				var multiElement = $j(this);
+				var fieldValues = [];
+				$j.each(fieldNames, function() {
+					var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
+					var fieldValue = fieldInput.getValue();
+					fieldValues.push(fieldValue);
+					if (fieldInput.hasClass('image')) {
+						setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
+					}
+				});
+				values.push(fieldValues);
+			});
+			field.val(Json.toString(values));
+			return false;
+		});
+
+	}
+
+	function setThumbnail(fieldValue, fieldName, listElement) {
+		var thumbPath = fieldValue.split('/');
+		var thumbName = thumbPath.pop();
+		var thumbId = fieldName.replace(/^(.*?)(\d*)$/, '#$1preview$2');
+		if (thumbName != '') {
+			listElement.find(thumbId).html('<img src="../'+thumbPath.join("/")+'/.thumb_'+thumbName+'" />');
+		} else {
+			listElement.find(thumbId).html('');
+		}
+	}
 	fieldClear.find('a').click(function() {
 		var answer = confirm(tvlanguage.confirmclear);
 		if (answer) {
@@ -136,70 +208,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		fieldList.find('li:first input:first').trigger('change');
 		return false;
 	});
-		
-	// remove element
-	$j('.remove').live('click', function() {
-		if(fieldList.find('.element').length > 1) {
-			$j(this).parents('.element').remove();
-		} else {
-			// clear inputs/textarea
-			var inputs = $j(this).parent().find('[name]');
-			inputs.each(function() {
-				var type = $j(this).attr('type');
-				switch(type) {
-					case 'button':
-						break;
-					case 'reset':
-						break;
-					case 'submit':
-						break;
-					case 'checkbox':
-						$j(this).attr('checked', '');
-						break;
-					default:
-						$j(this).val('');
-				}
-			});
-		}
-		fieldList.find('li:first input:first').trigger('change');
-		return false;
-	});
-		
-	// change field
-	fieldList.find('[name]').live('change keyup mouseup', function() {
-		var multiElements = fieldList.children('li');
-		var values = [];
-		multiElements.each(function() {
-			var multiElement = $j(this);
-			var fieldValues = [];
-			$j.each(fieldNames, function() {
-				var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
-				var fieldValue = fieldInput.getValue();
-				fieldValues.push(fieldValue);
-				if (fieldInput.hasClass('image')) {
-					setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
-				}
-			});
-			values.push(fieldValues);
-		});
-		field.val(Json.toString(values));
-		return false;
-	});
-	
-	// file field browser
-	fieldList.find('.browsefile').live('click', function() {
-		var field = $j(this).siblings('input:text');
-		BrowseFileServer(field.attr('id'));
-		return false;
-	});
-
-	// image field browser
-	fieldList.find('.browseimage').live('click', function() {
-		var field = $j(this).siblings('input:text');
-		BrowseServer(field.attr('id'));
-		return false;
-	});
-
+			
 	if (field.val() != '@INHERIT') { 
 	
 		fieldValue = $j.parseJSON(field.val());
@@ -233,6 +242,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 						}
 						i++;
 					}) 
+					AddElementEvents(fieldListElement);
 				} else {
 					var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
 					clone.show();
@@ -241,11 +251,12 @@ function TransformField(tvid, tvfields, tvlanguage) {
 					$j.each(values, function() {
 						var fieldInput = clone.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
 						fieldInput.setValue(values[i]);
-						if (fieldInput.hasClass('imageField')) {
+						if (fieldInput.hasClass('image')) {
 							setThumbnail(values[i], fieldInput.attr('name'), clone);
 						}
 						i++;
 					}) 
+					AddElementEvents(clone);
 				}
 				fieldListCounter++;
 			});
@@ -256,6 +267,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		fieldList.hide();
 		field.hide();
 		fieldClear.hide();
+		fieldList.before(fieldListCopyButton);
 		fieldListCopyButton.hide();
 	}
 }

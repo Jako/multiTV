@@ -174,7 +174,7 @@ class multiTV {
 								}
 							default: {
 									$tvelement .= '<label for="[+tvid+]' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inputBox ' . $fieldname) . '<br />' . "\r\n";
+									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname) . '<br />' . "\r\n";
 								}
 						}
 					}
