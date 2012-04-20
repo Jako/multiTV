@@ -1,11 +1,11 @@
-multiTV custom template varible
+multiTV custom template variable
 ================================================================================
 
 Transform template variables into a sortable multi item list for the MODX Evolution content management framework
 
 ![Example](/Jako/multiTV/blob/master/multitv.screenshot.png?raw=true)
 
-Part 1: custom template varible
+Part 1: custom template variable
 ================================================================================
 
 Features:

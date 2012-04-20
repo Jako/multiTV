@@ -17,9 +17,7 @@ if (MODX_BASE_PATH == '') {
 global $modx;
 
 // set customtv (base) path
-$filepath = str_replace(MODX_BASE_PATH, '', dirname(__FILE__));
-
-define(MTV_PATH, $filepath . '/');
+define(MTV_PATH, 'assets/tvs/multitv/');
 define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
 
 // include classfile

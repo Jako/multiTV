@@ -14,9 +14,8 @@ if (IN_MANAGER_MODE != 'true') {
 	die('<h1>ERROR:</h1><p>Please use the MODx Content Manager instead of accessing this file directly.</p>');
 }
 
-$filepath = str_replace(MODX_BASE_PATH, '', dirname(__FILE__));
-
-define(MTV_PATH, $filepath . '/');
+// set customtv (base) path
+define(MTV_PATH, 'assets/tvs/multitv/');
 define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
 
 if (!class_exists('multiTV')) {
