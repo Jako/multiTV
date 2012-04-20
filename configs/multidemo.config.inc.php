@@ -48,4 +48,8 @@ $settings['fields'] = array(
 		'elements' => 'Yes==1||No==0'
 	)
 );
+$settings['templates'] = array(
+	'outerTpl' => '<ul>[+wrapper+]</ul>',
+	'rowTpl' => '<li>[+text+], [+image+], [+thumb+], [+textarea+], [+date+], [+dropdown+], [+listbox+], [+listbox-multiple+], [+checkbox+], [+option+]</li>'
+		)
 ?>
