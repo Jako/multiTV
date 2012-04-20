@@ -23,7 +23,7 @@ $settings['fields'] = array(
 		'type' => 'date'
 	),
 	'dropdown' => array(
-		'caption' => 'Copyright',
+		'caption' => 'Dropdown',
 		'type' => 'dropdown',
 		'elements' => '@SELECT `pagetitle`, `id` FROM `modx_site_content` WHERE parent = 0 ORDER BY `menuindex` ASC'
 	),
