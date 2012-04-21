@@ -45,6 +45,7 @@ Part 2: multiTV Snippet
 
 Installation:
 --------------------------------------------------------------------------------
+Create a new snippet called multiTV with the following snippet code
 
     <?php
     return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
@@ -52,6 +53,7 @@ Installation:
 
 Usage:
 --------------------------------------------------------------------------------
+Call the snippet like this (the parameters *docid*, *display*, *rows* and *toPlaceholder* are using the default values in this example call and could be removed from the call)
 
     [!multiTV?
     &tvName=`event`
@@ -60,6 +62,7 @@ Usage:
     &rowTpl=`@CODE <li>((event)), ((location)), ((price))</li>`
     &display=`5`
     &rows=`all`
+    &toPlaceholder=`0`
     !]
 
 Parameters:
@@ -68,14 +71,15 @@ Parameters:
 Name | Description | Default
 ---- | ----------- | -------
 tvName | name of the template variable that contains the multiTV (the column names of the mulitTV are received from the config file) | -
-docid | document id where the custom tv is retreived from (if the multiTV Snippet is called in a Ditto template) | current document id
-outerTpl | outer template: chunkname, filename (value starts with @FILE) or code (value starts with @CODE - placeholders have to be masked by (( and )) | `@CODE:<select name="$tvName">[+wrapper+]</select>`
-rowTpl | row template: chunkname, filename (value starts with @FILE) or code (value starts with @CODE - placeholders have to be masked by (( and )) | `@CODE:<option value="[+value+]">[+key+]</option>`
+docid | document id where the custom tv is retreived from (i.e. if the multiTV Snippet is called in a Ditto template) | current document id
+outerTpl | outer template: chunkname, filename (value starts with @FILE) or code (value starts with @CODE - placeholders have to be masked by (( and )) | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
+rowTpl | row template: chunkname, filename (value starts with @FILE) or code (value starts with @CODE - placeholders have to be masked by (( and )) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
 display | count of rows that are displayed | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
 toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. | false
 
 The outer template chunk should contain the [+wrapper+] placeholder, the row template should contain fieldnames placeholders. Both chunks are parsed by PHx (chunkie class).
+The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call.
 
 Other notes:
 --------------------------------------------------------------------------------
