@@ -5,8 +5,12 @@ $settings['fields'] = array(
 		'caption' => 'Text',
 		'type' => 'text'
 	),
+	'file' => array(
+		'caption' => 'File',
+		'type' => 'file'
+	),
 	'image' => array(
-		'caption' => 'Bild',
+		'caption' => 'Image',
 		'type' => 'image'
 	),
 	'thumb' => array(

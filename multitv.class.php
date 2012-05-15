@@ -91,6 +91,7 @@ class multiTV {
 				}
 		}
 		$fieldName .= '_mtv';
+		$basePath = 
 		$currentClass = '';
 		$formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
 		$formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
@@ -103,7 +104,8 @@ class multiTV {
 		$fieldClass = (isset($currentClass[1])) ? $currentClass[1] . ' ' . $fieldClass : $fieldClass;
 		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)	
 		$formElement = preg_replace('/<label for=[^>]*>([^<]*)<\/label>/s', '<label class="inlinelabel">$1</label>', $formElement); // add label class
-		$formElement = preg_replace('/(BrowseServer\(\'tv0\'\))/', 'BrowseServer($j(this).prev(\'input\').attr(\'id\'))', $formElement, 1); // change filebrowser onclick script
+		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage" rel="' . $modx->config['base_url'] . '"', $formElement, 1); // remove imagebrowser onclick script
+		$formElement = preg_replace('/(onclick="BrowseFileServer[^\"]+\")/', 'class="browsefile" rel="' . $modx->config['base_url'] . '"', $formElement, 1); // remove filebrowser onclick script
 		$formElement = str_replace('document.forms[\'mutate\'].elements[\'tv0\'].value=\'\';document.forms[\'mutate\'].elements[\'tv0\'].onblur(); return true;', '$j(this).prev(\'input\').val(\'\').trigger(\'change\');', $formElement); // change datepicker onclick script
 		$formElement = preg_replace('/( onmouseover=\"[^\"]+\")/', '', $formElement); // delete onmouseover attribute
 		$formElement = preg_replace('/( onmouseout=\"[^\"]+\")/', '', $formElement); // delete onmouseout attribute

@@ -79,6 +79,7 @@ rows | comma separated list of row numbers (or all rows) that should be displaye
 toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. | false
 
 The outer template chunk should contain the [+wrapper+] placeholder, the row template should contain fieldnames placeholders. Both chunks are parsed by PHx (chunkie class).
+
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call.
 
 Other notes:

@@ -16,18 +16,18 @@ function OpenServerBrowser(url, width, height) {
 	var oWindow = window.open(url, 'FCKBrowseWindow', sOptions);
 }
 
-function BrowseServer(ctrl) {
+function multiBrowseServer(ctrl, basepath) {
 	lastImageCtrl = ctrl;
 	var w = screen.width * 0.7;
 	var h = screen.height * 0.7;
-	OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=images&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
+	OpenServerBrowser(basepath+'/manager/media/browser/mcpuk/browser.html?Type=images&Connector='+basepath+'/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/'+basepath, w, h);
 }
 
-function BrowseFileServer(ctrl) {
+function multiBrowseFileServer(ctrl, basepath) {
 	lastFileCtrl = ctrl;
 	var w = screen.width * 0.7;
 	var h = screen.height * 0.7;
-	OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=files&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
+	OpenServerBrowser(basepath+'/manager/media/browser/mcpuk/browser.html?Type=files&Connector='+basepath+'/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/'+basepath, w, h);
 }
 
 
@@ -102,15 +102,17 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		});
 		// file field browser
 		element.find('.browsefile').click(function() {
-			var field = $j(this).siblings('input:text');
-			BrowseFileServer(field.attr('id'));
+			var field = $j(this).prev('input').attr('id');
+			var path = $j(this).attr('rel');
+			multiBrowseFileServer(field, path);
 			return false;
 		});
 
 		// image field browser
 		element.find('.browseimage').click(function() {
-			var field = $j(this).siblings('input:text');
-			BrowseServer(field.attr('id'));
+			var field = $j(this).prev('input').attr('id');
+			var path = $j(this).attr('rel');
+			multiBrowseServer(field, path);
 			return false;
 		});
 		// remove element
@@ -173,11 +175,12 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			listElement.find(thumbId).html('');
 		}
 	}
+	
+	// reset all event
 	fieldClear.find('a').click(function() {
 		var answer = confirm(tvlanguage.confirmclear);
 		if (answer) {
 			fieldList.children('li').remove();
-			fieldList.append(fieldListElementEmpty).hide();
 			field.val('');
 			fieldClear.hide();
 			fieldHeading.hide();
@@ -187,17 +190,21 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		return false;
 	});
 
+	// start edit event
 	fieldEdit.find('a').click(function() {
+		var clone = fieldListElementEmpty.clone(true);
+		fieldList.append(clone);
 		field.val('[]');
 		fieldList.show();
 		fieldClear.show();
 		fieldHeading.show();
 		fieldEdit.hide();
 		fieldListCopyButton.show();
+		AddElementEvents(clone);
 		return false;
 	});
 
-	// copy element
+	// copy element event
 	fieldListCopyButton.click(function() {
 		var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
 		fieldList.find('li:last').after(clone);
@@ -209,13 +216,14 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		return false;
 	});
 			
+	// transform the input		
 	if (field.val() != '@INHERIT') { 
-	
 		fieldValue = $j.parseJSON(field.val());
 		fieldValue = (fieldValue.constructor == Array) ? fieldValue : [];
-	
+
 		field.hide();
 		fieldEdit.hide();
+		AddElementEvents(fieldListElement);
 
 		// sortable
 		fieldList.sortable({
@@ -242,7 +250,6 @@ function TransformField(tvid, tvfields, tvlanguage) {
 						}
 						i++;
 					}) 
-					AddElementEvents(fieldListElement);
 				} else {
 					var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
 					clone.show();
@@ -256,7 +263,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 						}
 						i++;
 					}) 
-					AddElementEvents(clone);
+				//AddElementEvents(clone);
 				}
 				fieldListCounter++;
 			});
