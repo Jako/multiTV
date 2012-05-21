@@ -20,14 +20,14 @@ function multiBrowseServer(ctrl, basepath) {
 	lastImageCtrl = ctrl;
 	var w = screen.width * 0.7;
 	var h = screen.height * 0.7;
-	OpenServerBrowser(basepath+'/manager/media/browser/mcpuk/browser.html?Type=images&Connector='+basepath+'/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/'+basepath, w, h);
+	OpenServerBrowser(basepath+'/manager/media/browser/mcpuk/browser.html?Type=images&Connector='+basepath+'/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath='+basepath, w, h);
 }
 
 function multiBrowseFileServer(ctrl, basepath) {
 	lastFileCtrl = ctrl;
 	var w = screen.width * 0.7;
 	var h = screen.height * 0.7;
-	OpenServerBrowser(basepath+'/manager/media/browser/mcpuk/browser.html?Type=files&Connector='+basepath+'/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/'+basepath, w, h);
+	OpenServerBrowser(basepath+'/manager/media/browser/mcpuk/browser.html?Type=files&Connector='+basepath+'/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath='+basepath, w, h);
 }
 
 

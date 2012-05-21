@@ -3,7 +3,7 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.3.1
+ * @version 	1.3.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
