@@ -58,8 +58,8 @@ Call the snippet like this (the parameters *docid*, *display*, *rows* and *toPla
     [!multiTV?
     &tvName=`event`
     &docid=`[*id*]`
-    &outerTpl=`@CODE <ul>((wrapper))</ul>`
-    &rowTpl=`@CODE <li>((event)), ((location)), ((price))</li>`
+    &outerTpl=`@CODE:<ul>((wrapper))</ul>`
+    &rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
     &display=`5`
     &rows=`all`
     &toPlaceholder=`0`
@@ -68,15 +68,15 @@ Call the snippet like this (the parameters *docid*, *display*, *rows* and *toPla
 Parameters:
 --------------------------------------------------------------------------------
 
-Name | Description | Default
----- | ----------- | -------
+Name | Description | Default value
+---- | ----------- | -------------
 tvName | name of the template variable that contains the multiTV (the column names of the mulitTV are received from the config file) | -
 docid | document id where the custom tv is retreived from (i.e. if the multiTV Snippet is called in a Ditto template) | current document id
-outerTpl | outer template: chunkname, filename (value starts with @FILE) or code (value starts with @CODE - placeholders have to be masked by (( and )) | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
-rowTpl | row template: chunkname, filename (value starts with @FILE) or code (value starts with @CODE - placeholders have to be masked by (( and )) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
+outerTpl | outer template: chunkname, filename (value starts with @FILE) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. See 3. | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
+rowTpl | row template: chunkname, filename (value starts with @FILE) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. See 3. | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
 display | count of rows that are displayed | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
-toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. | false
+toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. See 2. | false
 
 The outer template chunk should contain the [+wrapper+] placeholder, the row template should contain fieldnames placeholders. Both chunks are parsed by PHx (chunkie class).
 
@@ -84,5 +84,6 @@ The default templates for outer template and row template could be defined in th
 
 Other notes:
 --------------------------------------------------------------------------------
-* The JSON string the multitv is converted to starts with [[ and ends with ]] so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.
-* If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called uncached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
+1. The JSON string the multitv is converted to starts with [[ and ends with ]] so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.
+2. If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called uncached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
+3. MODX does not like `=`, `?` and `&` in snippet parameters. If the template code has to use those signs, put the template code in a chunk or change the default templates in the config file.
