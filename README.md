@@ -76,7 +76,7 @@ outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or co
 rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. See note 3. | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
 display | count of rows that are displayed | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
-toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. See note 2. | false
+toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. See note 2. | 0
 
 The outer template chunk should contain the [+wrapper+] placeholder, the row template should contain fieldnames placeholders. Both chunks are parsed by PHx (chunkie class).
 

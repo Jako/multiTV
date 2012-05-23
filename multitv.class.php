@@ -94,7 +94,7 @@ class multiTV {
 		}
 		$fieldName .= '_mtv';
 		$currentClass = '';
-		$baseUrl = '/' . trim($modx->config['base_url'], '/');
+		$baseUrl = $modx->config['base_url'];
 		$formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
 		$formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
 		$formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
