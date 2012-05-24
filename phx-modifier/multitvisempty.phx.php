@@ -1,7 +1,7 @@
 <?php
 /*  
  * description: check whether the multiTV is empty
- * usage: [+phx:multitvisempty=`tvname|docid`:then=``:else=``+]
+ * usage: [+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]
  * tvname = name of the multiTV
  * docid = id of the document with the multiTV. For use i.e. in ditto (defaults to current document)
  */
