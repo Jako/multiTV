@@ -84,7 +84,7 @@ The default templates for outer template and row template could be defined in th
 
 Part 3: PHx modifier
 ================================================================================
-Since the JSON string in multiTV starts with `[[` and ends with `]]`, you can't check if the multiTV is empty by ```[*multittvname:ne=``:then=`not empty`*]```. 
+Since the JSON string in multiTV starts with `[[` and ends with `]]` (see note 1), you can't check if the multiTV is empty by ```[*multittvname:ne=``:then=`not empty`*]```. 
 
 You could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``
 
