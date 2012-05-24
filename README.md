@@ -82,8 +82,14 @@ The outer template chunk should contain the [+wrapper+] placeholder, the row tem
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call.
 
+Part 3: PHx modifier
+================================================================================
+Since the JSON string in multiTV starts with `[[` and ends with `]]`, you can't check if the multiTV is empty by `[*multittvname:ne=``:then=`not empty`*]`. 
+
+You could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this `[+phx:multitvisempty=`tvname|docid`:then=``:else=`+]` or like this [+phx:multitvisnotempty=`tvname|docid`:then=``:else=`+]
+
 Notes:
 --------------------------------------------------------------------------------
-1. The JSON string the multitv is converted to starts with [[ and ends with ]] so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.
+1. The JSON string the multitv is converted to starts with `[[` and ends with `]]` so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.
 2. If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called uncached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
 3. MODX does not like `=`, `?` and `&` in snippet parameters. If the template code has to use those signs, put the template code in a chunk or change the default templates in the config file.
