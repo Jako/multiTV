@@ -48,14 +48,19 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	var field = $j('#' + tvid);
 	var fieldValue = [];
 	var fieldHeading = $j('#' + tvid + 'heading');
-	var fieldNames = tvfields;
+	var fieldNames = tvfields['fieldnames'];
+	var fieldTypes = tvfields['fieldtypes'];
 	var fieldList = $j('#' + tvid + 'list');
 	var fieldListElement = fieldList.find('li:first');
 	var fieldListElementEmpty = fieldListElement.clone();
 	var fieldListCopyButton = $j('<a href="#" class="copy" title="'+tvlanguage.add+'">'+tvlanguage.add+'</a>');
 	var fieldEdit = $j('#' + tvid + 'edit');
 	var fieldClear = $j('#' + tvid + 'clear');
+	var fieldPasteWord = $j('#' + tvid + 'pasteword');
+	var fieldPasteForm = $j('#' + tvid + 'pasteform');
+	var fieldPasteArea = $j('#' + tvid + 'pastearea');
 	var fieldListCounter = 1;
+	var pasteBox;
 	
 	function DuplicateElement(element, elementCount) {
 		var clone = element.clone(true).hide();
@@ -175,6 +180,40 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		}
 	}
 	
+	function prefillInputs(fieldValue) {
+		$j.each(fieldValue, function() {
+			var values = this;
+			if (fieldListCounter == 1) {
+				var i = 0;
+				$j.each(values, function() {
+					var fieldInput = fieldListElement.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
+					fieldInput.setValue(values[i]);
+					if (fieldInput.hasClass('image')) {
+						setThumbnail(values[i], fieldInput.attr('name'), fieldListElement);
+					}
+					i++;
+				}) 
+			} else {
+				var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
+				clone.show();
+				fieldList.append(clone);
+				var i = 0;
+				$j.each(values, function() {
+					var fieldInput = clone.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
+					fieldInput.setValue(values[i]);
+					if (fieldInput.hasClass('image')) {
+						setThumbnail(values[i], fieldInput.attr('name'), clone);
+					}
+					i++;
+				}) 
+			//AddElementEvents(clone);
+			}
+			fieldListCounter++;
+		});
+		field.addClass('transformed');
+
+	}
+	
 	// reset all event
 	fieldClear.find('a').click(function() {
 		var answer = confirm(tvlanguage.confirmclear);
@@ -200,6 +239,55 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		fieldEdit.hide();
 		fieldListCopyButton.show();
 		AddElementEvents(clone);
+		return false;
+	});
+	
+	// paste box
+	pasteBox = fieldPasteWord.find('a').colorbox({
+		inline:true, 
+		width:"500px", 
+		height:"350px",
+		onClosed:function() {
+			fieldPasteArea.html('');
+		},
+		close:''
+	});
+	
+	// close paste box
+	fieldPasteForm.find('.close').click(function() {
+		pasteBox.colorbox.close();
+		return false;
+	});
+
+	// save pasted form
+	fieldPasteForm.find('.save').click(function() {
+		var pastedArray = [];
+		var clean = fieldPasteArea.htmlClean({
+			allowedTags:['table','tbody','tr','td']
+		}).html();
+		clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg,'<table>').replace(/<\/table>.*/mg,'</table>');
+		$j(clean).find('tr').each(function() {
+			var pastedRow = [];
+			var tableData = $j(this).find('td');
+			if (tableData.length > 0) {
+				var i = 0;
+				tableData.each(function() {
+					if (fieldTypes[i] == 'thumb') {
+						pastedRow.push('');
+						i++;
+					}
+					pastedRow.push($j(this).text());
+					i++;
+				});
+				pastedArray.push(pastedRow);
+			}
+		});
+		console.log (pastedArray);
+		fieldList.find('li:gt(0)').remove();
+		fieldListCounter = 1;
+		prefillInputs(pastedArray);
+		fieldList.find('li:first input:first').trigger('change');
+		pasteBox.colorbox.close();
 		return false;
 	});
 
@@ -232,41 +320,9 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			axis: 'y',
 			helper: 'clone'
 		});
-
-		// prefill inputs
 		if (!field.hasClass('transformed')) {
 			fieldList.before(fieldListCopyButton);
-			$j.each(fieldValue, function() {
-				var values = this;
-				var i = 0;
-				if (fieldListCounter == 1) {
-					i = 0;
-					$j.each(values, function() {
-						var fieldInput = fieldListElement.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
-						fieldInput.setValue(values[i]);
-						if (fieldInput.hasClass('image')) {
-							setThumbnail(values[i], fieldInput.attr('name'), fieldListElement);
-						}
-						i++;
-					}) 
-				} else {
-					var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
-					clone.show();
-					fieldList.append(clone);
-					i = 0;
-					$j.each(values, function() {
-						var fieldInput = clone.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
-						fieldInput.setValue(values[i]);
-						if (fieldInput.hasClass('image')) {
-							setThumbnail(values[i], fieldInput.attr('name'), clone);
-						}
-						i++;
-					}) 
-				//AddElementEvents(clone);
-				}
-				fieldListCounter++;
-			});
-			field.addClass('transformed');
+			prefillInputs(fieldValue);
 		}
 	} else {
 		fieldHeading.hide();

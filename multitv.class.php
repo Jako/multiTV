@@ -23,6 +23,7 @@ class multiTV {
 	public $tvValue = '';
 	public $display = '';
 	public $fieldnames = array();
+	public $fieldtypes = array();
 	public $fields = array();
 	public $templates = array();
 	public $language = array();
@@ -74,6 +75,10 @@ class multiTV {
 	function tvSettings($settings) {
 		$this->fields = $settings['fields'];
 		$this->fieldnames = array_keys($this->fields);
+		$this->fieldtypes = array();
+		foreach ($this->fields as $field) {
+			$this->fieldtypes[] = $field['type'];
+		}
 		$this->templates = $settings['templates'];
 		$this->display = $settings['display'];
 	}
@@ -81,7 +86,7 @@ class multiTV {
 	// invoke modx renderFormElement and change the output (to multiTV demands)
 	function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass) {
 		global $modx;
-		
+
 		switch ($fieldType) {
 			case 'url' : {
 					$fieldType = 'text';
@@ -124,7 +129,7 @@ class multiTV {
 		$tvid = "tv" . $this->tvID;
 		$tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
 		$tvvalue = str_replace(array('[[', ']]'), array('[ [', '] ]'), $tvvalue);
-		$tvfields = json_encode($this->fieldnames);
+		$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes));
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
 

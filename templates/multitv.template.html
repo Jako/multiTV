@@ -1,10 +1,13 @@
 <div class="multitv">
 	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/jquery-ui-1.8.18.custom.css" />
 	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/multitv.css" />
+	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/colorbox.css" />
 	<script type="text/javascript" src="[+tvpath+]js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-1.8.18.custom.min.js"></script>
 	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="[+tvpath+]js/jquery-field-0.9.6.min.js"></script>
+	<script type="text/javascript" src="[+tvpath+]js/jquery-colorbox-1.3.19.3-min.js"></script>
+	<script type="text/javascript" src="[+tvpath+]js/jquery-htmlClean-1.3.0.min.js"></script>
 	<script type="text/javascript" src="[+tvpath+]js/multitv.js"></script>
 	<style type="text/css">
 		[+tvcss+]
@@ -16,8 +19,16 @@
 		
 	</script>
 	<input style="width:100%;" onchange="documentDirty=true;" name="[+tvid+]" id="[+tvid+]" value='[+tvvalue+]' />
-	<div id="[+tvid+]edit">[+tvlang.edit+]</div>
-	<div id="[+tvid+]clear"><a href="#">[+tvlang.clear+]</a></div>
+	<div id="[+tvid+]edit" class="tvedit">[+tvlang.edit+]</div>
+	<div id="[+tvid+]clear" class="tvclear"><a href="#">[+tvlang.clear+]</a></div>
+	<div id="[+tvid+]pasteword" class="tvpasteword"><a href="#[+tvid+]pasteform">[+tvlang.pasteword+]</a></div>
+	<div id="[+tvid+]pasteform" class="tvpasteform hidden">
+		<p class="legend">Paste Here</p>
+		<div id="[+tvid+]pastearea" class="pastearea" contenteditable="true"></div>
+		<div class="buttons">
+			<a class="save" href="#">Save</a><a class="close" href="#">Close</a>
+		</div>
+	</div>
 	[+tvheading+]
 	<ul id="[+tvid+]list" class="list sortable">
 		[+tvelement+]

@@ -1,6 +1,6 @@
 .multitv { position: relative }
 
-.multitv .heading { padding-left: 20px }
+.multitv .heading { padding-left: 20px; clear: left }
 
 .multitv .copy { position: absolute; left: -20px; bottom: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px }
 .multitv .list { margin: 0; padding: 0; clear: left; position: relative }
@@ -26,3 +26,13 @@
 
 .multitv .list li.element .tvimage { float: right; margin-right: 2px; width: 96px }
 .multitv .list li.element .thumb { border: 1px solid #ccc !important }
+
+.multitv .hidden { display: none }
+
+.multitv .tvedit, .multitv .tvclear, .multitv .tvpasteword { float: left; margin-right: 10px }
+
+.tvpasteform { width: 450px }
+.tvpasteform .pastearea, .pasteform .buttons, .pasteform .legend { width: 438px; margin: 0 auto 5px } 
+.tvpasteform .pastearea { width: 418px; height: 225px; overflow: hidden; border: 1px solid #e3e3e3; padding: 10px }
+.tvpasteform .buttons { text-align: right }
+.tvpasteform .buttons a { margin-left: 5px; text-decoration: none; color: #000 }
