@@ -254,7 +254,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	});
 	
 	// close paste box
-	fieldPasteForm.find('.close').click(function() {
+	fieldPasteForm.find('.cancel').click(function() {
 		pasteBox.colorbox.close();
 		return false;
 	});
