@@ -27,6 +27,7 @@ class multiTV {
 	public $fields = array();
 	public $templates = array();
 	public $language = array();
+	public $csvseparator = ',';
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -81,6 +82,7 @@ class multiTV {
 		}
 		$this->templates = $settings['templates'];
 		$this->display = $settings['display'];
+		$this->csvseparator = isset($settings['paste']['csvseparator']) ? $settings['paste']['csvseparator'] : ',';
 	}
 
 	// invoke modx renderFormElement and change the output (to multiTV demands)
@@ -129,7 +131,7 @@ class multiTV {
 		$tvid = "tv" . $this->tvID;
 		$tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
 		$tvvalue = str_replace(array('[[', ']]'), array('[ [', '] ]'), $tvvalue);
-		$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes));
+		$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->csvseparator));
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
 

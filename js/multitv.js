@@ -50,6 +50,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	var fieldHeading = $j('#' + tvid + 'heading');
 	var fieldNames = tvfields['fieldnames'];
 	var fieldTypes = tvfields['fieldtypes'];
+	var fieldCsvSeparator = tvfields['csvseparator'];
 	var fieldList = $j('#' + tvid + 'list');
 	var fieldListElement = fieldList.find('li:first');
 	var fieldListElementEmpty = fieldListElement.clone();
@@ -296,13 +297,13 @@ function TransformField(tvid, tvfields, tvlanguage) {
 				clean.find('div, p').each(function() {
 					var pastedRow = [];					
 					// CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
-					for (var tableData = $j(this).html().split(','), x = tableData.length - 1, tl; x >= 0; x--) {
+					for (var tableData = $j(this).html().split(fieldCsvSeparator), x = tableData.length - 1, tl; x >= 0; x--) {
 						if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) == '"') {
 							if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) == '"') {
 								tableData[x] = tableData[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
 							} else if (x) {
-								tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(','));
-							} else tableData = tableData.shift().split(',').concat(tableData);
+								tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(fieldCsvSeparator));
+							} else tableData = tableData.shift().split(fieldCsvSeparator).concat(tableData);
 						} else tableData[x].replace(/""/g, '"');
 					}
 					if (tableData.length > 0) {
@@ -345,6 +346,9 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		}
 		fieldList.find('li:gt(0)').remove();
 		fieldListCounter = 1;
+		if(mode == 'append') {
+			pastedArray = $j.merge(fieldValue, pastedArray);
+		}
 		prefillInputs(pastedArray);
 		fieldList.find('li:first input:first').trigger('change');
 		pasteBox.colorbox.close();
