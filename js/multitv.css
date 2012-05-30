@@ -29,10 +29,13 @@
 
 .multitv .hidden { display: none }
 
-.multitv .tvedit, .multitv .tvclear, .multitv .tvpasteword { float: left; margin-right: 10px }
+.multitv .tvedit, .multitv .tvclear, .multitv .tvpaste { float: left; margin-right: 10px }
 
 .tvpasteform { width: 450px }
-.tvpasteform .pastearea, .tvpasteform .buttons, .tvpasteform .legend { width: 438px; margin: 0 auto 5px } 
-.tvpasteform .pastearea { width: 418px; height: 225px; overflow: hidden; border: 1px solid #e3e3e3; padding: 10px }
-.tvpasteform .buttons { text-align: right }
-.tvpasteform .buttons a { margin-left: 5px; text-decoration: none; color: #000 }
+.tvpasteform .pastearea, .tvpasteform .buttons { width: 438px } 
+.tvpasteform .legend { float: left; margin-left: 5px }
+.tvpasteform .pastearea { width: 418px; height: 215px; overflow: hidden; border: 1px solid #e3e3e3; padding: 10px; margin: 0 auto 10px }
+.tvpasteform .radios { float: right; margin: 0 5px 5px 0 } 
+.tvpasteform .radio { margin: 0 5px 5px 5px }
+.tvpasteform .buttons { text-align: right; margin: 0 auto 0 }
+.tvpasteform .buttons li { margin-right: 0; margin-left: 10px }

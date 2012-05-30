@@ -56,7 +56,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	var fieldListCopyButton = $j('<a href="#" class="copy" title="'+tvlanguage.add+'">'+tvlanguage.add+'</a>');
 	var fieldEdit = $j('#' + tvid + 'edit');
 	var fieldClear = $j('#' + tvid + 'clear');
-	var fieldPasteWord = $j('#' + tvid + 'pasteword');
+	var fieldPaste = $j('#' + tvid + 'paste');
 	var fieldPasteForm = $j('#' + tvid + 'pasteform');
 	var fieldPasteArea = $j('#' + tvid + 'pastearea');
 	var fieldListCounter = 1;
@@ -221,6 +221,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			fieldList.children('li').remove();
 			field.val('');
 			fieldClear.hide();
+			fieldPaste.hide();
 			fieldHeading.hide();
 			fieldEdit.show();
 			fieldListCopyButton.hide();
@@ -235,6 +236,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		field.val('[]');
 		fieldList.show();
 		fieldClear.show();
+		fieldPaste.show();
 		fieldHeading.show();
 		fieldEdit.hide();
 		fieldListCopyButton.show();
@@ -243,7 +245,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	});
 	
 	// paste box
-	pasteBox = fieldPasteWord.find('a').colorbox({
+	pasteBox = fieldPaste.find('a').colorbox({
 		inline:true, 
 		width:"500px", 
 		height:"350px",
@@ -260,29 +262,87 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	});
 
 	// save pasted form
-	fieldPasteForm.find('.save').click(function() {
+	fieldPasteForm.find('.replace, .append').click(function() {
 		var pastedArray = [];
-		var clean = fieldPasteArea.htmlClean({
-			allowedTags:['table','tbody','tr','td']
-		}).html();
-		clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg,'<table>').replace(/<\/table>.*/mg,'</table>');
-		$j(clean).find('tr').each(function() {
-			var pastedRow = [];
-			var tableData = $j(this).find('td');
-			if (tableData.length > 0) {
-				var i = 0;
-				tableData.each(function() {
-					if (fieldTypes[i] == 'thumb') {
-						pastedRow.push('');
-						i++;
-					}
-					pastedRow.push($j(this).text());
-					i++;
+		var mode = $j(this).attr('class');
+		var pasteas = $j('input:radio[name=pasteas]:checked').val();
+		var clean;
+		switch(pasteas) {
+			case 'google':
+				clean = fieldPasteArea.htmlClean({
+					allowedTags:['div','span']
 				});
-				pastedArray.push(pastedRow);
-			}
-		});
-		console.log (pastedArray);
+				clean.find('div').each(function() {
+					var pastedRow = [];
+					var tableData = $j(this).html().split('<span></span>');
+					if (tableData.length > 0) {
+						var i = 0;
+						$j.each(tableData, function() {
+							if (fieldTypes[i] == 'thumb') {
+								pastedRow.push('');
+								i++;
+							}
+							pastedRow.push($j.trim(this));
+							i++;
+						});
+						pastedArray.push(pastedRow);
+					}
+				});
+				break;
+			case 'csv':
+				clean = fieldPasteArea.htmlClean({
+					allowedTags:['div','p']
+				});
+				clean.find('div, p').each(function() {
+					var pastedRow = [];					
+					// CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
+					for (var tableData = $j(this).html().split(','), x = tableData.length - 1, tl; x >= 0; x--) {
+						if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) == '"') {
+							if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) == '"') {
+								tableData[x] = tableData[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
+							} else if (x) {
+								tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(','));
+							} else tableData = tableData.shift().split(',').concat(tableData);
+						} else tableData[x].replace(/""/g, '"');
+					}
+					if (tableData.length > 0) {
+						var i = 0;
+						$j.each(tableData, function() {
+							if (fieldTypes[i] == 'thumb') {
+								pastedRow.push('');
+								i++;
+							}
+							pastedRow.push($j.trim(this));
+							i++;
+						});
+						pastedArray.push(pastedRow);
+					}
+				});
+				break;
+			case 'word':
+			default:
+				clean = fieldPasteArea.htmlClean({
+					allowedTags:['table','tbody','tr','td']
+				}).html();
+				clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg,'<table>').replace(/<\/table>.*/mg,'</table>');
+				$j(clean).find('tr').each(function() {
+					var pastedRow = [];
+					var tableData = $j(this).find('td');
+					if (tableData.length > 0) {
+						var i = 0;
+						tableData.each(function() {
+							if (fieldTypes[i] == 'thumb') {
+								pastedRow.push('');
+								i++;
+							}
+							pastedRow.push($j(this).text());
+							i++;
+						});
+						pastedArray.push(pastedRow);
+					}
+				});
+				break;
+		}
 		fieldList.find('li:gt(0)').remove();
 		fieldListCounter = 1;
 		prefillInputs(pastedArray);
@@ -329,6 +389,7 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		fieldList.hide();
 		field.hide();
 		fieldClear.hide();
+		fieldPaste.hide();
 		fieldList.before(fieldListCopyButton);
 		fieldListCopyButton.hide();
 	}
