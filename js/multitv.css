@@ -11,6 +11,9 @@
 .multitv .list li.element.inline { display: list-item }
 .multitv .list li.element.inline a { display: block; float: left; padding: 3px; margin: 0 5px 0 0 }
 
+.multitv .list li.element.single { padding: 10px; background: none; list-style: none }
+
+
 .multitv .list li.element label { display: inline-block; width: 100px }
 .multitv .list li.element select.inline { margin-right: 9px }
 .multitv .list li.element a.remove { position: absolute; top: 7px; right: 10px; background: url('images/delete.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px; float: none; margin: 0; padding: 0 }

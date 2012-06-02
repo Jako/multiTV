@@ -24,7 +24,7 @@ Options:
 --------------------------------------------------------------------------------
 All options for a custom template variable are set in a config file in the folder *configs* with the same name as the template variable (otherwise the default config is used) and *.config.inc.php* as extension
 
-The display of the input fields in the multi field list could be set in `$settings['display']` to *horizontal* or *vertical*. Create a custom template variable called *event* for a horizontal example.
+The display of the input fields in the multi field list could be set in `$settings['display']` to *horizontal*, *vertical* or *single*. Create a custom template variable called *event* for a horizontal example. A multiTV with single display configuration contains only one list element. 
 
 The input fields of one list element could be defined in `$settings['fields']`. This variable contains an array of fieldnames and each fieldname contains an array of field properties.
 
@@ -39,6 +39,16 @@ width | the width of the input (only used if the display of the list element is 
 * Supported MODX input types: text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
 
 The output templates for the snippet could be defined in `$settings['templates']`. This variable contains an array of *rowTpl* and *outerTpl* containing template chunks.
+
+There is a paste table data link for a multiTV that displays a paste box. In this box you could paste Word/HTML table clipboard data, Google Docs table clipboard data and csv data. 
+
+The csv data should contain a new line for each row. The column separator could be set in the config file in `$settings['paste']`. This variable contains an array of paste settings.
+
+Property | Description | Default
+---- | ----------- | -------
+csvseparator | column separator for csv clipboard table data | `,`
+
+See the *multidemo* config for all usable settings.
 
 Part 2: multiTV Snippet
 ================================================================================

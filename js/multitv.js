@@ -44,8 +44,9 @@ function SetUrl(url, width, height, alt) {
 	}
 }
 
-function TransformField(tvid, tvfields, tvlanguage) {
+function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 	var field = $j('#' + tvid);
+	var fieldMode = tvmode;
 	var fieldValue = [];
 	var fieldHeading = $j('#' + tvid + 'heading');
 	var fieldNames = tvfields['fieldnames'];
@@ -54,7 +55,6 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	var fieldList = $j('#' + tvid + 'list');
 	var fieldListElement = fieldList.find('li:first');
 	var fieldListElementEmpty = fieldListElement.clone();
-	var fieldListCopyButton = $j('<a href="#" class="copy" title="'+tvlanguage.add+'">'+tvlanguage.add+'</a>');
 	var fieldEdit = $j('#' + tvid + 'edit');
 	var fieldClear = $j('#' + tvid + 'clear');
 	var fieldPaste = $j('#' + tvid + 'paste');
@@ -120,10 +120,23 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			multiBrowseServer(field, path);
 			return false;
 		});
+		// add element
+		element.find('.copy').click(function() {
+			var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
+			$j(this).parents('.element').after(clone);
+			clone.show('fast', function() {
+				$j(this).removeAttr('style');
+			});
+			fieldListCounter++;
+			fieldList.find('li:first input:first').trigger('change');
+			return false;
+		});
 		// remove element
 		element.find('.remove').click(function() {
 			if(fieldList.find('.element').length > 1) {
-				$j(this).parents('.element').remove();
+				$j(this).parents('.element').hide('fast', function(){
+					$j(this).remove()
+				});
 			} else {
 				// clear inputs/textarea
 				var inputs = $j(this).parent().find('[name]');
@@ -167,7 +180,6 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			field.val(Json.toString(values));
 			return false;
 		});
-
 	}
 
 	function setThumbnail(fieldValue, fieldName, listElement) {
@@ -182,6 +194,9 @@ function TransformField(tvid, tvfields, tvlanguage) {
 	}
 	
 	function prefillInputs(fieldValue) {
+		if (fieldMode == 'single'){
+			fieldValue = [fieldValue[0]];
+		}
 		$j.each(fieldValue, function() {
 			var values = this;
 			if (fieldListCounter == 1) {
@@ -225,7 +240,6 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			fieldPaste.hide();
 			fieldHeading.hide();
 			fieldEdit.show();
-			fieldListCopyButton.hide();
 		}
 		return false;
 	});
@@ -240,7 +254,6 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		fieldPaste.show();
 		fieldHeading.show();
 		fieldEdit.hide();
-		fieldListCopyButton.show();
 		AddElementEvents(clone);
 		return false;
 	});
@@ -354,18 +367,6 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		pasteBox.colorbox.close();
 		return false;
 	});
-
-	// copy element event
-	fieldListCopyButton.click(function() {
-		var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
-		fieldList.find('li:last').after(clone);
-		clone.show('fast', function() {
-			$j(this).removeAttr('style');
-		});
-		fieldListCounter++;
-		fieldList.find('li:first input:first').trigger('change');
-		return false;
-	});
 			
 	// transform the input		
 	if (field.val() != '@INHERIT') { 
@@ -385,7 +386,6 @@ function TransformField(tvid, tvfields, tvlanguage) {
 			helper: 'clone'
 		});
 		if (!field.hasClass('transformed')) {
-			fieldList.before(fieldListCopyButton);
 			prefillInputs(fieldValue);
 		}
 	} else {
@@ -394,7 +394,5 @@ function TransformField(tvid, tvfields, tvlanguage) {
 		field.hide();
 		fieldClear.hide();
 		fieldPaste.hide();
-		fieldList.before(fieldListCopyButton);
-		fieldListCopyButton.hide();
 	}
 }

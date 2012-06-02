@@ -168,7 +168,9 @@ class multiTV {
 					$tvheading .= '</div>' . "\r\n";
 					// wrap tvelements
 					$tvelement = '<li class="element inline' . $hasthumb . '"><div>' . $tvelement;
-					$tvelement .= '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a></div><div class="clear"></div></li>' . "\r\n";
+					$tvelement .= '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>' . "\r\n";
+					$tvelement .= '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>' . "\r\n";
+					$tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
 					break;
 				}
 			// horizontal template
@@ -190,7 +192,31 @@ class multiTV {
 						}
 					}
 					$tvelement = '<li class="element' . $hasthumb . '"><div>' . $tvelement;
-					$tvelement .= '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a></div><div class="clear"></div></li>' . "\r\n";
+					$tvelement .= '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>' . "\r\n";
+					$tvelement .= '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>' . "\r\n";
+					$tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
+					break;
+				}
+			// horizontal template
+			case 'single': {
+					$tvheading = '';
+					foreach ($this->fieldnames as $fieldname) {
+						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
+						$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
+						switch ($type) {
+							case 'thumb': {
+									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+									$hasthumb = ' hasthumb';
+									break;
+								}
+							default: {
+									$tvelement .= '<label for="[+tvid+]' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
+									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname) . '<br />' . "\r\n";
+								}
+						}
+					}
+					$tvelement = '<li class="element single' . $hasthumb . '"><div>' . $tvelement;
+					$tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
 					break;
 				}
 			// inline popup - i.e. if there are too much elements in one row	
@@ -206,6 +232,7 @@ class multiTV {
 		$placeholder = array();
 		$placeholder['tvcss'] = $tvcss;
 		$placeholder['tvheading'] = $tvheading;
+		$placeholder['tvmode'] = $this->display;
 		$placeholder['tvfields'] = $tvfields;
 		$placeholder['tvlanguage'] = $tvlanguage;
 		$placeholder['tvelement'] = $tvelement;
