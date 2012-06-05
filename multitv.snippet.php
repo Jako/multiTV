@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.4.2
+ * @version 	1.4.3
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.2</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.3</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -45,6 +45,7 @@ $rowTpl = isset($rowTpl) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $
 $display = (isset($display) && $display >= 0) ? (int) $display : 5;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
 $toPlaceholder = (isset($toPlaceholder) && $toPlaceholder) ? TRUE : FALSE;
+$randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
 
 // replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
 $maskedTags = array('((' => '[+', '))' => '+]');
@@ -59,6 +60,10 @@ $tvOutput = json_decode($tvOutput);
 // stop if there is no output
 if (!count($tvOutput))
 	return;
+
+if ($randomize) {
+   shuffle($tvOutput);
+}
 
 // parse the output chunks
 if (!class_exists('multitvChunkie')) {

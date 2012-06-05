@@ -1,6 +1,9 @@
 History
 ================================================================================
 
+- 1.4.3 June 5, 2012
+    - Snippet: `randomize` parameter
+
 - 1.4.2 June 2, 2012
     - CustomTV: single display configuration
     - CustomTV: each multiTV element has now its own `add` button

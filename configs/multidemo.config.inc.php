@@ -1,5 +1,5 @@
 <?php
-$settings['display'] = 'single';
+$settings['display'] = 'vertical';
 $settings['fields'] = array(
 	'text' => array(
 		'caption' => 'Text',

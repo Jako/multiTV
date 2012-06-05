@@ -63,7 +63,7 @@ Create a new snippet called multiTV with the following snippet code
 
 Usage:
 --------------------------------------------------------------------------------
-Call the snippet like this (the parameters *docid*, *display*, *rows* and *toPlaceholder* are using the default values in this example call and could be removed from the call)
+Call the snippet like this (the parameters *docid*, *display*, *rows*, *toPlaceholder* and *randomize* are using the default values in this example call and could be removed from the call)
 
     [!multiTV?
     &tvName=`event`
@@ -73,6 +73,7 @@ Call the snippet like this (the parameters *docid*, *display*, *rows* and *toPla
     &display=`5`
     &rows=`all`
     &toPlaceholder=`0`
+    &randomize=`0`
     !]
 
 Parameters:
@@ -87,6 +88,7 @@ rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (
 display | count of rows that are displayed | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
 toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. See note 2. | 0
+randomize | random order of displayed rows | 0
 
 The outer template chunk should contain the [+wrapper+] placeholder, the row template should contain fieldnames placeholders. Both chunks are parsed by PHx (chunkie class).
 
