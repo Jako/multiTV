@@ -77,6 +77,9 @@ $i = 1;
 $placeholder = array();
 // rowTpl output 
 foreach ($tvOutput as $value) {
+	if ($display == 0) {
+		break;
+	}
 	if ($rows != 'all') {
 		// output only selected rows 
 		if (!in_array($i, $rows)) {
@@ -94,6 +97,7 @@ foreach ($tvOutput as $value) {
 	}
 	$wrapper .= $placeholder[$i];
 	$i++;
+	$display--;
 }
 // wrap rowTpl output in outerTpl
 $parser = new multitvChunkie($outerTpl);
