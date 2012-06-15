@@ -103,5 +103,5 @@ You could to use the PHx modifier in the folder `phx-modifier` in that case. Mov
 Notes:
 --------------------------------------------------------------------------------
 1. The JSON string the multitv is converted to starts with `[[` and ends with `]]` so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.
-2. If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called uncached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
+2. If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called cached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
 3. MODX does not like `=`, `?` and `&` in snippet parameters. If the template code has to use those signs, put the template code in a chunk or change the default templates in the config file.
