@@ -46,6 +46,7 @@ $display = (isset($display) && $display >= 0) ? (int) $display : 5;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
 $toPlaceholder = (isset($toPlaceholder) && $toPlaceholder) ? TRUE : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
+$published = (isset($published)) ? $published : '1';
 
 // replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
 $maskedTags = array('((' => '[+', '))' => '+]');
@@ -53,7 +54,20 @@ $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $out
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
 // get template variable
-$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid);
+switch (strtolower($published)) {
+	case '0' :
+	case 'false' :
+		$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '0');
+		break;
+	case '1' :
+	case '2':
+	case 'true':
+		$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '1');
+		if ($tvOutput == false && $published == '2') {
+			$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '0');
+		}
+		break;
+}
 $tvOutput = $tvOutput[$tvName];
 $tvOutput = json_decode($tvOutput);
 
@@ -62,7 +76,7 @@ if (!count($tvOutput))
 	return;
 
 if ($randomize) {
-   shuffle($tvOutput);
+	shuffle($tvOutput);
 }
 
 // parse the output chunks

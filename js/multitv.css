@@ -2,7 +2,6 @@
 
 .multitv .heading { padding-left: 20px; clear: left }
 
-.multitv .copy { position: absolute; left: -20px; bottom: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px }
 .multitv .list { margin: 0; padding: 0; clear: left; position: relative }
 .multitv .list li.element { position: relative; padding: 4px 4px 4px 20px; margin-bottom: 4px; border: 1px solid #e3e3e3; background: url('images/arrow_updown.png') no-repeat left center; list-style: none }
 .multitv .list li.element { min-width: 450px; max-width: 510px }
@@ -16,7 +15,9 @@
 
 .multitv .list li.element label { display: inline-block; width: 100px }
 .multitv .list li.element select.inline { margin-right: 9px }
-.multitv .list li.element a.remove { position: absolute; top: 7px; right: 10px; background: url('images/delete.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px; float: none; margin: 0; padding: 0 }
+.multitv .list li.element a.copy, .multitv .list li.element a.remove { position: absolute; right: 22px; top: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px; padding: 0 }
+.multitv .list li.element a.remove { right: 4px; background-image: url('images/delete.png') }
+
 .multitv .list li.element table.url { width: 300px; display: inline-block }
 .multitv .list li.element table.url input[type="text"] { width: 221px !important }
 

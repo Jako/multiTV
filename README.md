@@ -89,16 +89,29 @@ display | count of rows that are displayed | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
 toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. See note 2. | 0
 randomize | random order of displayed rows | 0
+published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 
-The outer template chunk should contain the [+wrapper+] placeholder, the row template should contain fieldnames placeholders. Both chunks are parsed by PHx (chunkie class).
+The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call. Both template chunks are parsed by PHx (chunkie class).
 
-The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call.
+Placeholder rowTpl:
+--------------------------------------------------------------------------------
+
+Name | Description
+---- | -----------
+"fieldname" | each fieldname defined in config file could be used
+iteration | contains the row number of the current multiTV element
+
+Placeholder outerTpl:
+--------------------------------------------------------------------------------
+Name | Description
+---- | -----------
+wrapper | contains the output of all rows
 
 Part 3: PHx modifier
 ================================================================================
-Since the JSON string in multiTV starts with `[[` and ends with `]]` (see note 1), you can't check if the multiTV is empty by ```[*multittvname:ne=``:then=`not empty`*]```. 
+Since the JSON string in multiTV starts with `[[` and ends with `]]` (see note 1), you *can't* check if the multiTV is empty by ```[*multittvname:ne=``:then=`not empty`*]```. 
 
-You could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``. If the docid is not set it defaults to current document.
+But you could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``. If the docid is not set it defaults to current document.
 
 Notes:
 --------------------------------------------------------------------------------
