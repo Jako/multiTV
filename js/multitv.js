@@ -111,6 +111,25 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		return clone;
 	}
 
+	function setValue() {
+		var multiElements = fieldList.children('li');
+		var values = [];
+		multiElements.each(function() {
+			var multiElement = $j(this);
+			var fieldValues = [];
+			$j.each(fieldNames, function() {
+				var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
+				var fieldValue = fieldInput.getValue();
+				fieldValues.push(fieldValue);
+				if (fieldInput.hasClass('image')) {
+					setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
+				}
+			});
+			values.push(fieldValues);
+		});
+		field.val(Json.toString(values));
+	}
+
 	function AddElementEvents(element) {
 		// datepicker
 		element.find('.DatePicker').datetimepicker({
@@ -142,14 +161,15 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 				$j(this).removeAttr('style');
 			});
 			fieldListCounter++;
-			fieldList.find('li:first input:first').trigger('change');
+			setValue();
 			return false;
 		});
 		// remove element
 		element.find('.remove').click(function() {
 			if(fieldList.find('.element').length > 1) {
 				$j(this).parents('.element').hide('fast', function(){
-					$j(this).remove()
+					$j(this).remove();
+					setValue();
 				});
 			} else {
 				// clear inputs/textarea
@@ -171,31 +191,15 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 					}
 				});
 			}
-			fieldList.find('li:first input:first').trigger('change');
 			return false;
 		});
 		// change field
 		element.find('[name]').bind('change keyup mouseup', function() {
-			var multiElements = fieldList.children('li');
-			var values = [];
-			multiElements.each(function() {
-				var multiElement = $j(this);
-				var fieldValues = [];
-				$j.each(fieldNames, function() {
-					var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
-					var fieldValue = fieldInput.getValue();
-					fieldValues.push(fieldValue);
-					if (fieldInput.hasClass('image')) {
-						setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
-					}
-				});
-				values.push(fieldValues);
-			});
-			field.val(Json.toString(values));
+			setValue();
 			return false;
 		});
 	}
-
+	
 	function setThumbnail(fieldValue, fieldName, listElement) {
 		var thumbPath = fieldValue.split('/');
 		var thumbName = thumbPath.pop();
@@ -377,31 +381,32 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			pastedArray = $j.merge(fieldValue, pastedArray);
 		}
 		prefillInputs(pastedArray);
-		fieldList.find('li:first input:first').trigger('change');
+		setValue();
 		pasteBox.colorbox.close();
 		return false;
 	});
 			
 	// transform the input		
 	if (field.val() != '@INHERIT') { 
-		fieldValue = $j.parseJSON(field.val());
-		fieldValue = (fieldValue.constructor == Array) ? fieldValue : [];
-
-		field.hide();
-		fieldEdit.hide();
-		AddElementEvents(fieldListElement);
-
-		// sortable
-		fieldList.sortable({
-			stop : function() {
-				fieldList.find('li:first input:first').trigger('change');
-			},
-			axis: 'y',
-			helper: 'clone'
-		});
 		if (!field.hasClass('transformed')) {
+			fieldValue = $j.parseJSON(field.val());
+			fieldValue = (fieldValue.constructor == Array) ? fieldValue : [];
+
+			field.hide();
+			fieldEdit.hide();
+			AddElementEvents(fieldListElement);
+
+			// sortable
+			fieldList.sortable({
+				stop : function() {
+					setValue();
+				},
+				axis: 'y',
+				helper: 'clone'
+			});
 			prefillInputs(fieldValue);
 		}
+
 	} else {
 		fieldHeading.hide();
 		fieldList.hide();
