@@ -42,7 +42,7 @@ $templates = $multiTV->templates;
 $docid = isset($docid) ? $docid : $modx->documentObject['id'];
 $outerTpl = isset($outerTpl) ? $outerTpl : (isset($templates['outerTpl']) ? '@CODE:' . $templates['outerTpl'] : '@CODE:<select name="' . $tvName . '">[+wrapper+]</select>');
 $rowTpl = isset($rowTpl) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $templates['rowTpl'] : '@CODE:<option value="[+value+]">[+key+]</option>');
-$display = (isset($display) && $display >= 0) ? (int) $display : 5;
+$display = isset($display) ? (int) $display : 5;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
 $toPlaceholder = (isset($toPlaceholder) && $toPlaceholder) ? TRUE : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
