@@ -100,12 +100,14 @@ Name | Description
 ---- | -----------
 "fieldname" | each fieldname defined in config file could be used
 iteration | contains the row number of the current multiTV element
+docid | value of docid parameter or current document id
 
 Placeholder outerTpl:
 --------------------------------------------------------------------------------
 Name | Description
 ---- | -----------
 wrapper | contains the output of all rows
+docid | value of docid parameter or current document id
 
 Part 3: PHx modifier
 ================================================================================

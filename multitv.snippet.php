@@ -122,6 +122,7 @@ foreach ($tvOutput as $value) {
 		$parser->AddVar($columns[$j], $value[$j]);
 	}
 	$parser->AddVar('iteration', $i);
+	$parser->AddVar('docid', $docid);
 	$placeholder[$i] = $parser->Render();
 	if ($toPlaceholder) {
 		$modx->setPlaceholder($tvName . '.' . $i, $placeholder[$i]);
@@ -133,6 +134,7 @@ foreach ($tvOutput as $value) {
 // wrap rowTpl output in outerTpl
 $parser = new multitvChunkie($outerTpl);
 $parser->AddVar('wrapper', $wrapper);
+$parser->AddVar('docid', $docid);
 $output = $parser->Render();
 
 if ($toPlaceholder) {
