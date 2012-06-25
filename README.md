@@ -85,7 +85,7 @@ tvName | name of the template variable that contains the multiTV (the column nam
 docid | document id where the custom tv is retreived from (i.e. if the multiTV Snippet is called in a Ditto template) | current document id
 outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. See note 3. | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
 rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. See note 3. | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
-display | count of rows that are displayed | 5
+display | count of rows that are displayed, `all` for all rows | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
 toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. See note 2. | 0
 randomize | random order of displayed rows | 0
