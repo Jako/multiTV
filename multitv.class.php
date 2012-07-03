@@ -239,6 +239,8 @@ class multiTV {
 		$placeholder['tvvalue'] = $tvvalue;
 		$placeholder['tvid'] = $tvid;
 		$placeholder['tvpath'] = $tvpath;
+		$placeholder['baseUrl'] = $modx->config['base_url'];
+		
 		foreach ($this->language as $key => $value) {
 			$placeholder['tvlang.' . $key] = $value;
 		}
