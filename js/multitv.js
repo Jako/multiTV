@@ -3,31 +3,38 @@ var $j = jQuery.noConflict();
 var lastImageCtrl;
 var lastFileCtrl;
 
-function OpenServerBrowser(url, width, height) {
-	var iLeft = (screen.width - width) / 2;
-	var iTop = (screen.height - height) / 2;
-
-	var sOptions = 'toolbar=no,status=no,resizable=yes,dependent=yes';
-	sOptions  += ',width=' + width;
-	sOptions += ',height=' + height;
-	sOptions += ',left=' + iLeft;
-	sOptions += ',top=' + iTop;
-
-	var oWindow = window.open(url, 'FCKBrowseWindow', sOptions);
+if(typeof BrowseServer !== 'function'){
+    window.OpenServerBrowser = function(url, width, height) {
+    	var iLeft = (screen.width - width) / 2;
+    	var iTop = (screen.height - height) / 2;
+    
+    	var sOptions = 'toolbar=no,status=no,resizable=yes,dependent=yes';
+    	sOptions  += ',width=' + width;
+    	sOptions += ',height=' + height;
+    	sOptions += ',left=' + iLeft;
+    	sOptions += ',top=' + iTop;
+    
+    	var oWindow = window.open(url, 'FCKBrowseWindow', sOptions);
+    }
 }
 
-function BrowseServer(ctrl) {
-	lastImageCtrl = ctrl;
-	var w = screen.width * 0.7;
-	var h = screen.height * 0.7;
-	OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=images&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
+if(typeof BrowseServer !== 'function'){
+    window.BrowseServer = function(ctrl) {
+    	lastImageCtrl = ctrl;
+    	var w = screen.width * 0.7;
+    	var h = screen.height * 0.7;
+    	OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=images&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
+	}
 }
-							
-function BrowseFileServer(ctrl) {
-	lastFileCtrl = ctrl;
-	var w = screen.width * 0.7;
-	var h = screen.height * 0.7;
-	OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=files&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
+
+
+if(typeof BrowseFileServer !== 'function'){
+	window.BrowseFileServer = function(ctrl) {
+	   lastFileCtrl = ctrl;
+	   var w = screen.width * 0.7;
+	   var h = screen.height * 0.7;
+	   OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=files&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
+	}
 }
 
 function multiBrowseServer(ctrl, basepath) {
