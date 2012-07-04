@@ -128,6 +128,8 @@ class multiTV {
 
 	// build the output of multiTV script and css
 	function generateScript() {
+		global $modx;
+		
 		$tvid = "tv" . $this->tvID;
 		$tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
 		$tvvalue = str_replace(array('[[', ']]'), array('[ [', '] ]'), $tvvalue);
