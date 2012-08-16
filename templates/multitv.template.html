@@ -1,3 +1,4 @@
+<input type="hidden" />
 <div class="multitv">
 	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/jquery-ui-1.8.18.custom.css" />
 	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/multitv.css" />
@@ -6,8 +7,6 @@
 	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-1.8.18.custom.min.js"></script>
 	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-timepicker-addon.js"></script>
 	<script type="text/javascript" src="[+tvpath+]js/jquery-field-0.9.6.min.js"></script>
-	<script type="text/javascript" src="[+tvpath+]js/jquery-colorbox-1.3.19.3-min.js"></script>
-	<script type="text/javascript" src="[+tvpath+]js/jquery-htmlClean-1.3.0.min.js"></script>
 	<script type="text/javascript" src="[+tvpath+]js/multitv.js"></script>
 	<style type="text/css">
 		[+tvcss+]
@@ -18,22 +17,9 @@
 		});
 		
 	</script>
-	<input style="width:100%;" onchange="documentDirty=true;" name="[+tvid+]" id="[+tvid+]" value='[+tvvalue+]' />
+	<textarea style="width:100%;" onchange="documentDirty=true;" name="[+tvid+]" id="[+tvid+]" />[+tvvalue+]</textarea>
 	<div id="[+tvid+]edit" class="tvedit">[+tvlang.edit+]</div>
 	<div id="[+tvid+]clear" class="tvclear"><a href="#">[+tvlang.clear+]</a></div>
-	<div id="[+tvid+]paste" class="tvpaste"><a href="#[+tvid+]pasteform">[+tvlang.paste+]</a></div>
-	<div id="[+tvid+]pasteform" class="tvpasteform hidden">
-		<p class="legend">[+tvlang.pastehere+]</p>
-		<div class="radios">
-			<input type="radio" class="radio" name="pasteas" value="word"/>[+tvlang.word+]<input type="radio" class="radio" name="pasteas" value="google"/>[+tvlang.google+]<input type="radio" class="radio" name="pasteas" value="csv"/>[+tvlang.csv+]
-		</div>
-		<div id="[+tvid+]pastearea" class="pastearea" contenteditable="true"></div>
-		<ul class="actionButtons buttons">
-			<li><a class="replace" href="#"><img alt="[+tvlang.replace+]" src="[+baseUrl+]assets/tvs/multitv/js/images/table_refresh.png" /> [+tvlang.replace+]</a></li>
-			<li><a class="append" href="#"><img alt="[+tvlang.append+]" src="[+baseUrl+]assets/tvs/multitv/js/images/table_go.png" /> [+tvlang.append+]</a></li>
-			<li><a class="cancel" href="#"><img alt="[+tvlang.cancel+]" src="[+baseUrl+]assets/tvs/multitv/js/images/cancel.png" /> [+tvlang.cancel+]</a></li>
-		</ul>
-	</div>
 	[+tvheading+]
 	<ul id="[+tvid+]list" class="list sortable">
 		[+tvelement+]

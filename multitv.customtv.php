@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category 	customtv
- * @version 	1.4.3
+ * @version 	1.4.4
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.3</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.4</strong> Transform template variables into a sortable multi item list.
  * @internal    input option code: @INCLUDE/assets/tvs/multitv/multitv.customtv.php
  */
 if (IN_MANAGER_MODE != 'true') {
@@ -25,6 +25,6 @@ if (!class_exists('multiTV')) {
 $multiTV = new multiTV($row);
 echo $multiTV->generateScript();
 
-//echo ('<pre>' . print_r($settings, true) . '</pre>');
+//echo '<pre>' . print_r($settings, true) . '</pre>';
 //echo '<pre>'.print_r($row, true).'</pre>';
 ?>

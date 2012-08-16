@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.4.3
+ * @version 	1.4.4
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.3</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.4</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -70,6 +70,9 @@ switch (strtolower($published)) {
 }
 $tvOutput = $tvOutput[$tvName];
 $tvOutput = json_decode($tvOutput);
+if (is_object($tvOutput)) {
+	$tvOutput = $tvOutput->fieldValue;
+}
 $countOutput = count($tvOutput);
 
 // stop if there is no output

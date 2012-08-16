@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category 	classfile
- * @version 	1.4.3
+ * @version 	1.4.4
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.3</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.4</strong> Transform template variables into a sortable multi item list.
  */
 if (!function_exists('renderFormElement')) {
 	include MODX_BASE_PATH . 'manager/includes/tmplvars.inc.php';
@@ -27,7 +27,7 @@ class multiTV {
 	public $fields = array();
 	public $templates = array();
 	public $language = array();
-	public $csvseparator = ',';
+	public $configuration = array();
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -82,13 +82,16 @@ class multiTV {
 		}
 		$this->templates = $settings['templates'];
 		$this->display = $settings['display'];
-		$this->csvseparator = isset($settings['paste']['csvseparator']) ? $settings['paste']['csvseparator'] : ',';
+		$this->configuration['csvseparator'] = isset($settings['configuration']['csvseparator']) ? $settings['configuration']['csvseparator'] : ',';
+		$this->configuration['enablePaste'] = isset($settings['configuration']['enablePaste']) ? $settings['configuration']['enablePaste'] : TRUE;
 	}
 
 	// invoke modx renderFormElement and change the output (to multiTV demands)
-	function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass) {
+	function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass, $fieldDefault) {
 		global $modx;
 
+		$fieldName .= '_mtv';
+		$currentClass = '';
 		switch ($fieldType) {
 			case 'url' : {
 					$fieldType = 'text';
@@ -99,19 +102,20 @@ class multiTV {
 					break;
 				}
 		}
-		$fieldName .= '_mtv';
-		$currentClass = '';
 		$baseUrl = $modx->config['base_url'];
 		$formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
 		$formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
 		$formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
-		$formElement = preg_replace('/(\s*<script[^>]*>[^(<\/script>)].*<\/script>)/s', '', $formElement); // remove scripts
 		$formElement = preg_replace('/( id=\"[^\"]+)/', ' id="[+tvid+]' . $fieldName, $formElement); // change id attributes
 		$formElement = preg_replace('/( name=\"[^\"]+)/', ' name="[+tvid+]' . $fieldName, $formElement); // change name attributes
 		preg_match('/<.*class=\"([^\"]*)/s', $formElement, $currentClass); // get current classes
 		$formElement = preg_replace('/class=\"[^\"]*\"/s', '', $formElement, 1); // remove all classes
+		if ($fieldDefault != '') {
+			$formElement = preg_replace('/(<\w+)/', '$1 alt="' . $fieldDefault . '"', $formElement, 1); // add alt to first tag (the input)
+			$fieldClass .= ' setdefault';
+		}
 		$fieldClass = (isset($currentClass[1])) ? $currentClass[1] . ' ' . $fieldClass : $fieldClass;
-		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)	
+		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)
 		$formElement = preg_replace('/<label for=[^>]*>([^<]*)<\/label>/s', '<label class="inlinelabel">$1</label>', $formElement); // add label class
 		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage" rel="' . $baseUrl . '"', $formElement, 1); // remove imagebrowser onclick script
 		$formElement = preg_replace('/(onclick="BrowseFileServer[^\"]+\")/', 'class="browsefile" rel="' . $baseUrl . '"', $formElement, 1); // remove filebrowser onclick script
@@ -119,26 +123,21 @@ class multiTV {
 		$formElement = preg_replace('/( onmouseover=\"[^\"]+\")/', '', $formElement); // delete onmouseover attribute
 		$formElement = preg_replace('/( onmouseout=\"[^\"]+\")/', '', $formElement); // delete onmouseout attribute
 		$formElement = str_replace(array('style="width:100%;"', 'style="width:100%"', ' width="100%"', '  width="100"', '<br />', " checked='checked'"), array(''), $formElement);
-		if ($fieldType == 'checkbox') {
-			$formElement = '<input type="hidden" onchange="documentDirty=true;" name="[+tvid+]linked" value="" />' . "\r\n" . $formElement;
-		}
-		// echo '<pre>' . htmlspecialchars($formElement) . '</pre>';
 		return $formElement;
 	}
 
 	// build the output of multiTV script and css
 	function generateScript() {
 		global $modx;
-		
+
 		$tvid = "tv" . $this->tvID;
 		$tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
 		$tvvalue = str_replace(array('[[', ']]'), array('[ [', '] ]'), $tvvalue);
-		$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->csvseparator));
+		$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
 
-		// get the javascript and css chunks
-		$tvtemplate = file_get_contents($this->includeFile('multitv', 'template', '.html'));
+		// generate tv elements
 		$tvcss = '';
 		$hasthumb = '';
 
@@ -150,6 +149,7 @@ class multiTV {
 						$tvheading .= '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>' . "\r\n";
 						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
 						$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
+						$default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
 						$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }' . "\r\n";
 						switch ($type) {
 							case 'thumb': {
@@ -158,12 +158,12 @@ class multiTV {
 									break;
 								}
 							case 'date': {
-									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname) . "\r\n";
+									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default) . "\r\n";
 									$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 48) . 'px }' . "\r\n";
 									break;
 								}
 							default: {
-									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname) . "\r\n";
+									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default) . "\r\n";
 								}
 						}
 					}
@@ -175,12 +175,13 @@ class multiTV {
 					$tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
 					break;
 				}
-			// horizontal template
+			// vertical template
 			case 'vertical': {
 					$tvheading = '';
 					foreach ($this->fieldnames as $fieldname) {
 						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
 						$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
+						$default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
 						switch ($type) {
 							case 'thumb': {
 									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
@@ -189,7 +190,7 @@ class multiTV {
 								}
 							default: {
 									$tvelement .= '<label for="[+tvid+]' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname) . '<br />' . "\r\n";
+									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />' . "\r\n";
 								}
 						}
 					}
@@ -205,6 +206,7 @@ class multiTV {
 					foreach ($this->fieldnames as $fieldname) {
 						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
 						$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
+						$default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
 						switch ($type) {
 							case 'thumb': {
 									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
@@ -213,7 +215,7 @@ class multiTV {
 								}
 							default: {
 									$tvelement .= '<label for="[+tvid+]' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname) . '<br />' . "\r\n";
+									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />' . "\r\n";
 								}
 						}
 					}
@@ -230,7 +232,12 @@ class multiTV {
 				}
 		}
 
-		// populate template
+		// populate tv template
+		if ($this->configuration['enablePaste']) {
+			$tvtemplate = file_get_contents($this->includeFile('multitv', 'template', '.paste.html'));
+		} else {
+			$tvtemplate = file_get_contents($this->includeFile('multitv', 'template', '.html'));
+		}
 		$placeholder = array();
 		$placeholder['tvcss'] = $tvcss;
 		$placeholder['tvheading'] = $tvheading;
@@ -242,7 +249,7 @@ class multiTV {
 		$placeholder['tvid'] = $tvid;
 		$placeholder['tvpath'] = $tvpath;
 		$placeholder['baseUrl'] = $modx->config['base_url'];
-		
+
 		foreach ($this->language as $key => $value) {
 			$placeholder['tvlang.' . $key] = $value;
 		}

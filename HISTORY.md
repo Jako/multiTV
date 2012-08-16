@@ -1,6 +1,11 @@
 History
 ================================================================================
 
+- 1.4.4 June 5, 2012
+    - CustomTV: disable paste by configuration
+    - CustomTV: default value for columns
+    - CustomTV: autoincrement and alias placeholder for default value
+
 - 1.4.3 June 5, 2012
     - Snippet: `randomize` parameter
 

@@ -56,7 +56,8 @@ $settings['templates'] = array(
 	'outerTpl' => '<ul>[+wrapper+]</ul>',
 	'rowTpl' => '<li>[+text+], [+image+], [+thumb+], [+textarea+], [+date+], [+dropdown+], [+listbox+], [+listbox-multiple+], [+checkbox+], [+option+]</li>'
 );
-$settings['paste'] = array(
-	'csvseparator' => '.'
+$settings['configuration'] = array(
+	'enablePaste' => TRUE,
+	'csvseparator' => ','
 );
 ?>

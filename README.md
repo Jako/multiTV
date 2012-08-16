@@ -33,20 +33,25 @@ Property | Description | Default
 caption | caption (horizontal) or label (vertical) for the input | -
 type | type of the input (could be set to all MODX input types - without url and richtext - and thumb for thumbnail display of image tvs - see images config for thumb) | text
 elements | could be set according to the input option values of a normal MODX template variable i.e. for a dropdown with all documents in the MODX root: ``@SELECT `pagetitle`, `id` FROM `modx_site_content` WHERE parent = 0 ORDER BY `menuindex` ASC`` | -
+default | default value for the input. This value could contain calculated parts. There are two placeholders available: `{i}` contains an autoincremented index, `{alias}` contains the alias of the edited document. | -
 thumbof | name of an image input. a thumbnail of the selected image will be rendered into this area | -
 width | the width of the input (only used if the display of the list element is horizontal) | 100
 
 * Supported MODX input types: text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
 
-The output templates for the snippet could be defined in `$settings['templates']`. This variable contains an array of *rowTpl* and *outerTpl* containing template chunks.
-
-There is a paste table data link for a multiTV that displays a paste box. In this box you could paste Word/HTML table clipboard data, Google Docs table clipboard data and csv data. 
-
-The csv data should contain a new line for each row. The column separator could be set in the config file in `$settings['paste']`. This variable contains an array of paste settings.
+The default output templates for the snippet could be defined in `$settings['templates']`. 
 
 Property | Description | Default
 ---- | ----------- | -------
-csvseparator | column separator for csv clipboard table data | `,`
+rowTpl | default row template chunk for the snippet output. Could be changed in snippet call. See snippet description for placeholders | -
+outerTpl | default outer template chunk for the snippet output. Could be changed in snippet call. See snippet description for placeholders | -
+
+The other configurations for one multiTV could be defined in `$settings['configuration']`
+
+Property | Description | Default
+---- | ----------- | -------
+enablePaste | The multiTV could contain *paste table data* link that displays a paste box. In this box you could paste Word/HTML table clipboard data, Google Docs table clipboard data and csv data. | TRUE 
+csvseparator | column separator for csv clipboard table data. The csv clipboard table data should contain a new line for each row. | , 
 
 See the *multidemo* config for all usable settings.
 
@@ -111,7 +116,7 @@ docid | value of docid parameter or current document id
 
 Part 3: PHx modifier
 ================================================================================
-Since the JSON string in multiTV starts with `[[` and ends with `]]` (see note 1), you *can't* check if the multiTV is empty by ```[*multittvname:ne=``:then=`not empty`*]```. 
+Since the JSON string in multiTV starts with `[[` and ends with `]]` (see note 1), you *can't* check if the multiTV is empty by i.e. ```[*multittvname:ne=``:then=`not empty`*]```. 
 
 But you could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``. If the docid is not set it defaults to current document.
 

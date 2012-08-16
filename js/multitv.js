@@ -3,6 +3,17 @@ var $j = jQuery.noConflict();
 var lastImageCtrl;
 var lastFileCtrl;
 
+if (!String.prototype.supplant) {
+	String.prototype.supplant = function (o) {
+		return this.replace(/{([^{}]*)}/g,
+			function (a, b) {
+				var r = o[b];
+				return typeof r === 'string' || typeof r === 'number' ? r : a;
+			}
+			);
+	};
+}
+
 function OpenServerBrowser(url, width, height) {
 	var iLeft = (screen.width - width) / 2;
 	var iTop = (screen.height - height) / 2;
@@ -61,7 +72,8 @@ function SetUrl(url, width, height, alt) {
 function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 	var field = $j('#' + tvid);
 	var fieldMode = tvmode;
-	var fieldValue = [];
+	var fieldValue = new Array();
+	var fieldSettings = new Object();
 	var fieldHeading = $j('#' + tvid + 'heading');
 	var fieldNames = tvfields['fieldnames'];
 	var fieldTypes = tvfields['fieldtypes'];
@@ -111,7 +123,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		return clone;
 	}
 
-	function setValue() {
+	function fillInputs() {
 		var multiElements = fieldList.children('li');
 		var values = [];
 		multiElements.each(function() {
@@ -124,10 +136,21 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 				if (fieldInput.hasClass('image')) {
 					setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
 				}
+				if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+					fieldInput.setValue(fieldInput.attr('alt').supplant({
+						i: fieldSettings.autoincrement,
+						alias: $j('[name="alias"]').getValue()
+
+					}));
+					fieldSettings.autoincrement++;
+				}
 			});
 			values.push(fieldValues);
 		});
-		field.val(Json.toString(values));
+		field.setValue(Json.toString({
+			fieldValue: values, 
+			fieldSettings: fieldSettings
+		}));
 	}
 
 	function AddElementEvents(element) {
@@ -160,8 +183,8 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			clone.show('fast', function() {
 				$j(this).removeAttr('style');
 			});
+			fillInputs();
 			fieldListCounter++;
-			setValue();
 			return false;
 		});
 		// remove element
@@ -169,7 +192,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			if(fieldList.find('.element').length > 1) {
 				$j(this).parents('.element').hide('fast', function(){
 					$j(this).remove();
-					setValue();
+					fillInputs();
 				});
 			} else {
 				// clear inputs/textarea
@@ -195,7 +218,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		});
 		// change field
 		element.find('[name]').bind('change keyup mouseup', function() {
-			setValue();
+			fillInputs();
 			return false;
 		});
 	}
@@ -225,6 +248,13 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 					if (fieldInput.hasClass('image')) {
 						setThumbnail(values[i], fieldInput.attr('name'), fieldListElement);
 					}
+					if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+						fieldInput.setValue(fieldInput.attr('alt').supplant({
+							i: fieldSettings.autoincrement,
+							alias: $j('[name="alias"]').getValue()
+						}))
+						fieldSettings.autoincrement++;
+					}
 					i++;
 				}) 
 			} else {
@@ -237,6 +267,13 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 					fieldInput.setValue(values[i]);
 					if (fieldInput.hasClass('image')) {
 						setThumbnail(values[i], fieldInput.attr('name'), clone);
+					}
+					if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+						fieldInput.setValue(fieldInput.attr('alt').supplant({
+							i: fieldSettings.autoincrement,
+							alias: $j('[name="alias"]').getValue()
+						}))
+						fieldSettings.autoincrement++;
 					}
 					i++;
 				}) 
@@ -277,14 +314,19 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 	});
 	
 	// paste box
-	pasteBox = fieldPaste.find('a').colorbox({
-		inline:true, 
-		width:"500px", 
-		height:"350px",
-		onClosed:function() {
-			fieldPasteArea.html('');
-		},
-		close:''
+	pasteBox = fieldPaste.find('a').click(function(e){
+		e.preventDefault();
+		$j.colorbox({
+			inline: true,
+			href: $j(this).attr('href'),
+			width:"500px", 
+			height:"350px",
+			onClosed:function() {
+				fieldPasteArea.html('');
+			},
+			close:'',
+			open:true
+		});
 	});
 	
 	// close paste box
@@ -381,7 +423,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			pastedArray = $j.merge(fieldValue, pastedArray);
 		}
 		prefillInputs(pastedArray);
-		setValue();
+		fillInputs();
 		pasteBox.colorbox.close();
 		return false;
 	});
@@ -389,8 +431,19 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 	// transform the input		
 	if (field.val() != '@INHERIT') { 
 		if (!field.hasClass('transformed')) {
-			fieldValue = $j.parseJSON(field.val());
-			fieldValue = (fieldValue.constructor == Array) ? fieldValue : [];
+			var jsonValue = $j.parseJSON(field.val());
+			if (jsonValue) {
+				if (jsonValue.constructor == Array) {
+					fieldValue = jsonValue;
+					fieldSettings.autoincrement = fieldValue.length + 1;
+				} else {
+					fieldValue = jsonValue.fieldValue;
+					fieldSettings = jsonValue.fieldSettings;
+				}
+			} else {
+				fieldValue = [];
+				fieldSettings.autoincrement = 1;
+			}
 
 			field.hide();
 			fieldEdit.hide();
@@ -399,7 +452,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			// sortable
 			fieldList.sortable({
 				stop : function() {
-					setValue();
+					fillInputs();
 				},
 				axis: 'y',
 				helper: 'clone'
