@@ -20,5 +20,5 @@ $settings['fields'] = array(
 $settings['templates'] = array(
 	'outerTpl' => '<div class="events">[+wrapper+]</div>',
 	'rowTpl' => '<div class="event">[+event+], [+location+] ([+price+])</div>'
-		)
+);
 ?>

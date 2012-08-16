@@ -19,6 +19,7 @@ Installation:
 this template variable *multidemo* it will use the multidemo config file)
 3. Insert the following code into the *input option values* 
 `@INCLUDE/assets/tvs/multitv/multitv.customtv.php`
+4. Patch the file `mm.inc.php` and insert `case 'custom_tv':` in line 136 just before the line `$t = 'textarea';`. (Note 4) 
 
 Options:
 --------------------------------------------------------------------------------
@@ -88,11 +89,11 @@ Name | Description | Default value
 ---- | ----------- | -------------
 tvName | name of the template variable that contains the multiTV (the column names of the mulitTV are received from the config file) | -
 docid | document id where the custom tv is retreived from (i.e. if the multiTV Snippet is called in a Ditto template) | current document id
-outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. See note 3. | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
-rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. See note 3. | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
+outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
+rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
 display | count of rows that are displayed, `all` for all rows | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
-toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed. See note 2. | 0
+toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed.  (Note 2) | 0
 randomize | random order of displayed rows | 0
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 
@@ -116,7 +117,7 @@ docid | value of docid parameter or current document id
 
 Part 3: PHx modifier
 ================================================================================
-Since the JSON string in multiTV starts with `[[` and ends with `]]` (see note 1), you *can't* check if the multiTV is empty by i.e. ```[*multittvname:ne=``:then=`not empty`*]```. 
+Since the JSON string in multiTV starts with `[[` and ends with `]]` (Note 1), you *can't* check if the multiTV is empty by i.e. ```[*multittvname:ne=``:then=`not empty`*]```. 
 
 But you could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``. If the docid is not set it defaults to current document.
 
@@ -125,3 +126,4 @@ Notes:
 1. The JSON string the multitv is converted to starts with `[[` and ends with `]]` so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.
 2. If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called cached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
 3. MODX does not like `=`, `?` and `&` in snippet parameters. If the template code has to use those signs, put the template code in a chunk or change the default templates in the config file.
+4. To allow multiTV contain single and double quote characters the html source code that contains the multiTV value is a textarea and not an input. If the multiTV should be modified by ManagerManager the file mm.inc.php has to be patched.
