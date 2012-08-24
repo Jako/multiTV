@@ -147,7 +147,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			});
 			values.push(fieldValues);
 		});
-		field.setValue(Json.toString({
+		field.setValue($j.toJSON({
 			fieldValue: values, 
 			fieldSettings: fieldSettings
 		}));
@@ -431,7 +431,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 	// transform the input		
 	if (field.val() != '@INHERIT') { 
 		if (!field.hasClass('transformed')) {
-			var jsonValue = $j.parseJSON(field.val());
+			var jsonValue = $j.evalJSON(field.val());
 			if (jsonValue) {
 				if (jsonValue.constructor == Array) {
 					fieldValue = jsonValue;
