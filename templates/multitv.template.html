@@ -1,13 +1,6 @@
 <div class="multitv">
-	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/jquery-ui-1.8.18.custom.css" />
-	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/multitv.css" />
-	<link rel="stylesheet" type="text/css" href="[+tvpath+]js/colorbox.css" />
-	<script type="text/javascript" src="[+tvpath+]js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="[+tvpath+]js/jquery-json-2.3.min.js"></script>
-	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-1.8.18.custom.min.js"></script>
-	<script type="text/javascript" src="[+tvpath+]js/jquery-ui-timepicker-addon.js"></script>
-	<script type="text/javascript" src="[+tvpath+]js/jquery-field-0.9.6.min.js"></script>
-	<script type="text/javascript" src="[+tvpath+]js/multitv.js"></script>
+[+cssfiles+]
+[+scriptfiles+]
 	<style type="text/css">
 		[+tvcss+]
 	</style>
@@ -20,6 +13,7 @@
 	<textarea style="width:100%;" onchange="documentDirty=true;" name="[+tvid+]" id="[+tvid+]" />[+tvvalue+]</textarea>
 	<div id="[+tvid+]edit" class="tvedit">[+tvlang.edit+]</div>
 	<div id="[+tvid+]clear" class="tvclear"><a href="#">[+tvlang.clear+]</a></div>
+	[+paste+]
 	[+tvheading+]
 	<ul id="[+tvid+]list" class="list sortable">
 		[+tvelement+]

@@ -3,7 +3,13 @@ multiTV custom template variable
 
 Transform template variables into a sortable multi item list for the MODX Evolution content management framework
 
-![Example](/Jako/multiTV/blob/master/multitv.screenshot.png?raw=true)
+Events example:
+
+![Eventlist example](/Jako/multiTV/blob/master/multitv.events.png?raw=true)
+
+Images example:
+
+![Images example](/Jako/multiTV/blob/master/multitv.images.png?raw=true)
 
 Part 1: custom template variable
 ================================================================================
@@ -25,7 +31,7 @@ Options:
 --------------------------------------------------------------------------------
 All options for a custom template variable are set in a config file in the folder *configs* with the same name as the template variable (otherwise the default config is used) and *.config.inc.php* as extension
 
-The display of the input fields in the multi field list could be set in `$settings['display']` to *horizontal*, *vertical* or *single*. Create a custom template variable called *event* for a horizontal example. A multiTV with single display configuration contains only one list element. 
+The display of the input fields in the multi field list could be set in `$settings['display']` to *horizontal* (events example), *vertical* (images example) or *single*. Create a custom template variable called *event* for a horizontal example. A multiTV with single display configuration contains only one list element. 
 
 The input fields of one list element could be defined in `$settings['fields']`. This variable contains an array of fieldnames and each fieldname contains an array of field properties.
 

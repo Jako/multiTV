@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category 	classfile
- * @version 	1.4.4
+ * @version 	1.4.5
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
@@ -91,7 +91,8 @@ class multiTV {
 		global $modx;
 
 		$fieldName .= '_mtv';
-		$currentClass = '';
+		$currentScript = array();
+		$currentClass = array();
 		switch ($fieldType) {
 			case 'url' : {
 					$fieldType = 'text';
@@ -108,6 +109,12 @@ class multiTV {
 		$formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
 		$formElement = preg_replace('/( id=\"[^\"]+)/', ' id="[+tvid+]' . $fieldName, $formElement); // change id attributes
 		$formElement = preg_replace('/( name=\"[^\"]+)/', ' name="[+tvid+]' . $fieldName, $formElement); // change name attributes
+		preg_match('/(<script.*?script>)/s', $formElement, $currentScript); // get script
+		if (isset($currentScript[1])) { // the tv script is only included for the first tv that is using them (tv with image or file type)
+			$formElement = preg_replace('/(<script.*?script>)/s', '', $formElement); // remove the script tag
+			$currentScript[1] = preg_replace('/function SetUrl.*script>/s', '</script>', $currentScript[1]); // remove original SetUrl function
+			$formElement = $formElement . $currentScript[1]; // move the script tag to the end
+		}
 		preg_match('/<.*class=\"([^\"]*)/s', $formElement, $currentClass); // get current classes
 		$formElement = preg_replace('/class=\"[^\"]*\"/s', '', $formElement, 1); // remove all classes
 		if ($fieldDefault != '') {
@@ -122,8 +129,8 @@ class multiTV {
 		$formElement = str_replace('document.forms[\'mutate\'].elements[\'tv0\'].value=\'\';document.forms[\'mutate\'].elements[\'tv0\'].onblur(); return true;', '$j(this).prev(\'input\').val(\'\').trigger(\'change\');', $formElement); // change datepicker onclick script
 		$formElement = preg_replace('/( onmouseover=\"[^\"]+\")/', '', $formElement); // delete onmouseover attribute
 		$formElement = preg_replace('/( onmouseout=\"[^\"]+\")/', '', $formElement); // delete onmouseout attribute
-		$formElement = str_replace(array('style="width:100%;"', 'style="width:100%"', ' width="100%"', '  width="100"', '<br />', " checked='checked'"), array(''), $formElement);
-		return $formElement;
+		$formElement = str_replace(array('style="width:100%;"', 'style="width:100%"', ' width="100%"', '  width="100"', '<br />', 'onchange="documentDirty=true;"', " checked='checked'"), array(''), $formElement); // remove unused atrributes and tags
+		return trim($formElement);
 	}
 
 	// build the output of multiTV script and css
@@ -233,12 +240,37 @@ class multiTV {
 		}
 
 		// populate tv template
+		$scriptfiles = array();
+		$cssfiles = array();
+		$settings = array();
+		$paste = '';
+
 		if ($this->configuration['enablePaste']) {
-			$tvtemplate = file_get_contents($this->includeFile('multitv', 'template', '.paste.html'));
+			include ($this->includeFile('paste', 'setting'));
+			$paste = file_get_contents($this->includeFile('paste', 'template', '.html'));
 		} else {
-			$tvtemplate = file_get_contents($this->includeFile('multitv', 'template', '.html'));
+			include ($this->includeFile('default', 'setting'));
 		}
+		foreach ($settings['css'] as $setting) {
+			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $setting . '" />';
+		}
+		foreach ($settings['scripts'] as $setting) {
+			$scriptfiles[] = '	<script type="text/javascript" src="' . $setting . '"></script>';
+		}
+
+		// Check for ManagerManager 
+		$res = $modx->db->select('*', $modx->getFullTableName('site_plugins'), 'name="ManagerManager" AND disabled=0 ');
+		$mmActive = $modx->db->getRow($res);
+		if ($mmActive) {
+			unset($scriptfiles[0]); // don't include jQuery if ManagerManager is active
+		}
+
+		$tvtemplate = file_get_contents($this->includeFile('multitv', 'template', '.html'));
+
 		$placeholder = array();
+		$placeholder['cssfiles'] = implode("\r\n", $cssfiles);
+		$placeholder['scriptfiles'] = implode("\r\n", $scriptfiles);
+		$placeholder['paste'] = $paste;
 		$placeholder['tvcss'] = $tvcss;
 		$placeholder['tvheading'] = $tvheading;
 		$placeholder['tvmode'] = $this->display;

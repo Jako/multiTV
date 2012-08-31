@@ -1,6 +1,10 @@
 History
 ================================================================================
 
+- 1.4.5 August 31, 2012
+    - CustomTV: plays better with ManagerManager
+	- CustomTV: bugfixes for singlequotes and linebreaks in field values 
+
 - 1.4.4 June 5, 2012
     - CustomTV: disable paste by configuration
     - CustomTV: default value for columns

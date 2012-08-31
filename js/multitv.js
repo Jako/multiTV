@@ -3,66 +3,16 @@ var $j = jQuery.noConflict();
 var lastImageCtrl;
 var lastFileCtrl;
 
-if (!String.prototype.supplant) {
-	String.prototype.supplant = function (o) {
-		return this.replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = o[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-			);
-	};
-}
-
-function OpenServerBrowser(url, width, height) {
-	var iLeft = (screen.width - width) / 2;
-	var iTop = (screen.height - height) / 2;
-
-	var sOptions = 'toolbar=no,status=no,resizable=yes,dependent=yes';
-	sOptions  += ',width=' + width;
-	sOptions += ',height=' + height;
-	sOptions += ',left=' + iLeft;
-	sOptions += ',top=' + iTop;
-
-	var oWindow = window.open(url, 'FCKBrowseWindow', sOptions);
-}
-
-function BrowseServer(ctrl) {
-	lastImageCtrl = ctrl;
-	var w = screen.width * 0.7;
-	var h = screen.height * 0.7;
-	OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=images&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
-}
-							
-function BrowseFileServer(ctrl) {
-	lastFileCtrl = ctrl;
-	var w = screen.width * 0.7;
-	var h = screen.height * 0.7;
-	OpenServerBrowser('/manager/media/browser/mcpuk/browser.html?Type=files&Connector=/manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath=/', w, h);
-}
-
-function multiBrowseServer(ctrl, basepath) {
-	lastImageCtrl = ctrl;
-	var w = screen.width * 0.7;
-	var h = screen.height * 0.7;
-	OpenServerBrowser(basepath+'manager/media/browser/mcpuk/browser.html?Type=images&Connector='+basepath+'manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath='+basepath, w, h);
-}
-
-function multiBrowseFileServer(ctrl, basepath) {
-	lastFileCtrl = ctrl;
-	var w = screen.width * 0.7;
-	var h = screen.height * 0.7;
-	OpenServerBrowser(basepath+'manager/media/browser/mcpuk/browser.html?Type=files&Connector='+basepath+'manager/media/browser/mcpuk/connectors/php/connector.php&ServerPath='+basepath, w, h);
-}
-
 function SetUrl(url, width, height, alt) {
 	if(lastFileCtrl) {
-		$j('#' + lastFileCtrl).val(url);
-		$j('#' + lastFileCtrl).trigger('change');
+		var fileCtrl = $j('#' + lastFileCtrl);
+		fileCtrl.val(url);
+		fileCtrl.trigger('change');
 		lastFileCtrl = '';
 	} else if(lastImageCtrl) {
-		$j('#' + lastImageCtrl).val(url);
-		$j('#' + lastImageCtrl).trigger('change');
+		var imageCtrl = $j('#' + lastImageCtrl);
+		imageCtrl.val(url);
+		imageCtrl.trigger('change');
 		lastImageCtrl = '';
 	} else {
 		return;
@@ -123,7 +73,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		return clone;
 	}
 
-	function fillInputs() {
+	function setMultiValue() {
 		var multiElements = fieldList.children('li');
 		var values = [];
 		multiElements.each(function() {
@@ -165,7 +115,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		element.find('.browsefile').click(function() {
 			var field = $j(this).prev('input').attr('id');
 			var path = $j(this).attr('rel');
-			multiBrowseFileServer(field, path);
+			BrowseFileServer(field, path);
 			return false;
 		});
 
@@ -173,7 +123,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		element.find('.browseimage').click(function() {
 			var field = $j(this).prev('input').attr('id');
 			var path = $j(this).attr('rel');
-			multiBrowseServer(field, path);
+			BrowseServer(field, path);
 			return false;
 		});
 		// add element
@@ -183,7 +133,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			clone.show('fast', function() {
 				$j(this).removeAttr('style');
 			});
-			fillInputs();
+			setMultiValue();
 			fieldListCounter++;
 			return false;
 		});
@@ -192,7 +142,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			if(fieldList.find('.element').length > 1) {
 				$j(this).parents('.element').hide('fast', function(){
 					$j(this).remove();
-					fillInputs();
+					setMultiValue();
 				});
 			} else {
 				// clear inputs/textarea
@@ -218,7 +168,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		});
 		// change field
 		element.find('[name]').bind('change keyup mouseup', function() {
-			fillInputs();
+			setMultiValue();
 			return false;
 		});
 	}
@@ -277,7 +227,6 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 					}
 					i++;
 				}) 
-			//AddElementEvents(clone);
 			}
 			fieldListCounter++;
 		});
@@ -285,148 +234,158 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 
 	}
 	
-	// reset all event
-	fieldClear.find('a').click(function() {
-		var answer = confirm(tvlanguage.confirmclear);
-		if (answer) {
-			fieldList.children('li').remove();
-			field.val('');
-			fieldClear.hide();
-			fieldPaste.hide();
-			fieldHeading.hide();
-			fieldEdit.show();
-		}
-		return false;
-	});
-
-	// start edit event
-	fieldEdit.find('a').click(function() {
-		var clone = fieldListElementEmpty.clone(true);
-		fieldList.append(clone);
-		field.val('[]');
-		fieldList.show();
-		fieldClear.show();
-		fieldPaste.show();
-		fieldHeading.show();
-		fieldEdit.hide();
-		AddElementEvents(clone);
-		return false;
-	});
-	
-	// paste box
-	pasteBox = fieldPaste.find('a').click(function(e){
-		e.preventDefault();
-		$j.colorbox({
-			inline: true,
-			href: $j(this).attr('href'),
-			width:"500px", 
-			height:"350px",
-			onClosed:function() {
-				fieldPasteArea.html('');
-			},
-			close:'',
-			open:true
+	if (!field.hasClass('transformed')) {
+		// reset all event
+		fieldClear.find('a').click(function() {
+			var answer = confirm(tvlanguage.confirmclear);
+			if (answer) {
+				fieldList.children('li').remove();
+				field.val('');
+				fieldClear.hide();
+				fieldPaste.hide();
+				fieldHeading.hide();
+				fieldEdit.show();
+			}
+			return false;
 		});
-	});
 	
-	// close paste box
-	fieldPasteForm.find('.cancel').click(function() {
-		pasteBox.colorbox.close();
-		return false;
-	});
+		// start edit event
+		fieldEdit.find('a').click(function() {
+			var clone = fieldListElementEmpty.clone(true);
+			fieldList.append(clone);
+			field.val('[]');
+			fieldList.show();
+			fieldClear.show();
+			fieldPaste.show();
+			fieldHeading.show();
+			fieldEdit.hide();
+			// sortable
+			fieldList.sortable({
+				stop : function() {
+					setMultiValue();
+				},
+				axis: 'y',
+				helper: 'clone'
+			});
+			AddElementEvents(clone);
+			return false;
+		});
+		
+		// paste box
+		pasteBox = fieldPaste.find('a').click(function(e){
+			e.preventDefault();
+			$j.colorbox({
+				inline: true,
+				href: $j(this).attr('href'),
+				width:"500px", 
+				height:"350px",
+				onClosed:function() {
+					fieldPasteArea.html('');
+				},
+				close:'',
+				open:true
+			});
+		});
+	
+		// close paste box
+		fieldPasteForm.find('.cancel').click(function() {
+			pasteBox.colorbox.close();
+			return false;
+		});
 
-	// save pasted form
-	fieldPasteForm.find('.replace, .append').click(function() {
-		var pastedArray = [];
-		var mode = $j(this).attr('class');
-		var pasteas = $j('input:radio[name=pasteas]:checked').val();
-		var clean;
-		switch(pasteas) {
-			case 'google':
-				clean = fieldPasteArea.htmlClean({
-					allowedTags:['div','span']
-				});
-				clean.find('div').each(function() {
-					var pastedRow = [];
-					var tableData = $j(this).html().split('<span></span>');
-					if (tableData.length > 0) {
-						var i = 0;
-						$j.each(tableData, function() {
-							if (fieldTypes[i] == 'thumb') {
-								pastedRow.push('');
+		// save pasted form
+		fieldPasteForm.find('.replace, .append').click(function() {
+			var pastedArray = [];
+			var mode = $j(this).attr('class');
+			var pasteas = $j('input:radio[name=pasteas]:checked').val();
+			var clean;
+			switch(pasteas) {
+				case 'google':
+					clean = fieldPasteArea.htmlClean({
+						allowedTags:['div','span']
+					});
+					clean.find('div').each(function() {
+						var pastedRow = [];
+						var tableData = $j(this).html().split('<span></span>');
+						if (tableData.length > 0) {
+							var i = 0;
+							$j.each(tableData, function() {
+								if (fieldTypes[i] == 'thumb') {
+									pastedRow.push('');
+									i++;
+								}
+								pastedRow.push($j.trim(this));
 								i++;
-							}
-							pastedRow.push($j.trim(this));
-							i++;
-						});
-						pastedArray.push(pastedRow);
-					}
-				});
-				break;
-			case 'csv':
-				clean = fieldPasteArea.htmlClean({
-					allowedTags:['div','p']
-				});
-				clean.find('div, p').each(function() {
-					var pastedRow = [];					
-					// CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
-					for (var tableData = $j(this).html().split(fieldCsvSeparator), x = tableData.length - 1, tl; x >= 0; x--) {
-						if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) == '"') {
-							if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) == '"') {
-								tableData[x] = tableData[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
-							} else if (x) {
-								tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(fieldCsvSeparator));
-							} else tableData = tableData.shift().split(fieldCsvSeparator).concat(tableData);
-						} else tableData[x].replace(/""/g, '"');
-					}
-					if (tableData.length > 0) {
-						var i = 0;
-						$j.each(tableData, function() {
-							if (fieldTypes[i] == 'thumb') {
-								pastedRow.push('');
+							});
+							pastedArray.push(pastedRow);
+						}
+					});
+					break;
+				case 'csv':
+					clean = fieldPasteArea.htmlClean({
+						allowedTags:['div','p']
+					});
+					clean.find('div, p').each(function() {
+						var pastedRow = [];					
+						// CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
+						for (var tableData = $j(this).html().split(fieldCsvSeparator), x = tableData.length - 1, tl; x >= 0; x--) {
+							if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) == '"') {
+								if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) == '"') {
+									tableData[x] = tableData[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
+								} else if (x) {
+									tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(fieldCsvSeparator));
+								} else tableData = tableData.shift().split(fieldCsvSeparator).concat(tableData);
+							} else tableData[x].replace(/""/g, '"');
+						}
+						if (tableData.length > 0) {
+							var i = 0;
+							$j.each(tableData, function() {
+								if (fieldTypes[i] == 'thumb') {
+									pastedRow.push('');
+									i++;
+								}
+								pastedRow.push($j.trim(this));
 								i++;
-							}
-							pastedRow.push($j.trim(this));
-							i++;
-						});
-						pastedArray.push(pastedRow);
-					}
-				});
-				break;
-			case 'word':
-			default:
-				clean = fieldPasteArea.htmlClean({
-					allowedTags:['table','tbody','tr','td']
-				}).html();
-				clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg,'<table>').replace(/<\/table>.*/mg,'</table>');
-				$j(clean).find('tr').each(function() {
-					var pastedRow = [];
-					var tableData = $j(this).find('td');
-					if (tableData.length > 0) {
-						var i = 0;
-						tableData.each(function() {
-							if (fieldTypes[i] == 'thumb') {
-								pastedRow.push('');
+							});
+							pastedArray.push(pastedRow);
+						}
+					});
+					break;
+				case 'word':
+				default:
+					clean = fieldPasteArea.htmlClean({
+						allowedTags:['table','tbody','tr','td']
+					}).html();
+					clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg,'<table>').replace(/<\/table>.*/mg,'</table>');
+					$j(clean).find('tr').each(function() {
+						var pastedRow = [];
+						var tableData = $j(this).find('td');
+						if (tableData.length > 0) {
+							var i = 0;
+							tableData.each(function() {
+								if (fieldTypes[i] == 'thumb') {
+									pastedRow.push('');
+									i++;
+								}
+								pastedRow.push($j(this).text());
 								i++;
-							}
-							pastedRow.push($j(this).text());
-							i++;
-						});
-						pastedArray.push(pastedRow);
-					}
-				});
-				break;
-		}
-		fieldList.find('li:gt(0)').remove();
-		fieldListCounter = 1;
-		if(mode == 'append') {
-			pastedArray = $j.merge(fieldValue, pastedArray);
-		}
-		prefillInputs(pastedArray);
-		fillInputs();
-		pasteBox.colorbox.close();
-		return false;
-	});
+							});
+							pastedArray.push(pastedRow);
+						}
+					});
+					break;
+			}
+			fieldList.find('li:gt(0)').remove();
+			fieldListCounter = 1;
+			if(mode == 'append') {
+				pastedArray = $j.merge(fieldValue, pastedArray);
+			}
+			prefillInputs(pastedArray);
+			setMultiValue();
+			pasteBox.colorbox.close();
+			return false;
+		});
+	}
 			
 	// transform the input		
 	if (field.val() != '@INHERIT') { 
@@ -452,7 +411,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			// sortable
 			fieldList.sortable({
 				stop : function() {
-					fillInputs();
+					setMultiValue();
 				},
 				axis: 'y',
 				helper: 'clone'

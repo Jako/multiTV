@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category 	customtv
- * @version 	1.4.4
+ * @version 	1.4.5
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
