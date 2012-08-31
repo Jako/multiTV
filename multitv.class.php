@@ -88,8 +88,6 @@ class multiTV {
 
 	// invoke modx renderFormElement and change the output (to multiTV demands)
 	function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass, $fieldDefault) {
-		global $modx;
-
 		$fieldName .= '_mtv';
 		$currentScript = array();
 		$currentClass = array();
@@ -103,7 +101,6 @@ class multiTV {
 					break;
 				}
 		}
-		$baseUrl = $modx->config['base_url'];
 		$formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
 		$formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
 		$formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
@@ -124,8 +121,8 @@ class multiTV {
 		$fieldClass = (isset($currentClass[1])) ? $currentClass[1] . ' ' . $fieldClass : $fieldClass;
 		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)
 		$formElement = preg_replace('/<label for=[^>]*>([^<]*)<\/label>/s', '<label class="inlinelabel">$1</label>', $formElement); // add label class
-		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage" rel="' . $baseUrl . '"', $formElement, 1); // remove imagebrowser onclick script
-		$formElement = preg_replace('/(onclick="BrowseFileServer[^\"]+\")/', 'class="browsefile" rel="' . $baseUrl . '"', $formElement, 1); // remove filebrowser onclick script
+		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage"', $formElement, 1); // remove imagebrowser onclick script
+		$formElement = preg_replace('/(onclick="BrowseFileServer[^\"]+\")/', 'class="browsefile"', $formElement, 1); // remove filebrowser onclick script
 		$formElement = str_replace('document.forms[\'mutate\'].elements[\'tv0\'].value=\'\';document.forms[\'mutate\'].elements[\'tv0\'].onblur(); return true;', '$j(this).prev(\'input\').val(\'\').trigger(\'change\');', $formElement); // change datepicker onclick script
 		$formElement = preg_replace('/( onmouseover=\"[^\"]+\")/', '', $formElement); // delete onmouseover attribute
 		$formElement = preg_replace('/( onmouseout=\"[^\"]+\")/', '', $formElement); // delete onmouseout attribute
@@ -280,7 +277,6 @@ class multiTV {
 		$placeholder['tvvalue'] = $tvvalue;
 		$placeholder['tvid'] = $tvid;
 		$placeholder['tvpath'] = $tvpath;
-		$placeholder['baseUrl'] = $modx->config['base_url'];
 
 		foreach ($this->language as $key => $value) {
 			$placeholder['tvlang.' . $key] = $value;

@@ -114,16 +114,14 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		// file field browser
 		element.find('.browsefile').click(function() {
 			var field = $j(this).prev('input').attr('id');
-			var path = $j(this).attr('rel');
-			BrowseFileServer(field, path);
+			BrowseFileServer(field);
 			return false;
 		});
 
 		// image field browser
 		element.find('.browseimage').click(function() {
 			var field = $j(this).prev('input').attr('id');
-			var path = $j(this).attr('rel');
-			BrowseServer(field, path);
+			BrowseServer(field);
 			return false;
 		});
 		// add element
