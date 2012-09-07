@@ -3,6 +3,17 @@ var $j = jQuery.noConflict();
 var lastImageCtrl;
 var lastFileCtrl;
 
+if (!String.prototype.supplant) {
+	String.prototype.supplant = function (o) {
+		return this.replace(/{([^{}]*)}/g,
+			function (a, b) {
+				var r = o[b];
+				return typeof r === 'string' || typeof r === 'number' ? r : a;
+			}
+			);
+	};
+}
+
 function SetUrl(url, width, height, alt) {
 	if(lastFileCtrl) {
 		var fileCtrl = $j('#' + lastFileCtrl);
