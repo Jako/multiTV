@@ -21,11 +21,20 @@ With this code a MODX Evo template variable could be transformed into a sortable
 Installation:
 --------------------------------------------------------------------------------
 1. Upload all files into the new folder *assets/tvs/multitv*
-2. Create a new template variable with imput type *custom input* (if you name 
-this template variable *multidemo* it will use the multidemo config file)
+2. Create a new template variable with imput type *custom input* (if you name this template variable *multidemo* it will use the multidemo config file)
 3. Insert the following code into the *input option values* 
-`@INCLUDE/assets/tvs/multitv/multitv.customtv.php`
-4. Patch the file `mm.inc.php` and insert `case 'custom_tv':` in line 136 just before the line `$t = 'textarea';`. (Note 4) 
+```
+@INCLUDE/assets/tvs/multitv/multitv.customtv.php
+```
+4. If you want to modify the multiTV with ManagerManager you have to patch the file `mm.inc.php` and insert 
+```
+case 'custom_tv':
+```
+in line 136 just before the line 
+```
+$t = 'textarea';
+```
+(Note 4) 
 
 Options:
 --------------------------------------------------------------------------------
@@ -132,4 +141,4 @@ Notes:
 1. The JSON string the multitv is converted to starts with `[[` and ends with `]]` so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.
 2. If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called cached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
 3. MODX does not like `=`, `?` and `&` in snippet parameters. If the template code has to use those signs, put the template code in a chunk or change the default templates in the config file.
-4. To allow multiTV contain single and double quote characters the html source code that contains the multiTV value is a textarea and not an input. If the multiTV should be modified by ManagerManager the file mm.inc.php has to be patched.
+4. ManagerManager expects a custom tv field to be an input tag. Because of single and double quote issues the field containing the multiTV value is a textarea.
