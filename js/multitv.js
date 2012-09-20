@@ -91,7 +91,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			var multiElement = $j(this);
 			var fieldValues = [];
 			$j.each(fieldNames, function() {
-				var fieldInput = multiElement.find('[name="'+tvid+this+'_mtv"][type!="hidden"]');
+				var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
 				var fieldValue = fieldInput.getValue();
 				fieldValues.push(fieldValue);
 				if (fieldInput.hasClass('image')) {
@@ -197,50 +197,47 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		if (fieldMode == 'single'){
 			fieldValue = [fieldValue[0]];
 		}
-		if (fieldValue) {
-			$j.each(fieldValue, function() {
-				var values = this;
-				if (fieldListCounter == 1) {
-					var i = 0;
-					$j.each(values, function() {
-						var fieldInput = fieldListElement.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
-						fieldInput.setValue(values[i]);
-						if (fieldInput.hasClass('image')) {
-							setThumbnail(values[i], fieldInput.attr('name'), fieldListElement);
-						}
-						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
-							fieldInput.setValue(fieldInput.attr('alt').supplant({
-								i: fieldSettings.autoincrement,
-								alias: $j('[name="alias"]').getValue()
-							}))
-							fieldSettings.autoincrement++;
-						}
-						i++;
-					}) 
-				} else {
-					var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
-					clone.show();
-					fieldList.append(clone);
-					var i = 0;
-					$j.each(values, function() {
-						var fieldInput = clone.find('[name^="'+tvid+fieldNames[i]+'"][type!="hidden"]');
-						fieldInput.setValue(values[i]);
-						if (fieldInput.hasClass('image')) {
-							setThumbnail(values[i], fieldInput.attr('name'), clone);
-						}
-						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
-							fieldInput.setValue(fieldInput.attr('alt').supplant({
-								i: fieldSettings.autoincrement,
-								alias: $j('[name="alias"]').getValue()
-							}))
-							fieldSettings.autoincrement++;
-						}
-						i++;
-					}) 
-				}
-				fieldListCounter++;
-			});
-		}
+		$j.each(fieldValue, function() {
+			var values = this;
+			var i = 0;
+			if (fieldListCounter == 1) {
+				$j.each(values, function() {
+					var fieldInput = fieldListElement.find('[name^="'+tvid+fieldNames[i]+'_mtv"][type!="hidden"]');
+					fieldInput.setValue(values[i]);
+					if (fieldInput.hasClass('image')) {
+						setThumbnail(values[i], fieldInput.attr('name'), fieldListElement);
+					}
+					if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+						fieldInput.setValue(fieldInput.attr('alt').supplant({
+							i: fieldSettings.autoincrement,
+							alias: $j('[name="alias"]').getValue()
+						}))
+						fieldSettings.autoincrement++;
+					}
+					i++;
+				}) 
+			} else {
+				var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
+				clone.show();
+				fieldList.append(clone);
+				$j.each(values, function() {
+					var fieldInput = clone.find('[name^="'+tvid+fieldNames[i]+'_mtv"][type!="hidden"]');
+					fieldInput.setValue(values[i]);
+					if (fieldInput.hasClass('image')) {
+						setThumbnail(values[i], fieldInput.attr('name'), clone);
+					}
+					if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+						fieldInput.setValue(fieldInput.attr('alt').supplant({
+							i: fieldSettings.autoincrement,
+							alias: $j('[name="alias"]').getValue()
+						}))
+						fieldSettings.autoincrement++;
+					}
+					i++;
+				}) 
+			}
+			fieldListCounter++;
+		});
 		field.addClass('transformed');
 
 	}
