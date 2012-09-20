@@ -91,7 +91,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			var multiElement = $j(this);
 			var fieldValues = [];
 			$j.each(fieldNames, function() {
-				var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
+				var fieldInput = multiElement.find('[name="'+tvid+this+'_mtv"][type!="hidden"]');
 				var fieldValue = fieldInput.getValue();
 				fieldValues.push(fieldValue);
 				if (fieldInput.hasClass('image')) {
