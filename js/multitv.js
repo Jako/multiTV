@@ -419,13 +419,15 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			AddElementEvents(fieldListElement);
 
 			// sortable
-			fieldList.sortable({
-				stop : function() {
-					setMultiValue();
-				},
-				axis: 'y',
-				helper: 'clone'
-			});
+			if (fieldMode != 'single'){
+				fieldList.sortable({
+					stop : function() {
+						setMultiValue();
+					},
+					axis: 'y',
+					helper: 'clone'
+				});
+			}
 			prefillInputs(fieldValue);
 		}
 
