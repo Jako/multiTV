@@ -1,6 +1,9 @@
 History
 ================================================================================
 
+- 1.4.6 August 31, 2012
+	- CustomTV: bugfix for similar fieldnames (first fieldname is contained in the second fieldname)
+
 - 1.4.5 August 31, 2012
     - CustomTV: plays better with ManagerManager
 	- CustomTV: bugfixes for singlequotes and linebreaks in field values 
