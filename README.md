@@ -35,6 +35,7 @@ in line 136 just before the line
 $t = 'textarea';
 ```
 (Note 4) 
+5. If you want to use multiTV with YAMS you have to patch yams.plugin.inc.php according to the instructions on https://github.com/Jako/multiTV/issues/9#issuecomment-6992127 
 
 Options:
 --------------------------------------------------------------------------------
@@ -67,6 +68,7 @@ The other configurations for one multiTV could be defined in `$settings['configu
 Property | Description | Default
 ---- | ----------- | -------
 enablePaste | The multiTV could contain *paste table data* link that displays a paste box. In this box you could paste Word/HTML table clipboard data, Google Docs table clipboard data and csv data. | TRUE 
+enableClear | The multiTV could contain *clear all* link that clears the content of the multiTV | TRUE 
 csvseparator | column separator for csv clipboard table data. The csv clipboard table data should contain a new line for each row. | , 
 
 See the *multidemo* config for all usable settings.
@@ -84,7 +86,7 @@ Create a new snippet called multiTV with the following snippet code
 
 Usage:
 --------------------------------------------------------------------------------
-Call the snippet like this (the parameters *docid*, *display*, *rows*, *toPlaceholder* and *randomize* are using the default values in this example call and could be removed from the call)
+Call the snippet like this (most expample parameters are using the default values in this example call and could be removed from the call – parameter tvName is required)
 
     [!multiTV?
     &tvName=`event`
@@ -95,6 +97,8 @@ Call the snippet like this (the parameters *docid*, *display*, *rows*, *toPlaceh
     &rows=`all`
     &toPlaceholder=`0`
     &randomize=`0`
+    &published=`1`
+    &emptyOutput=`1`
     !]
 
 Parameters:
@@ -102,7 +106,7 @@ Parameters:
 
 Name | Description | Default value
 ---- | ----------- | -------------
-tvName | name of the template variable that contains the multiTV (the column names of the mulitTV are received from the config file) | -
+tvName | **(required)** name of the template variable that contains the multiTV (the column names of the mulitTV are received from the config file) | -
 docid | document id where the custom tv is retreived from (i.e. if the multiTV Snippet is called in a Ditto template) | current document id
 outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
 rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
@@ -111,6 +115,7 @@ rows | comma separated list of row numbers (or all rows) that should be displaye
 toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed.  (Note 2) | 0
 randomize | random order of displayed rows | 0
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
+emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call. Both template chunks are parsed by PHx (chunkie class).
 

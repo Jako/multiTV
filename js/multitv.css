@@ -31,6 +31,10 @@
 .multitv .list li.element .tvimage { float: right; margin-right: 12px; width: 96px }
 .multitv .list li.element .thumb { border: 1px solid #ccc !important }
 
+.multitv .list li.element .tvimage.inline { float: left; margin-right: 5px; width: 26px }
+.multitv .list li.element .tvimage.inline img { position: absolute; width: 26px; height: 26px; z-index: 1 }
+.multitv .list li.element .tvimage.inline img:hover { width: auto; height: auto; z-index: 2 }
+
 .multitv .hidden { display: none }
 
 .multitv .tvedit, .multitv .tvclear, .multitv .tvpaste { float: left; margin-right: 10px }

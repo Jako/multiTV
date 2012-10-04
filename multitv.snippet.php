@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.4.6
+ * @version 	1.4.7
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.4</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.7</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -23,6 +23,10 @@ define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
 // include classfile
 if (!class_exists('multiTV')) {
 	include MTV_BASE_PATH . 'multitv.class.php';
+}
+// include chunke class
+if (!class_exists('multitvChunkie')) {
+	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
 }
 
 // load template variable settings
@@ -41,6 +45,7 @@ $templates = $multiTV->templates;
 // get snippet parameter
 $docid = isset($docid) ? $docid : $modx->documentObject['id'];
 $outerTpl = isset($outerTpl) ? $outerTpl : (isset($templates['outerTpl']) ? '@CODE:' . $templates['outerTpl'] : '@CODE:<select name="' . $tvName . '">[+wrapper+]</select>');
+$emptyOutput = (isset($emptyOutput) && !$emptyOutput) ? FALSE : TRUE;
 $rowTpl = isset($rowTpl) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $templates['rowTpl'] : '@CODE:<option value="[+value+]">[+key+]</option>');
 $display = isset($display) ? $display : 5;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
@@ -75,20 +80,30 @@ if (is_object($tvOutput)) {
 }
 $countOutput = count($tvOutput);
 
-// stop if there is no output
-if (!$countOutput) {
-	return '';
-}
-
-// check for first item empty
 $firstEmpty = TRUE;
-foreach ($tvOutput[0] as $value) {
-	if ($value != '') {
-		$firstEmpty = FALSE;
+if ($countOutput) {
+	// check for first item empty
+	foreach ($tvOutput[0] as $value) {
+		if ($value != '') {
+			$firstEmpty = FALSE;
+		}
 	}
 }
-if ($firstEmpty) {
-	return '';
+// stop if there is no output
+if (!$countOutput || $firstEmpty) {
+	if ($emptyOutput) {
+		// output nothing
+		return '';
+	} else {
+		// output empty outer template
+		$parser = new multitvChunkie($outerTpl);
+		$parser->AddVar('wrapper', '');
+		$output = $parser->Render();
+		if ($toPlaceholder) {
+			$modx->setPlaceholder($tvName, $output);
+		}
+		return $output;
+	}
 }
 
 // random output
@@ -98,11 +113,6 @@ if ($randomize) {
 
 // check for display all
 $display = ($display != 'all') ? intval($display) : $countOutput;
-
-// parse the output chunks
-if (!class_exists('multitvChunkie')) {
-	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
-}
 
 // output
 $columnCount = count($columns);

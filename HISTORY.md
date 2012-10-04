@@ -1,6 +1,11 @@
 History
 ================================================================================
 
+- 1.4.7 October 3, 2012
+	- CustomTV: better horizontal display with image/file/thumb elements
+	- CustomTV: enable clear all by configuration
+	- Snippet: `emptyOutput` parameter
+
 - 1.4.6 August 31, 2012
 	- CustomTV: bugfix for similar fieldnames (first fieldname is contained in the second fieldname)
 

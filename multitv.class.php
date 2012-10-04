@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category 	classfile
- * @version 	1.4.6
+ * @version 	1.4.7
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.4</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.7</strong> Transform template variables into a sortable multi item list.
  */
 if (!function_exists('renderFormElement')) {
 	include MODX_BASE_PATH . 'manager/includes/tmplvars.inc.php';
@@ -84,6 +84,7 @@ class multiTV {
 		$this->display = $settings['display'];
 		$this->configuration['csvseparator'] = isset($settings['configuration']['csvseparator']) ? $settings['configuration']['csvseparator'] : ',';
 		$this->configuration['enablePaste'] = isset($settings['configuration']['enablePaste']) ? $settings['configuration']['enablePaste'] : TRUE;
+		$this->configuration['enableClear'] = isset($settings['configuration']['enableClear']) ? $settings['configuration']['enableClear'] : TRUE;
 	}
 
 	// invoke modx renderFormElement and change the output (to multiTV demands)
@@ -121,11 +122,12 @@ class multiTV {
 		$fieldClass = (isset($currentClass[1])) ? $currentClass[1] . ' ' . $fieldClass : $fieldClass;
 		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)
 		$formElement = preg_replace('/<label for=[^>]*>([^<]*)<\/label>/s', '<label class="inlinelabel">$1</label>', $formElement); // add label class
-		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage"', $formElement, 1); // remove imagebrowser onclick script
-		$formElement = preg_replace('/(onclick="BrowseFileServer[^\"]+\")/', 'class="browsefile"', $formElement, 1); // remove filebrowser onclick script
+		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage ' . $fieldClass . '"', $formElement, 1); // remove imagebrowser onclick script
+		$formElement = preg_replace('/(onclick="BrowseFileServer[^\"]+\")/', 'class="browsefile ' . $fieldClass . '"', $formElement, 1); // remove filebrowser onclick script
 		$formElement = str_replace('document.forms[\'mutate\'].elements[\'tv0\'].value=\'\';document.forms[\'mutate\'].elements[\'tv0\'].onblur(); return true;', '$j(this).prev(\'input\').val(\'\').trigger(\'change\');', $formElement); // change datepicker onclick script
 		$formElement = preg_replace('/( onmouseover=\"[^\"]+\")/', '', $formElement); // delete onmouseover attribute
 		$formElement = preg_replace('/( onmouseout=\"[^\"]+\")/', '', $formElement); // delete onmouseout attribute
+		$formElement = str_replace(array('&nbsp;'), ' ', $formElement); // change whitespace
 		$formElement = str_replace(array('style="width:100%;"', 'style="width:100%"', ' width="100%"', '  width="100"', '<br />', 'onchange="documentDirty=true;"', " checked='checked'"), array(''), $formElement); // remove unused atrributes and tags
 		return trim($formElement);
 	}
@@ -157,7 +159,7 @@ class multiTV {
 						$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }' . "\r\n";
 						switch ($type) {
 							case 'thumb': {
-									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+									$tvelement .= '<div class="inline tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
 									$hasthumb = ' hasthumb';
 									break;
 								}
@@ -248,6 +250,9 @@ class multiTV {
 		} else {
 			include ($this->includeFile('default', 'setting'));
 		}
+		if ($this->configuration['enableClear']) {
+			$clear = file_get_contents($this->includeFile('clear', 'template', '.html'));
+		}
 		foreach ($settings['css'] as $setting) {
 			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $setting . '" />';
 		}
@@ -268,6 +273,7 @@ class multiTV {
 		$placeholder['cssfiles'] = implode("\r\n", $cssfiles);
 		$placeholder['scriptfiles'] = implode("\r\n", $scriptfiles);
 		$placeholder['paste'] = $paste;
+		$placeholder['clear'] = $clear;
 		$placeholder['tvcss'] = $tvcss;
 		$placeholder['tvheading'] = $tvheading;
 		$placeholder['tvmode'] = $this->display;

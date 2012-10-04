@@ -58,6 +58,7 @@ $settings['templates'] = array(
 );
 $settings['configuration'] = array(
 	'enablePaste' => TRUE,
+	'enableClear' => TRUE,
 	'csvseparator' => ','
 );
 ?>
