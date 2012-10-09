@@ -78,6 +78,9 @@ class multiTV {
 		$this->fields = $settings['fields'];
 		$this->fieldnames = array_keys($this->fields);
 		$this->fieldtypes = array();
+		foreach ($this->fields as $field) {
+			$this->fieldtypes[] = $field['type'];
+		}
 		$this->templates = $settings['templates'];
 		$this->display = $settings['display'];
 		$this->configuration['csvseparator'] = isset($settings['configuration']['csvseparator']) ? $settings['configuration']['csvseparator'] : ',';
@@ -291,21 +294,18 @@ class multiTV {
 			$tvtemplate = str_replace('[+' . $key . '+]', $value, $tvtemplate);
 		}
 		
-		//
+		// init richtext editor for corresponding fields
 		$editor_html = '';
-		//foreach($this->fieldsWithReachtextEditor as $name) {
-			$event_output = $modx->invokeEvent("OnRichTextEditorRegister");
-			if(is_array($event_output)) 
-				$editor = $event_output[0];
-			else
-				$editor = 'TinyMCE';
-				
-			$event_output = $modx->invokeEvent("OnRichTextEditorInit", array('editor'=>$editor, 'elements'=>$this->fieldsWithReachtextEditor));
-			if(is_array($event_output)) 
-				$editor_html = implode("",$event_output);
-		//}
+		$event_output = $modx->invokeEvent("OnRichTextEditorRegister");
+		if(is_array($event_output)) 
+			$editor = $event_output[0];
+		else
+			$editor = 'TinyMCE';
 		
-		var_dump($this->fieldsWithReachtextEditor);
+		$event_output = $modx->invokeEvent("OnRichTextEditorInit", array('editor'=>$editor, 'elements'=>$this->fieldsWithReachtextEditor));
+		if(is_array($event_output)) 
+		$editor_html = implode("",$event_output);
+		
 		return $tvtemplate.$editor_html;
 	}
 
