@@ -28,6 +28,7 @@ class multiTV {
 	public $templates = array();
 	public $language = array();
 	public $configuration = array();
+	public $fieldsWithReachtextEditor = array();
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -77,9 +78,6 @@ class multiTV {
 		$this->fields = $settings['fields'];
 		$this->fieldnames = array_keys($this->fields);
 		$this->fieldtypes = array();
-		foreach ($this->fields as $field) {
-			$this->fieldtypes[] = $field['type'];
-		}
 		$this->templates = $settings['templates'];
 		$this->display = $settings['display'];
 		$this->configuration['csvseparator'] = isset($settings['configuration']['csvseparator']) ? $settings['configuration']['csvseparator'] : ',';
@@ -99,8 +97,10 @@ class multiTV {
 				}
 			case 'richtext' : {
 					$fieldType = 'textarea';
+					$this->fieldsWithReachtextEditor[] = "tv" . $this->tvID . $fieldName;
 					break;
 				}
+				
 		}
 		$formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
 		$formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
@@ -290,7 +290,23 @@ class multiTV {
 		foreach ($placeholder as $key => $value) {
 			$tvtemplate = str_replace('[+' . $key . '+]', $value, $tvtemplate);
 		}
-		return $tvtemplate;
+		
+		//
+		$editor_html = '';
+		//foreach($this->fieldsWithReachtextEditor as $name) {
+			$event_output = $modx->invokeEvent("OnRichTextEditorRegister");
+			if(is_array($event_output)) 
+				$editor = $event_output[0];
+			else
+				$editor = 'TinyMCE';
+				
+			$event_output = $modx->invokeEvent("OnRichTextEditorInit", array('editor'=>$editor, 'elements'=>$this->fieldsWithReachtextEditor));
+			if(is_array($event_output)) 
+				$editor_html = implode("",$event_output);
+		//}
+		
+		var_dump($this->fieldsWithReachtextEditor);
+		return $tvtemplate.$editor_html;
 	}
 
 }
