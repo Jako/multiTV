@@ -75,7 +75,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 					break;
 				case 'checkbox':
 				case 'radio':
-					$j(this).attr('checked', '');
+					$j(this).attr('checked', false);
 					break;
 				default:
 					$j(this).val('');
@@ -166,7 +166,8 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 						case 'submit':
 							break;
 						case 'checkbox':
-							$j(this).attr('checked', '');
+						case 'radio':
+							$j(this).attr('checked', false);
 							break;
 						default:
 							$j(this).val('');
