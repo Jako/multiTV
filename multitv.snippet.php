@@ -127,6 +127,7 @@ foreach ($tvOutput as $value) {
 	if ($rows != 'all') {
 		// output only selected rows 
 		if (!in_array($i, $rows)) {
+			$i++;
 			continue;
 		}
 	}
