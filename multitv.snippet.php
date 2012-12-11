@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.4.7
+ * @version 	1.4.8
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.7</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.8</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -52,6 +52,7 @@ $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
 $toPlaceholder = (isset($toPlaceholder) && $toPlaceholder) ? TRUE : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
 $published = (isset($published)) ? $published : '1';
+$outputSeparator = (isset($outputSeparator)) ? $outputSeparator : '';
 
 // replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
 $maskedTags = array('((' => '[+', '))' => '+]');
@@ -116,7 +117,7 @@ $display = ($display != 'all') ? intval($display) : $countOutput;
 
 // output
 $columnCount = count($columns);
-$wrapper = '';
+$wrapper = array();
 $i = 1;
 $placeholder = array();
 // rowTpl output 
@@ -141,13 +142,13 @@ foreach ($tvOutput as $value) {
 	if ($toPlaceholder) {
 		$modx->setPlaceholder($tvName . '.' . $i, $placeholder[$i]);
 	}
-	$wrapper .= $placeholder[$i];
+	$wrapper[] = $placeholder[$i];
 	$i++;
 	$display--;
 }
 // wrap rowTpl output in outerTpl
 $parser = new multitvChunkie($outerTpl);
-$parser->AddVar('wrapper', $wrapper);
+$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
 $parser->AddVar('docid', $docid);
 $output = $parser->Render();
 

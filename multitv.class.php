@@ -3,11 +3,8 @@
  * multiTV
  *
  * @category 	classfile
- * @version 	1.4.7
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
- *
- * @internal    description: <strong>1.4.7</strong> Transform template variables into a sortable multi item list.
  */
 if (!function_exists('renderFormElement')) {
 	include MODX_BASE_PATH . 'manager/includes/tmplvars.inc.php';

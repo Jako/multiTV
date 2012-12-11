@@ -99,6 +99,8 @@ Call the snippet like this (most expample parameters are using the default value
     &randomize=`0`
     &published=`1`
     &emptyOutput=`1`
+    &emptyOutput=`1`
+    &outputSeparator=``
     !]
 
 Parameters:
@@ -116,6 +118,7 @@ toPlaceholder | the snippet output is assigned to a placeholder named as the tem
 randomize | random order of displayed rows | 0
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
+outputSeparator | string inserted between two row templates | empty
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call. Both template chunks are parsed by PHx (chunkie class).
 

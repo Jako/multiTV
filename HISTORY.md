@@ -1,6 +1,9 @@
 History
 ================================================================================
 
+- 1.4.8 December 12, 2012
+	- Snippet: `outputSeparator` parameter
+
 - 1.4.7 October 3, 2012
 	- CustomTV: better horizontal display with image/file/thumb elements
 	- CustomTV: enable clear all by configuration
