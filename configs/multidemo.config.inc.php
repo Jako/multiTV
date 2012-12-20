@@ -29,7 +29,7 @@ $settings['fields'] = array(
 	'dropdown' => array(
 		'caption' => 'Dropdown',
 		'type' => 'dropdown',
-		'elements' => '@SELECT `pagetitle`, `id` FROM `modx_site_content` WHERE parent = 0 ORDER BY `menuindex` ASC'
+		'elements' => '@SELECT pagetitle, id FROM [+PREFIX+]site_content WHERE parent = 0 ORDER BY menuindex ASC'
 	),
 	'listbox' => array(
 		'caption' => 'Listbox',
