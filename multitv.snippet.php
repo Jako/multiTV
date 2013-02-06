@@ -37,6 +37,9 @@ if (!$tvSettings) {
 	return 'Template variable ' . $tvName . ' does not exists';
 }
 
+// pre-init template configuration
+$tvSettings['tpl_config'] = (isset($tplConfig)) ? $tplConfig : '';
+
 // init multiTV class
 $multiTV = new multiTV($tvSettings);
 $columns = $multiTV->fieldnames;

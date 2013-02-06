@@ -110,6 +110,7 @@ Name | Description | Default value
 ---- | ----------- | -------------
 tvName | **(required)** name of the template variable that contains the multiTV (the column names of the mulitTV are received from the config file) | -
 docid | document id where the custom tv is retreived from (i.e. if the multiTV Snippet is called in a Ditto template) | current document id
+tplConfig | array key in the config file that contains the output templates configuration (will be prefixed with `templates`) | ''
 outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
 rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
 display | count of rows that are displayed, `all` for all rows | 5

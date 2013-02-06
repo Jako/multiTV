@@ -18,6 +18,7 @@ class multiTV {
 	public $tvDescription = '';
 	public $tvDefault = '';
 	public $tvValue = '';
+	public $tvTemplates = '';
 	public $display = '';
 	public $fieldnames = array();
 	public $fieldtypes = array();
@@ -37,6 +38,7 @@ class multiTV {
 			$this->tvDescription = $tvDefinitions['description'];
 			$this->tvDefault = $tvDefinitions['default_text'];
 			$this->tvValue = $tvDefinitions['value'];
+			$this->tvTemplates = 'templates'. $tvDefinitions['tpl_config'];
 		} else {
 			$modx->messageQuit('No multiTV definitions set');
 		}
@@ -77,7 +79,7 @@ class multiTV {
 		foreach ($this->fields as $field) {
 			$this->fieldtypes[] = $field['type'];
 		}
-		$this->templates = $settings['templates'];
+		$this->templates = $settings[$this->tvTemplates];
 		$this->display = $settings['display'];
 		$this->configuration['csvseparator'] = isset($settings['configuration']['csvseparator']) ? $settings['configuration']['csvseparator'] : ',';
 		$this->configuration['enablePaste'] = isset($settings['configuration']['enablePaste']) ? $settings['configuration']['enablePaste'] : TRUE;

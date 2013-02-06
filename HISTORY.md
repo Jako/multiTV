@@ -1,6 +1,9 @@
 History
 ================================================================================
 
+- 1.4.9 January 6, 2013
+	- Snippet: `tplConfig` parameter
+
 - 1.4.8 December 12, 2012
 	- Snippet: `outputSeparator` parameter
 
