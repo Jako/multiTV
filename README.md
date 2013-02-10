@@ -95,10 +95,9 @@ Call the snippet like this (most expample parameters are using the default value
     &rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
     &display=`5`
     &rows=`all`
-    &toPlaceholder=`0`
+    &toPlaceholder=`myPlaceholderName`
     &randomize=`0`
     &published=`1`
-    &emptyOutput=`1`
     &emptyOutput=`1`
     &outputSeparator=``
     !]
@@ -115,29 +114,35 @@ outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or co
 rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
 display | count of rows that are displayed, `all` for all rows | 5
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
-toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed.  (Note 2) | 0
+toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed.  (Note 2) | -
 randomize | random order of displayed rows | 0
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
 outputSeparator | string inserted between two row templates | empty
+sort | name and order parameter for sorting elements example calls: &sort=`title asc` or &sort=`price desc`  | -
+offset | set the number of the first rows to hide      | 0
+
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call. Both template chunks are parsed by PHx (chunkie class).
+
 
 Placeholder rowTpl:
 --------------------------------------------------------------------------------
 
-Name | Description
----- | -----------
-"fieldname" | each fieldname defined in config file could be used
-iteration | contains the row number of the current multiTV element
-docid | value of docid parameter or current document id
+Name            | Description
+--------------- | -----------------------------------------------------------
+"fieldname"     | each fieldname defined in config file could be used
+iteration       | contains the row number of the current multiTV element
+docid           | value of docid parameter or current document id
+
 
 Placeholder outerTpl:
---------------------------------------------------------------------------------
-Name | Description
----- | -----------
-wrapper | contains the output of all rows
-docid | value of docid parameter or current document id
+-----------------------------------------------------------------------------
+Name            | Description
+--------------- | -----------------------------------------------------------
+wrapper         | contains the output of all rows
+docid           | value of docid parameter or current document id
+
 
 Part 3: PHx modifier
 ================================================================================
