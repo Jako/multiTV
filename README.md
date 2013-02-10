@@ -45,31 +45,66 @@ The display of the input fields in the multi field list could be set in `$settin
 
 The input fields of one list element could be defined in `$settings['fields']`. This variable contains an array of fieldnames and each fieldname contains an array of field properties.
 
-Property | Description | Default
----- | ----------- | -------
-caption | caption (horizontal) or label (vertical) for the input | -
-type | type of the input (could be set to all MODX input types - without url and richtext - and thumb for thumbnail display of image tvs - see images config for thumb) | text
-elements | could be set according to the input option values of a normal MODX template variable i.e. for a dropdown with all documents in the MODX root: ``@SELECT `pagetitle`, `id` FROM `modx_site_content` WHERE parent = 0 ORDER BY `menuindex` ASC`` | -
-default | default value for the input. This value could contain calculated parts. There are two placeholders available: `{i}` contains an autoincremented index, `{alias}` contains the alias of the edited document. | -
-thumbof | name of an image input. a thumbnail of the selected image will be rendered into this area | -
-width | the width of the input (only used if the display of the list element is horizontal) | 100
+Property        | Description                                   | Default
+=============== | ============================================= | =======
+caption         | caption (horizontal) or label (vertical) for  | -
+                | the input                                     |
+--------------- | --------------------------------------------- | -------
+type            | type of the input (could be set to all MODX   | text
+                | input types - without url and richtext - and  |
+                | thumb for thumbnail display of image tvs -    |
+                | see images config for thumb)                  |
+--------------- | --------------------------------------------- | -------
+elements        | could be set according to the input option    | -
+                | values of a normal MODX template variable     |
+                | i.e. for a dropdown with all documents in the |
+                | MODX root: ``@SELECT `pagetitle`, `id` FROM   |
+                | `modx_site_content` WHERE parent = 0 ORDER BY |
+                | `menuindex` ASC``                             |
+--------------- | --------------------------------------------- | -------
+default         | default value for the input. This value could | -
+                | contain calculated parts. There are two       |
+                | placeholders available: `{i}` contains an     |
+                | autoincremented index, `{alias}` contains the |
+                | alias of the edited document.                 |
+--------------- | --------------------------------------------- | -------
+thumbof         | name of an image input. a thumbnail of the    | -
+                | selected image will be rendered into this     |
+                | area                                          |
+--------------- | --------------------------------------------- | -------
+width           | the width of the input (only used if the      | 100
+                | display of the list element is horizontal)    |
 
 * Supported MODX input types: text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
 
 The default output templates for the snippet could be defined in `$settings['templates']`. 
 
-Property | Description | Default
----- | ----------- | -------
-rowTpl | default row template chunk for the snippet output. Could be changed in snippet call. See snippet description for placeholders | -
-outerTpl | default outer template chunk for the snippet output. Could be changed in snippet call. See snippet description for placeholders | -
+Property        | Description                                   | Default
+=============== | ============================================= | =======
+rowTpl          | default row template chunk for the snippet    | -
+                | output. Could be changed in snippet call.     |
+                | See snippet description for placeholders      |
+--------------- | --------------------------------------------- | -------
+outerTpl        | default outer template chunk for the snippet  | -
+                | output. Could be changed in snippet call.     |
+                | See snippet description for placeholders      |
 
 The other configurations for one multiTV could be defined in `$settings['configuration']`
 
-Property | Description | Default
----- | ----------- | -------
-enablePaste | The multiTV could contain *paste table data* link that displays a paste box. In this box you could paste Word/HTML table clipboard data, Google Docs table clipboard data and csv data. | TRUE 
-enableClear | The multiTV could contain *clear all* link that clears the content of the multiTV | TRUE 
-csvseparator | column separator for csv clipboard table data. The csv clipboard table data should contain a new line for each row. | , 
+Property        | Description                                   | Default
+=============== | ============================================= | =======
+enablePaste     | The multiTV could contain *paste table data*  | TRUE
+                | link that displays a paste box. In this box   |
+                | you could paste Word/HTML table clipboard     |
+                | data, Google Docs table clipboard data and    |
+                | csv data.                                     |
+--------------- | --------------------------------------------- | -------
+enableClear     | The multiTV could contain *clear all* link    | TRUE
+                | that clears the content of the multiTV        |
+--------------- | --------------------------------------------- | -------
+csvseparator    | column separator for csv clipboard table      | ,
+                | data. The csv clipboard table data should     |
+                | contain a new line for each row.              | 
 
 See the *multidemo* config for all usable settings.
 
@@ -99,45 +134,85 @@ Call the snippet like this (most expample parameters are using the default value
     &randomize=`0`
     &published=`1`
     &emptyOutput=`1`
-    &emptyOutput=`1`
     &outputSeparator=``
     !]
 
 Parameters:
 --------------------------------------------------------------------------------
 
-Name | Description | Default value
----- | ----------- | -------------
-tvName | **(required)** name of the template variable that contains the multiTV (the column names of the mulitTV are received from the config file) | -
-docid | document id where the custom tv is retreived from (i.e. if the multiTV Snippet is called in a Ditto template) | current document id
-tplConfig | array key in the config file that contains the output templates configuration (will be prefixed with `templates`) | ''
-outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
-rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
-display | count of rows that are displayed, `all` for all rows | 5
-rows | comma separated list of row numbers (or all rows) that should be displayed | all
-toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed.  (Note 2) | 0
-randomize | random order of displayed rows | 0
-published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
-emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
-outputSeparator | string inserted between two row templates | empty
+Name            | Description                                   | Default value
+=============== | ============================================= | =============
+tvName          | **(required)** name of the template variable  | -
+                | that contains the multiTV (the column names   |
+                | of the mulitTV are received from the config   |
+                | file)                                         |
+--------------- | --------------------------------------------- | --------------
+docid           | document id where the custom tv is retreived  | current document id
+                | from (i.e. if the multiTV Snippet is called   |
+                | in a Ditto template)                          |
+--------------- | --------------------------------------------- | --------------
+outerTpl        | outer template: chunkname, filename (value    | `@CODE:<select name="$tvName">[+wrapper+]</select>`
+                | starts with `@FILE`) or code (value starts    |  or custom template in template variable config file
+                | with `@CODE` - placeholders have to be masked |
+                | by `((` and `))`. (Note 3)                    |
+--------------- | --------------------------------------------- | --------------
+rowTpl          | row template: chunkname, filename (value      | `@CODE:<option value="[+value+]">[+key+]</option>`
+                | starts with `@FILE`) or code (value starts    |  or custom template in template variable config file
+                | with `@CODE` - placeholders have to be masked |
+                | by `((` and `))`. (Note 3)                    |
+--------------- | --------------------------------------------- | --------------
+display         | count of rows that are displayed, `all` for   | 5
+                | all rows                                      |
+--------------- | --------------------------------------------- | --------------
+rows            | comma separated list of row numbers (or all   | all
+                | rows) that should be displayed                |
+--------------- | --------------------------------------------- | --------------
+toPlaceholder   | the snippet output is assigned to a           | 0
+                | placeholder named as the template variable    |
+                | (i.e. [+element+]), single items are assigned |
+                | to placeholders named as the template         |
+                | variable followed by the row number           |
+                | (i.e. [+element.1+]). Normal snippet output   |
+                | is suppressed.  (Note 2)                      |
+--------------- | --------------------------------------------- | --------------
+randomize       | random order of displayed rows                | 0
+--------------- | --------------------------------------------- | --------------
+published       | display only multiTVs of published (1),       | 1
+                | unpublished (0) or both (2) kind of documents |
+--------------- | --------------------------------------------- | --------------
+emptyOutput     | return empty string if the multiTV is empty,  | 1
+                | otherwise return outer template               |
+--------------- | --------------------------------------------- | --------------
+outputSeparator | string inserted between two row templates     | empty
+--------------- | --------------------------------------------- | --------------
+sort            | name and order parameter for sorting elements | -
+                | example calls:                                |
+                |   &sort=`title asc`                           |
+                |   &sort=`price desc`                          |
+--------------- | --------------------------------------------- | --------------
+offset          | set the number of the first rows to hide      | 0
+
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call. Both template chunks are parsed by PHx (chunkie class).
+
 
 Placeholder rowTpl:
 --------------------------------------------------------------------------------
 
-Name | Description
----- | -----------
-"fieldname" | each fieldname defined in config file could be used
-iteration | contains the row number of the current multiTV element
-docid | value of docid parameter or current document id
+Name            | Description
+--------------- | -----------------------------------------------------------
+"fieldname"     | each fieldname defined in config file could be used
+iteration       | contains the row number of the current multiTV element
+docid           | value of docid parameter or current document id
+
 
 Placeholder outerTpl:
---------------------------------------------------------------------------------
-Name | Description
----- | -----------
-wrapper | contains the output of all rows
-docid | value of docid parameter or current document id
+-----------------------------------------------------------------------------
+Name            | Description
+--------------- | -----------------------------------------------------------
+wrapper         | contains the output of all rows
+docid           | value of docid parameter or current document id
+
 
 Part 3: PHx modifier
 ================================================================================

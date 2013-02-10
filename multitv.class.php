@@ -5,7 +5,12 @@
  * @category 	classfile
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
- */
+ *
+ * Modifications:
+ *  Sam (sam@gmx-topmail.de) on February 10, 2013
+ *      - new functions for sorting the snippet output
+ *          
+ **/
 if (!function_exists('renderFormElement')) {
 	include MODX_BASE_PATH . 'manager/includes/tmplvars.inc.php';
 }
@@ -26,6 +31,7 @@ class multiTV {
 	public $templates = array();
 	public $language = array();
 	public $configuration = array();
+    public $sortkey = '';
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -291,6 +297,42 @@ class multiTV {
 		}
 		return $tvtemplate;
 	}
+
+   // sort a multidimensional array
+    function sort(&$array, $sortby, $sortdir = '') {
+        $this->sortkey = array_search($sortby, $this->fieldnames);
+        if ($this->sortkey === false) {
+            return;
+        }
+        if ($sortdir === 'desc') {
+            uasort($array, array($this, 'compareSortDesc'));
+        } else {
+            uasort($array, array($this, 'compareSortAsc'));
+        }
+        $array = array_values($array);
+    }
+   
+    // compare sort values for ascending order
+    private function compareSortAsc($a, $b) {
+        if ($a[$this->sortkey] === $b[$this->sortkey]) {
+            return 0;
+        } else if ($a[$this->sortkey] < $b[$this->sortkey]) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+   
+    // compare sort values for descending order
+    private function compareSortDesc($a, $b) {
+        if ($a[$this->sortkey] === $b[$this->sortkey]) {
+            return 0;
+        } else if ($a[$this->sortkey] > $b[$this->sortkey]) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
 
 }
 
