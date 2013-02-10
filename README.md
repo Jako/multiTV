@@ -130,7 +130,7 @@ Call the snippet like this (most expample parameters are using the default value
     &rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
     &display=`5`
     &rows=`all`
-    &toPlaceholder=`0`
+    &toPlaceholder=`myPlaceholderName`
     &randomize=`0`
     &published=`1`
     &emptyOutput=`1`
@@ -167,12 +167,13 @@ display         | count of rows that are displayed, `all` for   | 5
 rows            | comma separated list of row numbers (or all   | all
                 | rows) that should be displayed                |
 --------------- | --------------------------------------------- | --------------
-toPlaceholder   | the snippet output is assigned to a           | 0
-                | placeholder named as the template variable    |
-                | (i.e. [+element+]), single items are assigned |
-                | to placeholders named as the template         |
-                | variable followed by the row number           |
-                | (i.e. [+element.1+]). Normal snippet output   |
+toPlaceholder   | the snippet output is assigned to a           | false
+                | placeholder named as the input value          |
+                | (i.e. for &toPlaceholder=`myPH` sets the      |
+                | placeholder [+myPH+]), single items are       |
+                | assigned to placeholders named as the         |
+                | input value followed by the row number        |
+                | (i.e. [+myPH.1+]). Normal snippet output      |
                 | is suppressed.  (Note 2)                      |
 --------------- | --------------------------------------------- | --------------
 randomize       | random order of displayed rows                | 0

@@ -57,7 +57,7 @@ $emptyOutput = (isset($emptyOutput) && !$emptyOutput) ? FALSE : TRUE;
 $rowTpl = isset($rowTpl) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $templates['rowTpl'] : '@CODE:<option value="[+value+]">[+key+]</option>');
 $display = isset($display) ? $display : 5;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
-$toPlaceholder = (isset($toPlaceholder) && $toPlaceholder) ? TRUE : FALSE;
+$toPlaceholder = isset($toPlaceholder) ? $toPlaceholder : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
 $published = (isset($published)) ? $published : '1';
 $outputSeparator = (isset($outputSeparator)) ? $outputSeparator : '';
@@ -112,7 +112,7 @@ if (!$countOutput || $firstEmpty) {
 		$parser->AddVar('wrapper', '');
 		$output = $parser->Render();
 		if ($toPlaceholder) {
-			$modx->setPlaceholder($tvName, $output);
+			$modx->setPlaceholder($toPlaceholder, $output);
 		}
 		return $output;
 	}
