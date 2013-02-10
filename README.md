@@ -169,7 +169,7 @@ rows            | comma separated list of row numbers (or all   | all
 --------------- | --------------------------------------------- | --------------
 toPlaceholder   | the snippet output is assigned to a           | false
                 | placeholder named as the input value          |
-                | (i.e. for &toPlaceholder=`myPH` sets the      |
+                | (i.e. &toPlaceholder=`myPH` sets the          |
                 | placeholder [+myPH+]), single items are       |
                 | assigned to placeholders named as the         |
                 | input value followed by the row number        |
