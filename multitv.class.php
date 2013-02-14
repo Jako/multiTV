@@ -26,6 +26,7 @@ class multiTV {
 	public $templates = array();
 	public $language = array();
 	public $configuration = array();
+	public $sortkey = '';
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -38,7 +39,7 @@ class multiTV {
 			$this->tvDescription = $tvDefinitions['description'];
 			$this->tvDefault = $tvDefinitions['default_text'];
 			$this->tvValue = $tvDefinitions['value'];
-			$this->tvTemplates = 'templates'. $tvDefinitions['tpl_config'];
+			$this->tvTemplates = 'templates' . $tvDefinitions['tpl_config'];
 		} else {
 			$modx->messageQuit('No multiTV definitions set');
 		}
@@ -290,6 +291,42 @@ class multiTV {
 			$tvtemplate = str_replace('[+' . $key . '+]', $value, $tvtemplate);
 		}
 		return $tvtemplate;
+	}
+
+	// sort a multidimensional array
+	function sort(&$array, $sortby, $sortdir = '') {
+		$this->sortkey = array_search($sortby, $this->fieldnames);
+		if ($this->sortkey === false) {
+			return;
+		}
+		if ($sortdir === 'desc') {
+			uasort($array, array($this, 'compareSortDesc'));
+		} else {
+			uasort($array, array($this, 'compareSortAsc'));
+		}
+		$array = array_values($array);
+	}
+
+	// compare sort values for ascending order
+	private function compareSortAsc($a, $b) {
+		if ($a[$this->sortkey] === $b[$this->sortkey]) {
+			return 0;
+		} else if ($a[$this->sortkey] < $b[$this->sortkey]) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
+
+	// compare sort values for descending order
+	private function compareSortDesc($a, $b) {
+		if ($a[$this->sortkey] === $b[$this->sortkey]) {
+			return 0;
+		} else if ($a[$this->sortkey] > $b[$this->sortkey]) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 
 }

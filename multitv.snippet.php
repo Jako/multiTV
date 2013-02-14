@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.4.8
+ * @version 	1.4.10
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.8</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.4.10</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -51,9 +51,12 @@ $outerTpl = isset($outerTpl) ? $outerTpl : (isset($templates['outerTpl']) ? '@CO
 $emptyOutput = (isset($emptyOutput) && !$emptyOutput) ? FALSE : TRUE;
 $rowTpl = isset($rowTpl) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $templates['rowTpl'] : '@CODE:<option value="[+value+]">[+key+]</option>');
 $display = isset($display) ? $display : 5;
+$offset = isset($offset) ? intval($offset) : 0;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
-$toPlaceholder = (isset($toPlaceholder) && $toPlaceholder) ? TRUE : FALSE;
+$toPlaceholder = (isset($toPlaceholder) && $toPlaceholder = !'') ? $toPlaceholder : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
+$orderBy = isset($orderBy) ? $orderBy : '';
+list($sortBy, $sortDir) = explode(" ", $orderBy);
 $published = (isset($published)) ? $published : '1';
 $outputSeparator = (isset($outputSeparator)) ? $outputSeparator : '';
 
@@ -64,11 +67,11 @@ $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTp
 
 // get template variable
 switch (strtolower($published)) {
-	case '0' :
-	case 'false' :
+	case '0':
+	case 'false':
 		$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '0');
 		break;
-	case '1' :
+	case '1':
 	case '2':
 	case 'true':
 		$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '1');
@@ -110,53 +113,71 @@ if (!$countOutput || $firstEmpty) {
 	}
 }
 
-// random output
+// random or sort output
 if ($randomize) {
 	shuffle($tvOutput);
+} elseif (!empty($sortBy)) {
+	$multiTV->sort($tvOutput, trim($sortBy), trim($sortDir));
 }
 
-// check for display all
-$display = ($display != 'all') ? intval($display) : $countOutput;
+// check for display all regarding selected rows count and offset
+$countOutput = ($rows !== 'all') ? $countOutput : count($rows);
+$display = ($display !== 'all') ? intval($display) : $countOutput;
+$display = (($display + $offset) < $countOutput) ? $display : $countOutput - $offset;
 
 // output
 $columnCount = count($columns);
 $wrapper = array();
-$i = 1;
+$i = $iteration = 1;
 $placeholder = array();
+$class = 'first';
 // rowTpl output 
 foreach ($tvOutput as $value) {
 	if ($display == 0) {
 		break;
 	}
-	if ($rows != 'all') {
+	if ($rows !== 'all' && !in_array($i, $rows)) {
 		// output only selected rows 
-		if (!in_array($i, $rows)) {
-			$i++;
-			continue;
-		}
+		$i++;
+		continue;
 	}
+	if ($offset) {
+		// don't show the offset rows
+		$offset--;
+		$i++;
+		continue;
+	}
+	$class = ($display != 1) ? $class : trim($class . ' last');
 	$parser = new multitvChunkie($rowTpl);
 	for ($j = 0; $j < $columnCount; $j++) {
 		$parser->AddVar($columns[$j], $value[$j]);
 	}
-	$parser->AddVar('iteration', $i);
+	$parser->AddVar('iteration', $iteration);
+	$parser->AddVar('row', array('number' => $i, 'class' => $class));
 	$parser->AddVar('docid', $docid);
 	$placeholder[$i] = $parser->Render();
 	if ($toPlaceholder) {
-		$modx->setPlaceholder($tvName . '.' . $i, $placeholder[$i]);
+		$modx->setPlaceholder($toPlaceholder . '.' . $i, $placeholder[$i]);
 	}
 	$wrapper[] = $placeholder[$i];
 	$i++;
+	$iteration++;
 	$display--;
+	$class = '';
 }
-// wrap rowTpl output in outerTpl
-$parser = new multitvChunkie($outerTpl);
-$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
-$parser->AddVar('docid', $docid);
-$output = $parser->Render();
+if ($emptyOutput && !count($wrapper)) {
+	// output nothing
+	$output = '';
+} else {
+	// wrap rowTpl output in outerTpl
+	$parser = new multitvChunkie($outerTpl);
+	$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
+	$parser->AddVar('docid', $docid);
+	$output = $parser->Render();
+}
 
 if ($toPlaceholder) {
-	$modx->setPlaceholder($tvName, $output);
+	$modx->setPlaceholder($toPlaceholder, $output);
 	return '';
 } else {
 	return $output;

@@ -5,11 +5,11 @@ Transform template variables into a sortable multi item list for the MODX Evolut
 
 Events example:
 
-![Eventlist example](/Jako/multiTV/blob/master/multitv.events.png?raw=true)
+![Eventlist example](https://github.com/Jako/multiTV/blob/master/multitv.events.png?raw=true)
 
 Images example:
 
-![Images example](/Jako/multiTV/blob/master/multitv.images.png?raw=true)
+![Images example](https://github.com/Jako/multiTV/blob/master/multitv.images.png?raw=true)
 
 Part 1: custom template variable
 ================================================================================
@@ -46,7 +46,7 @@ The display of the input fields in the multi field list could be set in `$settin
 The input fields of one list element could be defined in `$settings['fields']`. This variable contains an array of fieldnames and each fieldname contains an array of field properties.
 
 Property | Description | Default
----- | ----------- | -------
+-------- | ----------- | -------
 caption | caption (horizontal) or label (vertical) for the input | -
 type | type of the input (could be set to all MODX input types - without url and richtext - and thumb for thumbnail display of image tvs - see images config for thumb) | text
 elements | could be set according to the input option values of a normal MODX template variable i.e. for a dropdown with all documents in the MODX root: ``@SELECT `pagetitle`, `id` FROM `modx_site_content` WHERE parent = 0 ORDER BY `menuindex` ASC`` | -
@@ -91,11 +91,12 @@ Call the snippet like this (most expample parameters are using the default value
     [!multiTV?
     &tvName=`event`
     &docid=`[*id*]`
+    &tplConfig=``
     &outerTpl=`@CODE:<ul>((wrapper))</ul>`
     &rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
     &display=`5`
     &rows=`all`
-    &toPlaceholder=`0`
+    &toPlaceholder=``
     &randomize=`0`
     &published=`1`
     &emptyOutput=`1`
@@ -114,9 +115,11 @@ tplConfig | array key in the config file that contains the output templates conf
 outerTpl | outer template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<select name="$tvName">[+wrapper+]</select>` or custom template in template variable config file
 rowTpl | row template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE` - placeholders have to be masked by `((` and `))`. (Note 3) | `@CODE:<option value="[+value+]">[+key+]</option>` or custom template in template variable config file
 display | count of rows that are displayed, `all` for all rows | 5
+offset | count of rows from start that are not displayed | 0
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
-toPlaceholder | the snippet output is assigned to a placeholder named as the template variable (i.e. [+element+]), single items are assigned to placeholders named as the template variable followed by the row number (i.e. [+element.1+]). Normal snippet output is suppressed.  (Note 2) | 0
 randomize | random order of displayed rows | 0
+orderBy | column name and order direction (direction defaults to asc) to sort the output | -
+toPlaceholder | the snippet output is assigned to a placeholder named as the parameter value (i.e. [+myPlaceholder+]), single items are assigned to placeholders named as the parameter value followed by the row number (i.e. [+myPlaceholder.1+]). Normal snippet output is suppressed. (Note 2) | -
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
 outputSeparator | string inserted between two row templates | empty
@@ -129,7 +132,9 @@ Placeholder rowTpl:
 Name | Description
 ---- | -----------
 "fieldname" | each fieldname defined in config file could be used
-iteration | contains the row number of the current multiTV element
+iteration | contains the iteration of the current multiTV element
+row.number | contains the row number of the current multiTV element
+row.class | 'first' for first displayed row, 'last' for last displayed row
 docid | value of docid parameter or current document id
 
 Placeholder outerTpl:

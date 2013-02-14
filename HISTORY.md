@@ -1,6 +1,9 @@
 History
 ================================================================================
 
+- 1.4.10 February 14, 2013
+    - Snippet: `offset` and `sort` parameter
+
 - 1.4.9 January 6, 2013
 	- Snippet: `tplConfig` parameter
 
