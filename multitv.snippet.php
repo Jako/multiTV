@@ -25,7 +25,7 @@ if (!class_exists('multiTV')) {
 	include MTV_BASE_PATH . 'multitv.class.php';
 }
 // include chunke class
-if (!class_exists('multitvChunkie')) {
+if (!class_exists('evoChunkie')) {
 	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
 }
 
@@ -103,7 +103,7 @@ if (!$countOutput || $firstEmpty) {
 		return '';
 	} else {
 		// output empty outer template
-		$parser = new multitvChunkie($outerTpl);
+		$parser = new evoChunkie($outerTpl);
 		$parser->AddVar('wrapper', '');
 		$output = $parser->Render();
 		if ($toPlaceholder) {
@@ -148,7 +148,7 @@ foreach ($tvOutput as $value) {
 		continue;
 	}
 	$class = ($display != 1) ? $class : trim($class . ' last');
-	$parser = new multitvChunkie($rowTpl);
+	$parser = new evoChunkie($rowTpl);
 	for ($j = 0; $j < $columnCount; $j++) {
 		$parser->AddVar($columns[$j], $value[$j]);
 	}
@@ -170,7 +170,7 @@ if ($emptyOutput && !count($wrapper)) {
 	$output = '';
 } else {
 	// wrap rowTpl output in outerTpl
-	$parser = new multitvChunkie($outerTpl);
+	$parser = new evoChunkie($outerTpl);
 	$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
 	$parser->AddVar('docid', $docid);
 	$output = $parser->Render();
