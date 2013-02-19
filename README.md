@@ -98,6 +98,7 @@ Call the snippet like this (most expample parameters are using the default value
     &rows=`all`
     &toPlaceholder=``
     &randomize=`0`
+    &orderBy=``
     &published=`1`
     &emptyOutput=`1`
     &emptyOutput=`1`
