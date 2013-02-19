@@ -53,7 +53,7 @@ $rowTpl = isset($rowTpl) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $
 $display = isset($display) ? $display : 5;
 $offset = isset($offset) ? intval($offset) : 0;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
-$toPlaceholder = (isset($toPlaceholder) && $toPlaceholder = !'') ? $toPlaceholder : FALSE;
+$toPlaceholder = (isset($toPlaceholder) && $toPlaceholder != '') ? $toPlaceholder : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
 $orderBy = isset($orderBy) ? $orderBy : '';
 list($sortBy, $sortDir) = explode(" ", $orderBy);
@@ -121,7 +121,7 @@ if ($randomize) {
 }
 
 // check for display all regarding selected rows count and offset
-$countOutput = ($rows !== 'all') ? $countOutput : count($rows);
+$countOutput = ($rows === 'all') ? $countOutput : count($rows);
 $display = ($display !== 'all') ? intval($display) : $countOutput;
 $display = (($display + $offset) < $countOutput) ? $display : $countOutput - $offset;
 
