@@ -81,9 +81,9 @@ switch (strtolower($published)) {
 		break;
 }
 $tvOutput = $tvOutput[$tvName];
-$tvOutput = json_decode($tvOutput);
-if (is_object($tvOutput)) {
-	$tvOutput = $tvOutput->fieldValue;
+$tvOutput = json_decode($tvOutput, true);
+if ($tvOutput['fieldValue']) {
+	$tvOutput = $tvOutput['fieldValue'];
 }
 $countOutput = count($tvOutput);
 
@@ -96,6 +96,7 @@ if ($countOutput) {
 		}
 	}
 }
+
 // stop if there is no output
 if (!$countOutput || $firstEmpty) {
 	if ($emptyOutput) {
@@ -126,10 +127,8 @@ $display = ($display !== 'all') ? intval($display) : $countOutput;
 $display = (($display + $offset) < $countOutput) ? $display : $countOutput - $offset;
 
 // output
-$columnCount = count($columns);
 $wrapper = array();
 $i = $iteration = 1;
-$placeholder = array();
 $class = 'first';
 // rowTpl output 
 foreach ($tvOutput as $value) {
@@ -149,17 +148,18 @@ foreach ($tvOutput as $value) {
 	}
 	$class = ($display != 1) ? $class : trim($class . ' last');
 	$parser = new evoChunkie($rowTpl);
-	for ($j = 0; $j < $columnCount; $j++) {
-		$parser->AddVar($columns[$j], $value[$j]);
+	foreach ($value as $key => $fieldvalue) {
+		$fieldname = (is_int($key)) ? $columns[$key] : $key;
+		$parser->AddVar($fieldname, $fieldvalue);
 	}
 	$parser->AddVar('iteration', $iteration);
-	$parser->AddVar('row', array('number' => $i, 'class' => $class));
+	$parser->AddVar('row', array('number' => $i, 'class' => $class, 'total' => $countOutput));
 	$parser->AddVar('docid', $docid);
-	$placeholder[$i] = $parser->Render();
+	$placeholder = $parser->Render();
 	if ($toPlaceholder) {
-		$modx->setPlaceholder($toPlaceholder . '.' . $i, $placeholder[$i]);
+		$modx->setPlaceholder($toPlaceholder . '.' . $i, $placeholder);
 	}
-	$wrapper[] = $placeholder[$i];
+	$wrapper[] = $placeholder;
 	$i++;
 	$iteration++;
 	$display--;
@@ -172,6 +172,7 @@ if ($emptyOutput && !count($wrapper)) {
 	// wrap rowTpl output in outerTpl
 	$parser = new evoChunkie($outerTpl);
 	$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
+	$parser->AddVar('rows', array('offset' => $offset, 'total' => $countOutput));
 	$parser->AddVar('docid', $docid);
 	$output = $parser->Render();
 }

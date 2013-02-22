@@ -36,6 +36,7 @@ $t = 'textarea';
 ```
 (Note 4) 
 5. If you want to use multiTV with YAMS you have to patch yams.plugin.inc.php according to the instructions on https://github.com/Jako/multiTV/issues/9#issuecomment-6992127 
+6. If you are updating from 1.4.10 and below you could install the updateTV snippet (see part 4) and modify the data in your multiTVs to the new format. Since the custom tv and the snippet code supports the old and new format, this is only nessesary, if you want to add/remove columns in your multiTVs. 
 
 Options:
 --------------------------------------------------------------------------------
@@ -80,30 +81,34 @@ Installation:
 --------------------------------------------------------------------------------
 Create a new snippet called multiTV with the following snippet code
 
-    <?php
-    return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
-    ?>
+```
+<?php
+return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
+?>
+```
 
 Usage:
 --------------------------------------------------------------------------------
 Call the snippet like this (most expample parameters are using the default values in this example call and could be removed from the call – parameter tvName is required)
 
-    [!multiTV?
-    &tvName=`event`
-    &docid=`[*id*]`
-    &tplConfig=``
-    &outerTpl=`@CODE:<ul>((wrapper))</ul>`
-    &rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
-    &display=`5`
-    &rows=`all`
-    &toPlaceholder=``
-    &randomize=`0`
-    &orderBy=``
-    &published=`1`
-    &emptyOutput=`1`
-    &emptyOutput=`1`
-    &outputSeparator=``
-    !]
+```
+[!multiTV?
+&tvName=`yourMultiTVname`
+&docid=`[*id*]`
+&tplConfig=``
+&outerTpl=`@CODE:<ul>((wrapper))</ul>`
+&rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
+&display=`5`
+&rows=`all`
+&toPlaceholder=``
+&randomize=`0`
+&orderBy=``
+&published=`1`
+&emptyOutput=`1`
+&emptyOutput=`1`
+&outputSeparator=``
+!]
+```
 
 Parameters:
 --------------------------------------------------------------------------------
@@ -136,6 +141,7 @@ Name | Description
 iteration | contains the iteration of the current multiTV element
 row.number | contains the row number of the current multiTV element
 row.class | 'first' for first displayed row, 'last' for last displayed row
+row.total | contains the count of all displayable rows 
 docid | value of docid parameter or current document id
 
 Placeholder outerTpl:
@@ -143,6 +149,8 @@ Placeholder outerTpl:
 Name | Description
 ---- | -----------
 wrapper | contains the output of all rows
+rows.offset | contains the count of rows from start that are not displayed 
+rows.total | contains the count of all displayable rows 
 docid | value of docid parameter or current document id
 
 Part 3: PHx modifier
@@ -150,6 +158,37 @@ Part 3: PHx modifier
 Since the JSON string in multiTV starts with `[[` and ends with `]]` (Note 1), you *can't* check if the multiTV is empty by i.e. ```[*multittvname:ne=``:then=`not empty`*]```. 
 
 But you could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``. If the docid is not set it defaults to current document.
+
+Part 4: updateTV Snippet
+================================================================================
+
+Installation:
+--------------------------------------------------------------------------------
+Create a new snippet called updateTV with the following snippet code
+
+```
+<?php
+return include(MODX_BASE_PATH.'assets/tvs/multitv/updatetv.snippet.php');
+?>
+```
+
+Usage:
+--------------------------------------------------------------------------------
+Version 1.4.11 of multiTV uses a new data format (the column names are saved as key with each value). The custom tv and the snippet code supports the old and new format, so you don't have to update your multiTVs. It is only nessesary, if you want to add/remove columns in your multiTVs. Call the snippet on one (temporary) MODX document like this:
+
+```
+[!updateTV?
+&tvNames=`yourMultiTVname1,yourMultiTVname2`
+!]
+```
+
+Parameters:
+--------------------------------------------------------------------------------
+
+Name | Description | Default value
+---- | ----------- | -------------
+tvNames | **(required)** comma separated list of template variable names that contain multiTV data | -
+
 
 Notes:
 --------------------------------------------------------------------------------

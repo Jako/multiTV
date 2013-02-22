@@ -1,5 +1,10 @@
 History
 ================================================================================
+- 1.4.11 February 22, 2013
+    - CustomTV/Snippet: new backwards compatible data format
+    - Snippet: new placeholder in `rowTpl` and `outerTpl`
+    - CustomTV: bugfix for removing the last remaining element
+    - CustomTV: bugfix for datetimepicker inputs moved to new tab with ManagerManager
 
 - 1.4.10 February 14, 2013
     - Snippet: `offset` and `orderBy` parameter

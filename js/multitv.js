@@ -89,11 +89,11 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		var values = [];
 		multiElements.each(function() {
 			var multiElement = $j(this);
-			var fieldValues = [];
+			var fieldValues = new Object();
 			$j.each(fieldNames, function() {
 				var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
 				var fieldValue = fieldInput.getValue();
-				fieldValues.push(fieldValue);
+				fieldValues[this] = fieldValue;
 				if (fieldInput.hasClass('image')) {
 					setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
 				}
@@ -116,11 +116,14 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 
 	function AddElementEvents(element) {
 		// datepicker
-		element.find('.DatePicker').datetimepicker({
-			changeMonth: true,
-			changeYear: true,
-			dateFormat: 'dd-mm-yy',
-			timeFormat: 'h:mm:ss'
+		element.find('.DatePicker').click(function() {
+			var picker = $j(this).datetimepicker({
+				changeMonth: true,
+				changeYear: true,
+				dateFormat: 'dd-mm-yy',
+				timeFormat: 'h:mm:ss'
+			});
+			picker.datepicker('show');
 		});
 		// file field browser
 		element.find('.browsefile').click(function() {
@@ -201,13 +204,13 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		if(fieldValue){
 			$j.each(fieldValue, function() {
 				var values = this;
-				var i = 0;
 				if (fieldListCounter == 1) {
-					$j.each(values, function() {
-						var fieldInput = fieldListElement.find('[name^="'+tvid+fieldNames[i]+'_mtv"][type!="hidden"]');
-						fieldInput.setValue(values[i]);
+					$j.each(values, function(key, value) {
+						var fieldName = (typeof key == 'number') ? fieldNames[key] : key;
+						var fieldInput = fieldListElement.find('[name^="'+tvid+fieldName+'_mtv"][type!="hidden"]');
+						fieldInput.setValue(values[key]);
 						if (fieldInput.hasClass('image')) {
-							setThumbnail(values[i], fieldInput.attr('name'), fieldListElement);
+							setThumbnail(values[key], fieldInput.attr('name'), fieldListElement);
 						}
 						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
 							fieldInput.setValue(fieldInput.attr('alt').supplant({
@@ -216,17 +219,17 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 							}))
 							fieldSettings.autoincrement++;
 						}
-						i++;
 					}) 
 				} else {
 					var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
 					clone.show();
 					fieldList.append(clone);
-					$j.each(values, function() {
-						var fieldInput = clone.find('[name^="'+tvid+fieldNames[i]+'_mtv"][type!="hidden"]');
-						fieldInput.setValue(values[i]);
+					$j.each(values, function(key, value) {
+						var fieldName = (typeof key == 'number') ? fieldNames[key] : key;
+						var fieldInput = clone.find('[name^="'+tvid+fieldName+'_mtv"][type!="hidden"]');
+						fieldInput.setValue(values[key]);
 						if (fieldInput.hasClass('image')) {
-							setThumbnail(values[i], fieldInput.attr('name'), clone);
+							setThumbnail(values[key], fieldInput.attr('name'), clone);
 						}
 						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
 							fieldInput.setValue(fieldInput.attr('alt').supplant({
@@ -235,7 +238,6 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 							}))
 							fieldSettings.autoincrement++;
 						}
-						i++;
 					}) 
 				}
 				fieldListCounter++;
@@ -251,7 +253,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			var answer = confirm(tvlanguage.confirmclear);
 			if (answer) {
 				fieldList.children('li').remove();
-				field.val('');
+				field.val('[]');
 				fieldClear.hide();
 				fieldPaste.hide();
 				fieldHeading.hide();
@@ -415,7 +417,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 				fieldSettings.autoincrement = 1;
 			}
 
-			field.hide();
+			//field.hide();
 			fieldEdit.hide();
 			AddElementEvents(fieldListElement);
 
