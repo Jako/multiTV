@@ -25,6 +25,5 @@ if (!class_exists('multiTV')) {
 $multiTV = new multiTV($row);
 echo $multiTV->generateScript();
 
-//echo '<pre>' . print_r($settings, true) . '</pre>';
 //echo '<pre>'.print_r($row, true).'</pre>';
 ?>

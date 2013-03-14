@@ -39,6 +39,35 @@
 
 .multitv .tvedit, .multitv .tvclear, .multitv .tvpaste { float: left; margin-right: 10px }
 
+.multitv .dataTables_wrapper a { text-decoration: none }
+.multitv .dataTables_wrapper .dataTables_filter input { width: auto !important }
+.multitv .dataTables_wrapper .actionButtons { margin-bottom: 9px }
+.multitv .dataTables_wrapper .actionButtons a.disabled { padding: 4px 6px; border: 1px solid #c7ced2 }
+.multitv table.display { width: 100%; background-color: #fff; border: 1px solid silver; border-spacing: 1px; table-layout: fixed }
+.multitv table.display thead { color: #333; height: 18px !important; background-color: #e4e4e4 }
+.multitv table.display tr.odd { background-color: #eee }
+.multitv table.display tr.even { background-color: #fff }
+.multitv table.display tr.odd td.sorting_1 { background-color: #e7e7e7 }
+.multitv table.display tr.odd td.sorting_2 { background-color: #eaeaea }
+.multitv table.display tr.odd td.sorting_3 { background-color: #ededed }
+.multitv table.display tr.even td.sorting_1 { background-color: #f7f7f7 }
+.multitv table.display tr.even td.sorting_2 { background-color: #fafafa }
+.multitv table.display tr.even td.sorting_3 { background-color: #fefefe }
+.multitv table.display th { color: #fff; font-weight: bold; background-color: #88939e }
+.multitv table.display td.handle { background-image: url('images/arrow_updown.png'); background-repeat: no-repeat; background-position: center center; text-indent: -999em; cursor: pointer }
+.multitv table.display th, .multitv table.display td { text-overflow: ellipsis; overflow:hidden }
+.multitv table.display tr.row_selected td { background-color: #ccc !important }
+
+.tveditform { width: 500px }
+.tveditform .formtabpage label { display: block; margin-top: 10px }
+.tveditform .formtabpage select, .tveditform .formtabpage input, .tveditform .formtabpage textarea { width: 300px }
+.tveditform .formtabpage input[type='text'] { margin: 0; border: 1px solid #ddd; border-left-color: #c3c3c3; border-top-color: #7c7c7c; padding: 3px 3px 2px 2px; vertical-align: baseline }
+.tveditform .formtabpage input.DatePicker { width: 203px; padding: 3px 3px 3px 24px }
+.tveditform .formtabpage .tabEditor { height: 400px }
+.tveditform .actionButtons { margin-bottom: 5px }
+
+#ui-datepicker-div { z-index: 9999999 !important;}
+
 .tvpasteform { width: 450px }
 .tvpasteform .pastearea, .tvpasteform .buttons { width: 438px } 
 .tvpasteform .legend { float: left; margin-left: 5px }

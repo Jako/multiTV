@@ -1,27 +1,29 @@
 Contributors
 ================================================================================
 
-Marek Srejma  (https://github.com/Sammyboy - sam@gmx-topmail.de): 
+Marek Srejma - https://github.com/Sammyboy - sam@gmx-topmail.de
 - Ideas for limit and toPlaceholder parameter
 - Code for sorting the output
 
-Danilo Cuculić (https://github.com/Eoler):
+Danilo Cuculić - https://github.com/Eoler
 - Idea for tplConfig parameter
 - Some Output enhancements
 
-Cipa (https://github.com/Cipa):
+Cipa - https://github.com/Cipa
 - Bugfixes for MODX installations not in webroot
 
-Jukka Hankaniemi (https://github.com/BlowbackDesign):
+Jukka Hankaniemi - https://github.com/BlowbackDesign
 - Finnish language
 
-Dmitry Lukyanenko (https://github.com/dmi3yy):
+Dmytro Lukianenko - https://github.com/dmi3yy
 - Russian language
 
-Vitor (https://github.com/vmoreira):
+Vitor - https://github.com/vmoreira
 - Portuguese language
 
-falkon https://github.com/falkon):
+falkon - https://github.com/falkon
 - Bugfix
 
 And a lot of testers ...
+
+Lukianenko Dmitro <dmi3yy@gmail.com>

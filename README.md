@@ -99,12 +99,12 @@ Call the snippet like this (most expample parameters are using the default value
 &outerTpl=`@CODE:<ul>((wrapper))</ul>`
 &rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
 &display=`5`
+&offset=`0`
 &rows=`all`
 &toPlaceholder=``
 &randomize=`0`
 &orderBy=``
 &published=`1`
-&emptyOutput=`1`
 &emptyOutput=`1`
 &outputSeparator=``
 !]
