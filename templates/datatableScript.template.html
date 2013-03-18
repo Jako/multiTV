@@ -1,7 +1,9 @@
-	<script type="text/javascript">
-		dataTableLanguage = [+tvlang.dataTables+];
-		$j(document).ready(function() {
-			TransformDatatable('[+tvid+]', [+tvfields+], [+tvlanguage+]);
+<script type="text/javascript">
+	dataTableLanguage = [+tvlang.dataTables+];
+	$j(document).ready(function() {
+		$j('#[+tvid+]').transformDatatable({
+			fieldsettings: [+tvfields+],
+			language: [+tvlanguage+]
 		});
-
-	</script>
+	});
+</script>

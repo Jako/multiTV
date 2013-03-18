@@ -110,15 +110,22 @@ class multiTV {
 		$fieldName .= '_mtv';
 		$currentScript = array();
 		$currentClass = array();
+		$fieldClass = explode(' ', $fieldClass);
 		switch ($fieldType) {
 			case 'url' : {
 					$fieldType = 'text';
 					break;
 				}
+			case 'image' : {
+					if ($this->display == 'datatable' || $this->display == 'vertical') {
+						$fieldClass[] = 'image';
+					}
+					break;
+				}
 			case 'richtext' : {
 					if ($this->display == 'datatable') {
 						$this->fieldsrte[] = "tv" . $this->tvID . $fieldName;
-						$fieldClass = 'tabEditor '.$fieldClass;
+						$fieldClass[] = 'tabEditor';
 					} else {
 						$fieldType = 'textarea';
 					}
@@ -140,9 +147,12 @@ class multiTV {
 		$formElement = preg_replace('/class=\"[^\"]*\"/s', '', $formElement, 1); // remove all classes
 		if ($fieldDefault != '') {
 			$formElement = preg_replace('/(<\w+)/', '$1 alt="' . $fieldDefault . '"', $formElement, 1); // add alt to first tag (the input)
-			$fieldClass .= ' setdefault';
+			$fieldClass[] = 'setdefault';
 		}
-		$fieldClass = (isset($currentClass[1])) ? $currentClass[1] . ' ' . $fieldClass : $fieldClass;
+		if (isset($currentClass[1])) {
+			$fieldClass[] = $currentClass[1];
+		}
+		$fieldClass = implode(' ', array_unique($fieldClass));
 		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)
 		$formElement = preg_replace('/<label for=[^>]*>([^<]*)<\/label>/s', '<label class="inlinelabel">$1</label>', $formElement); // add label class
 		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage ' . $fieldClass . '"', $formElement, 1); // remove imagebrowser onclick script
@@ -360,9 +370,9 @@ class multiTV {
 				$editor_html = is_array($editor_html) ? $editor_html[0] : '';
 				// remove external tiny script and set rteOptions.
 				$editor_html = preg_replace('#(<script.*?tiny_mce\.js\"></script>)#s', '', $editor_html);
-				$editor_html = preg_replace('#(<script[^>]*>)\s*tinyMCE\.init\((.*?)\)\s*(</script>)#s', '$1'."\r\n".'rteOptions = $2; '."\r\n".'$3', $editor_html);
+				$editor_html = preg_replace('#(<script[^>]*>)\s*tinyMCE\.init\((.*?)\)\s*(</script>)#s', '$1' . "\r\n" . 'rteOptions = $2; ' . "\r\n" . '$3', $editor_html);
 				$editor_html = str_replace("'exact'", "'specific_textareas'", $editor_html);
-				$editor_html = str_replace(implode(',',$this->fieldsrte), 'tabEditor', $editor_html);
+				$editor_html = str_replace(implode(',', $this->fieldsrte), 'tabEditor', $editor_html);
 				$editor_html = preg_replace('#elements(\s*:*\s)\'tabEditor\'#s', 'editor_selector$1\'tabEditor\'', $editor_html);
 				$placeholder['tvrte'] = $editor_html;
 			}
@@ -441,4 +451,5 @@ class multiTV {
 	}
 
 }
+
 ?>
