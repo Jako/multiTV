@@ -279,7 +279,8 @@ class multiTV {
 						foreach ($this->fieldcolumns as $column) {
 							$fieldcolumns[] = array(
 								'mData' => $column['fieldname'],
-								'sTitle' => (isset($column['caption'])) ? $column['caption'] : (isset($this->fields[$column['fieldname']]['caption'])) ? $this->fields[$column['fieldname']]['caption'] : $column['fieldname'],
+								'sTitle' => (isset($column['caption'])) ? $column['caption'] : ((isset($this->fields[$column['fieldname']]['caption'])) ? $this->fields[$column['fieldname']]['caption'] : $column['fieldname']),
+								'sWidth' => (isset($column['width'])) ? $column['width'] : ((isset($this->fields[$column['fieldname']]['width'])) ? $this->fields[$column['fieldname']]['width'] : ''),
 								'bSortable' => false,
 								'renderer' => (isset($column['renderer'])) ? $column['renderer'] : 'text'
 							);
@@ -289,6 +290,7 @@ class multiTV {
 							$fieldcolumns[] = array(
 								'mData' => $key,
 								'sTitle' => (isset($column['caption'])) ? $column['caption'] : $column['fieldname'],
+								'bSortable' => false,
 								'renderer' => 'text'
 							);
 						}
