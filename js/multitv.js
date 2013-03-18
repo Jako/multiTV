@@ -557,6 +557,9 @@ function SetUrl(url, width, height, alt) {
 				if (jsonValue) {
 					if (jsonValue.constructor === Array) {
 						data.value = jsonValue;
+						if (!data.settings) {
+							data.settings = new Object();
+						}
 						data.settings.autoincrement = data.value.length + 1;
 					} else {
 						data.value = jsonValue.fieldValue;
