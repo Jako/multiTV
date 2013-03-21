@@ -376,6 +376,7 @@ class multiTV {
 				$editor_html = str_replace("'exact'", "'specific_textareas'", $editor_html);
 				$editor_html = str_replace(implode(',', $this->fieldsrte), 'tabEditor', $editor_html);
 				$editor_html = preg_replace('#elements(\s*:*\s)\'tabEditor\'#s', 'editor_selector$1\'tabEditor\'', $editor_html);
+				$editor_html = preg_replace('#width(\s*:*\s)\'100%\'#s', 'width$1\'590px\'', $editor_html);
 				$placeholder['tvrte'] = $editor_html;
 			}
 		} else {

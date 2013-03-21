@@ -58,7 +58,7 @@
 .multitv table.display th, .multitv table.display td { text-overflow: ellipsis; overflow:hidden }
 .multitv table.display tr.row_selected td { background-color: #ccc !important }
 
-.tveditform { width: 500px }
+.tveditform { width: 590px }
 .tveditform .formtabpage label { display: block; margin-top: 10px }
 .tveditform .formtabpage select, .tveditform .formtabpage input, .tveditform .formtabpage textarea { width: 300px }
 .tveditform .formtabpage input[type='text'] { margin: 0; border: 1px solid #ddd; border-left-color: #c3c3c3; border-top-color: #7c7c7c; padding: 3px 3px 2px 2px; vertical-align: baseline }

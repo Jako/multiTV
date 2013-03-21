@@ -487,9 +487,9 @@ function SetUrl(url, width, height, alt) {
 			var fieldEditForm = $('#' + tvid + 'editform');
 			var fieldEditArea = $('#' + tvid + 'editarea');
 			var tableButtons = $('<ul>').addClass('actionButtons');
-			var tableAppend = $('<li>').attr('id', tvid + 'tableAppend').append($('<a>').html('<img alt="' + settings.language.append + ' " src="../assets/tvs/multitv/css/images/add.png" /> ' + settings.language.append));
-			var tableEdit = $('<li>').attr('id', tvid + 'tableEdit').append($('<a>').addClass('disabled').html('<img alt="' + settings.language.edit + ' " src="../assets/tvs/multitv/css/images/application_form_edit.png" /> ' + settings.language.edit));
-			var tableRemove = $('<li>').attr('id', tvid + 'tableRemove').append($('<a>').addClass('disabled').html('<img alt="' + settings.language.remove + ' " src="../assets/tvs/multitv/css/images/delete.png" /> ' + settings.language.remove));
+			var tableAppend = $('<li>').attr('id', tvid + 'tableAppend').append($('<a>').attr('href', '#').html('<img alt="' + settings.language.append + ' " src="../assets/tvs/multitv/css/images/add.png" /> ' + settings.language.append));
+			var tableEdit = $('<li>').attr('id', tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html('<img alt="' + settings.language.edit + ' " src="../assets/tvs/multitv/css/images/application_form_edit.png" /> ' + settings.language.edit));
+			var tableRemove = $('<li>').attr('id', tvid + 'tableRemove').append($('<a>').attr('href', '#').addClass('disabled').html('<img alt="' + settings.language.remove + ' " src="../assets/tvs/multitv/css/images/delete.png" /> ' + settings.language.remove));
 			var fieldListCounter = 1;
 			var editBox;
 
@@ -686,7 +686,7 @@ function SetUrl(url, width, height, alt) {
 						$.colorbox({
 							inline: true,
 							href: '#' + tvid + 'editform',
-							width: "550px",
+							width: "640px",
 							close: '',
 							open: true,
 							opacity: '0.35',
