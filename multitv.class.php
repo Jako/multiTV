@@ -26,7 +26,8 @@ class multiTV {
 	public $templates = array();
 	public $language = array();
 	public $configuration = array();
-	public $sortkey = '';
+	private $sortkey = '';
+	private $sortdir = '';
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -92,9 +93,16 @@ class multiTV {
 		$fieldName .= '_mtv';
 		$currentScript = array();
 		$currentClass = array();
+		$fieldClass = explode(' ', $fieldClass);
 		switch ($fieldType) {
 			case 'url' : {
 					$fieldType = 'text';
+					break;
+				}
+			case 'image' : {
+					if ($this->display == 'vertical') {
+						$fieldClass[] = 'image';
+					}
 					break;
 				}
 			case 'richtext' : {
@@ -117,9 +125,12 @@ class multiTV {
 		$formElement = preg_replace('/class=\"[^\"]*\"/s', '', $formElement, 1); // remove all classes
 		if ($fieldDefault != '') {
 			$formElement = preg_replace('/(<\w+)/', '$1 alt="' . $fieldDefault . '"', $formElement, 1); // add alt to first tag (the input)
-			$fieldClass .= ' setdefault';
+			$fieldClass[] = ' setdefault';
 		}
-		$fieldClass = (isset($currentClass[1])) ? $currentClass[1] . ' ' . $fieldClass : $fieldClass;
+		if (isset($currentClass[1])) {
+			$fieldClass[] = $currentClass[1];
+		}
+		$fieldClass = implode(' ', array_unique($fieldClass));
 		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)
 		$formElement = preg_replace('/<label for=[^>]*>([^<]*)<\/label>/s', '<label class="inlinelabel">$1</label>', $formElement); // add label class
 		$formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage ' . $fieldClass . '"', $formElement, 1); // remove imagebrowser onclick script
@@ -294,38 +305,24 @@ class multiTV {
 	}
 
 	// sort a multidimensional array
-	function sort(&$array, $sortby, $sortdir = '') {
-		$this->sortkey = array_search($sortby, $this->fieldnames);
-		if ($this->sortkey === false) {
+	function sort(&$array, $sortkey, $sortdir = 'asc') {
+		if (array_search($sortkey, $this->fieldnames) === FALSE) {
 			return;
 		}
-		if ($sortdir === 'desc') {
-			uasort($array, array($this, 'compareSortDesc'));
-		} else {
-			uasort($array, array($this, 'compareSortAsc'));
-		}
-		$array = array_values($array);
+		$this->sortkey = $sortkey;
+		$this->sortdir = ($sortdir === 'desc') ? 'desc' : 'asc';
+		usort($array, array($this, 'compareSort'));
+		die(print_r($array, true));
 	}
 
-	// compare sort values for ascending order
-	private function compareSortAsc($a, $b) {
+	// compare sort values
+	private function compareSort($a, $b) {
 		if ($a[$this->sortkey] === $b[$this->sortkey]) {
 			return 0;
 		} else if ($a[$this->sortkey] < $b[$this->sortkey]) {
-			return -1;
+			return ($this->sortdir == 'asc') ? -1 : 1;
 		} else {
-			return 1;
-		}
-	}
-
-	// compare sort values for descending order
-	private function compareSortDesc($a, $b) {
-		if ($a[$this->sortkey] === $b[$this->sortkey]) {
-			return 0;
-		} else if ($a[$this->sortkey] > $b[$this->sortkey]) {
-			return -1;
-		} else {
-			return 1;
+			return ($this->sortdir == 'asc') ? 1 : -1;
 		}
 	}
 
