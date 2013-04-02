@@ -417,7 +417,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 				fieldSettings.autoincrement = 1;
 			}
 
-			//field.hide();
+			field.hide();
 			fieldEdit.hide();
 			AddElementEvents(fieldListElement);
 

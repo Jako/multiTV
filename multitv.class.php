@@ -312,7 +312,6 @@ class multiTV {
 		$this->sortkey = $sortkey;
 		$this->sortdir = ($sortdir === 'desc') ? 'desc' : 'asc';
 		usort($array, array($this, 'compareSort'));
-		die(print_r($array, true));
 	}
 
 	// compare sort values
