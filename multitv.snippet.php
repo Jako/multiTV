@@ -24,10 +24,6 @@ define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
 if (!class_exists('multiTV')) {
 	include MTV_BASE_PATH . 'multitv.class.php';
 }
-// include chunke class
-if (!class_exists('evoChunkie')) {
-	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
-}
 
 // load template variable settings
 $tvName = isset($tvName) ? $tvName : '';
@@ -75,13 +71,13 @@ switch (strtolower($published)) {
 	case '2':
 	case 'true':
 		$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '1');
-		if ($tvOutput == false && $published == '2') {
+		if ($tvOutput == FALSE && $published == '2') {
 			$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '0');
 		}
 		break;
 }
 $tvOutput = $tvOutput[$tvName];
-$tvOutput = json_decode($tvOutput, true);
+$tvOutput = json_decode($tvOutput, TRUE);
 if ($tvOutput['fieldValue']) {
 	$tvOutput = $tvOutput['fieldValue'];
 }

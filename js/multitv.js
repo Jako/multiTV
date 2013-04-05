@@ -204,7 +204,7 @@ function SetUrl(url, width, height, alt) {
 				var thumbName = thumbPath.pop();
 				var thumbId = name.replace(/^(.*?)(\d*)$/, '#$1preview$2');
 				if (thumbName !== '') {
-					el.find(thumbId).html('<img src="../' + thumbPath.join("/") + '/.thumb_' + thumbName + '" />');
+					el.find(thumbId).html('<img src="../' + thumbPath.join('/') + '/.thumb_' + thumbName + '" />');
 				} else {
 					el.find(thumbId).html('');
 				}
@@ -303,8 +303,8 @@ function SetUrl(url, width, height, alt) {
 					$.colorbox({
 						inline: true,
 						href: $(this).attr('href'),
-						width: "500px",
-						height: "350px",
+						width: '500px',
+						height: '350px',
 						onClosed: function() {
 							fieldPasteArea.html('');
 						},
@@ -422,7 +422,7 @@ function SetUrl(url, width, height, alt) {
 			// transform the input
 			if (field.val() !== '@INHERIT') {
 				if (!field.hasClass('transformed')) {
-					var jsonValue = $.evalJSON(field.val());
+					var jsonValue = $.evalJSON(field.val().replace(/&#x005B;/g, '[').replace(/&#x005D;/g, ']').replace(/&#x007B;/g, '{').replace(/&#x007B;/g, '}'));
 					if (jsonValue) {
 						if (jsonValue.constructor === Array) {
 							data.value = jsonValue;
@@ -486,11 +486,14 @@ function SetUrl(url, width, height, alt) {
 			var fieldPaste = $('#' + tvid + 'paste');
 			var fieldEditForm = $('#' + tvid + 'editform');
 			var fieldEditArea = $('#' + tvid + 'editarea');
+			var tableAppend = '<img alt="' + settings.language.append + ' " src="../assets/tvs/multitv/css/images/add.png" /> ' + settings.language.append;
+			var tableEdit = '<img alt="' + settings.language.edit + ' " src="../assets/tvs/multitv/css/images/application_form_edit.png" /> ' + settings.language.edit;
+			var tableRemove = '<img alt="' + settings.language.remove + ' " src="../assets/tvs/multitv/css/images/delete.png" /> ' + settings.language.remove;
 			var tableButtons = $('<ul>').addClass('actionButtons');
-			var tableAppend = $('<li>').attr('id', tvid + 'tableAppend').append($('<a>').attr('href', '#').html('<img alt="' + settings.language.append + ' " src="../assets/tvs/multitv/css/images/add.png" /> ' + settings.language.append));
-			var tableEdit = $('<li>').attr('id', tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html('<img alt="' + settings.language.edit + ' " src="../assets/tvs/multitv/css/images/application_form_edit.png" /> ' + settings.language.edit));
-			var tableRemove = $('<li>').attr('id', tvid + 'tableRemove').append($('<a>').attr('href', '#').addClass('disabled').html('<img alt="' + settings.language.remove + ' " src="../assets/tvs/multitv/css/images/delete.png" /> ' + settings.language.remove));
-			var fieldListCounter = 1;
+			var tableButtonAppend = $('<li>').attr('id', tvid + 'tableAppend').append($('<a>').attr('href', '#').html(tableAppend));
+			var tableButtonEdit = $('<li>').attr('id', tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html(tableEdit));
+			var tableButtonRemove = $('<li>').attr('id', tvid + 'tableRemove').append($('<a>').attr('href', '#').addClass('disabled').html(tableRemove));
+			var radioTabs = settings.fieldsettings['radioTabs'];
 			var editBox;
 
 			function clearInputs(el) {
@@ -531,12 +534,13 @@ function SetUrl(url, width, height, alt) {
 
 				var currentValue = fieldTable.fnGetData();
 				var saveValue = new Array();
+
 				currentValue.sort(compare);
 
 				$.each(currentValue, function() {
 					var row = new Object();
 					$.each(this, function(key, value) {
-						if (key !== 'DT_RowId' && key !== 'MTV_RowId') {
+						if (key !== 'DT_RowId' && key !== 'MTV_RowId' && key.substr(0, 9) !== 'mtvRender') {
 							row[key] = value;
 						}
 					});
@@ -552,8 +556,18 @@ function SetUrl(url, width, height, alt) {
 				}
 			}
 
-			function getMultiValue() {
-				var jsonValue = $.evalJSON(field.val());
+			function prepareMultiColumns() {
+				$.each(settings.fieldsettings.fieldcolumns, function(key, value) {
+					if (this.render) {
+						this.mRender = function(data, type, full) {
+							return full[this.render];
+						};
+					}
+				});
+			}
+
+			function prepareMultiValue() {
+				var jsonValue = $.evalJSON(field.val().replace(/&#x005B;/g, '[').replace(/&#x005D;/g, ']').replace(/&#x007B;/g, '{').replace(/&#x007B;/g, '}'));
 				if (jsonValue) {
 					if (jsonValue.constructor === Array) {
 						data.value = jsonValue;
@@ -580,7 +594,7 @@ function SetUrl(url, width, height, alt) {
 				var thumbName = thumbPath.pop();
 				var thumbId = name.replace(/^(.*?)(\d*)$/, '#$1preview$2');
 				if (thumbName !== '') {
-					el.find(thumbId).html('<img src="../' + thumbPath.join("/") + '/.thumb_' + thumbName + '" />');
+					el.find(thumbId).html('<img src="../' + thumbPath.join('/') + '/.thumb_' + thumbName + '" />');
 				} else {
 					el.find(thumbId).html('');
 				}
@@ -612,110 +626,87 @@ function SetUrl(url, width, height, alt) {
 				});
 			}
 
-			// transform the input
-			if (field.val() !== '@INHERIT') {
-				if (!field.hasClass('transformed')) {
-					getMultiValue();
-					field.hide();
-					fieldEdit.hide();
-					fieldTable.dataTable({
-						sDom: '<"clear">lfrtip',
-						aaData: data.value,
-						aoColumns: settings.fieldsettings.fieldcolumns,
-						bAutoWidth: false,
-						oLanguage: dataTableLanguage
-					}).rowReordering({
-						fnAfterMove: function() {
-							saveMultiValue();
-							fieldTable.fnDraw();
+			// open edit box
+			function editRow(mode, selector) {
+				if (selector && mode === 'edit') {
+					var lineValue = fieldTable.fnGetData(selector);
+					$.each(lineValue, function(key, value) {
+						var fieldInput = $('#' + tvid + key + '_mtv');
+						if (fieldInput.hasClass('image')) {
+							setThumbnail(value, fieldInput.attr('name'), fieldEditArea);
 						}
+						$('#' + tvid + key + '_mtv').setValue(value);
 					});
-
-					fieldTable.find('tr').live('click', function() {
-						if ($(this).hasClass('row_selected')) {
-							$(this).removeClass('row_selected');
-							tableEdit.find('a').addClass('disabled');
-							tableRemove.find('a').addClass('disabled');
-						}
-						else {
-							fieldTable.$('tr.row_selected').removeClass('row_selected');
-							$(this).addClass('row_selected');
-							tableEdit.find('a').removeClass('disabled');
-							tableRemove.find('a').removeClass('disabled');
-						}
-					});
-					fieldTable.parent().prepend(tableButtons);
-					tableButtons.append(tableAppend, tableRemove, tableEdit);
-
-					// remove row event
-					tableRemove.find('a').click(function(e) {
-						e.preventDefault();
-						if ($(this).hasClass('disabled')) {
-							return false;
-						}
-						var selected = fieldTable.find('.row_selected')[0];
-						fieldTable.fnDeleteRow(selected);
-						saveMultiValue();
-					});
-
-					// edit/append row event
-					editBox = tableEdit.add(tableAppend).find('a').click(function(e) {
-						e.preventDefault();
-						if ($(this).hasClass('disabled')) {
-							return false;
-						}
-						var mode = $(this).parent().attr('id').replace(/tv.\d+table/, '').toLowerCase();
-						var selected = fieldTable.find('.row_selected')[0];
-						if (selected && mode === 'edit') {
-							var lineValue = fieldTable.fnGetData(selected);
-							$.each(lineValue, function(key, value) {
-								var fieldInput = $('#' + tvid + key + '_mtv');
-								if (fieldInput.hasClass('image')) {
-									setThumbnail(value, fieldInput.attr('name'), fieldEditArea);
-								}
-								$('#' + tvid + key + '_mtv').setValue(value);
-							});
-						}
-						fieldEditForm.find('.mode').hide();
-						fieldEditForm.find('.mode.' + mode).show();
-						fieldEditForm.find(".editformtabs").easytabs({
-							animate: false
-						}).bind('easytabs:after', function() {
-							editBox.colorbox.resize();
+					fieldEditForm.find('.formtabradio').removeClass('active');
+					if (lineValue.fieldTab) {
+						fieldEditForm.find('.formtabs input[value=' + lineValue.fieldTab + ']').attr('checked', 'checked').parent().addClass('active');
+					} else {
+						fieldEditForm.find('.formtabradio:first').addClass('active').find('input[type="radio"]').attr('checked', 'checked');
+					}
+				} else {
+					fieldEditForm.find('.formtabradio:first').addClass('active').find('input[type="radio"]').attr('checked', 'checked');
+				}
+				fieldEditForm.find('.mode').hide();
+				fieldEditForm.find('.mode.' + mode).show();
+				fieldEditForm.find('.editformtabs').easytabs({
+					defaultTab: 'li.active',
+					animate: false
+				}).bind('easytabs:after', function() {
+					editBox.colorbox.resize();
+					fieldEditForm.find('.formtabradio input[type="radio"]').attr('checked', false);
+					fieldEditForm.find('.formtabradio.active input[type="radio"]').attr('checked', 'checked');
+				});
+				fieldEditForm.find('.formtabradio input[type="radio"]').click(function() {
+					$(this).siblings('a').click();
+				});
+				$.colorbox({
+					inline: true,
+					href: '#' + tvid + 'editform',
+					width: '640px',
+					close: '',
+					open: true,
+					opacity: '0.35',
+					initialWidth: '0',
+					initialHeight: '0',
+					overlayClose: false,
+					scrolling: false,
+					onComplete: function() {
+						fieldEditArea.find('.tabEditor').each(function() {
+							var editorId = $(this).attr('id');
+							tinyMCE.execCommand('mceAddControl', true, editorId);
 						});
-						$.colorbox({
-							inline: true,
-							href: '#' + tvid + 'editform',
-							width: "640px",
-							close: '',
-							open: true,
-							opacity: '0.35',
-							initialWidth: '0',
-							initialHeight: '0',
-							overlayClose: false,
-							scrolling: false,
-							onComplete: function() {
-								fieldEditArea.find('.tabEditor').each(function() {
-									var editorId = $(this).attr('id');
-									tinyMCE.execCommand('mceAddControl', true, editorId);
-								});
-								editBox.colorbox.resize();
-							}
-						});
-					});
+						//editBox.colorbox.resize();
+					}
+				});
+			}
 
-					// save/append edit box
-					fieldEditForm.find('.edit,.append').click(function() {
-						editBox.colorbox.close();
-						tinyMCE.triggerSave();
-						var values = new Object();
-						fieldEditArea.find(':input').each(function(i) {
-							var key = $(this).attr('name').replace(/tv.\d(.*)_mtv/, '$1');
-							if (key !== '') {
-								values[key] = $(this).val();
-							}
-						});
-						if ($(this).hasClass('edit')) {
+			// save/append edit box
+			function saveRow(mode) {
+				editBox.colorbox.close();
+				tinyMCE.triggerSave();
+				var values = new Object();
+				var saveTab = fieldEditForm.find('[name^="' + tvid + 'tab_radio_mtv"]').getValue();
+				values.fieldTab = (saveTab !== '') ? saveTab : '';
+				fieldEditArea.find(':input').each(function(i) {
+					var key = $(this).attr('name').replace(/tv.\d(.*)_mtv/, '$1');
+					if (key !== '') {
+						values[key] = $(this).val();
+					}
+				});
+				$.ajax({
+					url: "../assets/tvs/multitv/multitv.connector.php",
+					data: {
+						action: 'preparevalue',
+						id: 807,
+						tvid: tvid,
+						value: $.toJSON(values)
+					},
+					dataType: 'json',
+					type: 'POST',
+					success: function(answer) {
+						answer = $.parseJSON(answer.msg);
+						values = answer.fieldValue[0];
+						if (mode === 'edit') {
 							var selected = fieldTable.find('.row_selected')[0];
 							var lineValue = fieldTable.fnGetData(selected);
 							values.MTV_RowId = lineValue.MTV_RowId;
@@ -729,6 +720,120 @@ function SetUrl(url, width, height, alt) {
 						clearInputs(fieldEditArea);
 						saveMultiValue();
 						return false;
+					},
+					error: function(answer) {
+						alert(answer.msg);
+						return false;
+					}
+				});
+			}
+
+			// remove row
+			function removeRow(selector) {
+				$(selector).removeClass('row_selected');
+				tableButtonEdit.find('a').addClass('disabled');
+				tableButtonRemove.find('a').addClass('disabled');
+				fieldTable.fnDeleteRow(selector);
+				saveMultiValue();
+			}
+
+			// toggle row
+			function toggleRow(row) {
+				if (!$(row).hasClass('toggle')) {
+					$(row).addClass('toggle').click(function() {
+						if ($(this).hasClass('row_selected')) {
+							$(this).removeClass('row_selected');
+							tableButtonEdit.find('a').addClass('disabled');
+							tableButtonRemove.find('a').addClass('disabled');
+						}
+						else {
+							fieldTable.$('tr.row_selected').removeClass('row_selected');
+							$(this).addClass('row_selected');
+							tableButtonEdit.find('a').removeClass('disabled');
+							tableButtonRemove.find('a').removeClass('disabled');
+						}
+					});
+				}
+			}
+
+			// context menu
+			function contextMenu(row, id) {
+				if (!$(row).hasClass('context')) {
+					$(row).addClass('context').contextMenu('context-menu-' + id, {
+						tableEdit: {
+							click: function(element) {
+								fieldTable.$('tr.row_selected').removeClass('row_selected');
+								$(element[0]).addClass('row_selected');
+								tableButtonEdit.find('a').removeClass('disabled');
+								tableButtonRemove.find('a').removeClass('disabled');
+								editRow('edit', element[0]);
+							},
+							link: tableEdit
+						},
+						tableAppend: {
+							click: function(element) {
+								editRow('append', element[0]);
+							},
+							link: tableAppend
+						},
+						tableRemove: {
+							click: function(element) {
+								removeRow(element[0]);
+							},
+							link: tableRemove
+						}
+					});
+				}
+			}
+
+			// transform the input
+			if (field.val() !== '@INHERIT') {
+				if (!field.hasClass('transformed')) {
+					prepareMultiColumns();
+					prepareMultiValue();
+					field.hide();
+					fieldEdit.hide();
+					fieldTable.dataTable({
+						sDom: '<"clear">lfrtip',
+						aaData: data.value,
+						aoColumns: settings.fieldsettings.fieldcolumns,
+						bAutoWidth: false,
+						oLanguage: dataTableLanguage,
+						fnRowCallback: function(nRow, aData, iDisplayIndex) {
+							contextMenu(nRow, iDisplayIndex);
+							toggleRow(nRow);
+						}
+					}).rowReordering({
+						fnAfterMove: function() {
+							saveMultiValue();
+							fieldTable.fnDraw();
+						}
+					});
+
+					fieldTable.parent().prepend(tableButtons);
+					tableButtons.append(tableButtonAppend, tableButtonRemove, tableButtonEdit);
+
+					// remove row event
+					tableButtonRemove.find('a').click(function(e) {
+						e.preventDefault();
+						if ($(this).hasClass('disabled')) {
+							return false;
+						}
+						removeRow(fieldTable.find('.row_selected')[0]);
+					});
+
+					// edit/append row event
+					editBox = tableButtonEdit.add(tableButtonAppend).find('a').click(function(e) {
+						e.preventDefault();
+						if ($(this).hasClass('disabled')) {
+							return false;
+						}
+						editRow($(this).parent().attr('id').replace(/tv.\d+table/, '').toLowerCase(), fieldTable.find('.row_selected')[0]);
+					});
+
+					// save/append edit box
+					fieldEditForm.find('.edit,.append').click(function() {
+						saveRow($(this).hasClass('edit') ? 'edit' : 'append');
 					});
 
 					// close edit box

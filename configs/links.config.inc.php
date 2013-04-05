@@ -48,6 +48,7 @@ $settings['columns'] = array(
 		'caption' => 'Link',
 		'fieldname' => 'link',
 		'width' => '150px',
+		'visible' => FALSE,
 		'renderer' => 'text'
 	)
 );
