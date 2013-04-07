@@ -127,6 +127,25 @@ function SetUrl(url, width, height, alt) {
 				}));
 			}
 
+			function prepareMultiValue() {
+				var jsonValue = $.evalJSON(field.val().replace(/&#x005B;/g, '[').replace(/&#x005D;/g, ']').replace(/&#x007B;/g, '{').replace(/&#x007B;/g, '}'));
+				if (jsonValue) {
+					if (jsonValue.constructor === Array) {
+						data.value = jsonValue;
+						if (!data.settings) {
+							data.settings = new Object();
+						}
+						data.settings.autoincrement = data.value.length + 1;
+					} else {
+						data.value = jsonValue.fieldValue;
+						data.settings = jsonValue.fieldSettings;
+					}
+				} else {
+					data.value = [];
+					data.settings.autoincrement = 1;
+				}
+			}
+
 			function addElementEvents(el) {
 				// datepicker
 				el.find('.DatePicker').click(function() {
@@ -211,10 +230,10 @@ function SetUrl(url, width, height, alt) {
 			}
 
 			function prefillInputs() {
-				if (settings.mode === 'single') {
-					data.value = [data.value[0]];
-				}
 				if (data.value) {
+					if (settings.mode === 'single') {
+						data.value = [data.value[0]];
+					}
 					$.each(data.value, function() {
 						var values = this;
 						if (fieldListCounter === 1) {
@@ -256,7 +275,6 @@ function SetUrl(url, width, height, alt) {
 						fieldListCounter++;
 					});
 				}
-				field.addClass('transformed');
 
 			}
 
@@ -422,22 +440,7 @@ function SetUrl(url, width, height, alt) {
 			// transform the input
 			if (field.val() !== '@INHERIT') {
 				if (!field.hasClass('transformed')) {
-					var jsonValue = $.evalJSON(field.val().replace(/&#x005B;/g, '[').replace(/&#x005D;/g, ']').replace(/&#x007B;/g, '{').replace(/&#x007B;/g, '}'));
-					if (jsonValue) {
-						if (jsonValue.constructor === Array) {
-							data.value = jsonValue;
-							if (!data.settings) {
-								data.settings = new Object();
-							}
-							data.settings.autoincrement = data.value.length + 1;
-						} else {
-							data.value = jsonValue.fieldValue;
-							data.settings = jsonValue.fieldSettings;
-						}
-					} else {
-						data.value = [];
-						data.settings.autoincrement = 1;
-					}
+					prepareMultiValue();
 
 					field.hide();
 					fieldEdit.hide();
@@ -454,6 +457,7 @@ function SetUrl(url, width, height, alt) {
 						});
 					}
 					prefillInputs(data.value);
+					field.addClass('transformed');
 				}
 
 			} else {
@@ -502,7 +506,7 @@ function SetUrl(url, width, height, alt) {
 			function clearInputs(el) {
 				el.find('.tabEditor').each(function() {
 					var editorId = $(this).attr('id');
-					tinyMCE.get(editorId).remove();
+					tinyMCE.execCommand('mceRemoveControl', false, editorId);
 				});
 				var inputs = el.find(':input');
 				inputs.each(function() {
@@ -640,19 +644,13 @@ function SetUrl(url, width, height, alt) {
 						}
 						$('#' + tvid + key + '_mtv').setValue(value);
 					});
-					fieldEditForm.find('.formtabradio').removeClass('active');
-					if (lineValue.fieldTab) {
-						fieldEditForm.find('.formtabs input[value=' + lineValue.fieldTab + ']').attr('checked', 'checked').parent().addClass('active');
-					} else {
-						fieldEditForm.find('.formtabradio:first').addClass('active').find('input[type="radio"]').attr('checked', 'checked');
-					}
 				} else {
 					fieldEditForm.find('.formtabradio:first').addClass('active').find('input[type="radio"]').attr('checked', 'checked');
 				}
 				fieldEditForm.find('.mode').hide();
 				fieldEditForm.find('.mode.' + mode).show();
 				fieldEditForm.find('.editformtabs').easytabs({
-					defaultTab: 'li.active',
+					defaultTab: 'li:first-child',
 					animate: false
 				}).bind('easytabs:after', function() {
 					editBox.colorbox.resize();
@@ -674,11 +672,17 @@ function SetUrl(url, width, height, alt) {
 					overlayClose: false,
 					scrolling: false,
 					onComplete: function() {
+						if (lineValue && lineValue.fieldTab) {
+							fieldEditForm.find('.editformtabs').easytabs('select', '#' + tvid + 'tab_radio_' + lineValue.fieldTab);
+						}
 						fieldEditArea.find('.tabEditor').each(function() {
 							var editorId = $(this).attr('id');
 							tinyMCE.execCommand('mceAddControl', true, editorId);
 						});
-						//editBox.colorbox.resize();
+					}
+					,
+					onCleanup: function() {
+						clearInputs(fieldEditArea);
 					}
 				});
 			}
@@ -813,6 +817,7 @@ function SetUrl(url, width, height, alt) {
 						}
 					});
 
+					// buttons above datatable
 					fieldTable.parent().prepend(tableButtons);
 					tableButtons.append(tableButtonAppend, tableButtonRemove, tableButtonEdit);
 
@@ -842,7 +847,6 @@ function SetUrl(url, width, height, alt) {
 					// close edit box
 					fieldEditForm.find('.cancel').click(function() {
 						editBox.colorbox.close();
-						clearInputs(fieldEditArea);
 						return false;
 					});
 

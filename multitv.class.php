@@ -369,7 +369,7 @@ class multiTV {
 						}
 
 						$tabplaceholder = array(
-							'id' => $tvid . 'tab_' . $key,
+							'id' => $tvid . 'tab_radio_' . $tab['value'],
 							'tvid' => $tvid,
 							'caption' => $tab['caption'],
 							'value' => $tab['value'],
