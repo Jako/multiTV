@@ -1,15 +1,6 @@
 <?php
 $settings['display'] = 'datatable';
 $settings['fields'] = array(
-	'img_bg' => array(
-		'caption' => 'Background Image',
-		'type' => 'image'
-	),
-	'thumb1' => array(
-		'caption' => 'Thumbnail',
-		'type' => 'thumb',
-		'thumbof' => 'img_bg'
-	),
 	'title' => array(
 		'caption' => 'Title',
 		'type' => 'text'
@@ -22,9 +13,13 @@ $settings['fields'] = array(
 		'caption' => 'Link',
 		'type' => 'text'
 	),
-	'img' => array(
+	'image' => array(
 		'caption' => 'Image',
 		'type' => 'image'
+	),
+	'thumb' => array(
+		'type' => 'thumb',
+		'thumbof' => 'image'
 	),
 	'legend' => array(
 		'caption' => 'Legend',
@@ -33,23 +28,9 @@ $settings['fields'] = array(
 );
 $settings['columns'] = array(
 	array(
-		'caption' => 'Title',
+		'caption' => 'Links',
 		'fieldname' => 'title',
-		'width' => '100px',
-		'renderer' => 'text'
-	),
-	array(
-		'caption' => 'Subtitle',
-		'fieldname' => 'subtitle',
-		'width' => '250px',
-		'renderer' => 'text'
-	),
-	array(
-		'caption' => 'Link',
-		'fieldname' => 'link',
-		'width' => '150px',
-		'visible' => FALSE,
-		'renderer' => 'text'
+		'render' => '<strong>[+title+]</strong> – [+subtitle+]'
 	)
 );
 $settings['form'] = array(
@@ -57,7 +38,6 @@ $settings['form'] = array(
 		'caption' => 'Link',
 		'content' => array(
 			'title' => array(
-				'caption' => 'Alternative caption for title'
 			),
 			'subtitle' => array(
 			),
@@ -68,7 +48,7 @@ $settings['form'] = array(
 	array(
 		'caption' => 'Image/Legend',
 		'content' => array(
-			'img' => array(
+			'imgage' => array(
 			),
 			'legend' => array(
 			)

@@ -369,7 +369,7 @@ class multiTV {
 						}
 
 						$tabplaceholder = array(
-							'id' => $tvid . 'tab_radio_' . $tab['value'],
+							'id' => ($this->configuration['radioTabs']) ? $tvid . 'tab_radio_' . $tab['value'] : $tvid . 'tab_' . $key,
 							'tvid' => $tvid,
 							'caption' => $tab['caption'],
 							'value' => $tab['value'],
