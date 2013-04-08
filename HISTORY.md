@@ -1,5 +1,9 @@
 History
 ================================================================================
+- 1.4.12 April 2, 2013
+    - CustomTV: thumbnails are not displayed
+    - Snippet: bugfix for orderBy issue
+
 - 1.4.11 February 22, 2013
     - CustomTV/Snippet: new backwards compatible data format
     - Snippet: new placeholder in `rowTpl` and `outerTpl`
