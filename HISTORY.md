@@ -1,8 +1,11 @@
 History
 ================================================================================
 - 1.5.0RC April 8, 2013
-    - CustomTV: datatable config (see Links example - with editing layer)
+    - CustomTV: datatable config (see Links example)
     - CustomTV: richtext supported in datatable config
+    - CustomTV: context menu in datatable
+    - CustomTV: editing layer for a datatable row
+    - CustomTV: radio tabs in editing layer
     - CustomTV: column renderer in datatable config with PHx capable template chunk
 
 - 1.4.12 April 2, 2013
