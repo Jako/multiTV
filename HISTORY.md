@@ -1,5 +1,14 @@
 History
 ================================================================================
+- 1.5.0RC April 8, 2013
+    - CustomTV: datatable config (see Links example - with editing layer)
+    - CustomTV: richtext supported in datatable config
+    - CustomTV: column renderer in datatable config with PHx capable template chunk
+
+- 1.4.12 April 2, 2013
+    - CustomTV: thumbnails are not displayed
+    - Snippet: bugfix for orderBy issue
+
 - 1.4.11 February 22, 2013
     - CustomTV/Snippet: new backwards compatible data format
     - Snippet: new placeholder in `rowTpl` and `outerTpl`
