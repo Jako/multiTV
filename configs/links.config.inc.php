@@ -48,7 +48,9 @@ $settings['form'] = array(
 	array(
 		'caption' => 'Image/Legend',
 		'content' => array(
-			'imgage' => array(
+			'image' => array(
+			),
+			'thumb' => array(
 			),
 			'legend' => array(
 			)
