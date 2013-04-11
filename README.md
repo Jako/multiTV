@@ -41,7 +41,7 @@ $t = 'textarea';
 ```
 (Note 4) 
 5. If you want to use multiTV with YAMS you have to patch yams.plugin.inc.php according to the instructions on https://github.com/Jako/multiTV/issues/9#issuecomment-6992127 
-6. If you are updating from 1.4.10 and below you could install the updateTV snippet (see part 4) and modify the data in your multiTVs to the new format. Since the custom tv and the snippet code supports the old and new format, this is only nessesary, if you want to add/remove columns in your multiTVs. 
+6. If you are updating from 1.4.10 and below you could install the updateTV snippet (see part 4) and modify the data in your multiTVs to the new format. Since the custom tv and the snippet code supports the old and new format, this is only nessesary, if you want to add/remove columns in your multiTVs or if you want to sort the output by a column. 
 7. If you want to use PHx with multiTV you have to modify the PHx plugin code a bit:
 
 ```
