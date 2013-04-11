@@ -102,19 +102,21 @@ class multiTV {
 	function prepareValue($value) {
 		switch ($this->display) {
 			case 'datatable': {
-					$value = json_decode($value);
-					foreach ($this->fieldcolumns as $column) {
-						if (isset($column['render']) && $column['render'] != '') {
-							foreach ($value->fieldValue as &$elem) {
-								$parser = new evoChunkie('@CODE ' . $column['render']);
-								foreach ($elem as $k => $v) {
-									$parser->AddVar($k, $this->maskTags($v));
+					$val = json_decode($value);
+					if ($val) {
+						foreach ($this->fieldcolumns as $column) {
+							if (isset($column['render']) && $column['render'] != '') {
+								foreach ($val->fieldValue as &$elem) {
+									$parser = new evoChunkie('@CODE ' . $column['render']);
+									foreach ($elem as $k => $v) {
+										$parser->AddVar($k, $this->maskTags($v));
+									}
+									$elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->Render();
 								}
-								$elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->Render();
 							}
 						}
+						$value = json_encode($val);
 					}
-					$value = json_encode($value);
 					break;
 				}
 			default:
