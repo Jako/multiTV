@@ -703,7 +703,7 @@ function SetUrl(url, width, height, alt) {
 					url: "../assets/tvs/multitv/multitv.connector.php",
 					data: {
 						action: 'preparevalue',
-						id: 807,
+						id: $('form#mutate [name="id"]').val(),
 						tvid: tvid,
 						value: $.toJSON(values)
 					},
