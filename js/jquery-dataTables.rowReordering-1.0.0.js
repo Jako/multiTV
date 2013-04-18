@@ -206,6 +206,7 @@
 			oTable.fnDraw();
 
 			$("tbody", oTable).sortable({
+				axis: 'y',
 				cursor: "move",
 				helper: tableFixHelper,
 				handle: properties.sHandle,

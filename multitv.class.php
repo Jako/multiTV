@@ -96,6 +96,7 @@ class multiTV {
 		$this->configuration['csvseparator'] = isset($settings['configuration']['csvseparator']) ? $settings['configuration']['csvseparator'] : ',';
 		$this->configuration['enablePaste'] = isset($settings['configuration']['enablePaste']) ? $settings['configuration']['enablePaste'] : TRUE;
 		$this->configuration['enableClear'] = isset($settings['configuration']['enableClear']) ? $settings['configuration']['enableClear'] : TRUE;
+		$this->configuration['hideHeader'] = isset($settings['configuration']['hideHeader']) ? $settings['configuration']['hideHeader'] : FALSE;
 		$this->configuration['radioTabs'] = isset($settings['configuration']['radioTabs']) ? $settings['configuration']['radioTabs'] : FALSE;
 	}
 
@@ -320,6 +321,7 @@ class multiTV {
 							'sWidth' => '2px'
 						)
 					);
+					$tableClasses = array();
 					if ($this->configuration['radioTabs']) {
 						$fieldcolumns[] = array(
 							'mData' => 'fieldTab',
@@ -386,7 +388,18 @@ class multiTV {
 					$placeholder['tabs'] = implode("\r\n", $tabs);
 					$placeholder['tabpages'] = implode("\r\n", $tabPages);
 					$tvelement = $this->renderTemplate('editForm', $placeholder);
-					$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'fieldcolumns' => $fieldcolumns, 'fieldrte' => $this->fieldsrte, 'csvseparator' => $this->configuration['csvseparator'], 'radioTabs' => $this->configuration['radioTabs']));
+					if ($this->configuration['hideHeader']) {
+						$tableClasses[] = 'hideHeader';
+					}
+					$tvfields = json_encode(array(
+						'fieldnames' => $this->fieldnames,
+						'fieldtypes' => $this->fieldtypes,
+						'fieldcolumns' => $fieldcolumns,
+						'fieldrte' => $this->fieldsrte,
+						'csvseparator' => $this->configuration['csvseparator'],
+						'tableClasses' => implode(' ', $tableClasses),
+						'radioTabs' => $this->configuration['radioTabs']
+					));
 				}
 		}
 

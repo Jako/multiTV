@@ -500,6 +500,7 @@ function SetUrl(url, width, height, alt) {
 			var tableButtonAppend = $('<li>').attr('id', tvid + 'tableAppend').append($('<a>').attr('href', '#').html(tableAppend));
 			var tableButtonEdit = $('<li>').attr('id', tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html(tableEdit));
 			var tableButtonRemove = $('<li>').attr('id', tvid + 'tableRemove').append($('<a>').attr('href', '#').addClass('disabled').html(tableRemove));
+			var tableClasses = settings.fieldsettings['tableClasses'];
 			var radioTabs = settings.fieldsettings['radioTabs'];
 			var editBox;
 
@@ -824,7 +825,7 @@ function SetUrl(url, width, height, alt) {
 							saveMultiValue();
 							fieldTable.fnDraw();
 						}
-					});
+					}).addClass(tableClasses);
 
 					// buttons above datatable
 					fieldTable.parent().prepend(tableButtons);

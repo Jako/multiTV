@@ -43,7 +43,7 @@
 .multitv .dataTables_wrapper .dataTables_filter input { width: auto !important }
 .multitv .dataTables_wrapper .actionButtons { margin-bottom: 9px }
 .multitv .dataTables_wrapper .actionButtons a.disabled { padding: 4px 6px; border: 1px solid #c7ced2 }
-.multitv table.display { width: 100%; background-color: #fff; border: 1px solid silver; border-spacing: 1px; table-layout: fixed }
+.multitv table.display { width: 100%; background-color: #fff; border: 1px solid silver; border-collapse: separate; border-spacing: 0; table-layout: fixed }
 .multitv table.display thead { color: #333; height: 18px !important; background-color: #e4e4e4 }
 .multitv table.display tr.odd { background-color: #eee }
 .multitv table.display tr.even { background-color: #fff }
@@ -53,10 +53,14 @@
 .multitv table.display tr.even td.sorting_1 { background-color: #f7f7f7 }
 .multitv table.display tr.even td.sorting_2 { background-color: #fafafa }
 .multitv table.display tr.even td.sorting_3 { background-color: #fefefe }
-.multitv table.display th { color: #fff; font-weight: bold; background-color: #88939e }
+.multitv table.display th { border: 1px solid #fff; color: #fff; font-weight: bold; background-color: #88939e }
+.multitv table.display tr.even > td, .multitv table.display tr.odd > td { border: 1px solid #fff; border-top: none }
+.multitv table.display tr.even > td:first-child, .multitv table.display tr.odd > td:first-child, .multitv table.display tr > th:first-child { border-right: none }
 .multitv table.display td.handle { background-image: url('images/arrow_updown.png'); background-repeat: no-repeat; background-position: center center; text-indent: -999em; cursor: pointer }
 .multitv table.display th, .multitv table.display td { text-overflow: ellipsis; overflow:hidden }
 .multitv table.display tr.row_selected td { background-color: #ccc !important }
+.multitv table.display.hideHeader thead { font-size: 0px; color: transparent; background-color: transparent }
+.multitv table.display.hideHeader thead th { padding: 0 18px 0 10px; border-bottom: none }
 
 .tveditform { width: 590px }
 .tveditform .formtabpage label { display: block; margin-top: 10px }
