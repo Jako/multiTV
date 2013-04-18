@@ -421,20 +421,6 @@ class multiTV {
 			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript', 'template', '.html'));
 			$placeholder['edit'] = file_get_contents($this->includeFile('edit', 'template', '.html'));
 			$placeholder['editform'] = $tvelement;
-
-			if (count($this->fieldsrte)) {
-				// init richtext editor for corresponding fields
-				$editor_html = $modx->invokeEvent('OnRichTextEditorInit', array('editor' => $modx->config['which_editor'], 'elements' => $this->fieldsrte, 'forfrontend' => 1));
-				$editor_html = is_array($editor_html) ? $editor_html[0] : '';
-				// remove external tiny script and set rteOptions.
-				$editor_html = preg_replace('#(<script.*?tiny_mce\.js\"></script>)#s', '', $editor_html);
-				$editor_html = preg_replace('#(<script[^>]*>)\s*tinyMCE\.init\((.*?)\)\s*(</script>)#s', '$1' . "\r\n" . 'rteOptions = $2; ' . "\r\n" . '$3', $editor_html);
-				$editor_html = str_replace("'exact'", "'specific_textareas'", $editor_html);
-				$editor_html = str_replace(implode(',', $this->fieldsrte), 'tabEditor', $editor_html);
-				$editor_html = preg_replace('#elements(\s*:*\s)\'tabEditor\'#s', 'editor_selector$1\'tabEditor\'', $editor_html);
-				$editor_html = preg_replace('#width(\s*:*\s)\'100%\'#s', 'width$1\'590px\'', $editor_html);
-				$placeholder['tvrte'] = $editor_html;
-			}
 		} else {
 			$placeholder['data'] = file_get_contents($this->includeFile('sortablelist', 'template', '.html'));
 			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript', 'template', '.html'));

@@ -60,10 +60,9 @@
 
 .tveditform { width: 590px }
 .tveditform .formtabpage label { display: block; margin-top: 10px }
-.tveditform .formtabpage select, .tveditform .formtabpage input, .tveditform .formtabpage textarea { width: 300px }
-.tveditform .formtabpage input[type='text'] { margin: 0; border: 1px solid #ddd; border-left-color: #c3c3c3; border-top-color: #7c7c7c; padding: 3px 3px 2px 2px; vertical-align: baseline }
+.tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
+.tveditform .formtabpage textarea { width: 306px }
 .tveditform .formtabpage input.DatePicker { width: 203px; padding: 3px 3px 3px 24px }
-.tveditform .formtabpage .tabEditor { height: 400px }
 .tveditform .formtabradio { display: inline-block; zoom: 1; color: #313131; font-weight: normal; font-size: 12px; cursor: pointer; margin: 3px 5px 3px 0px; padding: 0 }
 .tveditform .formtabradio input { display: inline-block; margin-right: 5px; position: relative; top: -1px }
 .tveditform .formtabradio a { text-decoration: none; color: #313131 }

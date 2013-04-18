@@ -672,15 +672,24 @@ function SetUrl(url, width, height, alt) {
 					overlayClose: false,
 					scrolling: false,
 					onComplete: function() {
+						if (!fieldEditArea.children('form').length) {
+							fieldEditArea.wrapInner('<form/>');
+						}
 						if (lineValue && lineValue.fieldTab) {
-							fieldEditForm.find('.editformtabs').easytabs('select', '#' + tvid + 'tab_radio_' + lineValue.fieldTab);
+							fieldEditArea.find('.editformtabs').easytabs('select', '#' + tvid + 'tab_radio_' + lineValue.fieldTab);
+							fieldEditArea.find('.formtabradio input[type="radio"]').attr('checked', false);
+							fieldEditArea.find('.formtabradio.active input[type="radio"]').attr('checked', 'checked');
 						}
 						fieldEditArea.find('.tabEditor').each(function() {
 							var editorId = $(this).attr('id');
-							tinyMCE.execCommand('mceAddControl', true, editorId);
+							tinyMCE.execCommand('mceAddControl', false, editorId);
+							tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'height', '200px');
+							tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'height', 'auto');
+							tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
+							tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
 						});
-					}
-					,
+						editBox.colorbox.resize();
+					},
 					onCleanup: function() {
 						clearInputs(fieldEditArea);
 					}

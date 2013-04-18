@@ -30,7 +30,7 @@ $settings['columns'] = array(
 	array(
 		'caption' => 'Content',
 		'fieldname' => 'title1_1',
-		'render' => '[+fieldTab+]:<br/>[+fieldTab:switch=`onecol:<b>[+title1_1+]</b> – [+content1_1:striphtml:limit=`75`+]|twocol:<b>[+title2_1+]</b> – [+content2_1:striphtml:limit=`75`+]<br/><b>[+title2_2+]</b> – [+content2_2:striphtml:limit=`75`+]|default:`+]'
+		'render' => '[+fieldTab:switch=`onecol:<table><tr><td><b>[+title1_1+]</b> – [+content1_1:striphtml:character_limit=`75`+] …</td></tr></table>|twocol:<table><tr><td style="width: 50%"><b>[+title2_1+]</b> – [+content2_1:striphtml:character_limit=`75`+] …</td><td style="width: 50%"><b>[+title2_2+]</b> – [+content2_2:striphtml:character_limit=`75`+] …</td></tr></table>|default:`+]'
 	)
 );
 $settings['form'] = array(

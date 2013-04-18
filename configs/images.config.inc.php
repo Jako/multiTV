@@ -12,15 +12,15 @@ $settings['fields'] = array(
 	),
 	'title' => array(
 		'caption' => 'Title',
-		'type' => 'text',
+		'type' => 'text'
 	),
 	'legend' => array(
 		'caption' => 'Legend',
-		'type' => 'textarea',
+		'type' => 'textarea'
 	),
 	'author' => array(
 		'caption' => 'Author',
-		'type' => 'text',
+		'type' => 'text'
 	)
 );
 $settings['templates'] = array(
