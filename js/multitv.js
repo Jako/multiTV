@@ -4,23 +4,23 @@ var lastImageCtrl;
 var lastFileCtrl;
 
 if (!String.prototype.supplant) {
-	String.prototype.supplant = function (o) {
+	String.prototype.supplant = function(o) {
 		return this.replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = o[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-			);
+				function(a, b) {
+					var r = o[b];
+					return typeof r === 'string' || typeof r === 'number' ? r : a;
+				}
+		);
 	};
 }
 
 function SetUrl(url, width, height, alt) {
-	if(lastFileCtrl) {
+	if (lastFileCtrl) {
 		var fileCtrl = $j('#' + lastFileCtrl);
 		fileCtrl.val(url);
 		fileCtrl.trigger('change');
 		lastFileCtrl = '';
-	} else if(lastImageCtrl) {
+	} else if (lastImageCtrl) {
 		var imageCtrl = $j('#' + lastImageCtrl);
 		imageCtrl.val(url);
 		imageCtrl.trigger('change');
@@ -49,7 +49,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 	var fieldPasteArea = $j('#' + tvid + 'pastearea');
 	var fieldListCounter = 1;
 	var pasteBox;
-	
+
 	function DuplicateElement(element, elementCount) {
 		var clone = element.clone(true).hide();
 		var elementId;
@@ -66,7 +66,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		var inputs = clone.find(':input');
 		inputs.each(function() {
 			var type = $j(this).attr('type');
-			switch(type) {
+			switch (type) {
 				case 'button':
 					break;
 				case 'reset':
@@ -91,13 +91,13 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			var multiElement = $j(this);
 			var fieldValues = new Object();
 			$j.each(fieldNames, function() {
-				var fieldInput = multiElement.find('[name^="'+tvid+this+'_mtv"][type!="hidden"]');
+				var fieldInput = multiElement.find('[name^="' + tvid + this + '_mtv"][type!="hidden"]');
 				var fieldValue = fieldInput.getValue();
 				fieldValues[this] = fieldValue;
 				if (fieldInput.hasClass('image')) {
 					setThumbnail(fieldValue, fieldInput.attr('name'), multiElement);
 				}
-				if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+				if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
 					fieldInput.setValue(fieldInput.attr('alt').supplant({
 						i: fieldSettings.autoincrement,
 						alias: $j('[name="alias"]').getValue()
@@ -109,7 +109,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			values.push(fieldValues);
 		});
 		field.setValue($j.toJSON({
-			fieldValue: values, 
+			fieldValue: values,
 			fieldSettings: fieldSettings
 		}));
 	}
@@ -151,8 +151,8 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		});
 		// remove element
 		element.find('.remove').click(function() {
-			if(fieldList.find('.element').length > 1) {
-				$j(this).parents('.element').hide('fast', function(){
+			if (fieldList.find('.element').length > 1) {
+				$j(this).parents('.element').hide('fast', function() {
 					$j(this).remove();
 					setMultiValue();
 				});
@@ -161,7 +161,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 				var inputs = $j(this).parent().find('[name]');
 				inputs.each(function() {
 					var type = $j(this).attr('type');
-					switch(type) {
+					switch (type) {
 						case 'button':
 							break;
 						case 'reset':
@@ -185,60 +185,60 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			return false;
 		});
 	}
-	
+
 	function setThumbnail(fieldValue, fieldName, listElement) {
 		var thumbPath = fieldValue.split('/');
 		var thumbName = thumbPath.pop();
 		var thumbId = fieldName.replace(/^(.*?)(\d*)$/, '#$1preview$2');
-		if (thumbName != '') {
-			listElement.find(thumbId).html('<img src="../'+thumbPath.join("/")+'/.thumb_'+thumbName+'" />');
+		if (thumbName !== '') {
+			listElement.find(thumbId).html('<img src="../' + thumbPath.join("/") + '/.thumb_' + thumbName + '" />');
 		} else {
 			listElement.find(thumbId).html('');
 		}
 	}
-	
+
 	function prefillInputs(fieldValue) {
-		if (fieldMode == 'single'){
+		if (fieldMode === 'single') {
 			fieldValue = [fieldValue[0]];
 		}
-		if(fieldValue){
+		if (fieldValue) {
 			$j.each(fieldValue, function() {
 				var values = this;
-				if (fieldListCounter == 1) {
+				if (fieldListCounter === 1) {
 					$j.each(values, function(key, value) {
-						var fieldName = (typeof key == 'number') ? fieldNames[key] : key;
-						var fieldInput = fieldListElement.find('[name^="'+tvid+fieldName+'_mtv"][type!="hidden"]');
+						var fieldName = (typeof key === 'number') ? fieldNames[key] : key;
+						var fieldInput = fieldListElement.find('[name^="' + tvid + fieldName + '_mtv"][type!="hidden"]');
 						fieldInput.setValue(values[key]);
 						if (fieldInput.hasClass('image')) {
 							setThumbnail(values[key], fieldInput.attr('name'), fieldListElement);
 						}
-						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
 							fieldInput.setValue(fieldInput.attr('alt').supplant({
 								i: fieldSettings.autoincrement,
 								alias: $j('[name="alias"]').getValue()
-							}))
+							}));
 							fieldSettings.autoincrement++;
 						}
-					}) 
+					});
 				} else {
 					var clone = DuplicateElement(fieldListElementEmpty, fieldListCounter);
 					clone.show();
 					fieldList.append(clone);
 					$j.each(values, function(key, value) {
-						var fieldName = (typeof key == 'number') ? fieldNames[key] : key;
-						var fieldInput = clone.find('[name^="'+tvid+fieldName+'_mtv"][type!="hidden"]');
+						var fieldName = (typeof key === 'number') ? fieldNames[key] : key;
+						var fieldInput = clone.find('[name^="' + tvid + fieldName + '_mtv"][type!="hidden"]');
 						fieldInput.setValue(values[key]);
 						if (fieldInput.hasClass('image')) {
 							setThumbnail(values[key], fieldInput.attr('name'), clone);
 						}
-						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() == '') {
+						if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
 							fieldInput.setValue(fieldInput.attr('alt').supplant({
 								i: fieldSettings.autoincrement,
 								alias: $j('[name="alias"]').getValue()
-							}))
+							}));
 							fieldSettings.autoincrement++;
 						}
-					}) 
+					});
 				}
 				fieldListCounter++;
 			});
@@ -246,14 +246,14 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 		field.addClass('transformed');
 
 	}
-	
+
 	if (!field.hasClass('transformed')) {
 		// reset all event
 		fieldClear.find('a').click(function() {
 			var answer = confirm(tvlanguage.confirmclear);
 			if (answer) {
 				fieldList.children('li').remove();
-				field.val('[]');
+				field.val('');
 				fieldClear.hide();
 				fieldPaste.hide();
 				fieldHeading.hide();
@@ -261,11 +261,13 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			}
 			return false;
 		});
-	
+
 		// start edit event
 		fieldEdit.find('a').click(function() {
 			var clone = fieldListElementEmpty.clone(true);
-			fieldList.append(clone);
+			if (!fieldList.children('li').length) {
+				fieldList.append(clone);
+			}
 			field.val('[]');
 			fieldList.show();
 			fieldClear.show();
@@ -274,7 +276,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			fieldEdit.hide();
 			// sortable
 			fieldList.sortable({
-				stop : function() {
+				stop: function() {
 					setMultiValue();
 				},
 				axis: 'y',
@@ -283,23 +285,23 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			AddElementEvents(clone);
 			return false;
 		});
-		
+
 		// paste box
-		pasteBox = fieldPaste.find('a').click(function(e){
+		pasteBox = fieldPaste.find('a').click(function(e) {
 			e.preventDefault();
 			$j.colorbox({
 				inline: true,
 				href: $j(this).attr('href'),
-				width:"500px", 
-				height:"350px",
-				onClosed:function() {
+				width: "500px",
+				height: "350px",
+				onClosed: function() {
 					fieldPasteArea.html('');
 				},
-				close:'',
-				open:true
+				close: '',
+				open: true
 			});
 		});
-	
+
 		// close paste box
 		fieldPasteForm.find('.cancel').click(function() {
 			pasteBox.colorbox.close();
@@ -312,10 +314,10 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			var mode = $j(this).attr('class');
 			var pasteas = $j('input:radio[name=pasteas]:checked').val();
 			var clean;
-			switch(pasteas) {
+			switch (pasteas) {
 				case 'google':
 					clean = fieldPasteArea.htmlClean({
-						allowedTags:['div','span']
+						allowedTags: ['div', 'span']
 					});
 					clean.find('div').each(function() {
 						var pastedRow = [];
@@ -323,7 +325,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 						if (tableData.length > 0) {
 							var i = 0;
 							$j.each(tableData, function() {
-								if (fieldTypes[i] == 'thumb') {
+								if (fieldTypes[i] === 'thumb') {
 									pastedRow.push('');
 									i++;
 								}
@@ -336,24 +338,28 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 					break;
 				case 'csv':
 					clean = fieldPasteArea.htmlClean({
-						allowedTags:['div','p']
+						allowedTags: ['div', 'p']
 					});
 					clean.find('div, p').each(function() {
-						var pastedRow = [];					
+						var pastedRow = [];
 						// CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
 						for (var tableData = $j(this).html().split(fieldCsvSeparator), x = tableData.length - 1, tl; x >= 0; x--) {
-							if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) == '"') {
-								if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) == '"') {
+							if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) === '"') {
+								if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) === '"') {
 									tableData[x] = tableData[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
 								} else if (x) {
 									tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(fieldCsvSeparator));
-								} else tableData = tableData.shift().split(fieldCsvSeparator).concat(tableData);
-							} else tableData[x].replace(/""/g, '"');
+								} else {
+									tableData = tableData.shift().split(fieldCsvSeparator).concat(tableData);
+								}
+							} else {
+								tableData[x].replace(/""/g, '"');
+							}
 						}
 						if (tableData.length > 0) {
 							var i = 0;
 							$j.each(tableData, function() {
-								if (fieldTypes[i] == 'thumb') {
+								if (fieldTypes[i] === 'thumb') {
 									pastedRow.push('');
 									i++;
 								}
@@ -367,16 +373,16 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 				case 'word':
 				default:
 					clean = fieldPasteArea.htmlClean({
-						allowedTags:['table','tbody','tr','td']
+						allowedTags: ['table', 'tbody', 'tr', 'td']
 					}).html();
-					clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg,'<table>').replace(/<\/table>.*/mg,'</table>');
+					clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg, '<table>').replace(/<\/table>.*/mg, '</table>');
 					$j(clean).find('tr').each(function() {
 						var pastedRow = [];
 						var tableData = $j(this).find('td');
 						if (tableData.length > 0) {
 							var i = 0;
 							tableData.each(function() {
-								if (fieldTypes[i] == 'thumb') {
+								if (fieldTypes[i] === 'thumb') {
 									pastedRow.push('');
 									i++;
 								}
@@ -390,7 +396,7 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			}
 			fieldList.find('li:gt(0)').remove();
 			fieldListCounter = 1;
-			if(mode == 'append') {
+			if (mode === 'append') {
 				pastedArray = $j.merge(fieldValue, pastedArray);
 			}
 			prefillInputs(pastedArray);
@@ -399,13 +405,13 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			return false;
 		});
 	}
-			
+
 	// transform the input		
-	if (field.val() != '@INHERIT') { 
+	if (field.val() !== '@INHERIT') {
 		if (!field.hasClass('transformed')) {
 			var jsonValue = $j.evalJSON(field.val());
 			if (jsonValue) {
-				if (jsonValue.constructor == Array) {
+				if (jsonValue.constructor === Array) {
 					fieldValue = jsonValue;
 					fieldSettings.autoincrement = fieldValue.length + 1;
 				} else {
@@ -422,9 +428,9 @@ function TransformField(tvid, tvmode, tvfields, tvlanguage) {
 			AddElementEvents(fieldListElement);
 
 			// sortable
-			if (fieldMode != 'single'){
+			if (fieldMode !== 'single') {
 				fieldList.sortable({
-					stop : function() {
+					stop: function() {
 						setMultiValue();
 					},
 					axis: 'y',

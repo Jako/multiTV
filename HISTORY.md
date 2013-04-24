@@ -1,5 +1,10 @@
 History
 ================================================================================
+- 1.4.13 April 24, 2013
+    - CustomTV: bugfix for clear all values and inherited default value
+    - Snippet: customsort extender for Ditto
+    - Example: Sortable Sidebar
+
 - 1.4.12 April 2, 2013
     - CustomTV: thumbnails are not displayed
     - Snippet: bugfix for orderBy issue
