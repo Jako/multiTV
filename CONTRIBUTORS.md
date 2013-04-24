@@ -36,4 +36,8 @@ falkon - https://github.com/falkon
 
 - Bugfix
 
+Bruno Perner - https://github.com/Bruno17 - info@webcmsolutions.de
+
+- Ditto customsort extender
+
 And a lot of testers ...
