@@ -1,9 +1,17 @@
 History
 ================================================================================
-- 1.4.13 April 24, 2013
+- 1.5.0 May 3, 2013
     - CustomTV: bugfix for clear all values and inherited default value
     - Snippet: customsort extender for Ditto
     - Example: Sortable Sidebar
+
+- 1.5.0RC April 8, 2013
+    - CustomTV: datatable config (see Links example)
+    - CustomTV: richtext supported in datatable config
+    - CustomTV: context menu in datatable
+    - CustomTV: editing layer for a datatable row
+    - CustomTV: radio tabs in editing layer
+    - CustomTV: column renderer in datatable config with PHx capable template chunk
 
 - 1.4.12 April 2, 2013
     - CustomTV: thumbnails are not displayed

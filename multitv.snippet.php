@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.4.10
+ * @version 	1.5.0
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.4.10</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.5.0</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -23,10 +23,6 @@ define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
 // include classfile
 if (!class_exists('multiTV')) {
 	include MTV_BASE_PATH . 'multitv.class.php';
-}
-// include chunke class
-if (!class_exists('evoChunkie')) {
-	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
 }
 
 // load template variable settings
@@ -75,13 +71,13 @@ switch (strtolower($published)) {
 	case '2':
 	case 'true':
 		$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '1');
-		if ($tvOutput == false && $published == '2') {
+		if ($tvOutput == FALSE && $published == '2') {
 			$tvOutput = $modx->getTemplateVarOutput(array($tvName), $docid, '0');
 		}
 		break;
 }
 $tvOutput = $tvOutput[$tvName];
-$tvOutput = json_decode($tvOutput, true);
+$tvOutput = json_decode($tvOutput, TRUE);
 if ($tvOutput['fieldValue']) {
 	$tvOutput = $tvOutput['fieldValue'];
 }

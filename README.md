@@ -11,6 +11,11 @@ Images example:
 
 ![Images example](https://github.com/Jako/multiTV/blob/master/multitv.images.png?raw=true)
 
+Links example (with editing layer):
+
+![Images example](https://github.com/Jako/multiTV/blob/develop/multitv.links.png?raw=true)
+![Images example](https://github.com/Jako/multiTV/blob/develop/multitv.links_edit.png?raw=true)
+
 Part 1: custom template variable
 ================================================================================
 
@@ -26,7 +31,7 @@ Installation:
 ```
 @INCLUDE/assets/tvs/multitv/multitv.customtv.php
 ```
-4. If you want to modify the multiTV with ManagerManager you have to patch the file `mm.inc.php` and insert 
+4. If you want to modify the multiTV with ManagerManager **before MODX version 1.0.9** you have to patch the file `mm.inc.php` and insert
 ```
 case 'custom_tv':
 ```
@@ -36,13 +41,28 @@ $t = 'textarea';
 ```
 (Note 4) 
 5. If you want to use multiTV with YAMS you have to patch yams.plugin.inc.php according to the instructions on https://github.com/Jako/multiTV/issues/9#issuecomment-6992127 
-6. If you are updating from 1.4.10 and below you could install the updateTV snippet (see part 4) and modify the data in your multiTVs to the new format. Since the custom tv and the snippet code supports the old and new format, this is only nessesary, if you want to add/remove columns in your multiTVs or if you want to sort the output by a column.
+6. If you are updating from 1.4.10 and below you could install the updateTV snippet (see part 4) and modify the data in your multiTVs to the new format. Since the custom tv and the snippet code supports the old and new format, this is only nessesary, if you want to add/remove columns in your multiTVs or if you want to sort the output by a column. 
+7. If you want to use PHx with multiTV you have to modify the PHx plugin code a bit:
+
+```
+if (!class_exists('PHxParser')) {
+    include MODX_BASE_PATH . "assets/plugins/phx/phx.parser.class.inc.php";
+}
+
+$e = &$modx->Event;
+switch($e->name) {
+	case 'OnParseDocument':
+		$PHx = new PHxParser($phxdebug,$phxmaxpass);
+		$PHx->OnParseDocument();
+		break;
+}
+```
 
 Options:
 --------------------------------------------------------------------------------
 All options for a custom template variable are set in a config file in the folder *configs* with the same name as the template variable (otherwise the default config is used) and *.config.inc.php* as extension
 
-The display of the input fields in the multi field list could be set in `$settings['display']` to *horizontal* (events example), *vertical* (images example) or *single*. Create a custom template variable called *event* for a horizontal example. A multiTV with single display configuration contains only one list element. 
+The display of the input fields in the multi field list could be set in `$settings['display']` to *horizontal* (events example), *vertical* (images example), *datatable* (links or multicontent example) or *single*. A multiTV with single display configuration contains only one list element.
 
 The input fields of one list element could be defined in `$settings['fields']`. This variable contains an array of fieldnames and each fieldname contains an array of field properties.
 
@@ -56,6 +76,23 @@ thumbof | name of an image input. a thumbnail of the selected image will be rend
 width | the width of the input (only used if the display of the list element is horizontal) | 100
 
 * Supported MODX input types: text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
+
+In datatable mode the columns for the datatable could be defined in `$settings['columns']`. This variable contains an array of column settings. Each column setting contains an array of properties. If a property is not set, the field property in `$settings['fields']` is used.
+
+Property | Description | Default
+-------- | ----------- | -------
+fieldname | **(required)** fieldname that is displayed in this column | -
+caption | the caption of the column | caption for this field in `$settings['fields']`
+width | the width of the column | width for this field in `$settings['fields']`
+render | the column will be rendered with this PHx capable string  | -
+
+In datatable mode the content of the editing layer could be defined in `$settings['form']`. This variable contains an array of form tab settings. Each form tab setting contains an array of field properties in the value of the content key. If a field property is not set, the field property in `$settings['fields']` is used.
+
+Property | Description | Default
+-------- | ----------- | -------
+caption | caption for the input | caption for this field in `$settings['fields']`
+
+* In the editing layer the MODX input type richtext is possible.
 
 The default output templates for the snippet could be defined in `$settings['templates']`. 
 
@@ -71,8 +108,9 @@ Property | Description | Default
 enablePaste | The multiTV could contain *paste table data* link that displays a paste box. In this box you could paste Word/HTML table clipboard data, Google Docs table clipboard data and csv data. | TRUE 
 enableClear | The multiTV could contain *clear all* link that clears the content of the multiTV | TRUE 
 csvseparator | column separator for csv clipboard table data. The csv clipboard table data should contain a new line for each row. | , 
+radioTabs | The tabs in the datatable editing layer are displayed as radio buttons. The button state is saved in the field `fieldTab`.
 
-See the *multidemo* config for all usable settings.
+See the *multidemo* config for all usable vertical settings and the *multicontent* config for all usable datatable settings.
 
 Part 2: multiTV Snippet
 ================================================================================
@@ -99,12 +137,12 @@ Call the snippet like this (most expample parameters are using the default value
 &outerTpl=`@CODE:<ul>((wrapper))</ul>`
 &rowTpl=`@CODE:<li>((event)), ((location)), ((price))</li>`
 &display=`5`
+&offset=`0`
 &rows=`all`
 &toPlaceholder=``
 &randomize=`0`
 &orderBy=``
 &published=`1`
-&emptyOutput=`1`
 &emptyOutput=`1`
 &outputSeparator=``
 !]

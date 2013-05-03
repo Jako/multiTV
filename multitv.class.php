@@ -9,6 +9,9 @@
 if (!function_exists('renderFormElement')) {
 	include MODX_BASE_PATH . 'manager/includes/tmplvars.inc.php';
 }
+if (!class_exists('evoChunkie')) {
+	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
+}
 
 class multiTV {
 
@@ -21,13 +24,15 @@ class multiTV {
 	public $tvTemplates = '';
 	public $display = '';
 	public $fieldnames = array();
+	public $fieldcolumns = array();
+	public $fieldform = array();
 	public $fieldtypes = array();
 	public $fields = array();
+	public $fieldsrte = array();
 	public $templates = array();
 	public $language = array();
 	public $configuration = array();
-	private $sortkey = '';
-	private $sortdir = '';
+	public $sortkey = '';
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -39,14 +44,16 @@ class multiTV {
 			$this->tvCaption = $tvDefinitions['caption'];
 			$this->tvDescription = $tvDefinitions['description'];
 			$this->tvDefault = $tvDefinitions['default_text'];
-			$this->tvValue = $tvDefinitions['value'];
 			$this->tvTemplates = 'templates' . $tvDefinitions['tpl_config'];
 		} else {
 			$modx->messageQuit('No multiTV definitions set');
 		}
 		$settings = array();
 		include ($this->includeFile($this->tvName));
-		$this->tvSettings($settings);
+		$this->prepareSettings($settings);
+		if ($tvDefinitions['value']) {
+			$this->prepareValue($tvDefinitions['value']);
+		}
 		$language = array();
 		include ($this->includeFile($modx->config['manager_language'], 'language'));
 		$this->language = $language;
@@ -74,18 +81,74 @@ class multiTV {
 	}
 
 	// Initialize customtv settings
-	function tvSettings($settings) {
+	function prepareSettings($settings) {
 		$this->fields = $settings['fields'];
 		$this->fieldnames = array_keys($this->fields);
 		$this->fieldtypes = array();
 		foreach ($this->fields as $field) {
 			$this->fieldtypes[] = $field['type'];
 		}
+		$this->fieldtitles = array();
+		$this->fieldcolumns = isset($settings['columns']) ? $settings['columns'] : array();
+		$this->fieldform = isset($settings['form']) ? $settings['form'] : array();
 		$this->templates = $settings[$this->tvTemplates];
 		$this->display = $settings['display'];
 		$this->configuration['csvseparator'] = isset($settings['configuration']['csvseparator']) ? $settings['configuration']['csvseparator'] : ',';
 		$this->configuration['enablePaste'] = isset($settings['configuration']['enablePaste']) ? $settings['configuration']['enablePaste'] : TRUE;
 		$this->configuration['enableClear'] = isset($settings['configuration']['enableClear']) ? $settings['configuration']['enableClear'] : TRUE;
+		$this->configuration['hideHeader'] = isset($settings['configuration']['hideHeader']) ? $settings['configuration']['hideHeader'] : FALSE;
+		$this->configuration['radioTabs'] = isset($settings['configuration']['radioTabs']) ? $settings['configuration']['radioTabs'] : FALSE;
+	}
+
+	function prepareValue($value) {
+		switch ($this->display) {
+			case 'datatable': {
+					$val = json_decode($value);
+					if ($val) {
+						foreach ($this->fieldcolumns as $column) {
+							if (isset($column['render']) && $column['render'] != '') {
+								foreach ($val->fieldValue as &$elem) {
+									$parser = new evoChunkie('@CODE ' . $column['render']);
+									foreach ($elem as $k => $v) {
+										$parser->AddVar($k, $this->maskTags($v));
+									}
+									$elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->Render();
+								}
+							}
+						}
+						$value = json_encode($val);
+					}
+					break;
+				}
+			default:
+				break;
+		}
+		$this->tvValue = $value;
+	}
+
+	// mask MODX tags
+	function maskTags($value) {
+		$unmasked = array('[', ']', '{', '}');
+		$masked = array('&#x005B;', '&#x005D;', '&#x007B;', '&#x007D;');
+		return str_replace($unmasked, $masked, $value);
+	}
+
+	function unmaskTags($value) {
+		$unmasked = array('[', ']', '{', '}');
+		$masked = array('&#x005B;', '&#x005D;', '&#x007B;', '&#x007D;');
+		return str_replace($masked, $unmasked, $value);
+	}
+
+	// render a template in multiTV templates folder
+	function renderTemplate($template, $placeholder) {
+		$output = file_get_contents($this->includeFile($template, 'template', '.html'));
+		foreach ($this->language as $key => $value) {
+			$placeholder['tvlang.' . $key] = $value;
+		}
+		foreach ($placeholder as $key => $value) {
+			$output = str_replace('[+' . $key . '+]', $value, $output);
+		}
+		return $output;
 	}
 
 	// invoke modx renderFormElement and change the output (to multiTV demands)
@@ -100,13 +163,18 @@ class multiTV {
 					break;
 				}
 			case 'image' : {
-					if ($this->display == 'vertical') {
+					if ($this->display == 'datatable' || $this->display == 'vertical') {
 						$fieldClass[] = 'image';
 					}
 					break;
 				}
 			case 'richtext' : {
-					$fieldType = 'textarea';
+					if ($this->display == 'datatable') {
+						$this->fieldsrte[] = "tv" . $this->tvID . $fieldName;
+						$fieldClass[] = 'tabEditor';
+					} else {
+						$fieldType = 'textarea';
+					}
 					break;
 				}
 		}
@@ -125,7 +193,7 @@ class multiTV {
 		$formElement = preg_replace('/class=\"[^\"]*\"/s', '', $formElement, 1); // remove all classes
 		if ($fieldDefault != '') {
 			$formElement = preg_replace('/(<\w+)/', '$1 alt="' . $fieldDefault . '"', $formElement, 1); // add alt to first tag (the input)
-			$fieldClass[] = ' setdefault';
+			$fieldClass[] = 'setdefault';
 		}
 		if (isset($currentClass[1])) {
 			$fieldClass[] = $currentClass[1];
@@ -149,8 +217,7 @@ class multiTV {
 
 		$tvid = "tv" . $this->tvID;
 		$tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
-		$tvvalue = str_replace(array('[[', ']]'), array('[ [', '] ]'), $tvvalue);
-		$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
+		$tvvalue = $this->maskTags($tvvalue);
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
 
@@ -161,6 +228,7 @@ class multiTV {
 		switch ($this->display) {
 			// horizontal template
 			case 'horizontal': {
+					$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
 					$tvheading = '<div id="[+tvid+]heading" class="heading">' . "\r\n";
 					foreach ($this->fieldnames as $fieldname) {
 						$tvheading .= '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>' . "\r\n";
@@ -170,7 +238,7 @@ class multiTV {
 						$tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }' . "\r\n";
 						switch ($type) {
 							case 'thumb': {
-									$tvelement .= '<div class="inline tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+									$tvelement .= '<div class="inline tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
 									$hasthumb = ' hasthumb';
 									break;
 								}
@@ -194,6 +262,7 @@ class multiTV {
 				}
 			// vertical template
 			case 'vertical': {
+					$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
 					$tvheading = '';
 					foreach ($this->fieldnames as $fieldname) {
 						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
@@ -201,12 +270,12 @@ class multiTV {
 						$default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
 						switch ($type) {
 							case 'thumb': {
-									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+									$tvelement .= '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
 									$hasthumb = ' hasthumb';
 									break;
 								}
 							default: {
-									$tvelement .= '<label for="[+tvid+]' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
+									$tvelement .= '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
 									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />' . "\r\n";
 								}
 						}
@@ -219,6 +288,7 @@ class multiTV {
 				}
 			// horizontal template
 			case 'single': {
+					$tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
 					$tvheading = '';
 					foreach ($this->fieldnames as $fieldname) {
 						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
@@ -226,12 +296,12 @@ class multiTV {
 						$default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
 						switch ($type) {
 							case 'thumb': {
-									$tvelement .= '<div class="tvimage" id="[+tvid+]' . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+									$tvelement .= '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
 									$hasthumb = ' hasthumb';
 									break;
 								}
 							default: {
-									$tvelement .= '<label for="[+tvid+]' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
+									$tvelement .= '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
 									$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />' . "\r\n";
 								}
 						}
@@ -240,12 +310,96 @@ class multiTV {
 					$tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
 					break;
 				}
-			// inline popup - i.e. if there are too much elements in one row	
-			case 'popup': {
-					// Todo
-					$tvheading = '';
-					$tvelement = '';
-					break;
+			// datatable template
+			case 'datatable': {
+					$fieldcolumns = array(
+						array(
+							'mData' => 'MTV_RowId',
+							'sTitle' => '',
+							'sClass' => 'handle',
+							'bSortable' => FALSE,
+							'sWidth' => '2px'
+						)
+					);
+					$tableClasses = array();
+					if ($this->configuration['radioTabs']) {
+						$fieldcolumns[] = array(
+							'mData' => 'fieldTab',
+							'sTitle' => '',
+							'bSortable' => FALSE,
+							'bVisible' => FALSE
+						);
+					}
+					if (count($this->fieldcolumns)) {
+						foreach ($this->fieldcolumns as $column) {
+							$fieldcolumns[] = array(
+								'mData' => (isset($column['render']) && $column['render'] != '') ? 'mtvRender' . ucfirst($column['fieldname']) : $column['fieldname'],
+								'sTitle' => (isset($column['caption'])) ? $column['caption'] : ((isset($this->fields[$column['fieldname']]['caption'])) ? $this->fields[$column['fieldname']]['caption'] : $column['fieldname']),
+								'sWidth' => (isset($column['width'])) ? $column['width'] : ((isset($this->fields[$column['fieldname']]['width'])) ? $this->fields[$column['fieldname']]['width'] : ''),
+								'bSortable' => FALSE,
+								'bVisible' => (isset($column['visible'])) ? (bool) $column['visible'] : ((isset($this->fields[$column['fieldname']]['visible'])) ? (bool) $this->fields[$column['fieldname']]['visible'] : TRUE),
+							);
+						}
+					} else {
+						foreach ($this->fields as $key => $column) {
+							$fieldcolumns[] = array(
+								'mData' => $key,
+								'sTitle' => (isset($column['caption'])) ? $column['caption'] : $column['fieldname'],
+								'bSortable' => FALSE
+							);
+						}
+					}
+					$tabs = array();
+					$tabPages = array();
+					foreach ($this->fieldform as $key => $tab) {
+						$tvElements = array();
+						foreach ($tab['content'] as $fieldname => $tv) {
+							$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
+							$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
+							$default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
+							$caption = (is_array($tv) && isset($tv['caption'])) ? $tv['caption'] : $this->fields[$fieldname]['caption'];
+							switch ($type) {
+								case 'thumb': {
+										$tvelement = '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+										$hasthumb = ' hasthumb';
+										break;
+									}
+								default: {
+										$tvelement = '<label for="' . $tvid . $fieldname . '">' . $caption . '</label>';
+										$tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . "\r\n";
+									}
+							}
+							$tvElements[] = $tvelement;
+						}
+
+						$tabplaceholder = array(
+							'id' => ($this->configuration['radioTabs']) ? $tvid . 'tab_radio_' . $tab['value'] : $tvid . 'tab_' . $key,
+							'tvid' => $tvid,
+							'caption' => $tab['caption'],
+							'value' => $tab['value'],
+							'content' => implode("\r\n", $tvElements),
+							'radio' => ($this->configuration['radioTabs']) ? '1' : '0'
+						);
+						$formTabTemplate = (!$this->configuration['radioTabs']) ? 'editFormTab' : 'editFormTabRadio';
+						$tabs[] = $this->renderTemplate($formTabTemplate, $tabplaceholder);
+						$tabPages[] = $this->renderTemplate('editFormTabpage', $tabplaceholder);
+					}
+					$placeholder = array();
+					$placeholder['tabs'] = implode("\r\n", $tabs);
+					$placeholder['tabpages'] = implode("\r\n", $tabPages);
+					$tvelement = $this->renderTemplate('editForm', $placeholder);
+					if ($this->configuration['hideHeader']) {
+						$tableClasses[] = 'hideHeader';
+					}
+					$tvfields = json_encode(array(
+						'fieldnames' => $this->fieldnames,
+						'fieldtypes' => $this->fieldtypes,
+						'fieldcolumns' => $fieldcolumns,
+						'fieldrte' => $this->fieldsrte,
+						'csvseparator' => $this->configuration['csvseparator'],
+						'tableClasses' => implode(' ', $tableClasses),
+						'radioTabs' => $this->configuration['radioTabs']
+					));
 				}
 		}
 
@@ -253,22 +407,45 @@ class multiTV {
 		$scriptfiles = array();
 		$cssfiles = array();
 		$settings = array();
-		$paste = '';
+		$files = array();
+		$placeholder = array();
 
+		include ($this->includeFile('default', 'setting'));
+		$files['scripts'] = $settings['scripts'];
+		$files['css'] = $settings['css'];
 		if ($this->configuration['enablePaste']) {
 			include ($this->includeFile('paste', 'setting'));
-			$paste = file_get_contents($this->includeFile('paste', 'template', '.html'));
+			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
+			$files['css'] = array_merge($files['css'], $settings['css']);
+			$placeholder['paste'] = file_get_contents($this->includeFile('paste', 'template', '.html'));
 		} else {
-			include ($this->includeFile('default', 'setting'));
+			$placeholder['paste'] = '';
 		}
-		if ($this->configuration['enableClear']) {
-			$clear = file_get_contents($this->includeFile('clear', 'template', '.html'));
+		if ($this->configuration['enableClear'] && $this->display != 'datatable') {
+			$placeholder['clear'] = file_get_contents($this->includeFile('clear', 'template', '.html'));
+		} else {
+			$placeholder['clear'] = '';
 		}
-		foreach ($settings['css'] as $setting) {
-			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $setting . '" />';
+		if ($this->display == 'datatable') {
+			include ($this->includeFile('datatable', 'setting'));
+			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
+			$files['css'] = array_merge($files['css'], $settings['css']);
+			$placeholder['data'] = file_get_contents($this->includeFile('datatable', 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript', 'template', '.html'));
+			$placeholder['edit'] = file_get_contents($this->includeFile('edit', 'template', '.html'));
+			$placeholder['editform'] = $tvelement;
+		} else {
+			$placeholder['data'] = file_get_contents($this->includeFile('sortablelist', 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript', 'template', '.html'));
 		}
-		foreach ($settings['scripts'] as $setting) {
-			$scriptfiles[] = '	<script type="text/javascript" src="' . $setting . '"></script>';
+
+		$files['scripts'] = array_merge($files['scripts'], array('[+tvpath+]js/multitv.js'));
+
+		foreach ($files['css'] as $file) {
+			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $file . '" />';
+		}
+		foreach ($files['scripts'] as $file) {
+			$scriptfiles[] = '	<script type="text/javascript" src="' . $file . '"></script>';
 		}
 
 		// Check for ManagerManager 
@@ -278,13 +455,8 @@ class multiTV {
 			unset($scriptfiles[0]); // don't include jQuery if ManagerManager is active
 		}
 
-		$tvtemplate = file_get_contents($this->includeFile('multitv', 'template', '.html'));
-
-		$placeholder = array();
 		$placeholder['cssfiles'] = implode("\r\n", $cssfiles);
 		$placeholder['scriptfiles'] = implode("\r\n", $scriptfiles);
-		$placeholder['paste'] = $paste;
-		$placeholder['clear'] = $clear;
 		$placeholder['tvcss'] = $tvcss;
 		$placeholder['tvheading'] = $tvheading;
 		$placeholder['tvmode'] = $this->display;
@@ -295,12 +467,8 @@ class multiTV {
 		$placeholder['tvid'] = $tvid;
 		$placeholder['tvpath'] = $tvpath;
 
-		foreach ($this->language as $key => $value) {
-			$placeholder['tvlang.' . $key] = $value;
-		}
-		foreach ($placeholder as $key => $value) {
-			$tvtemplate = str_replace('[+' . $key . '+]', $value, $tvtemplate);
-		}
+		$tvtemplate = $this->renderTemplate('multitv', $placeholder);
+
 		return $tvtemplate;
 	}
 
@@ -319,9 +487,9 @@ class multiTV {
 		if ($a[$this->sortkey] === $b[$this->sortkey]) {
 			return 0;
 		} else if ($a[$this->sortkey] < $b[$this->sortkey]) {
-			return ($this->sortdir == 'asc') ? -1 : 1;
+			return ($this->sortdir === 'asc') ? -1 : 1;
 		} else {
-			return ($this->sortdir == 'asc') ? 1 : -1;
+			return ($this->sortdir === 'asc') ? 1 : -1;
 		}
 	}
 

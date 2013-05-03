@@ -4,18 +4,10 @@
 	<style type="text/css">
 		[+tvcss+]
 	</style>
-	<script type="text/javascript">
-		$j(document).ready(function() {
-			TransformField('[+tvid+]', '[+tvmode+]', [+tvfields+], [+tvlanguage+]);
-		});
-		
-	</script>
+	[+script+]
 	<textarea style="width:100%;" onchange="documentDirty=true;" name="[+tvid+]" id="[+tvid+]">[+tvvalue+]</textarea>
 	[+clear+]
 	[+paste+]
-	[+tvheading+]
-	<ul id="[+tvid+]list" class="list sortable">
-		[+tvelement+]
-	</ul>
+	[+data+]
 </div>
 <div style="clear: left"></div>
