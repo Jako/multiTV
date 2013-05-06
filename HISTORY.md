@@ -1,5 +1,9 @@
 History
 ================================================================================
+- 1.5.1 May 6, 2013
+    - CustomTV: bugfix for datatables and template var id below 10
+    - CustomTV: bugfix for label width in horizontal mode
+
 - 1.5.0 May 3, 2013
     - CustomTV: bugfix for clear all values and inherited default value
     - Snippet: customsort extender for Ditto

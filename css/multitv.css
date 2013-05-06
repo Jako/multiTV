@@ -22,7 +22,7 @@
 .multitv .list li.element table.url input[type="text"] { width: 221px !important }
 
 
-.multitv .list li.element .inline, .multitv .heading .inline { display: block; float: left; width: 100px; padding: 3px; margin: 0 5px 0 0 }
+.multitv .list li.element .inline, .multitv .heading .inline { display: block; float: left; width: 300px; padding: 3px; margin: 0 5px 0 0 }
 .multitv .list li.element .inline[type="checkbox"] { margin-top: 7px }
 .multitv .list li.element .inlinelabel { width: auto }
 
