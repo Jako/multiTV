@@ -846,7 +846,7 @@ function SetUrl(url, width, height, alt) {
 						if ($(this).hasClass('disabled')) {
 							return false;
 						}
-						editRow($(this).parent().attr('id').replace(/tv.\d+table/, '').toLowerCase(), fieldTable.find('.row_selected')[0]);
+						editRow($(this).parent().attr('id').replace(/tv\d+table/, '').toLowerCase(), fieldTable.find('.row_selected')[0]);
 					});
 
 					// save/append edit box
