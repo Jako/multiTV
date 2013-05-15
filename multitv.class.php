@@ -7,10 +7,10 @@
  * @author		Jako (thomas.jakobi@partout.info)
  */
 if (!function_exists('renderFormElement')) {
-	include MODX_BASE_PATH . 'manager/includes/tmplvars.inc.php';
+	include MODX_MANAGER_PATH . 'includes/tmplvars.inc.php';
 }
 if (!class_exists('evoChunkie')) {
-	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
+	include (MTV_BASE_PATH . 'includes/chunkie.class.inc.php');
 }
 
 class multiTV {
