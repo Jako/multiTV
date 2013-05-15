@@ -699,7 +699,9 @@ function SetUrl(url, width, height, alt) {
 
 			// save/append edit box
 			function saveRow(mode) {
-				tinyMCE.triggerSave();
+				if (typeof tinyMCE != 'undefined') {
+					tinyMCE.triggerSave();
+				}
 				var values = new Object();
 				var saveTab = fieldEditForm.find('[name^="' + tvid + 'tab_radio_mtv"]').getValue();
 				values.fieldTab = (saveTab !== '') ? saveTab : '';
