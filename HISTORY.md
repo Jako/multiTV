@@ -3,6 +3,7 @@ History
 - 1.5.2 May 15, 2013
     - CustomTV: bugfix in connector for not published documents
     - CustomTV: changed path to MODX_MANAGER_PATH base
+    - CustomTV: bugfix for documents that have rich text disabled
 
 - 1.5.1 May 6, 2013
     - CustomTV: bugfix for datatables and template var id below 10
