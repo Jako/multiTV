@@ -592,7 +592,7 @@ function SetUrl(url, width, height, alt) {
 					data.settings.autoincrement = 1;
 				}
 				$.each(data.value, function(key, value) {
-					this.DT_RowId = key + 1;
+					this.DT_RowId = tvid + key + 1;
 					this.MTV_RowId = key + 1;
 				});
 			}
