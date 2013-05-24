@@ -1,6 +1,6 @@
 History
 ================================================================================
-- 1.5.3 May 15, 2013
+- 1.5.3 May 24, 2013
     - CustomTV: bugfix for row reordering problem in datatables with more than one datatables multiTV
 
 - 1.5.2 May 15, 2013
