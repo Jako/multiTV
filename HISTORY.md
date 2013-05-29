@@ -1,5 +1,10 @@
 History
 ================================================================================
+- 1.5.4 May 24, 2013
+    - Snippet: bugfix for empty multiTV
+    - CustomTV: bugfix for datatables and template var id
+    - CustomTV: corrected invalid language settings
+
 - 1.5.3 May 24, 2013
     - CustomTV: bugfix for row reordering problem in datatables with more than one datatables multiTV
 
