@@ -51,6 +51,7 @@ $offset = isset($offset) ? intval($offset) : 0;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
 $toPlaceholder = (isset($toPlaceholder) && $toPlaceholder != '') ? $toPlaceholder : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
+$reverse = (isset($reverse) && $reverse) ? TRUE : FALSE;
 $orderBy = isset($orderBy) ? $orderBy : '';
 list($sortBy, $sortDir) = explode(" ", $orderBy);
 $published = (isset($published)) ? $published : '1';
@@ -113,6 +114,8 @@ if (!$countOutput || $firstEmpty) {
 // random or sort output
 if ($randomize) {
 	shuffle($tvOutput);
+} elseif ($reverse) {
+	array_reverse($tvOutput);
 } elseif (!empty($sortBy)) {
 	$multiTV->sort($tvOutput, trim($sortBy), trim($sortDir));
 }

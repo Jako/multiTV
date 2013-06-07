@@ -1,5 +1,9 @@
 History
 ================================================================================
+
+- 1.5.5 June 8, 2013
+    - Snippet: `reverse` parameter
+    
 - 1.5.4 May 24, 2013
     - Snippet: bugfix for empty multiTV
     - CustomTV: bugfix for datatables and template var id
