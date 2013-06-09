@@ -115,7 +115,7 @@ if (!$countOutput || $firstEmpty) {
 if ($randomize) {
 	shuffle($tvOutput);
 } elseif ($reverse) {
-	array_reverse($tvOutput);
+	$tvOutput = array_reverse($tvOutput);
 } elseif (!empty($sortBy)) {
 	$multiTV->sort($tvOutput, trim($sortBy), trim($sortDir));
 }
