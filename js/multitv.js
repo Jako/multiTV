@@ -706,9 +706,11 @@ function SetUrl(url, width, height, alt) {
 				var saveTab = fieldEditForm.find('[name^="' + tvid + 'tab_radio_mtv"]').getValue();
 				values.fieldTab = (saveTab !== '') ? saveTab : '';
 				fieldEditArea.find(':input').each(function(i) {
-					var key = $(this).attr('name').replace(/tv\d+(.*)_mtv/, '$1');
-					if (key !== '') {
-						values[key] = $(this).val();
+					if ($(this).attr('name')) {
+						var key = $(this).attr('name').replace(/tv\d+(.*)_mtv/, '$1');
+						if (key !== '') {
+							values[key] = $(this).val();
+						}
 					}
 				});
 				$.ajax({
