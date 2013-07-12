@@ -460,13 +460,6 @@ class multiTV {
 			}
 		}
 
-		// Check for ManagerManager 
-		$res = $modx->db->select('*', $modx->getFullTableName('site_plugins'), 'name="ManagerManager" AND disabled=0 ');
-		$mmActive = $modx->db->getRow($res);
-		if ($mmActive) {
-			unset($scriptfiles[0]); // don't include jQuery if ManagerManager is active
-		}
-
 		$placeholder['cssfiles'] = implode("\r\n", $cssfiles);
 		$placeholder['scriptfiles'] = implode("\r\n", $scriptfiles);
 		$placeholder['tvcss'] = $tvcss;
