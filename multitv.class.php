@@ -221,6 +221,8 @@ class multiTV {
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
 
+		$clipper = (defined(CMS_NAME) && CMS_NAME == 'ClipperCMS') ? 'Clipper' : '';
+
 		// generate tv elements
 		$tvcss = '';
 		$hasthumb = '';
@@ -410,11 +412,11 @@ class multiTV {
 		$files = array();
 		$placeholder = array();
 
-		include ($this->includeFile('default', 'setting'));
+		include ($this->includeFile('default' . $clipper, 'setting'));
 		$files['scripts'] = $settings['scripts'];
 		$files['css'] = $settings['css'];
 		if ($this->configuration['enablePaste']) {
-			include ($this->includeFile('paste', 'setting'));
+			include ($this->includeFile('paste' . $clipper, 'setting'));
 			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
 			$files['css'] = array_merge($files['css'], $settings['css']);
 			$placeholder['paste'] = file_get_contents($this->includeFile('paste', 'template', '.html'));
@@ -427,25 +429,35 @@ class multiTV {
 			$placeholder['clear'] = '';
 		}
 		if ($this->display == 'datatable') {
-			include ($this->includeFile('datatable', 'setting'));
+			include ($this->includeFile('datatable' . $clipper, 'setting'));
 			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
 			$files['css'] = array_merge($files['css'], $settings['css']);
 			$placeholder['data'] = file_get_contents($this->includeFile('datatable', 'template', '.html'));
-			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript', 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript' . $clipper, 'template', '.html'));
 			$placeholder['edit'] = file_get_contents($this->includeFile('edit', 'template', '.html'));
 			$placeholder['editform'] = $tvelement;
 		} else {
 			$placeholder['data'] = file_get_contents($this->includeFile('sortablelist', 'template', '.html'));
-			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript', 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript' . $clipper, 'template', '.html'));
 		}
 
-		$files['scripts'] = array_merge($files['scripts'], array('[+tvpath+]js/multitv.js'));
 
 		foreach ($files['css'] as $file) {
-			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $file . '" />';
+			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $tvpath . $file . '" />';
 		}
-		foreach ($files['scripts'] as $file) {
-			$scriptfiles[] = '	<script type="text/javascript" src="' . $file . '"></script>';
+		if ($clipper != 'Clipper') {
+			$files['scripts'] = array_merge($files['scripts'], array('js/multitvhelper.js', 'js/multitv.js'));
+			foreach ($files['scripts'] as $file) {
+				$scriptfiles[] = '	<script type="text/javascript" src="' . $tvpath . $file . '"></script>';
+			}
+		} else {
+			$files['scripts'] = array_merge($files['scripts'], array(
+				array('name' => 'multitvhelper', 'path' => 'js/multitvhelperclipper.js'),
+				array('name' => 'multitv', 'path' => 'js/multitv.js'),
+			));
+			foreach ($files['scripts'] as $file) {
+				$modx->getJqueryTag($file['name'], $tvpath . $file['path']);
+			}
 		}
 
 		// Check for ManagerManager 
