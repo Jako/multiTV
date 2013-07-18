@@ -62,6 +62,8 @@ $maskedTags = array('((' => '[+', '))' => '+]');
 $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $outerTpl);
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
+// get template variable always if logged into manager
+$published = isset($_SESSION['mgrValidated'])? '2' : $published;
 // get template variable
 switch (strtolower($published)) {
 	case '0':
