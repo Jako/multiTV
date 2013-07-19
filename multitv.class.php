@@ -221,7 +221,7 @@ class multiTV {
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
 
-		$clipper = (defined(CMS_NAME) && CMS_NAME == 'ClipperCMS') ? 'Clipper' : '';
+		$clipper = (defined('CMS_NAME') && (CMS_NAME == 'ClipperCMS')) ? 'Clipper' : '';
 
 		// generate tv elements
 		$tvcss = '';
@@ -456,7 +456,7 @@ class multiTV {
 				array('name' => 'multitv', 'path' => 'js/multitv.js'),
 			));
 			foreach ($files['scripts'] as $file) {
-				$modx->getJqueryTag($file['name'], $tvpath . $file['path']);
+				$scriptfiles[] = $modx->getJqueryPluginTag($file['name'], $tvpath . $file['path'], FALSE);
 			}
 		}
 
