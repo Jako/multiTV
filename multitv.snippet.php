@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.5.4
+ * @version 	1.6
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.5.4</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.6</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -62,6 +62,8 @@ $maskedTags = array('((' => '[+', '))' => '+]');
 $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $outerTpl);
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
+// get template variable always if logged into manager
+$published = isset($_SESSION['mgrValidated'])? '2' : $published;
 // get template variable
 switch (strtolower($published)) {
 	case '0':

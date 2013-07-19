@@ -1,5 +1,10 @@
 History
 ================================================================================
+- 1.6 July 19, 2013
+    - CustomTV: Clipper 1.2 Compatibility
+
+- 1.5.6 July 18, 2013
+    - Snippet: show multiTV value always if logged into manager regardless of document publishing status
 
 - 1.5.5 June 8, 2013
     - Snippet: `reverse` parameter
