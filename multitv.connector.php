@@ -17,8 +17,8 @@ $modx->db->connect();
 $modx->getSettings();
 
 // set customtv (base) path
-define(MTV_PATH, 'assets/tvs/multitv/');
-define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
+define('MTV_PATH', 'assets/tvs/multitv/');
+define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 // include classfile
 if (!class_exists('multiTV')) {
