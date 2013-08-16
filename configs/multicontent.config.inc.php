@@ -30,7 +30,7 @@ $settings['columns'] = array(
 	array(
 		'caption' => 'Content',
 		'fieldname' => 'title1_1',
-		'render' => '[+fieldTab:switch=`onecol:<table><tr><td>[+title1_1:outer=`<b>|</b> – `+][+content1_1:notags:character_limit=`75`:outer=`| …`+]</td></tr></table>|twocol:<table><tr><td style="width: 50%">[+title2_1:outer=`<b>|</b> – `+][+content2_1:notags:character_limit=`75`:outer=`| …`+]</td><td style="width: 50%">[+title2_2:outer=`<b>|</b> – `+][+content2_2:notags:character_limit=`75`:outer=`| …`+]</td></tr></table>|default:`+]'
+		'render' => '[+fieldTab:select=`onecol=<table><tr><td>[+title1_1+][+content1_1:notags:limit+]</td></tr></table>&twocol=<table><tr><td>[+title2_1+][+content2_1:notags:limit+]</td><td>[+title2_2+][+content2_2:notags:limit+]</td></tr></table>`+]'
 	)
 );
 $settings['form'] = array(
@@ -59,20 +59,6 @@ $settings['form'] = array(
 		)
 	)
 );
-
-$settings['templates'] = array(
-	'outerTpl' => '
-
-[+wrapper+]
-',
-	'rowTpl' => '
-[+img_bg+]
-[+row.number+]
-[+iteration+]
-[+title+]
-[+row.class+]
-<br/>'
-);
 $settings['configuration'] = array(
 	'enablePaste' => FALSE,
 	'csvseparator' => ',',
@@ -81,6 +67,6 @@ $settings['configuration'] = array(
 );
 $settings['templates'] = array(
 	'outerTpl' => '<table>[+wrapper+]</table>',
-	'rowTpl' => '[+fieldTab:switch=`onecol:<tr><td><h1>[+title1_1+]</h1>[+content1_1+]</td></tr>|twocol:<tr><td><h1>[+title2_1+]</h1>[+content2_1+]</td><td><h1>[+title2_2+]</h1>[+content2_2+]</td></tr>|default:`+]'
-		)
+	'rowTpl' => '[+fieldTab:select=`onecol=<tr><td><h1>[+title1_1+]</h1>[+content1_1+]</td></tr>&twocol=<tr><td><h1>[+title2_1+]</h1>[+content2_1+]</td><td><h1>[+title2_2+]</h1>[+content2_2+]</td></tr>`+]'
+);
 ?>

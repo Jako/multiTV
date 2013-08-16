@@ -164,7 +164,7 @@ offset | count of rows from start that are not displayed | 0
 rows | comma separated list of row numbers (or all rows) that should be displayed | all
 randomize | random order of displayed rows (disables `reverse` and `orderBy` parameter) | 0
 reverse | reverse order of displayed rows (disables `orderBy` parameter) | 0
-orderBy | column name and order direction (direction defaults to asc) to sort the output | -
+orderBy | column name, column order type and order direction to sort the output (format: `name:type direction` – type could be `text` or `date`, defaults to `text` – direction defaults to `asc`) | -
 toPlaceholder | the snippet output is assigned to a placeholder named as the parameter value (i.e. [+myPlaceholder+]), single items are assigned to placeholders named as the parameter value followed by the row number (i.e. [+myPlaceholder.1+]). Normal snippet output is suppressed. (Note 2) | -
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1

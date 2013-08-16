@@ -33,6 +33,8 @@ class multiTV {
 	public $language = array();
 	public $configuration = array();
 	public $sortkey = '';
+	public $sortdir = '';
+	public $sorttype = '';
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -220,6 +222,8 @@ class multiTV {
 		$tvvalue = $this->maskTags($tvvalue);
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
+
+		$clipper = (defined('CMS_NAME') && (CMS_NAME == 'ClipperCMS')) ? 'Clipper' : '';
 
 		// generate tv elements
 		$tvcss = '';
@@ -410,11 +414,11 @@ class multiTV {
 		$files = array();
 		$placeholder = array();
 
-		include ($this->includeFile('default', 'setting'));
+		include ($this->includeFile('default' . $clipper, 'setting'));
 		$files['scripts'] = $settings['scripts'];
 		$files['css'] = $settings['css'];
 		if ($this->configuration['enablePaste']) {
-			include ($this->includeFile('paste', 'setting'));
+			include ($this->includeFile('paste' . $clipper, 'setting'));
 			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
 			$files['css'] = array_merge($files['css'], $settings['css']);
 			$placeholder['paste'] = file_get_contents($this->includeFile('paste', 'template', '.html'));
@@ -427,32 +431,35 @@ class multiTV {
 			$placeholder['clear'] = '';
 		}
 		if ($this->display == 'datatable') {
-			include ($this->includeFile('datatable', 'setting'));
+			include ($this->includeFile('datatable' . $clipper, 'setting'));
 			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
 			$files['css'] = array_merge($files['css'], $settings['css']);
 			$placeholder['data'] = file_get_contents($this->includeFile('datatable', 'template', '.html'));
-			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript', 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript' . $clipper, 'template', '.html'));
 			$placeholder['edit'] = file_get_contents($this->includeFile('edit', 'template', '.html'));
 			$placeholder['editform'] = $tvelement;
 		} else {
 			$placeholder['data'] = file_get_contents($this->includeFile('sortablelist', 'template', '.html'));
-			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript', 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript' . $clipper, 'template', '.html'));
 		}
 
-		$files['scripts'] = array_merge($files['scripts'], array('[+tvpath+]js/multitv.js'));
 
 		foreach ($files['css'] as $file) {
-			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $file . '" />';
+			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $tvpath . $file . '" />';
 		}
-		foreach ($files['scripts'] as $file) {
-			$scriptfiles[] = '	<script type="text/javascript" src="' . $file . '"></script>';
-		}
-
-		// Check for ManagerManager 
-		$res = $modx->db->select('*', $modx->getFullTableName('site_plugins'), 'name="ManagerManager" AND disabled=0 ');
-		$mmActive = $modx->db->getRow($res);
-		if ($mmActive) {
-			unset($scriptfiles[0]); // don't include jQuery if ManagerManager is active
+		if ($clipper != 'Clipper') {
+			$files['scripts'] = array_merge($files['scripts'], array('js/multitvhelper.js', 'js/multitv.js'));
+			foreach ($files['scripts'] as $file) {
+				$scriptfiles[] = '	<script type="text/javascript" src="' . $tvpath . $file . '"></script>';
+			}
+		} else {
+			$files['scripts'] = array_merge($files['scripts'], array(
+				array('name' => 'multitvhelper', 'path' => 'js/multitvhelperclipper.js'),
+				array('name' => 'multitv', 'path' => 'js/multitv.js'),
+			));
+			foreach ($files['scripts'] as $file) {
+				$scriptfiles[] = $modx->getJqueryPluginTag($file['name'], $tvpath . $file['path'], FALSE);
+			}
 		}
 
 		$placeholder['cssfiles'] = implode("\r\n", $cssfiles);
@@ -474,19 +481,32 @@ class multiTV {
 
 	// sort a multidimensional array
 	function sort(&$array, $sortkey, $sortdir = 'asc') {
-		if (array_search($sortkey, $this->fieldnames) === FALSE) {
+		$sortkey = explode(':', $sortkey);
+		if (array_search($sortkey[0], $this->fieldnames) === FALSE) {
 			return;
 		}
-		$this->sortkey = $sortkey;
+		$this->sorttype = ($sortkey[1]) ? $sortkey[1] : 'text';
+		$this->sortkey = $sortkey[0];
 		$this->sortdir = ($sortdir === 'desc') ? 'desc' : 'asc';
 		usort($array, array($this, 'compareSort'));
 	}
 
 	// compare sort values
 	private function compareSort($a, $b) {
-		if ($a[$this->sortkey] === $b[$this->sortkey]) {
+		switch ($this->sorttype) {
+			case 'date' :
+				$val_a = strtotime($a[$this->sortkey]);
+				$val_b = strtotime($b[$this->sortkey]);
+				break;
+			case 'text':
+			default:
+				$val_a = $a[$this->sortkey];
+				$val_b = $b[$this->sortkey];
+				break;
+		}
+		if ($val_a === $val_b) {
 			return 0;
-		} else if ($a[$this->sortkey] < $b[$this->sortkey]) {
+		} else if ($val_a < $val_b) {
 			return ($this->sortdir === 'asc') ? -1 : 1;
 		} else {
 			return ($this->sortdir === 'asc') ? 1 : -1;

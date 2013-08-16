@@ -1,13 +1,22 @@
 <?php
 $settings['css'] = array(
-	'[+tvpath+]css/jquery-ui-1.8.24.custom.css',
-	'[+tvpath+]css/multitv.css'
+	'css/jquery-ui-1.8.24.custom.css',
+	'css/multitv.css'
 );
-$settings['scripts'] = array(
-	'[+tvpath+]js/jquery-1.4.4.min.js',
-	'[+tvpath+]js/jquery-json-2.3.min.js',
-	'[+tvpath+]js/jquery-ui-1.8.24.custom.min.js',
-	'[+tvpath+]js/jquery-ui-timepicker-addon.js',
-	'[+tvpath+]js/jquery-field-0.9.6.min.js'
+
+// Check for ManagerManager
+$res = $modx->db->select('*', $modx->getFullTableName('site_plugins'), 'name="ManagerManager" AND disabled=0 ');
+$mmActive = $modx->db->getRow($res);
+if (!$mmActive) {
+	$settings['scripts'] = array('js/jquery-1.4.4.min.js');
+} else {
+	$settings['scripts'] = array();
+}
+$settings['scripts'] = array_merge($settings['scripts'], array(
+	'js/jquery-json-2.3.min.js',
+	'js/jquery-ui-1.8.24.custom.min.js',
+	'js/jquery-ui-timepicker-addon.js',
+	'js/jquery-field-0.9.6.min.js'
+		)
 );
 ?>

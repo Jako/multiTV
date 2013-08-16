@@ -3,12 +3,12 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.5.4
+ * @version 	1.6
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.5.4</strong> Transform template variables into a sortable multi item list.
- * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
+ * @internal    description: <strong>1.6</strong> Transform template variables into a sortable multi item list.
+ * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/updatetv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
 	die('<h1>ERROR:</h1><p>Please use do not access this file directly.</p>');
@@ -17,8 +17,8 @@ if (MODX_BASE_PATH == '') {
 global $modx;
 
 // set customtv (base) path
-define(MTV_PATH, 'assets/tvs/multitv/');
-define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
+define('MTV_PATH', 'assets/tvs/multitv/');
+define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 // include classfile
 if (!class_exists('multiTV')) {
