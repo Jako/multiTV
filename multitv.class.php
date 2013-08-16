@@ -33,6 +33,8 @@ class multiTV {
 	public $language = array();
 	public $configuration = array();
 	public $sortkey = '';
+	public $sortdir = '';
+	public $sorttype = '';
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -479,19 +481,32 @@ class multiTV {
 
 	// sort a multidimensional array
 	function sort(&$array, $sortkey, $sortdir = 'asc') {
-		if (array_search($sortkey, $this->fieldnames) === FALSE) {
+		$sortkey = explode(':', $sortkey);
+		if (array_search($sortkey[0], $this->fieldnames) === FALSE) {
 			return;
 		}
-		$this->sortkey = $sortkey;
+		$this->sorttype = ($sortkey[1]) ? $sortkey[1] : 'text';
+		$this->sortkey = $sortkey[0];
 		$this->sortdir = ($sortdir === 'desc') ? 'desc' : 'asc';
 		usort($array, array($this, 'compareSort'));
 	}
 
 	// compare sort values
 	private function compareSort($a, $b) {
-		if ($a[$this->sortkey] === $b[$this->sortkey]) {
+		switch ($this->sorttype) {
+			case 'date' :
+				$val_a = strtotime($a[$this->sortkey]);
+				$val_b = strtotime($b[$this->sortkey]);
+				break;
+			case 'text':
+			default:
+				$val_a = $a[$this->sortkey];
+				$val_b = $b[$this->sortkey];
+				break;
+		}
+		if ($val_a === $val_b) {
 			return 0;
-		} else if ($a[$this->sortkey] < $b[$this->sortkey]) {
+		} else if ($val_a < $val_b) {
 			return ($this->sortdir === 'asc') ? -1 : 1;
 		} else {
 			return ($this->sortdir === 'asc') ? 1 : -1;

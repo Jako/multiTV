@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 1.6.1 August 16, 2013
+    - Snippet: enhanced `orderBy` parameter
+
 - 1.6 July 19, 2013
     - CustomTV: Clipper 1.2 Compatibility
 
