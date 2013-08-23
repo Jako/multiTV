@@ -5,7 +5,7 @@
  * multiTV
  *
  * @category 	snippet
- * @version 	1.4.8
+ * @version 	1.5.6
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako
  * @internal	@modx_category add
