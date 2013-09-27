@@ -15,6 +15,7 @@ if (!String.prototype.supplant) {
 }
 
 function SetUrl(url, width, height, alt) {
+	url = url.replace(/^.*\/assets\/images\//, 'assets/images/');
 	if (lastFileCtrl) {
 		var fileCtrl = $('#' + lastFileCtrl);
 		fileCtrl.val(url);

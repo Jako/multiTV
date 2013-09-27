@@ -223,7 +223,19 @@ class multiTV {
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
 
-		$clipper = (defined('CMS_NAME') && (CMS_NAME == 'ClipperCMS')) ? 'Clipper' : '';
+		$version = $modx->getVersionData();
+		switch ($version['branch']) {
+			case 'Evolution':
+				$clipper = '';
+				$tvkcfinder = version_compare($version['version'], '1.0.10', '>') ? 'true' : 'false';
+				$tvthumbs = ($modx->config['thumbsDir']) ? '.thumbs/' : '';
+				break;
+			case 'ClipperCMS':
+				$clipper = 'Clipper';
+				$tvkcfinder = version_compare($version['version'], '1.1', '>') ? 'true' : 'false';
+				$tvthumbs = 'thumbs/';
+				break;
+		}
 
 		// generate tv elements
 		$tvcss = '';
@@ -473,6 +485,8 @@ class multiTV {
 		$placeholder['tvvalue'] = $tvvalue;
 		$placeholder['tvid'] = $tvid;
 		$placeholder['tvpath'] = $tvpath;
+		$placeholder['tvkcfinder'] = $tvkcfinder;
+		$placeholder['tvthumbs'] = $tvthumbs;
 
 		$tvtemplate = $this->renderTemplate('multitv', $placeholder);
 

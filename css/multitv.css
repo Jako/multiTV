@@ -29,6 +29,7 @@
 .multitv .list li.element .DatePicker { padding: 3px 3px 3px 24px }
 
 .multitv .list li.element .tvimage { float: right; margin-right: 12px; width: 96px }
+.multitv .list li.element .tvimage img { width: 96px; height: auto }
 .multitv .list li.element .thumb { border: 1px solid #ccc !important }
 
 .multitv .list li.element .tvimage.inline { float: left; margin-right: 5px; width: 26px }
