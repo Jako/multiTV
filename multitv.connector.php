@@ -5,6 +5,10 @@ require_once(MODX_MANAGER_PATH . 'includes/protect.inc.php');
 
 // Setup the MODx API
 define('MODX_API_MODE', TRUE);
+define("IN_MANAGER_MODE", TRUE);
+
+//start session
+startCMSSession();
 
 // initiate a new document parser
 include_once(MODX_MANAGER_PATH . '/includes/document.parser.class.inc.php');
