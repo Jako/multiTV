@@ -1,40 +1,40 @@
 <?php
-$language['editSwitch'] = 'Contenuto ereditato dalla risorsa parente e/o cancellato. <a href="#">Clicca qui</a> per editarlo.';
-$language['clear'] = 'Rimuovi tutti gli elementi';
+$language['editSwitch'] = 'Contenuto ereditato dalla risorsa parente e/o cancellato. <a href="#">Clicca qui</a> per modificarlo.';
+$language['clear'] = 'Cancella tutti gli elementi';
 $language['confirmclear'] = 'Sei sicuro di voler cancellare tutto?';
 $language['paste'] = 'Incolla i dati da una tabella (ad es. HTML, Word, CSV)';
 $language['pastehere'] = 'Incolla qui:';
 $language['add'] = 'Aggiungi';
-$language['remove'] = 'Rimuovi';
-$language['edit'] = 'Edit';
+$language['remove'] = 'Cancella';
+$language['edit'] = 'Modifica';
 $language['save'] = 'Salva';
 $language['replace'] = 'Sostituisci';
 $language['append'] = 'Aggiungi';
-$language['cancel'] = 'Cancella';
+$language['cancel'] = 'Annulla';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
 $language['dataTables'] = '{
-	"sEmptyTable":     "No data available in table",
-    "sInfo":           "Showing _START_ to _END_ of _TOTAL_ entries",
-    "sInfoEmpty":      "Showing 0 to 0 of 0 entries",
-    "sInfoFiltered":   "(filtered from _MAX_ total entries)",
+    "sEmptyTable":     "Nessun elemento disponibile nella tabella",
+    "sInfo":           "Mostro gli elementi da _START_ a _END_ di _TOTAL_ elementi in totale",
+    "sInfoEmpty":      "Mostro gli elementi da 0 a 0 di 0 elementi in totale",
+    "sInfoFiltered":   "(filtrati da _MAX_ elementi in totale)",
     "sInfoPostFix":    "",
     "sInfoThousands":  ",",
-    "sLengthMenu":     "Show _MENU_ entries",
-    "sLoadingRecords": "Loading …",
-    "sProcessing":     "Processing …",
-    "sSearch":         "Search:",
-    "sZeroRecords":    "No matching records found",
+    "sLengthMenu":     "Mostra _MENU_ elementi",
+    "sLoadingRecords": "Sto caricando …",
+    "sProcessing":     "Sto elaborando …",
+    "sSearch":         "Cerca:",
+    "sZeroRecords":    "Nessun elemento trovato",
     "oPaginate": {
-        "sFirst":    "First",
-        "sLast":     "Last",
-        "sNext":     "Next",
-        "sPrevious": "Previous"
+        "sFirst":    "Primo",
+        "sLast":     "Ultimo",
+        "sNext":     "Successivo",
+        "sPrevious": "Prossimo"
     },
     "oAria": {
-        "sSortAscending":  ": activate to sort column ascending",
-        "sSortDescending": ": activate to sort column descending"
+        "sSortAscending":  ": attivare per l\'ordinamento crescente delle colonne",
+        "sSortDescending": ": attivare per l\'ordinamento decrescente delle colonne"
     }
 }';
 ?>
