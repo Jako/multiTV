@@ -12,5 +12,10 @@ Sortable Sidebar
 
 **Usage**
 
-```[!Ditto? &documents=`[[multiTV? &tvName=`sidebar`]]` &extenders=`@FILE assets/tvs/multitv/dittoExtender/customsort.extender.inc.php` &tpl=`…`!]```
+```
+[!Ditto? 
+&documents=`[[multiTV? &tvName=`sidebar`]]` 
+&extenders=`@FILE assets/tvs/multitv/dittoExtender/customsort.extender.inc.php` 
+&tpl=`…`!]
+```
  
