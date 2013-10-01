@@ -1,5 +1,3 @@
-var lastImageCtrl;
-var lastFileCtrl;
 var rteOptions;
 var dataTableLanguage;
 
@@ -12,21 +10,4 @@ if (!String.prototype.supplant) {
 				}
 		);
 	};
-}
-
-function SetUrl(url, width, height, alt) {
-	url = url.replace(/^.*\/assets\/images\//, 'assets/images/');
-	if (lastFileCtrl) {
-		var fileCtrl = $('#' + lastFileCtrl);
-		fileCtrl.val(url);
-		fileCtrl.trigger('change');
-		lastFileCtrl = '';
-	} else if (lastImageCtrl) {
-		var imageCtrl = $('#' + lastImageCtrl);
-		imageCtrl.val(url);
-		imageCtrl.trigger('change');
-		lastImageCtrl = '';
-	} else {
-		return;
-	}
 }

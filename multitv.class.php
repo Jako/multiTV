@@ -35,6 +35,7 @@ class multiTV {
 	public $sortkey = '';
 	public $sortdir = '';
 	public $sorttype = '';
+	public $cmsinfo = array();
 
 	// Init
 	function multiTV($tvDefinitions) {
@@ -59,6 +60,22 @@ class multiTV {
 		$language = array();
 		include ($this->includeFile($modx->config['manager_language'], 'language'));
 		$this->language = $language;
+
+		$version = $modx->getVersionData();
+		switch ($version['branch']) {
+			case 'Evolution':
+				$this->cmsinfo['clipper'] = '';
+				$this->cmsinfo['kcfinder'] = version_compare($version['version'], '1.0.10', '>') ? 'true' : 'false';
+				$this->cmsinfo['thumbsdir'] = ($modx->config['thumbsDir']) ? '.thumbs/' : '';
+				$this->cmsinfo['seturl'] = version_compare($version['version'], '1.0.12', '>') ? '' : 'old';
+				break;
+			case 'ClipperCMS':
+				$this->cmsinfo['clipper'] = 'Clipper';
+				$this->cmsinfo['kcfinder'] = version_compare($version['version'], '1.1', '>') ? 'true' : 'false';
+				$this->cmsinfo['thumbsdir'] = 'thumbs/';
+				$this->cmsinfo['seturl'] = version_compare($version['version'], '1.2.0', '>') ? '' : 'old';
+				break;
+		}
 	}
 
 	// Return the include path of a configuration/template/whatever file
@@ -188,7 +205,9 @@ class multiTV {
 		preg_match('/(<script.*?script>)/s', $formElement, $currentScript); // get script
 		if (isset($currentScript[1])) { // the tv script is only included for the first tv that is using them (tv with image or file type)
 			$formElement = preg_replace('/(<script.*?script>)/s', '', $formElement); // remove the script tag
-			$currentScript[1] = preg_replace('/function SetUrl.*script>/s', '</script>', $currentScript[1]); // remove original SetUrl function
+			if ($this->cmsinfo['kcfinder'] == 'false' || $this->cmsinfo['kcfinder'] == 'old') {
+				$currentScript[1] = preg_replace('/function SetUrl.*script>/s', '</script>', $currentScript[1]); // remove original SetUrl function
+			}
 			$formElement = $formElement . $currentScript[1]; // move the script tag to the end
 		}
 		preg_match('/<.*class=\"([^\"]*)/s', $formElement, $currentClass); // get current classes
@@ -222,20 +241,6 @@ class multiTV {
 		$tvvalue = $this->maskTags($tvvalue);
 		$tvlanguage = json_encode($this->language);
 		$tvpath = '../' . MTV_PATH;
-
-		$version = $modx->getVersionData();
-		switch ($version['branch']) {
-			case 'Evolution':
-				$clipper = '';
-				$tvkcfinder = version_compare($version['version'], '1.0.10', '>') ? 'true' : 'false';
-				$tvthumbs = ($modx->config['thumbsDir']) ? '.thumbs/' : '';
-				break;
-			case 'ClipperCMS':
-				$clipper = 'Clipper';
-				$tvkcfinder = version_compare($version['version'], '1.1', '>') ? 'true' : 'false';
-				$tvthumbs = 'thumbs/';
-				break;
-		}
 
 		// generate tv elements
 		$tvcss = '';
@@ -426,11 +431,11 @@ class multiTV {
 		$files = array();
 		$placeholder = array();
 
-		include ($this->includeFile('default' . $clipper, 'setting'));
+		include ($this->includeFile('default' . $this->cmsinfo['clipper'], 'setting'));
 		$files['scripts'] = $settings['scripts'];
 		$files['css'] = $settings['css'];
 		if ($this->configuration['enablePaste']) {
-			include ($this->includeFile('paste' . $clipper, 'setting'));
+			include ($this->includeFile('paste' . $this->cmsinfo['clipper'], 'setting'));
 			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
 			$files['css'] = array_merge($files['css'], $settings['css']);
 			$placeholder['paste'] = file_get_contents($this->includeFile('paste', 'template', '.html'));
@@ -443,30 +448,30 @@ class multiTV {
 			$placeholder['clear'] = '';
 		}
 		if ($this->display == 'datatable') {
-			include ($this->includeFile('datatable' . $clipper, 'setting'));
+			include ($this->includeFile('datatable' . $this->cmsinfo['clipper'], 'setting'));
 			$files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
 			$files['css'] = array_merge($files['css'], $settings['css']);
 			$placeholder['data'] = file_get_contents($this->includeFile('datatable', 'template', '.html'));
-			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript' . $clipper, 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('datatableScript' . $this->cmsinfo['clipper'], 'template', '.html'));
 			$placeholder['edit'] = file_get_contents($this->includeFile('edit', 'template', '.html'));
 			$placeholder['editform'] = $tvelement;
 		} else {
 			$placeholder['data'] = file_get_contents($this->includeFile('sortablelist', 'template', '.html'));
-			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript' . $clipper, 'template', '.html'));
+			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript' . $this->cmsinfo['clipper'], 'template', '.html'));
 		}
 
 
 		foreach ($files['css'] as $file) {
 			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $tvpath . $file . '" />';
 		}
-		if ($clipper != 'Clipper') {
+		if ($this->cmsinfo['clipper'] != 'Clipper') {
 			$files['scripts'] = array_merge($files['scripts'], array('js/multitvhelper.js', 'js/multitv.js'));
 			foreach ($files['scripts'] as $file) {
 				$scriptfiles[] = '	<script type="text/javascript" src="' . $tvpath . $file . '"></script>';
 			}
 		} else {
 			$files['scripts'] = array_merge($files['scripts'], array(
-				array('name' => 'multitvhelper', 'path' => 'js/multitvhelperclipper.js'),
+				array('name' => 'multitvhelper', 'path' => 'js/multitvhelperclipper' . $this->cmsinfo['kcfinder'] . '.js'),
 				array('name' => 'multitv', 'path' => 'js/multitv.js'),
 			));
 			foreach ($files['scripts'] as $file) {
@@ -485,8 +490,8 @@ class multiTV {
 		$placeholder['tvvalue'] = $tvvalue;
 		$placeholder['tvid'] = $tvid;
 		$placeholder['tvpath'] = $tvpath;
-		$placeholder['tvkcfinder'] = $tvkcfinder;
-		$placeholder['tvthumbs'] = $tvthumbs;
+		$placeholder['tvkcfinder'] = $this->cmsinfo['kcfinder'];
+		$placeholder['tvthumbs'] = $this->cmsinfo['thumbsdir'];
 
 		$tvtemplate = $this->renderTemplate('multitv', $placeholder);
 
