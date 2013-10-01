@@ -471,7 +471,7 @@ class multiTV {
 			}
 		} else {
 			$files['scripts'] = array_merge($files['scripts'], array(
-				array('name' => 'multitvhelper', 'path' => 'js/multitvhelperclipper' . $this->cmsinfo['kcfinder'] . '.js'),
+				array('name' => 'multitvhelper', 'path' => 'js/multitvhelperclipper' . $this->cmsinfo['seturl'] . '.js'),
 				array('name' => 'multitv', 'path' => 'js/multitv.js'),
 			));
 			foreach ($files['scripts'] as $file) {
