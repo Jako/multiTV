@@ -179,7 +179,7 @@ published | display only multiTVs of published (1), unpublished (0) or both (2) 
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
 outputSeparator | string inserted between two row templates | empty
 firstClass | content of row.class placeholder in the first row | first
-lastClass | content of row.class placeholder in the last row | first
+lastClass | content of row.class placeholder in the last row | last
 evenClass | content of row.class placeholder in an even row | -
 oddClass | content of row.class placeholder in an odd row | -
 
