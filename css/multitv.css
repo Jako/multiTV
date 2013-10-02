@@ -1,6 +1,7 @@
 .multitv { position: relative }
 
 .multitv .heading { padding-left: 20px; clear: left }
+.multitv .heading span { border: 1px solid transparent }
 
 .multitv .list { margin: 0; padding: 0; clear: left; position: relative }
 .multitv .list li.element { position: relative; padding: 4px 4px 4px 20px; margin-bottom: 4px; border: 1px solid #e3e3e3; background: url('images/arrow_updown.png') no-repeat left center; list-style: none }
