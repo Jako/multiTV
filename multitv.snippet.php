@@ -56,6 +56,10 @@ $orderBy = isset($orderBy) ? $orderBy : '';
 list($sortBy, $sortDir) = explode(" ", $orderBy);
 $published = (isset($published)) ? $published : '1';
 $outputSeparator = (isset($outputSeparator)) ? $outputSeparator : '';
+$firstClass = (isset($firstClass)) ? $firstClass : 'first';
+$lastClass = (isset($lastClass)) ? $lastClass : 'last';
+$evenClass = (isset($evenClass)) ? $evenClass : '';
+$oddClass = (isset($oddClass)) ? $oddClass : '';
 
 // replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
 $maskedTags = array('((' => '[+', '))' => '+]');
@@ -63,7 +67,7 @@ $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $out
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
 // get template variable always if logged into manager
-$published = isset($_SESSION['mgrValidated'])? '2' : $published;
+$published = isset($_SESSION['mgrValidated']) ? '2' : $published;
 // get template variable
 switch (strtolower($published)) {
 	case '0':
@@ -130,7 +134,7 @@ $display = (($display + $offset) < $countOutput) ? $display : $countOutput - $of
 // output
 $wrapper = array();
 $i = $iteration = 1;
-$class = 'first';
+$classes = array($firstClass);
 // rowTpl output 
 foreach ($tvOutput as $value) {
 	if ($display == 0) {
@@ -147,14 +151,21 @@ foreach ($tvOutput as $value) {
 		$i++;
 		continue;
 	}
-	$class = ($display != 1) ? $class : trim($class . ' last');
+	if ($display == 1) {
+		$classes[] = $lastClass;
+	}
+	if ($iteration % 2) {
+		$classes[] = $oddClass;
+	} else {
+		$classes[] = $evenClass;
+	}
 	$parser = new evoChunkie($rowTpl);
 	foreach ($value as $key => $fieldvalue) {
 		$fieldname = (is_int($key)) ? $columns[$key] : $key;
 		$parser->AddVar($fieldname, $fieldvalue);
 	}
 	$parser->AddVar('iteration', $iteration);
-	$parser->AddVar('row', array('number' => $i, 'class' => $class, 'total' => $countOutput));
+	$parser->AddVar('row', array('number' => $i, 'class' => implode(' ', $classes), 'total' => $countOutput));
 	$parser->AddVar('docid', $docid);
 	$placeholder = $parser->Render();
 	if ($toPlaceholder) {
@@ -164,7 +175,7 @@ foreach ($tvOutput as $value) {
 	$i++;
 	$iteration++;
 	$display--;
-	$class = '';
+	$classes = array();
 }
 if ($emptyOutput && !count($wrapper)) {
 	// output nothing

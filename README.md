@@ -146,6 +146,10 @@ Call the snippet like this (most expample parameters are using the default value
 &published=`1`
 &emptyOutput=`1`
 &outputSeparator=``
+&firstClass=`first`
+&lastClass=`last`
+&evenClass=``
+&oddClass=``
 !]
 ```
 
@@ -169,6 +173,10 @@ toPlaceholder | the snippet output is assigned to a placeholder named as the par
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
 outputSeparator | string inserted between two row templates | empty
+firstClass | content of row.class placeholder in the first row | first
+lastClass | content of row.class placeholder in the last row | first
+evenClass | content of row.class placeholder in an even row | -
+oddClass | content of row.class placeholder in an odd row | -
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call. Both template chunks are parsed by PHx (chunkie class).
 
@@ -180,7 +188,7 @@ Name | Description
 "fieldname" | each fieldname defined in config file could be used
 iteration | contains the iteration of the current multiTV element
 row.number | contains the row number of the current multiTV element
-row.class | 'first' for first displayed row, 'last' for last displayed row
+row.class | firstClass parameter setting for first displayed row, lastClass parameter setting for last displayed row, evenClass/oddClass parameter setting for even/odd rows.
 row.total | contains the count of all displayable rows 
 docid | value of docid parameter or current document id
 

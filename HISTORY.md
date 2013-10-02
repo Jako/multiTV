@@ -1,7 +1,8 @@
 History
 ================================================================================
-- 1.7.0 September 28, 2013
+- 1.7.0 October 2, 2013
     - CustomTV: MODX 1.0.12/Clipper 1.2 compatibility
+    - Snippet: firstClass, lastClass, evenClass, oddClass parameter
 
 - 1.6.1 August 16, 2013
     - Snippet: enhanced `orderBy` parameter
