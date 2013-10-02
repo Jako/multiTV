@@ -3,18 +3,23 @@ multiTV custom template variable
 
 Transform template variables into a sortable multi item list for the MODX Evolution content management framework
 
+One example for multiTV usage could be found in [EXAMPLES.md](https://github.com/Jako/multiTV/blob/master/EXAMPLES.md). Feel free to add your own examples.
+
+Example Images
+--------------
+
 Events example:
 
-![Eventlist example](https://github.com/Jako/multiTV/blob/master/multitv.events.png?raw=true)
+![Eventlist example](https://raw.github.com/Jako/multiTV/master/multitv.events.png)
 
 Images example:
 
-![Images example](https://github.com/Jako/multiTV/blob/master/multitv.images.png?raw=true)
+![Images example](https://raw.github.com/Jako/multiTV/master/multitv.images.png)
 
 Links example (with editing layer):
 
-![Images example](https://github.com/Jako/multiTV/blob/develop/multitv.links.png?raw=true)
-![Images example](https://github.com/Jako/multiTV/blob/develop/multitv.links_edit.png?raw=true)
+![Images example](https://raw.github.com/Jako/multiTV/master/multitv.links.png)
+![Images example](https://raw.github.com/Jako/multiTV/master/multitv.links_edit.png)
 
 Part 1: custom template variable
 ================================================================================
@@ -25,7 +30,7 @@ With this code a MODX Evo template variable could be transformed into a sortable
   
 Installation:
 --------------------------------------------------------------------------------
-1. Upload all files into the new folder *assets/tvs/multitv*
+1. Upload the folder *assets/tvs/multitv* in the corresponding folder in your installation.
 2. Create a new template variable with imput type *custom input* (if you name this template variable *multidemo* it will use the multidemo config file)
 3. Insert the following code into the *input option values* 
 ```
