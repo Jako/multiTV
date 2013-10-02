@@ -217,7 +217,7 @@ class multiTV {
 			$fieldClass[] = 'setdefault';
 		}
 		if (isset($currentClass[1])) {
-			$fieldClass[] = $currentClass[1];
+			$fieldClass[] = str_replace('DatePicker', 'mtvDatePicker', $currentClass[1]);
 		}
 		$fieldClass = implode(' ', array_unique($fieldClass));
 		$formElement = preg_replace('/(<\w+)/', '$1 class="' . $fieldClass . '"', $formElement, 1); // add class to first tag (the input)

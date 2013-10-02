@@ -211,7 +211,7 @@
 			var _this = this;
 
 			// datepicker
-			$('.DatePicker', el).click(function() {
+			$('.mtvDatePicker', el).click(function() {
 				var picker = $(this).datetimepicker({
 					changeMonth: true,
 					changeYear: true,
@@ -724,7 +724,7 @@
 		},
 		addElementEvents: function(el) {
 			// datepicker
-			$('.DatePicker', el).click(function() {
+			$('.mtvDatePicker', el).click(function() {
 				var picker = $(this).datetimepicker({
 					changeMonth: true,
 					changeYear: true,
