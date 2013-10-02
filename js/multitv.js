@@ -167,7 +167,7 @@
 				var fieldValues = new Object();
 				$.each(_this.fieldNames, function() {
 					var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', multiElement);
-					fieldValues[this] = fieldInput.getValue();
+					fieldValues[this] = fieldInput.getValue().replace('&quot;', '"');
 					if (fieldInput.hasClass('image')) {
 						_this.setThumbnail(fieldValues[this], fieldInput.attr('name'), multiElement);
 					}
@@ -657,7 +657,7 @@
 				var row = new Object();
 				$.each(this, function(key, value) {
 					if (key !== 'DT_RowId' && key !== 'MTV_RowId' && key.substr(0, 9) !== 'mtvRender') {
-						row[key] = value;
+						row[key] = value.replace('&quot;', '"');
 					}
 				});
 				saveValue.push(row);
