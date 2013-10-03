@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 1.7.1 October 3, 2013
+    - CustomTV: Package code is now folder independent
+
 - 1.7.0 October 2, 2013
     - CustomTV: MODX 1.0.12/Clipper 1.2 compatibility
     - Snippet: firstClass, lastClass, evenClass, oddClass parameter

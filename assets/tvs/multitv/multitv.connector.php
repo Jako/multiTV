@@ -1,5 +1,5 @@
 <?php
-define('MODX_MANAGER_PATH', '../../../manager/'); //relative path for manager folder
+define('MODX_MANAGER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/manager/'); //path for manager folder
 require_once(MODX_MANAGER_PATH . 'includes/config.inc.php'); //config
 require_once(MODX_MANAGER_PATH . 'includes/protect.inc.php');
 
@@ -21,7 +21,7 @@ $modx->db->connect();
 $modx->getSettings();
 
 // set customtv (base) path
-define('MTV_PATH', 'assets/tvs/multitv/');
+define('MTV_PATH', str_replace(MODX_BASE_PATH, '', realpath(dirname(__FILE__))) . '/');
 define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 // include classfile
@@ -44,7 +44,7 @@ if ($action && $docid && $tvid) {
 		if ($docObj) {
 			// get the settings for the multiTV
 			$tvSettings = $modx->getTemplateVar($tvid, '*', $docid, $docObj['published']);
-			if ($tvSettings && $tvSettings[elements] = '@INCLUDE/assets/tvs/multitv/multitv.customtv.php') {
+			if ($tvSettings && $tvSettings[elements] = '@INCLUDE' . MTV_PATH . 'multitv.customtv.php') {
 				$multiTV = new multiTV($tvSettings);
 				$includeFile = $multiTV->includeFile($action, 'processor');
 				// processor available?

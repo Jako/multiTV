@@ -502,7 +502,8 @@
 		fieldsettings: '',
 		language: '',
 		kcfinder: true,
-		thumbs: '.thumbs/'
+		thumbs: '.thumbs/',
+		connector: '../assets/tvs/multitv/multitv.connector.php'
 	};
 
 	// Plugin constructor
@@ -830,7 +831,7 @@
 				}
 			});
 			$.ajax({
-				url: "../assets/tvs/multitv/multitv.connector.php",
+				url: _this.options.connector,
 				data: {
 					action: 'preparevalue',
 					id: $('form#mutate [name="id"]').val(),

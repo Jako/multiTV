@@ -205,7 +205,7 @@ class multiTV {
 		preg_match('/(<script.*?script>)/s', $formElement, $currentScript); // get script
 		if (isset($currentScript[1])) { // the tv script is only included for the first tv that is using them (tv with image or file type)
 			$formElement = preg_replace('/(<script.*?script>)/s', '', $formElement); // remove the script tag
-			if ($this->cmsinfo['kcfinder'] == 'false' || $this->cmsinfo['kcfinder'] == 'old') {
+			if ($this->cmsinfo['kcfinder'] == 'false' || $this->cmsinfo['seturl'] == 'old') {
 				$currentScript[1] = preg_replace('/function SetUrl.*script>/s', '</script>', $currentScript[1]); // remove original SetUrl function
 			}
 			$formElement = $formElement . $currentScript[1]; // move the script tag to the end
@@ -492,6 +492,7 @@ class multiTV {
 		$placeholder['tvpath'] = $tvpath;
 		$placeholder['tvkcfinder'] = $this->cmsinfo['kcfinder'];
 		$placeholder['tvthumbs'] = $this->cmsinfo['thumbsdir'];
+		$placeholder['tvconnector'] = '../' . MTV_PATH . 'multitv.connector.php';
 
 		$tvtemplate = $this->renderTemplate('multitv', $placeholder);
 
