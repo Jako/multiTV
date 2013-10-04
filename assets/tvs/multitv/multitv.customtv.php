@@ -15,7 +15,7 @@ if (IN_MANAGER_MODE != 'true') {
 }
 
 // set customtv (base) path
-define('MTV_PATH', str_replace(MODX_BASE_PATH, '', dirname(__FILE__)) . '/');
+define('MTV_PATH', str_replace(MODX_BASE_PATH, '', realpath(dirname(__FILE__))) . '/');
 define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 if (!class_exists('multiTV')) {
