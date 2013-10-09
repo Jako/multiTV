@@ -640,6 +640,7 @@
 						$(this).val('');
 				}
 			});
+			$('.tvimage', el).html('');
 		},
 		saveMultiValue: function() {
 			var _this = this;
@@ -727,6 +728,8 @@
 			}
 		},
 		addElementEvents: function(el) {
+			var _this = this;
+
 			// datepicker
 			$('.mtvDatePicker', el).click(function() {
 				var picker = $(this).datetimepicker({
@@ -749,6 +752,13 @@
 				var field = $(this).prev('input').attr('id');
 				BrowseServer(field);
 				return false;
+			});
+			$('[name]', el).bind('change keyup mouseup', function(e) {
+				e.preventDefault();
+				if ($(this).hasClass('image')) {
+					_this.setThumbnail($(this).val(), $(this).attr('name'), _this.fieldEditForm);
+					_this.editBox.colorbox.resize();
+				}
 			});
 		},
 		// open edit box

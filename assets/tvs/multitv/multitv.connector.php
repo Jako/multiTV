@@ -44,7 +44,7 @@ $docid = isset($_POST['id']) ? intval($_POST['id']) : FALSE;
 $tvid = isset($_POST['tvid']) ? intval(str_replace('tv', '', $_POST['tvid'])) : FALSE;
 
 $answer = array();
-if ($action && $docid && $tvid) {
+if ($action && $tvid) {
 	// document exists?
 	$res = $modx->db->select('*', $modx->getFullTableName('site_content'), 'id=' . $docid);
 	if ($modx->db->getRecordCount($res)) {
