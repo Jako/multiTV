@@ -1,6 +1,17 @@
 <?php
-define('MODX_MANAGER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/manager/'); //path for manager folder
-require_once(MODX_MANAGER_PATH . 'includes/config.inc.php'); //config
+$modxRoot = ''; // change if MODX is installed in a subfolder of the webroot (i.e. $modxRoot = 'modx/')
+
+$base_path = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']) . '/';
+if (is_file($base_path . $modxRoot . 'assets/cache/siteManager.php')) {
+	include_once($base_path . $modxRoot . 'assets/cache/siteManager.php');
+}
+if (!defined('MGR_DIR') && is_dir($base_path . $modxRoot . 'manager')) {
+	define('MGR_DIR', $modxRoot . 'manager');
+}
+
+// Include the nessesary files
+define('MODX_MANAGER_PATH', $_SERVER['DOCUMENT_ROOT'] . '/' . MGR_DIR . '/');
+require_once(MODX_MANAGER_PATH . 'includes/config.inc.php');
 require_once(MODX_MANAGER_PATH . 'includes/protect.inc.php');
 
 // Setup the MODx API

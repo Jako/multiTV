@@ -492,7 +492,7 @@ class multiTV {
 		$placeholder['tvpath'] = $tvpath;
 		$placeholder['tvkcfinder'] = $this->cmsinfo['kcfinder'];
 		$placeholder['tvthumbs'] = $this->cmsinfo['thumbsdir'];
-		$placeholder['tvconnector'] = '../' . MTV_PATH . 'multitv.connector.php';
+		$placeholder['tvmtvpath'] = MTV_PATH;
 
 		$tvtemplate = $this->renderTemplate('multitv', $placeholder);
 

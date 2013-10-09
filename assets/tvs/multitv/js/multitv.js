@@ -1,12 +1,13 @@
 (function($, window, document, undefined) {
 
-	var pluginName = 'transformField',
-			defaults = {
+	var pluginName = 'transformField';
+	var defaults = {
 		mode: '',
 		fieldsettings: '',
 		language: '',
 		kcfinder: true,
-		thumbs: '.thumbs/'
+		thumbs: '.thumbs/',
+		mtvpath: 'assets/tvs/multitv/'
 	};
 
 	// Plugin constructor
@@ -496,14 +497,14 @@
 
 (function($, window, document, undefined) {
 
-	var pluginName = 'transformDatatable',
-			defaults = {
+	var pluginName = 'transformDatatable'
+	var defaults = {
 		mode: '',
 		fieldsettings: '',
 		language: '',
 		kcfinder: true,
 		thumbs: '.thumbs/',
-		connector: '../assets/tvs/multitv/multitv.connector.php'
+		mtvpath: 'assets/tvs/multitv/'
 	};
 
 	// Plugin constructor
@@ -525,9 +526,9 @@
 		this.fieldPaste = $('#' + this.tvid + 'paste');
 		this.fieldEditForm = $('#' + this.tvid + 'editform');
 		this.fieldEditArea = $('#' + this.tvid + 'editarea');
-		this.tableAppend = '<img alt="' + this.options.language.append + ' " src="../assets/tvs/multitv/css/images/add.png" /> ' + this.options.language.append;
-		this.tableEdit = '<img alt="' + this.options.language.edit + ' " src="../assets/tvs/multitv/css/images/application_form_edit.png" /> ' + this.options.language.edit;
-		this.tableRemove = '<img alt="' + this.options.language.remove + ' " src="../assets/tvs/multitv/css/images/delete.png" /> ' + this.options.language.remove;
+		this.tableAppend = '<img alt="' + this.options.language.append + ' " src="../' + this.options.mtvpath + 'css/images/add.png" /> ' + this.options.language.append;
+		this.tableEdit = '<img alt="' + this.options.language.edit + ' " src="../' + this.options.mtvpath + 'css/images/application_form_edit.png" /> ' + this.options.language.edit;
+		this.tableRemove = '<img alt="' + this.options.language.remove + ' " src="../' + this.options.mtvpath + 'css/images/delete.png" /> ' + this.options.language.remove;
 		this.tableButtons = $('<ul>').addClass('actionButtons');
 		this.tableButtonAppend = $('<li>').attr('id', this.tvid + 'tableAppend').append($('<a>').attr('href', '#').html(this.tableAppend));
 		this.tableButtonEdit = $('<li>').attr('id', this.tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableEdit));
@@ -831,7 +832,7 @@
 				}
 			});
 			$.ajax({
-				url: _this.options.connector,
+				url: '../' + this.options.mtvpath + 'multitv.connector.php',
 				data: {
 					action: 'preparevalue',
 					id: $('form#mutate [name="id"]').val(),
