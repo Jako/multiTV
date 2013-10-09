@@ -833,12 +833,13 @@
 				}
 			});
 			$.ajax({
-				url: '../' + this.options.mtvpath + 'multitv.connector.php',
+				url: '../' + _this.options.mtvpath + 'multitv.connector.php',
 				data: {
 					action: 'preparevalue',
 					id: $('form#mutate [name="id"]').val(),
 					tvid: _this.tvid,
-					value: $.toJSON(values)
+					value: $.toJSON(values),
+					mtvpath: _this.options.mtvpath
 				},
 				dataType: 'json',
 				type: 'POST',
