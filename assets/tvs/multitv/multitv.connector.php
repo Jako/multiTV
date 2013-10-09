@@ -37,6 +37,11 @@ define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 if (!class_exists('multiTV')) {
 	include MTV_BASE_PATH . 'multitv.class.php';
 }
+if (file_exists(MTV_BASE_PATH . 'languages/' . $modx->config['manager_language'] . '.language.inc.php')) {
+	include MTV_BASE_PATH . 'languages/' . $modx->config['manager_language'] . '.language.inc.php';
+} else {
+	include MTV_BASE_PATH . 'languages/english.language.inc.php';
+}
 
 // retrieve parameter
 $action = isset($_POST['action']) ? preg_replace("/[^a-zA-Z0-9_-]+/", "", $_POST['action']) : FALSE;
@@ -61,23 +66,23 @@ if ($action && $tvid) {
 					include $includeFile;
 				} else {
 					$answer['error'] = TRUE;
-					$answer['msg'] = 'Processor does not exist!';
+					$answer['msg'] = $language['connector.noprocessor'];
 				}
 			} else {
 				$answer['error'] = TRUE;
-				$answer['msg'] = 'multiTV does not exist!';
+				$answer['msg'] = $language['connector.nomultitv'];
 			}
 		} else {
 			$answer['error'] = TRUE;
-			$answer['msg'] = 'Insufficient rights for this action!';
+			$answer['msg'] = $language['connector.rights'];
 		}
 	} else {
 		$answer['error'] = TRUE;
-		$answer['msg'] = 'Document does not exists!';
+		$answer['msg'] = $language['connector.nodoc'];
 	}
 } else {
 	$answer['error'] = TRUE;
-	$answer['msg'] = 'Illegal parameter!';
+	$answer['msg'] = $language['connector.illegal'];
 }
 echo json_encode($answer);
 exit();

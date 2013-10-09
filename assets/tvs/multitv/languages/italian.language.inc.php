@@ -14,6 +14,11 @@ $language['cancel'] = 'Annulla';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
+$language['connector.illegal'] = 'Illegal parameter!';
+$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!';
+$language['connector.rights'] = 'Insufficient rights for this action!';
+$language['connector.nomultitv'] = 'multiTV does not exist!';
+$language['connector.noprocessor'] = 'Processor does not exist!';
 $language['dataTables'] = '{
     "sEmptyTable":     "Nessun elemento disponibile nella tabella",
     "sInfo":           "Mostro gli elementi da _START_ a _END_ di _TOTAL_ elementi in totale",
