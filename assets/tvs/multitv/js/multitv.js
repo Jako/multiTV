@@ -49,7 +49,7 @@
 			initialWidth: '0',
 			initialHeight: '0',
 			overlayClose: false
-		}
+		};
 
 		this.init();
 	}
@@ -497,7 +497,7 @@
 
 (function($, window, document, undefined) {
 
-	var pluginName = 'transformDatatable'
+	var pluginName = 'transformDatatable';
 	var defaults = {
 		mode: '',
 		fieldsettings: '',
@@ -520,6 +520,8 @@
 		this.tvid = this.$el.attr('id');
 		this.data = new Object();
 		this.fieldHeading = $('#' + this.tvid + 'heading');
+		this.fieldNames = this.options.fieldsettings['fieldnames'];
+		this.fieldTypes = this.options.fieldsettings['fieldtypes'];
 		this.fieldTable = $('#' + this.tvid + 'table');
 		this.fieldEdit = $('#' + this.tvid + 'edit');
 		this.fieldClear = $('#' + this.tvid + 'clear');
@@ -756,11 +758,11 @@
 			if (selector && mode === 'edit') {
 				var lineValue = _this.fieldTable.fnGetData(selector);
 				$.each(lineValue, function(key, value) {
-					var fieldInput = $('#' + _this.tvid + key + '_mtv');
-					if (fieldInput.hasClass('image')) {
-						_this.setThumbnail(value, fieldInput.attr('name'), _this.fieldEditArea);
-					}
+					var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
 					fieldInput.setValue(value);
+					if (fieldInput.hasClass('image')) {
+						_this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
+					}
 				});
 			} else {
 				$('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').attr('checked', 'checked');
@@ -817,18 +819,17 @@
 		saveRow: function(mode) {
 			var _this = this;
 
-			if (typeof tinyMCE != 'undefined') {
+			if (typeof tinyMCE !== 'undefined') {
 				tinyMCE.triggerSave();
 			}
 			var values = new Object();
 			var saveTab = $('[name^="' + _this.tvid + 'tab_radio_mtv"]', _this.fieldEditForm).getValue();
 			values.fieldTab = (saveTab !== '') ? saveTab : '';
-			$(':input', _this.fieldEditArea).each(function(i) {
-				if ($(this).attr('name')) {
-					var key = $(this).attr('name').replace(/tv\d+(.*)_mtv/, '$1');
-					if (key !== '') {
-						values[key] = $(this).val();
-					}
+			$.each(_this.fieldNames, function() {
+				var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', _this.fieldEditForm);
+				values[this] = fieldInput.getValue();
+				if (fieldInput.hasClass('image')) {
+					_this.setThumbnail(values[this], fieldInput.attr('name'), _this.fieldEditForm);
 				}
 			});
 			$.ajax({
