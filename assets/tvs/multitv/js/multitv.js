@@ -35,7 +35,6 @@
 		this.fieldPasteArea = $('#' + this.tvid + 'pastearea');
 		this.fieldListCounter = 1;
 		this.pasteBox = '';
-
 		this.init();
 	}
 	;
@@ -349,7 +348,7 @@
 		clear: function() {
 			if (confirm(this.options.language.confirmclear)) {
 				this.fieldList.children('li').remove();
-				this.$el.val('[]');
+				this.$el.val('');
 				this.fieldClear.hide();
 				this.fieldPaste.hide();
 				this.fieldHeading.hide();
@@ -359,8 +358,8 @@
 		},
 		edit: function() {
 			var clone = this.fieldListElementEmpty.clone(true);
+			this.fieldList.children('li').remove();
 			this.fieldList.append(clone);
-			this.$el.val('[]');
 			this.fieldList.show();
 			this.fieldClear.show();
 			this.fieldPaste.show();
