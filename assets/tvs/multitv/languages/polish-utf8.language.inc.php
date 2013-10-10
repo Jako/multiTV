@@ -14,11 +14,11 @@ $language['cancel'] = 'Anuluj';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
-$language['connector.illegal'] = 'Illegal parameter!';
-$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!!';
-$language['connector.rights'] = 'Insufficient rights for this action!';
-$language['connector.nomultitv'] = 'multiTV does not exist!';
-$language['connector.noprocessor'] = 'Processor does not exist!';
+$language['connector.illegal'] = 'Niedozwolony parametr!';
+$language['connector.nodoc'] = 'Dokument nie istnieje! Zapisz dokument przed próbą dodania wpisu!';
+$language['connector.rights'] = 'Niewystarczające uprawnienia!';
+$language['connector.nomultitv'] = 'multiTV nie istnieje!';
+$language['connector.noprocessor'] = 'Procesor nie istnieje!';
 $language['dataTables'] = '{
 	"sEmptyTable":     "Brak wpisów w tabeli",
     "sInfo":           "Wyświetlane _START_ do _END_ z _TOTAL_ wpisów",
