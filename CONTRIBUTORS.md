@@ -27,6 +27,8 @@ Dmytro Lukianenko - https://github.com/dmi3yy – dmi3yy@gmail.com
 Salvatore Tedde - https://github.com/microcipcip - info@jertix.org
 
 - Better styling of the editing layer
+- Italian Language
+- A lot of testing for ClipperCMS
 
 Vitor - https://github.com/vmoreira
 
@@ -39,5 +41,13 @@ falkon - https://github.com/falkon
 Bruno Perner - https://github.com/Bruno17 - info@webcmsolutions.de
 
 - Ditto customsort extender
+
+witq - https://github.com/witq
+
+- Polish language
+
+fourroses666 - https://github.com/fourroses666 - info@graffx.nl
+
+- Dutch language
 
 And a lot of testers ...
