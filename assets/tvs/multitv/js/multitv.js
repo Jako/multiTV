@@ -35,21 +35,6 @@
 		this.fieldPasteArea = $('#' + this.tvid + 'pastearea');
 		this.fieldListCounter = 1;
 		this.pasteBox = '';
-		this.colorboxProperties = {
-			inline: true,
-			href: $(this).attr('href'),
-			width: '500px',
-			height: '350px',
-			onClosed: function() {
-				_this.fieldPasteArea.html('');
-			},
-			close: '',
-			open: true,
-			opacity: '0.35',
-			initialWidth: '0',
-			initialHeight: '0',
-			overlayClose: false
-		};
 
 		this.init();
 	}
@@ -76,7 +61,21 @@
 				// paste box
 				_this.pasteBox = $('a', _this.fieldPaste).click(function(e) {
 					e.preventDefault();
-					$.colorbox(_this.colorboxProperties);
+					$.colorbox({
+						inline: true,
+						href: $(this).attr('href'),
+						width: '500px',
+						height: '350px',
+						onClosed: function() {
+							_this.fieldPasteArea.html('');
+						},
+						close: '',
+						open: true,
+						opacity: '0.35',
+						initialWidth: '0',
+						initialHeight: '0',
+						overlayClose: false
+					});
 				});
 
 				// close paste box
