@@ -1,7 +1,12 @@
 History
 ================================================================================
+- 1.7.2 October 10, 2013
+    - Snippet: `toJson` parameter
+    - CustomTV: bugfix for inheritanced value in sortable list view
+    - CustomTV: thumbnails possible in dataTable layer
+
 - 1.7.1 October 3, 2013
-    - CustomTV: Package code is now folder independent
+    - CustomTV: package code is now folder independent
 
 - 1.7.0 October 2, 2013
     - CustomTV: MODX 1.0.12/Clipper 1.2 compatibility

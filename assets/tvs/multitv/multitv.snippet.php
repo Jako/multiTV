@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.7
+ * @version 	1.7.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.7</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.7.2</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -50,6 +50,7 @@ $display = isset($display) ? $display : 5;
 $offset = isset($offset) ? intval($offset) : 0;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
 $toPlaceholder = (isset($toPlaceholder) && $toPlaceholder != '') ? $toPlaceholder : FALSE;
+$toJson = (isset($toJson) && $toJson != '') ? $toJson : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
 $reverse = (isset($reverse) && $reverse) ? TRUE : FALSE;
 $orderBy = isset($orderBy) ? $orderBy : '';
@@ -123,7 +124,7 @@ if ($randomize) {
 } elseif ($reverse) {
 	$tvOutput = array_reverse($tvOutput);
 } elseif (!empty($sortBy)) {
-	$multiTV->sort($tvOutput, trim($sortBy), trim($sortDir));
+	$multiTV->sort($tvOutput, trim($sortBy), strtolower(trim($sortDir)));
 }
 
 // check for display all regarding selected rows count and offset
@@ -151,42 +152,50 @@ foreach ($tvOutput as $value) {
 		$i++;
 		continue;
 	}
-	if ($display == 1) {
-		$classes[] = $lastClass;
-	}
-	if ($iteration % 2) {
-		$classes[] = $oddClass;
+	if (!$toJson) {
+		if ($display == 1) {
+			$classes[] = $lastClass;
+		}
+		if ($iteration % 2) {
+			$classes[] = $oddClass;
+		} else {
+			$classes[] = $evenClass;
+		}
+		$parser = new evoChunkie($rowTpl);
+		foreach ($value as $key => $fieldvalue) {
+			$fieldname = (is_int($key)) ? $columns[$key] : $key;
+			$parser->AddVar($fieldname, $fieldvalue);
+		}
+		$parser->AddVar('iteration', $iteration);
+		$parser->AddVar('row', array('number' => $i, 'class' => implode(' ', $classes), 'total' => $countOutput));
+		$parser->AddVar('docid', $docid);
+		$placeholder = $parser->Render();
+		if ($toPlaceholder) {
+			$modx->setPlaceholder($toPlaceholder . '.' . $i, $placeholder);
+		}
+		$wrapper[] = $placeholder;
+		$classes = array();
 	} else {
-		$classes[] = $evenClass;
+		$wrapper[] = $value;
 	}
-	$parser = new evoChunkie($rowTpl);
-	foreach ($value as $key => $fieldvalue) {
-		$fieldname = (is_int($key)) ? $columns[$key] : $key;
-		$parser->AddVar($fieldname, $fieldvalue);
-	}
-	$parser->AddVar('iteration', $iteration);
-	$parser->AddVar('row', array('number' => $i, 'class' => implode(' ', $classes), 'total' => $countOutput));
-	$parser->AddVar('docid', $docid);
-	$placeholder = $parser->Render();
-	if ($toPlaceholder) {
-		$modx->setPlaceholder($toPlaceholder . '.' . $i, $placeholder);
-	}
-	$wrapper[] = $placeholder;
 	$i++;
 	$iteration++;
 	$display--;
-	$classes = array();
 }
 if ($emptyOutput && !count($wrapper)) {
 	// output nothing
 	$output = '';
 } else {
-	// wrap rowTpl output in outerTpl
-	$parser = new evoChunkie($outerTpl);
-	$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
-	$parser->AddVar('rows', array('offset' => $offset, 'total' => $countOutput));
-	$parser->AddVar('docid', $docid);
-	$output = $parser->Render();
+	if (!$toJson) {
+		// wrap rowTpl output in outerTpl
+		$parser = new evoChunkie($outerTpl);
+		$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
+		$parser->AddVar('rows', array('offset' => $offset, 'total' => $countOutput));
+		$parser->AddVar('docid', $docid);
+		$output = $parser->Render();
+	} else {
+		$output = json_encode($wrapper);
+	}
 }
 
 if ($toPlaceholder) {

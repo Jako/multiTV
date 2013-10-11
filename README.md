@@ -148,6 +148,7 @@ Call the snippet like this (most expample parameters are using the default value
 &reverse=`0`
 &orderBy=``
 &toPlaceholder=``
+&toJson=`0`
 &published=`1`
 &emptyOutput=`1`
 &outputSeparator=``
@@ -175,6 +176,7 @@ randomize | random order of displayed rows (disables `reverse` and `orderBy` par
 reverse | reverse order of displayed rows (disables `orderBy` parameter) | 0
 orderBy | column name, column order type and order direction to sort the output (format: `name:type direction` – type could be `text` or `date`, defaults to `text` – direction defaults to `asc`) | -
 toPlaceholder | the snippet output is assigned to a placeholder named as the parameter value (i.e. [+myPlaceholder+]), single items are assigned to placeholders named as the parameter value followed by the row number (i.e. [+myPlaceholder.1+]). Normal snippet output is suppressed. (Note 2) | -
+toJson | the snippet output contains the json encoded result of the multitv snippet call. Useful to retreive the multiTV results other snippets by runSnippet | 0
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
 outputSeparator | string inserted between two row templates | empty
