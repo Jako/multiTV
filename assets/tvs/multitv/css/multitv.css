@@ -28,7 +28,7 @@
 .multitv .list li.element .DatePicker { padding: 3px 3px 3px 24px }
 
 .multitv .list li.element .tvimage { float: right; margin-right: 12px; width: 96px }
-.multitv .list li.element .tvimage img { width: auto; height: 96px }
+.multitv .list li.element .tvimage img { width: auto; height: 96px; float: right }
 .multitv .list li.element .thumb { border: 1px solid #ccc !important }
 
 .multitv .list li.element .tvimage.inline { float: left; margin-right: 5px; width: 26px }
@@ -65,7 +65,7 @@
 .tveditform { width: 590px }
 .tveditform .formtabpage label { display: block; margin-top: 10px }
 .tveditform .formtabpage .inlinelabel { display: inline-block }
-.tveditform .formtabpage .tvimage img { width: auto; height: 96px }
+.tveditform .formtabpage .tvimage img { width: auto; height: 96px; float: right }
 .tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
 .tveditform .formtabpage textarea { width: 306px }
 .tveditform .formtabpage input.DatePicker { width: 203px; padding: 3px 3px 3px 24px }
