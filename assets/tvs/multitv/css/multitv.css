@@ -1,6 +1,7 @@
 .multitv { position: relative }
 
 .multitv .heading { padding-left: 20px; clear: left }
+.multitv .heading span { border: 1px solid transparent }
 
 .multitv .list { margin: 0; padding: 0; clear: left; position: relative }
 .multitv .list li.element { position: relative; padding: 4px 4px 4px 20px; margin-bottom: 4px; border: 1px solid #e3e3e3; background: url('images/arrow_updown.png') no-repeat left center; list-style: none }
@@ -12,7 +13,6 @@
 
 .multitv .list li.element.single { padding: 10px; background: none; list-style: none }
 
-
 .multitv .list li.element label { display: inline-block; width: 150px }
 .multitv .list li.element select.inline { margin-right: 9px }
 .multitv .list li.element a.copy, .multitv .list li.element a.remove { position: absolute; right: 22px; top: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px; padding: 0 }
@@ -21,7 +21,6 @@
 .multitv .list li.element table.url { width: 300px; display: inline-block }
 .multitv .list li.element table.url input[type="text"] { width: 221px !important }
 
-
 .multitv .list li.element .inline, .multitv .heading .inline { display: block; float: left; width: 300px; padding: 3px; margin: 0 5px 0 0 }
 .multitv .list li.element .inline[type="checkbox"] { margin-top: 7px }
 .multitv .list li.element .inlinelabel { width: auto }
@@ -29,6 +28,7 @@
 .multitv .list li.element .DatePicker { padding: 3px 3px 3px 24px }
 
 .multitv .list li.element .tvimage { float: right; margin-right: 12px; width: 96px }
+.multitv .list li.element .tvimage img { width: auto; height: 96px; float: right }
 .multitv .list li.element .thumb { border: 1px solid #ccc !important }
 
 .multitv .list li.element .tvimage.inline { float: left; margin-right: 5px; width: 26px }
@@ -64,6 +64,8 @@
 
 .tveditform { width: 590px }
 .tveditform .formtabpage label { display: block; margin-top: 10px }
+.tveditform .formtabpage .inlinelabel { display: inline-block }
+.tveditform .formtabpage .tvimage img { width: auto; height: 96px; float: right }
 .tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
 .tveditform .formtabpage textarea { width: 306px }
 .tveditform .formtabpage input.DatePicker { width: 203px; padding: 3px 3px 3px 24px }

@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.5.6
+ * @version 	1.7.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.5.6</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.7.2</strong> Transform template variables into a sortable multi item list.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -17,8 +17,8 @@ if (MODX_BASE_PATH == '') {
 global $modx;
 
 // set customtv (base) path
-define(MTV_PATH, 'assets/tvs/multitv/');
-define(MTV_BASE_PATH, MODX_BASE_PATH . MTV_PATH);
+define('MTV_PATH', str_replace(MODX_BASE_PATH, '', str_replace('\\', '/', realpath(dirname(__FILE__)))) . '/');
+define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 // include classfile
 if (!class_exists('multiTV')) {
@@ -50,12 +50,17 @@ $display = isset($display) ? $display : 5;
 $offset = isset($offset) ? intval($offset) : 0;
 $rows = (isset($rows) && ($rows != 'all')) ? explode(',', $rows) : 'all';
 $toPlaceholder = (isset($toPlaceholder) && $toPlaceholder != '') ? $toPlaceholder : FALSE;
+$toJson = (isset($toJson) && $toJson != '') ? $toJson : FALSE;
 $randomize = (isset($randomize) && $randomize) ? TRUE : FALSE;
 $reverse = (isset($reverse) && $reverse) ? TRUE : FALSE;
 $orderBy = isset($orderBy) ? $orderBy : '';
 list($sortBy, $sortDir) = explode(" ", $orderBy);
 $published = (isset($published)) ? $published : '1';
 $outputSeparator = (isset($outputSeparator)) ? $outputSeparator : '';
+$firstClass = (isset($firstClass)) ? $firstClass : 'first';
+$lastClass = (isset($lastClass)) ? $lastClass : 'last';
+$evenClass = (isset($evenClass)) ? $evenClass : '';
+$oddClass = (isset($oddClass)) ? $oddClass : '';
 
 // replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
 $maskedTags = array('((' => '[+', '))' => '+]');
@@ -63,7 +68,7 @@ $outerTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $out
 $rowTpl = str_replace(array_keys($maskedTags), array_values($maskedTags), $rowTpl);
 
 // get template variable always if logged into manager
-$published = isset($_SESSION['mgrValidated'])? '2' : $published;
+$published = isset($_SESSION['mgrValidated']) ? '2' : $published;
 // get template variable
 switch (strtolower($published)) {
 	case '0':
@@ -119,7 +124,7 @@ if ($randomize) {
 } elseif ($reverse) {
 	$tvOutput = array_reverse($tvOutput);
 } elseif (!empty($sortBy)) {
-	$multiTV->sort($tvOutput, trim($sortBy), trim($sortDir));
+	$multiTV->sort($tvOutput, trim($sortBy), strtolower(trim($sortDir)));
 }
 
 // check for display all regarding selected rows count and offset
@@ -130,7 +135,7 @@ $display = (($display + $offset) < $countOutput) ? $display : $countOutput - $of
 // output
 $wrapper = array();
 $i = $iteration = 1;
-$class = 'first';
+$classes = array($firstClass);
 // rowTpl output 
 foreach ($tvOutput as $value) {
 	if ($display == 0) {
@@ -147,35 +152,50 @@ foreach ($tvOutput as $value) {
 		$i++;
 		continue;
 	}
-	$class = ($display != 1) ? $class : trim($class . ' last');
-	$parser = new evoChunkie($rowTpl);
-	foreach ($value as $key => $fieldvalue) {
-		$fieldname = (is_int($key)) ? $columns[$key] : $key;
-		$parser->AddVar($fieldname, $fieldvalue);
+	if (!$toJson) {
+		if ($display == 1) {
+			$classes[] = $lastClass;
+		}
+		if ($iteration % 2) {
+			$classes[] = $oddClass;
+		} else {
+			$classes[] = $evenClass;
+		}
+		$parser = new evoChunkie($rowTpl);
+		foreach ($value as $key => $fieldvalue) {
+			$fieldname = (is_int($key)) ? $columns[$key] : $key;
+			$parser->AddVar($fieldname, $fieldvalue);
+		}
+		$parser->AddVar('iteration', $iteration);
+		$parser->AddVar('row', array('number' => $i, 'class' => implode(' ', $classes), 'total' => $countOutput));
+		$parser->AddVar('docid', $docid);
+		$placeholder = $parser->Render();
+		if ($toPlaceholder) {
+			$modx->setPlaceholder($toPlaceholder . '.' . $i, $placeholder);
+		}
+		$wrapper[] = $placeholder;
+		$classes = array();
+	} else {
+		$wrapper[] = $value;
 	}
-	$parser->AddVar('iteration', $iteration);
-	$parser->AddVar('row', array('number' => $i, 'class' => $class, 'total' => $countOutput));
-	$parser->AddVar('docid', $docid);
-	$placeholder = $parser->Render();
-	if ($toPlaceholder) {
-		$modx->setPlaceholder($toPlaceholder . '.' . $i, $placeholder);
-	}
-	$wrapper[] = $placeholder;
 	$i++;
 	$iteration++;
 	$display--;
-	$class = '';
 }
 if ($emptyOutput && !count($wrapper)) {
 	// output nothing
 	$output = '';
 } else {
-	// wrap rowTpl output in outerTpl
-	$parser = new evoChunkie($outerTpl);
-	$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
-	$parser->AddVar('rows', array('offset' => $offset, 'total' => $countOutput));
-	$parser->AddVar('docid', $docid);
-	$output = $parser->Render();
+	if (!$toJson) {
+		// wrap rowTpl output in outerTpl
+		$parser = new evoChunkie($outerTpl);
+		$parser->AddVar('wrapper', implode($outputSeparator, $wrapper));
+		$parser->AddVar('rows', array('offset' => $offset, 'total' => $countOutput));
+		$parser->AddVar('docid', $docid);
+		$output = $parser->Render();
+	} else {
+		$output = json_encode($wrapper);
+	}
 }
 
 if ($toPlaceholder) {

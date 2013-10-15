@@ -3,18 +3,23 @@ multiTV custom template variable
 
 Transform template variables into a sortable multi item list for the MODX Evolution content management framework
 
+One example for multiTV usage could be found in [EXAMPLES.md](https://github.com/Jako/multiTV/blob/master/EXAMPLES.md). Feel free to add your own examples.
+
+Example Images
+--------------
+
 Events example:
 
-![Eventlist example](https://github.com/Jako/multiTV/blob/master/multitv.events.png?raw=true)
+![Eventlist example](https://raw.github.com/Jako/multiTV/master/multitv.events.png)
 
 Images example:
 
-![Images example](https://github.com/Jako/multiTV/blob/master/multitv.images.png?raw=true)
+![Images example](https://raw.github.com/Jako/multiTV/master/multitv.images.png)
 
 Links example (with editing layer):
 
-![Images example](https://github.com/Jako/multiTV/blob/develop/multitv.links.png?raw=true)
-![Images example](https://github.com/Jako/multiTV/blob/develop/multitv.links_edit.png?raw=true)
+![Images example](https://raw.github.com/Jako/multiTV/master/multitv.links.png)
+![Images example](https://raw.github.com/Jako/multiTV/master/multitv.links_edit.png)
 
 Part 1: custom template variable
 ================================================================================
@@ -25,7 +30,7 @@ With this code a MODX Evo template variable could be transformed into a sortable
   
 Installation:
 --------------------------------------------------------------------------------
-1. Upload all files into the new folder *assets/tvs/multitv*
+1. Upload the folder *assets/tvs/multitv* in the corresponding folder in your installation.
 2. Create a new template variable with imput type *custom input* (if you name this template variable *multidemo* it will use the multidemo config file)
 3. Insert the following code into the *input option values* 
 ```
@@ -143,9 +148,14 @@ Call the snippet like this (most expample parameters are using the default value
 &reverse=`0`
 &orderBy=``
 &toPlaceholder=``
+&toJson=`0`
 &published=`1`
 &emptyOutput=`1`
 &outputSeparator=``
+&firstClass=`first`
+&lastClass=`last`
+&evenClass=``
+&oddClass=``
 !]
 ```
 
@@ -166,9 +176,14 @@ randomize | random order of displayed rows (disables `reverse` and `orderBy` par
 reverse | reverse order of displayed rows (disables `orderBy` parameter) | 0
 orderBy | column name, column order type and order direction to sort the output (format: `name:type direction` – type could be `text` or `date`, defaults to `text` – direction defaults to `asc`) | -
 toPlaceholder | the snippet output is assigned to a placeholder named as the parameter value (i.e. [+myPlaceholder+]), single items are assigned to placeholders named as the parameter value followed by the row number (i.e. [+myPlaceholder.1+]). Normal snippet output is suppressed. (Note 2) | -
+toJson | the snippet output contains the json encoded result of the multitv snippet call. Useful to retreive the multiTV results other snippets by runSnippet | 0
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
 outputSeparator | string inserted between two row templates | empty
+firstClass | content of row.class placeholder in the first row | first
+lastClass | content of row.class placeholder in the last row | last
+evenClass | content of row.class placeholder in an even row | -
+oddClass | content of row.class placeholder in an odd row | -
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by *rowTpl* and *outerTpl* in snippet call. Both template chunks are parsed by PHx (chunkie class).
 
@@ -180,7 +195,7 @@ Name | Description
 "fieldname" | each fieldname defined in config file could be used
 iteration | contains the iteration of the current multiTV element
 row.number | contains the row number of the current multiTV element
-row.class | 'first' for first displayed row, 'last' for last displayed row
+row.class | firstClass parameter setting for first displayed row, lastClass parameter setting for last displayed row, evenClass/oddClass parameter setting for even/odd rows.
 row.total | contains the count of all displayable rows 
 docid | value of docid parameter or current document id
 
