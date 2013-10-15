@@ -255,11 +255,7 @@ If multiTV is useful for you, I’d like to hear about that as well. Donations f
 
 multiTV is free because I have fun working on it and because I don't have the resources to properly support it. If you decide to make a donation, I thank you very much. But please remember that I'm not able to extend my support for multiTV beyond the level I have done in the past.
 
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="UZS572F3CKFS8">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-</form>
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UZS572F3CKFS8)
 
 If you urgently need an addition to multiTV code, you could hire me for that work for sure. My email address could be found on my [github page](https://github.com/Jako)
 
