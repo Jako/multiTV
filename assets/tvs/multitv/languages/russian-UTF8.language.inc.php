@@ -14,13 +14,13 @@ $language['cancel'] = 'Отмена';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
-$language['connector.illegal'] = 'Illegal parameter!';
-$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!!';
-$language['connector.rights'] = 'Insufficient rights for this action!';
-$language['connector.nomultitv'] = 'multiTV does not exist!';
-$language['connector.noprocessor'] = 'Processor does not exist!';
+$language['connector.illegal'] = 'Некоректный параметр!';
+$language['connector.nodoc'] = 'Документ не создан! Пожалуйста сохраните документ перед добавлением строк!';
+$language['connector.rights'] = 'Недостаточно прав для этого действия!';
+$language['connector.nomultitv'] = 'multiTV не установлен!';
+$language['connector.noprocessor'] = 'multiTV Processor не существует!';
 $language['dataTables'] = '{
-	"sEmptyTable":     "No data available in table",
+	"sEmptyTable":     "Нет данных в таблице",
     "sInfo":           "Записи с _START_ до _END_ из _TOTAL_ записей",
     "sInfoEmpty":      "Записи с 0 до 0 из 0 записей",
     "sInfoFiltered":   "(отфильтровано из _MAX_ записей)",

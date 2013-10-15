@@ -3,7 +3,7 @@ multiTV custom template variable
 
 Transform template variables into a sortable multi item list for the MODX Evolution content management framework
 
-One example for multiTV usage could be found in [EXAMPLES.md](https://github.com/Jako/multiTV/blob/master/EXAMPLES.md). Feel free to add your own examples.
+One example for multiTV usage could be found in [EXAMPLES.md](https://github.com/Jako/multiTV/blob/master/EXAMPLES.md). Feel free to add your own examples there and create a pull request with them.
 
 Example Images
 --------------
@@ -244,6 +244,24 @@ Name | Description | Default value
 ---- | ----------- | -------------
 tvNames | **(required)** comma separated list of template variable names that contain multiTV data | -
 
+Donate
+================================================================================
+
+multiTV is totally free and comes with no warranty or support. I give basic support on github tracker and like to receive suggestions for enhancements there.
+
+I work on new features and bug fixes in my spare time (and if one of my clients needs a special feature). So maybe a bugfix or an answer could take some time and unfortunately some enhancement wishes won't get addressed.
+
+If multiTV is useful for you, I’d like to hear about that as well. Donations for multiTV are appreciated. Please feel free to donate any amount that that you like to give for your multiTV usage.
+
+multiTV is free because I have fun working on it and because I don't have the resources to properly support it. If you decide to make a donation, I thank you very much. But please remember that I'm not able to extend my support for multiTV beyond the level I have done in the past.
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="UZS572F3CKFS8">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+</form>
+
+If you urgently need an addition to multiTV code, you could hire me for that work for sure. My email address could be found on my [github page](https://github.com/Jako)
 
 Notes:
 --------------------------------------------------------------------------------
