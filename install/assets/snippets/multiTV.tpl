@@ -2,6 +2,8 @@
 /**
  * multiTV
  *
+ * Transform template variables into a sortable multi item list
+ *
  * @category 	snippet
  * @version 	1.7.2
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
