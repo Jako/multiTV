@@ -2,7 +2,7 @@
 /**
  * multiTV
  *
- * multiTV
+ * Transform template variables into a sortable multi item list
  *
  * @category 	snippet
  * @version 	1.7.2
