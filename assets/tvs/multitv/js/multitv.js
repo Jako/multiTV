@@ -562,12 +562,16 @@
 							_this.contextMenu(nRow, iDisplayIndex);
 							_this.toggleRow(nRow);
 						}
-					}).rowReordering({
-						fnAfterMove: function() {
-							_this.saveMultiValue();
-							_this.fieldTable.fnDraw();
-						}
 					}).addClass(_this.tableClasses);
+					
+					if(!_this.options.fieldsettings['sorting']) {
+						_this.fieldTable.rowReordering({
+							fnAfterMove: function() {
+								_this.saveMultiValue();
+								_this.fieldTable.fnDraw();
+							}
+						});
+					}
 
 					// buttons above datatable
 					_this.fieldTable.parent().prepend(_this.tableButtons);
