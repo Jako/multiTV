@@ -42,9 +42,10 @@ Bruno Perner - https://github.com/Bruno17 - info@webcmsolutions.de
 
 - Ditto customsort extender
 
-witq - https://github.com/witq
+Witek Galecki - https://github.com/witq
 
 - Polish language
+- Option to enable dataTable sorting by column headers
 
 fourroses666 - https://github.com/fourroses666 - info@graffx.nl
 
