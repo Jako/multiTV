@@ -117,6 +117,7 @@ class multiTV {
 		$this->configuration['enableClear'] = isset($settings['configuration']['enableClear']) ? $settings['configuration']['enableClear'] : TRUE;
 		$this->configuration['hideHeader'] = isset($settings['configuration']['hideHeader']) ? $settings['configuration']['hideHeader'] : FALSE;
 		$this->configuration['radioTabs'] = isset($settings['configuration']['radioTabs']) ? $settings['configuration']['radioTabs'] : FALSE;
+		$this->configuration['sorting'] = isset($settings['configuration']['sorting']) ? $settings['configuration']['sorting'] : FALSE;
 	}
 
 	function prepareValue($value) {
@@ -333,15 +334,17 @@ class multiTV {
 				}
 			// datatable template
 			case 'datatable': {
-					$fieldcolumns = array(
-						array(
-							'mData' => 'MTV_RowId',
-							'sTitle' => '',
-							'sClass' => 'handle',
-							'bSortable' => FALSE,
-							'sWidth' => '2px'
-						)
-					);
+					if (!$this->configuration['sorting']) {
+						$fieldcolumns = array(
+							array(
+								'mData' => 'MTV_RowId',
+								'sTitle' => '',
+								'sClass' => 'handle',
+								'bSortable' => FALSE,
+								'sWidth' => '2px'
+							)
+						);
+					}
 					$tableClasses = array();
 					if ($this->configuration['radioTabs']) {
 						$fieldcolumns[] = array(
@@ -357,7 +360,7 @@ class multiTV {
 								'mData' => (isset($column['render']) && $column['render'] != '') ? 'mtvRender' . ucfirst($column['fieldname']) : $column['fieldname'],
 								'sTitle' => (isset($column['caption'])) ? $column['caption'] : ((isset($this->fields[$column['fieldname']]['caption'])) ? $this->fields[$column['fieldname']]['caption'] : $column['fieldname']),
 								'sWidth' => (isset($column['width'])) ? $column['width'] : ((isset($this->fields[$column['fieldname']]['width'])) ? $this->fields[$column['fieldname']]['width'] : ''),
-								'bSortable' => FALSE,
+								'bSortable' => $this->configuration['sorting'],
 								'bVisible' => (isset($column['visible'])) ? (bool) $column['visible'] : ((isset($this->fields[$column['fieldname']]['visible'])) ? (bool) $this->fields[$column['fieldname']]['visible'] : TRUE),
 							);
 						}
@@ -366,7 +369,7 @@ class multiTV {
 							$fieldcolumns[] = array(
 								'mData' => $key,
 								'sTitle' => (isset($column['caption'])) ? $column['caption'] : $column['fieldname'],
-								'bSortable' => FALSE
+								'bSortable' => $this->configuration['sorting']
 							);
 						}
 					}
@@ -419,7 +422,8 @@ class multiTV {
 						'fieldrte' => $this->fieldsrte,
 						'csvseparator' => $this->configuration['csvseparator'],
 						'tableClasses' => implode(' ', $tableClasses),
-						'radioTabs' => $this->configuration['radioTabs']
+						'radioTabs' => $this->configuration['radioTabs'],
+						'sorting' => $this->configuration['sorting']
 					));
 				}
 		}
