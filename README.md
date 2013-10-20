@@ -113,7 +113,8 @@ Property | Description | Default
 enablePaste | The multiTV could contain *paste table data* link that displays a paste box. In this box you could paste Word/HTML table clipboard data, Google Docs table clipboard data and csv data. | TRUE 
 enableClear | The multiTV could contain *clear all* link that clears the content of the multiTV | TRUE 
 csvseparator | column separator for csv clipboard table data. The csv clipboard table data should contain a new line for each row. | , 
-radioTabs | The tabs in the datatable editing layer are displayed as radio buttons. The button state is saved in the field `fieldTab`.
+radioTabs | The tabs in the datatable editing layer are displayed as radio buttons. The button state is saved in the field `fieldTab`. | FALSE
+sorting | Enable sorting by column header in datatable mode. Row reordering by drag & drop will be disabled. | FALSE
 
 See the *multidemo* config for all usable vertical settings and the *multicontent* config for all usable datatable settings.
 
