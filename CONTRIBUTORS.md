@@ -47,7 +47,7 @@ Witek Galecki - https://github.com/witq
 - Polish language
 - Option to enable dataTable sorting by column headers
 
-fourroses666 - https://github.com/fourroses666 - info@graffx.nl
+Marc - https://github.com/fourroses666 - info@graffx.nl
 
 - Dutch language
 
