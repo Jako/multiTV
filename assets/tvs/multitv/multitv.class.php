@@ -66,7 +66,7 @@ class multiTV {
 			case 'Evolution':
 				$this->cmsinfo['clipper'] = '';
 				$this->cmsinfo['kcfinder'] = version_compare($version['version'], '1.0.10', '>') ? 'true' : 'false';
-				$this->cmsinfo['thumbsdir'] = ($modx->config['thumbsDir']) ? '.thumbs/' : '';
+				$this->cmsinfo['thumbsdir'] = version_compare($version['version'], '1.0.10', '>') && !empty($modx->config['thumbsDir']) ? $modx->config['thumbsDir'].'/' : '.thumbs/';
 				$this->cmsinfo['seturl'] = version_compare($version['version'], '1.0.12', '>') ? '' : 'old';
 				break;
 			case 'ClipperCMS':
