@@ -471,7 +471,7 @@ class multiTV {
 			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $tvpath . $file . '" />';
 		}
 		if ($this->cmsinfo['clipper'] != 'Clipper') {
-			$files['scripts'] = array_merge($files['scripts'], array('js/multitvhelper.js', 'js/multitv.js'));
+			$files['scripts'] = array_merge($files['scripts'], array('js/multitvhelper' . $this->cmsinfo['seturl'] . '.js', 'js/multitv.js'));
 			foreach ($files['scripts'] as $file) {
 				$scriptfiles[] = '	<script type="text/javascript" src="' . $tvpath . $file . '"></script>';
 			}
