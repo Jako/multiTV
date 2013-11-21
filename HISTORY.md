@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 1.7.3 November 21, 2013
+    - Ditto Extender: new Ditto multiTV filter extender
+
 - 1.7.2 October 10, 2013
     - Snippet: `toJson` parameter
     - CustomTV: bugfix for inheritanced value in sortable list view

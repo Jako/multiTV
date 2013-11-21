@@ -26,10 +26,12 @@ Part 1: custom template variable
 
 Features:
 --------------------------------------------------------------------------------
+
 With this code a MODX Evo template variable could be transformed into a sortable multi item list
   
 Installation:
 --------------------------------------------------------------------------------
+
 1. Upload the folder *assets/tvs/multitv* in the corresponding folder in your installation.
 2. Create a new template variable with imput type *custom input* (if you name this template variable *multidemo* it will use the multidemo config file)
 3. Insert the following code into the *input option values* 
@@ -123,6 +125,7 @@ Part 2: multiTV Snippet
 
 Installation:
 --------------------------------------------------------------------------------
+
 Create a new snippet called multiTV with the following snippet code
 
 ```
@@ -133,6 +136,7 @@ return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
 
 Usage:
 --------------------------------------------------------------------------------
+
 Call the snippet like this (most expample parameters are using the default values in this example call and could be removed from the call – parameter tvName is required)
 
 ```
@@ -202,6 +206,7 @@ docid | value of docid parameter or current document id
 
 Placeholder outerTpl:
 --------------------------------------------------------------------------------
+
 Name | Description
 ---- | -----------
 wrapper | contains the output of all rows
@@ -211,11 +216,86 @@ docid | value of docid parameter or current document id
 
 Part 3: PHx modifier
 ================================================================================
+
 Since the JSON string in multiTV starts with `[[` and ends with `]]` (Note 1), you *can't* check if the multiTV is empty by i.e. ```[*multittvname:ne=``:then=`not empty`*]```. 
 
 But you could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``. If the docid is not set it defaults to current document.
 
-Part 4: updateTV Snippet
+Part 4: Ditto multitv filter extender
+================================================================================
+
+If you want to filter displayed Ditto rows by the values of multiTV field content, you could use the Ditto multitv filter extender. As all other Ditto filters it filters the row away if the condition is true.
+
+The extender uses the following parameters
+
+Name | Description
+---- | -----------
+multiTvFilterBy | multiTV name to filter by (required)
+multiTvFilterOptions | (Array of) json encoded object(s) of filter options
+
+The following **filter options** could be used
+
+Name | Description
+---- | -----------
+name | mulitTV field name that is used for filtering
+type | Type of the multiTV field content (possible content: date, text)
+value | The value the multiTV field content is filtered with
+mode | Mode for filtering the multiTV field content
+
+The following modes could be used for **text** type:
+
+Name | Description
+---- | -----------
+contains | filtered if one value contains filterValue
+allcontains | filtered if all values containing filterValue
+containsnot | filtered if one value not contains filterValue
+allcontainsnot | filtered if all values not containing filterValue
+is | filtered if one value is filterValue
+allis | filtered if all values are filterValue
+isnot | filtered if one value is not filterValue
+allisnot | filtered if all values are not filterValue
+
+The following modes could be used for **date** type:
+
+Name | Description
+---- | -----------
+before | filtered if one value is before filterValue
+beforeall | filtered if all values are before filterValue
+equal | filtered if one value is equal filterValue
+equalall | filtered if all values are equal filterValue
+after | filtered if one value is after filterValue
+afterall | filtered if one value is after filterValue
+ 
+### Examples
+
+The following example displays all documents within containers 3, 4, and 5 where the multiTV `event` values in column `title` not containing `Important` in any multiTV row.
+
+```
+[[Ditto?
+&parents=`3,4,5`
+&display=`all`
+&tpl=`...`
+&extenders=`@FILE assets/tvs/multitv/dittoExtender/multitvfilter.extender.inc.php`
+&multiTvFilterBy=`event`
+&multiTvFilterOptions=`[{"name":"title","type":"text","value":"Important","mode":"contains"}]`]]
+]]
+```
+
+If you want to filter Ditto by several multiTV values, you ave to append an option object to the `multiTvFilterOptions`. The next example will display all documents within containers 3, 4, and 5 where the multiTV `event` values in column `title` not containing `Important` and column `location` is `Outdoor` in any multiTV row.
+
+```
+[[Ditto?
+&parents=`3,4,5`
+&display=`all`
+&tpl=`...`
+&extenders=`@FILE assets/tvs/multitv/dittoExtender/multitvfilter.extender.inc.php`
+&multiTvFilterBy=`event`
+&multiTvFilterOptions=`[{"name":"title","type":"text","value":"Important","mode":"contains"},{"name":"location","type":"text","value":"Outdoor","mode":"allisnot"}]`]]
+]]
+```
+
+
+Part 5: updateTV Snippet
 ================================================================================
 
 Installation:
