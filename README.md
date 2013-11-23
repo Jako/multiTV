@@ -1,7 +1,17 @@
 multiTV custom template variable
 ================================================================================
 
-Transform template variables into a sortable multi item list for the MODX Evolution content management framework
+Custom Template Variabe containing a sortable multi item list or a datatable for the MODX Evolution content management framework
+
+Features:
+--------------------------------------------------------------------------------
+
+With this MODX Evolution package a new template variable type is introduced. The template variable could contain a sortable multi item list or a datatable.
+
+The package contains a custom template variable, a snippet to show the content of the template variable, a PHx modifier, a Ditto filter extender and - for old installations - a snippet for updating the template variable content to the new format introduced with version 1.4.11.
+
+Example:
+--------------------------------------------------------------------------------
 
 One example for multiTV usage could be found in [EXAMPLES.md](https://github.com/Jako/multiTV/blob/master/EXAMPLES.md). Feel free to add your own examples there and create a pull request with them.
 
@@ -27,7 +37,7 @@ Part 1: custom template variable
 Features:
 --------------------------------------------------------------------------------
 
-With this code a MODX Evo template variable could be transformed into a sortable multi item list
+With this code a MODX Evo template variable could contain a sortable multi item list or a datatable
   
 Installation:
 --------------------------------------------------------------------------------

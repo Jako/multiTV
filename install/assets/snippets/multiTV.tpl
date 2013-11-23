@@ -2,7 +2,7 @@
 /**
  * multiTV
  *
- * Transform template variables into a sortable multi item list
+ * Custom Template Variabe containing a sortable multi item list or a datatable
  *
  * @category 	snippet, tv
  * @version 	1.7.3
