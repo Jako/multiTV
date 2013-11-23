@@ -241,6 +241,7 @@ name | mulitTV field name that is used for filtering
 type | Type of the multiTV field content (possible content: date, text)
 value | The value the multiTV field content is filtered with
 mode | Mode for filtering the multiTV field content
+conjunction | Logical conjunction with the previous filter result (AND/OR)
 
 The following modes could be used for **text** type:
 
@@ -289,8 +290,8 @@ If you want to filter Ditto by several multiTV values, you ave to append an opti
 &display=`all`
 &tpl=`...`
 &extenders=`@FILE assets/tvs/multitv/dittoExtender/multitvfilter.extender.inc.php`
-&multiTvFilterBy=`event`
-&multiTvFilterOptions=`[{"name":"title","type":"text","value":"Important","mode":"contains"},{"name":"location","type":"text","value":"Outdoor","mode":"allisnot"}]`]]
+&multiTvFilterBy=`event,event`
+&multiTvFilterOptions=`[{"name":"title","type":"text","value":"Important","mode":"contains"},{"name":"location","type":"text","value":"Outdoor","mode":"allisnot","conjunction":"OR"}]`]]
 ]]
 ```
 
