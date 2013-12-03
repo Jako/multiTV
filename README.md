@@ -94,6 +94,8 @@ width | the width of the input (only used if the display of the list element is 
 
 * Supported MODX input types: text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
 
+In datatable mode a layer will be displayed during adding/editing one row (Note 5). In the editing layer the MODX input type richtext is possible.
+
 In datatable mode the columns for the datatable could be defined in `$settings['columns']`. This variable contains an array of column settings. Each column setting contains an array of properties. If a property is not set, the field property in `$settings['fields']` is used.
 
 Property | Description | Default
@@ -108,8 +110,6 @@ In datatable mode the content of the editing layer could be defined in `$setting
 Property | Description | Default
 -------- | ----------- | -------
 caption | caption for the input | caption for this field in `$settings['fields']`
-
-* In the editing layer the MODX input type richtext is possible.
 
 The default output templates for the snippet could be defined in `$settings['templates']`. 
 
@@ -357,3 +357,4 @@ Notes:
 2. If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called cached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
 3. MODX does not like `=`, `?` and `&` in snippet parameters. If the template code has to use those signs, put the template code in a chunk or change the default templates in the config file.
 4. ManagerManager expects a custom tv field to be an input tag. Because of single and double quote issues the field containing the multiTV value is a textarea.
+5. If the multiTV does not save in `datatable` mode please check the [magic_quotes_gpc](https://github.com/Jako/multiTV/issues/57#issuecomment-25991271) setting of your server
