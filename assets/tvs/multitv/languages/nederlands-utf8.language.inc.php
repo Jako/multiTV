@@ -14,11 +14,11 @@ $language['cancel'] = 'Annuleer';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
-$language['connector.illegal'] = 'Illegal parameter!';
-$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!!';
-$language['connector.rights'] = 'Insufficient rights for this action!';
-$language['connector.nomultitv'] = 'multiTV does not exist!';
-$language['connector.noprocessor'] = 'Processor does not exist!';
+$language['connector.illegal'] = 'Foutieve parameter!';
+$language['connector.nodoc'] = 'Document bestaat niet! Sla een nieuw document eerst op voor het toevoegen van een regel!';
+$language['connector.rights'] = 'Geen rechten voor deze actie!';
+$language['connector.nomultitv'] = 'multiTV bestaat niet!';
+$language['connector.noprocessor'] = 'Processor bestaat niet!';
 $language['dataTables'] = '{
 	"sEmptyTable":     "Geen data beschikbaar in tabel",
     "sInfo":           "Getoond _START_ tot _END_ van _TOTAL_ entries",
