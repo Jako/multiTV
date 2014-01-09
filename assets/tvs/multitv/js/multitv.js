@@ -85,7 +85,7 @@
 
 				// save pasted form
 				$('.replace, .append', _this.fieldPasteForm).click(function() {
-					_this.paste();
+					_this.paste($(this).attr('class'), $('input:radio[name=pasteas]:checked', _this.fieldPasteForm).val());
 					_this.prefillInputs();
 					_this.saveMultiValue();
 					_this.pasteBox.colorbox.close();
@@ -376,12 +376,10 @@
 			this.addElementEvents(clone);
 			return false;
 		},
-		paste: function() {
+		paste: function(mode, pasteas) {
 			var _this = this;
 
 			var pastedArray = [];
-			var mode = $(this).attr('class');
-			var pasteas = $('input:radio[name=pasteas]:checked').val();
 			var clean;
 			switch (pasteas) {
 				case 'google':
@@ -563,8 +561,8 @@
 							_this.toggleRow(nRow);
 						}
 					}).addClass(_this.tableClasses);
-					
-					if(!_this.options.fieldsettings['sorting']) {
+
+					if (!_this.options.fieldsettings['sorting']) {
 						_this.fieldTable.rowReordering({
 							fnAfterMove: function() {
 								_this.saveMultiValue();
