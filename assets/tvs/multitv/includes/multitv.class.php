@@ -9,8 +9,11 @@
 if (!function_exists('renderFormElement')) {
 	include MODX_MANAGER_PATH . 'includes/tmplvars.inc.php';
 }
-if (!class_exists('evoChunkie')) {
-	include (MTV_BASE_PATH . 'includes/chunkie.class.inc.php');
+if (!class_exists('newChunkie')) {
+	include (MTV_BASE_PATH . 'includes/newchunkie.class.php');
+}
+if (!class_exists('Pagination')) {
+	include (MTV_BASE_PATH . 'includes/pagination.class.php');
 }
 
 class multiTV {
@@ -36,11 +39,11 @@ class multiTV {
 	public $sortdir = '';
 	public $sorttype = '';
 	public $cmsinfo = array();
+	private $modx;
 
 	// Init
-	function multiTV($tvDefinitions) {
-		global $modx;
-
+	function multiTV(&$modx, $tvDefinitions) {
+		$this->modx = &$modx;
 		if (isset($tvDefinitions['name'])) {
 			$this->tvName = $tvDefinitions['name'];
 			$this->tvID = $tvDefinitions['id'];
@@ -49,7 +52,7 @@ class multiTV {
 			$this->tvDefault = $tvDefinitions['default_text'];
 			$this->tvTemplates = 'templates' . $tvDefinitions['tpl_config'];
 		} else {
-			$modx->messageQuit('No multiTV definitions set');
+			$this->modx->messageQuit('No multiTV definitions set');
 		}
 		$settings = array();
 		include ($this->includeFile($this->tvName));
@@ -58,15 +61,16 @@ class multiTV {
 			$this->prepareValue($tvDefinitions['value']);
 		}
 		$language = array();
-		include ($this->includeFile($modx->config['manager_language'], 'language'));
+		include ($this->includeFile('english', 'language'));
+		include ($this->includeFile($this->modx->config['manager_language'], 'language'));
 		$this->language = $language;
 
-		$version = $modx->getVersionData();
+		$version = $this->modx->getVersionData();
 		switch ($version['branch']) {
 			case 'Evolution':
 				$this->cmsinfo['clipper'] = '';
 				$this->cmsinfo['kcfinder'] = version_compare($version['version'], '1.0.10', '>') ? 'true' : 'false';
-				$this->cmsinfo['thumbsdir'] = ($modx->config['thumbsDir']) ? $modx->config['thumbsDir'] . '/' : '';
+				$this->cmsinfo['thumbsdir'] = ($this->modx->config['thumbsDir']) ? $this->modx->config['thumbsDir'] . '/' : '';
 				$this->cmsinfo['seturl'] = version_compare($version['version'], '1.0.12', '>') ? '' : 'old';
 				break;
 			case 'ClipperCMS':
@@ -128,11 +132,13 @@ class multiTV {
 						foreach ($this->fieldcolumns as $column) {
 							if (isset($column['render']) && $column['render'] != '') {
 								foreach ($val->fieldValue as &$elem) {
-									$parser = new evoChunkie('@CODE ' . $column['render']);
+									$parser = new newChunkie($this->modx);
 									foreach ($elem as $k => $v) {
-										$parser->AddVar($k, $this->maskTags($v));
+										$parser->setPlaceholder($k, $this->maskTags($v));
 									}
-									$elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->Render();
+									$parser->setTpl($parser->getTemplateChunk('@CODE ' . $column['render']));
+									$parser->prepareTemplate();
+									$elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->process();
 								}
 							}
 						}
@@ -235,8 +241,6 @@ class multiTV {
 
 	// build the output of multiTV script and css
 	function generateScript() {
-		global $modx;
-
 		$tvid = "tv" . $this->tvID;
 		$tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
 		$tvvalue = $this->maskTags($tvvalue);
@@ -466,7 +470,6 @@ class multiTV {
 			$placeholder['script'] = file_get_contents($this->includeFile('sortablelistScript' . $this->cmsinfo['clipper'], 'template', '.html'));
 		}
 
-
 		foreach ($files['css'] as $file) {
 			$cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $tvpath . $file . '" />';
 		}
@@ -481,7 +484,7 @@ class multiTV {
 				array('name' => 'multitv', 'path' => 'js/multitv.js'),
 			));
 			foreach ($files['scripts'] as $file) {
-				$scriptfiles[] = $modx->getJqueryPluginTag($file['name'], $tvpath . $file['path'], FALSE);
+				$scriptfiles[] = $this->modx->getJqueryPluginTag($file['name'], $tvpath . $file['path'], FALSE);
 			}
 		}
 
@@ -503,6 +506,170 @@ class multiTV {
 		$tvtemplate = $this->renderTemplate('multitv', $placeholder);
 
 		return $tvtemplate;
+	}
+
+	function getMultiValue($params) {
+		// get template variable always if logged into manager
+		$published = isset($_SESSION['mgrValidated']) ? '2' : $params['published'];
+		// get template variable
+		switch (strtolower($published)) {
+			case '0':
+			case 'false':
+				$tvOutput = $this->modx->getTemplateVarOutput(array($this->tvName), $params['docid'], '0');
+				break;
+			case '1':
+			case '2':
+			case 'true':
+				$tvOutput = $this->modx->getTemplateVarOutput(array($this->tvName), $params['docid'], '1');
+				if ($tvOutput == FALSE && $published == '2') {
+					$tvOutput = $this->modx->getTemplateVarOutput(array($this->tvName), $params['docid'], '0');
+				}
+				break;
+		}
+		$tvOutput = $tvOutput[$this->tvName];
+		$tvOutput = json_decode($tvOutput, TRUE);
+		if (isset($tvOutput['fieldValue'])) {
+			$tvOutput = $tvOutput['fieldValue'];
+		}
+		return $tvOutput;
+	}
+
+	function displayMultiValue($tvOutput, $params) {
+		// replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
+		$maskedTags = array('((' => '[+', '))' => '+]');
+		$params['outerTpl'] = str_replace(array_keys($maskedTags), array_values($maskedTags), $params['outerTpl']);
+		$params['rowTpl'] = str_replace(array_keys($maskedTags), array_values($maskedTags), $params['rowTpl']);
+
+		$countOutput = count($tvOutput);
+		$firstEmpty = TRUE;
+		if ($countOutput) {
+			// check for first item empty
+			foreach ($tvOutput[0] as $value) {
+				if ($value != '') {
+					$firstEmpty = FALSE;
+				}
+			}
+		}
+
+		// stop if there is no output
+		if (!$countOutput || $firstEmpty) {
+			if ($params['emptyOutput']) {
+				// output nothing
+				return '';
+			} else {
+				// output empty outer template
+				$parser = new newChunkie($this->modx);
+				$parser->setPlaceholder('wrapper', '');
+				$parser->setTpl($parser->getTemplateChunk($params['outerTpl']));
+				$parser->prepareTemplate();
+				return $parser->process();
+			}
+		}
+
+		// random or sort output
+		if ($params['randomize']) {
+			shuffle($tvOutput);
+		} elseif ($params['reverse']) {
+			$tvOutput = array_reverse($tvOutput);
+		} elseif (!empty($params['sortBy'])) {
+			$this->sort($tvOutput, trim($params['sortBy']), strtolower(trim($params['sortDir'])));
+		}
+
+		// check for display all regarding selected rows count and offset
+		$countOutput = ($params['rows'] === 'all') ? $countOutput : count($params['rows']);
+		$display = $limit = ($params['display'] !== 'all') ? intval($params['display']) : $countOutput;
+		$display = (($display + $params['offset']) < $countOutput) ? $display : $countOutput - $params['offset'];
+		$offset = $params['offset'];
+
+		// output
+		$wrapper = array();
+		$i = $iteration = 1;
+		$classes = array($params['firstClass']);
+		// rowTpl output
+		foreach ($tvOutput as $value) {
+			if ($display == 0) {
+				break;
+			}
+			if ($params['rows'] !== 'all' && !in_array($i, $params['rows'])) {
+				// output only selected rows
+				$i++;
+				continue;
+			}
+			if ($offset) {
+				// don't show the offset rows
+				$offset--;
+				$i++;
+				continue;
+			}
+			if (!$params['toJson']) {
+				if ($display == 1) {
+					$classes[] = $params['lastClass'];
+				}
+				if ($iteration % 2) {
+					$classes[] = $params['oddClass'];
+				} else {
+					$classes[] = $params['evenClass'];
+				}
+				$parser = new newChunkie($this->modx);
+				foreach ($value as $key => $fieldvalue) {
+					$fieldname = (is_int($key)) ? $this->fieldnames[$key] : $key;
+					$parser->setPlaceholder($fieldname, $fieldvalue);
+				}
+				$parser->setPlaceholder('iteration', $iteration);
+				$parser->setPlaceholder('row', array('number' => $i, 'class' => implode(' ', $classes), 'total' => $countOutput));
+				$parser->setPlaceholder('docid', $params['docid']);
+				$parser->setTpl($parser->getTemplateChunk($params['rowTpl']));
+				$parser->prepareTemplate();
+				$placeholder = $parser->process();
+				if ($params['toPlaceholder']) {
+					$this->modx->setPlaceholder($params['toPlaceholder'] . '.' . $i, $placeholder);
+				}
+				$wrapper[] = $placeholder;
+				$classes = array();
+			} else {
+				$wrapper[] = $value;
+			}
+			$i++;
+			$iteration++;
+			$display--;
+		}
+		if ($params['emptyOutput'] && !count($wrapper)) {
+			// output nothing
+			$output = '';
+		} else {
+			if (!$params['toJson']) {
+				// wrap rowTpl output in outerTpl
+				$parser = new newChunkie($this->modx);
+				$parser->setPlaceholder('wrapper', implode($params['outputSeparator'], $wrapper));
+				$parser->setPlaceholder('rows', array('offset' => $params['offset'], 'total' => $countOutput));
+				$parser->setPlaceholder('docid', $params['docid']);
+				if ($params['paginate']) {
+					$pagination = new Pagination(array(
+						'per_page' => $limit,
+						'num_links' => 2,
+						'cur_page' => ($params['offset'] / $limit) + 1,
+						'total_rows' => $countOutput,
+						'page_query_string' => $params['offsetKey'],
+						'use_page_numbers' => true,
+						'first_link' => $this->language['paginate.first'],
+						'prev_link' => $this->language['paginate.prev'],
+						'next_link' => $this->language['paginate.next'],
+						'last_link' => $this->language['paginate.last']
+					));
+					$parser->setPlaceholder('pagination', $pagination->create_links());
+				}
+				$parser->setTpl($parser->getTemplateChunk($params['outerTpl']));
+				$parser->prepareTemplate();
+				$output = $parser->process();
+			} else {
+				$output = json_encode($wrapper);
+			}
+		}
+		if ($params['toPlaceholder']) {
+			$this->modx->setPlaceholder($params['toPlaceholder'], $output);
+			$output = '';
+		}
+		return $output;
 	}
 
 	// sort a multidimensional array

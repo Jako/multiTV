@@ -1,5 +1,9 @@
 History
 ================================================================================
+- 1.8 January 9, 2014
+    - Snippet: Pagination
+    - Snippet/CustomTV: use newChunkie class
+
 - 1.7.3 November 21, 2013
     - Ditto Extender: new Ditto multiTV filter extender
 

@@ -5,8 +5,8 @@ $settings['css'] = array(
 );
 
 // Check for ManagerManager
-$res = $modx->db->select('*', $modx->getFullTableName('site_plugins'), 'name="ManagerManager" AND disabled=0 ');
-$mmActive = $modx->db->getRow($res);
+$res = $this->modx->db->select('*', $this->modx->getFullTableName('site_plugins'), 'name="ManagerManager" AND disabled=0 ');
+$mmActive = $this->modx->db->getRow($res);
 if (!$mmActive && !$GLOBALS['mtvjquery']) {
 	$settings['scripts'] = array('js/jquery-1.8.3.min.js');
 	$GLOBALS['mtvjquery'] = TRUE;

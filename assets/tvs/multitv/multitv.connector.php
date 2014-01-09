@@ -35,7 +35,7 @@ define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 // include classfile
 if (!class_exists('multiTV')) {
-	include MTV_BASE_PATH . 'multitv.class.php';
+	include MTV_BASE_PATH . 'includes/multitv.class.php';
 }
 if (file_exists(MTV_BASE_PATH . 'languages/' . $modx->config['manager_language'] . '.language.inc.php')) {
 	include MTV_BASE_PATH . 'languages/' . $modx->config['manager_language'] . '.language.inc.php';
@@ -59,7 +59,7 @@ if ($action && $tvid) {
 			// get the settings for the multiTV
 			$tvSettings = $modx->getTemplateVar($tvid, '*', $docid, $docObj['published']);
 			if ($tvSettings && $tvSettings[elements] = '@INCLUDE' . MTV_PATH . 'multitv.customtv.php') {
-				$multiTV = new multiTV($tvSettings);
+				$multiTV = new multiTV($modx, $tvSettings);
 				$includeFile = $multiTV->includeFile($action, 'processor');
 				// processor available?
 				if (substr($includeFile, 0, 1) != 'A') {

@@ -51,4 +51,7 @@ Marc - https://github.com/fourroses666 - info@graffx.nl
 
 - Dutch language
 
+Pontus Ågren - https://github.com/Pont
+- Swedish language
+
 And a lot of testers ...
