@@ -75,8 +75,4 @@ $settings['configuration'] = array(
 	'enablePaste' => FALSE,
 	'csvseparator' => ','
 );
-$settings['templatesTest'] = array(
-	'outerTpl' => '<ul>[+wrapper+][+pagination+]</ul>',
-	'rowTpl' => '<li>[+text+], [+image+], [+thumb+], [+textarea+], [+date+], [+dropdown+], [+listbox+], [+listbox-multiple+], [+checkbox+], [+option+]</li>'
-		)
 ?>
