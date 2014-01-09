@@ -61,13 +61,13 @@ $settings['form'] = array(
 $settings['templates'] = array(
 	'outerTpl' => '
 
-[+wrapper+]
+[+wrapper+][+pagination+]
 ',
 	'rowTpl' => '
 [+img_bg+]
 [+row.number+]
 [+iteration+]
-[+title+]
+[+title:ucase+]
 [+row.class+]
 <br/>'
 );

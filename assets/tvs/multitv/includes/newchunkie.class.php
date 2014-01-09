@@ -373,7 +373,7 @@ class newChunkie {
 				}
 			}
 			// Replace remaining placeholders with key based placeholders
-			$current->template = str_replace('[+', '[+' . $key . '.', $current->template);
+			$current->template = str_replace('[+', '[+' . ltrim($key . '.', '.'), $current->template);
 		} else {
 			$current->template = '';
 		}
@@ -563,9 +563,9 @@ class newChunkie {
 					$this->modx->chunkieCache['@CHUNK'] = array();
 				}
 				if (!array_key_exists($chunkname, $this->modx->chunkieCache['@CHUNK'])) {
-					$chunk = $this->modx->getObject('modChunk', array('name' => $chunkname));
+					$chunk = $this->modx->getChunk($chunkname);
 					if ($chunk) {
-						$this->modx->chunkieCache['@CHUNK'][$chunkname] = $chunk->getContent();
+						$this->modx->chunkieCache['@CHUNK'][$chunkname] = $chunk;
 					} else {
 						$this->modx->chunkieCache['@CHUNK'][$chunkname] = FALSE;
 					}

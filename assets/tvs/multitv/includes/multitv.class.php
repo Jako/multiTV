@@ -9,8 +9,8 @@
 if (!function_exists('renderFormElement')) {
 	include MODX_MANAGER_PATH . 'includes/tmplvars.inc.php';
 }
-if (!class_exists('evoChunkie')) {
-	include (MTV_BASE_PATH . 'includes/chunkie.class.php');
+if (!class_exists('newChunkie')) {
+	include (MTV_BASE_PATH . 'includes/newchunkie.class.php');
 }
 if (!class_exists('Pagination')) {
 	include (MTV_BASE_PATH . 'includes/pagination.class.php');
@@ -132,11 +132,13 @@ class multiTV {
 						foreach ($this->fieldcolumns as $column) {
 							if (isset($column['render']) && $column['render'] != '') {
 								foreach ($val->fieldValue as &$elem) {
-									$parser = new evoChunkie('@CODE ' . $column['render']);
+									$parser = new newChunkie($this->modx);
 									foreach ($elem as $k => $v) {
-										$parser->AddVar($k, $this->maskTags($v));
+										$parser->setPlaceholder($k, $this->maskTags($v));
 									}
-									$elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->Render();
+									$parser->setTpl($parser->getTemplateChunk('@CODE ' . $column['render']));
+									$parser->prepareTemplate();
+									$elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->process();
 								}
 							}
 						}
@@ -556,9 +558,11 @@ class multiTV {
 				return '';
 			} else {
 				// output empty outer template
-				$parser = new evoChunkie($params['outerTpl']);
-				$parser->AddVar('wrapper', '');
-				return $parser->Render();
+				$parser = new newChunkie($this->modx);
+				$parser->setPlaceholder('wrapper', '');
+				$parser->setTpl($parser->getTemplateChunk($params['outerTpl']));
+				$parser->prepareTemplate();
+				return $parser->process();
 			}
 		}
 
@@ -606,15 +610,17 @@ class multiTV {
 				} else {
 					$classes[] = $params['evenClass'];
 				}
-				$parser = new evoChunkie($params['rowTpl']);
+				$parser = new newChunkie($this->modx);
 				foreach ($value as $key => $fieldvalue) {
 					$fieldname = (is_int($key)) ? $this->fieldnames[$key] : $key;
-					$parser->AddVar($fieldname, $fieldvalue);
+					$parser->setPlaceholder($fieldname, $fieldvalue);
 				}
-				$parser->AddVar('iteration', $iteration);
-				$parser->AddVar('row', array('number' => $i, 'class' => implode(' ', $classes), 'total' => $countOutput));
-				$parser->AddVar('docid', $params['docid']);
-				$placeholder = $parser->Render();
+				$parser->setPlaceholder('iteration', $iteration);
+				$parser->setPlaceholder('row', array('number' => $i, 'class' => implode(' ', $classes), 'total' => $countOutput));
+				$parser->setPlaceholder('docid', $params['docid']);
+				$parser->setTpl($parser->getTemplateChunk($params['rowTpl']));
+				$parser->prepareTemplate();
+				$placeholder = $parser->process();
 				if ($params['toPlaceholder']) {
 					$this->modx->setPlaceholder($params['toPlaceholder'] . '.' . $i, $placeholder);
 				}
@@ -633,10 +639,10 @@ class multiTV {
 		} else {
 			if (!$params['toJson']) {
 				// wrap rowTpl output in outerTpl
-				$parser = new evoChunkie($params['outerTpl']);
-				$parser->AddVar('wrapper', implode($params['outputSeparator'], $wrapper));
-				$parser->AddVar('rows', array('offset' => $params['offset'], 'total' => $countOutput));
-				$parser->AddVar('docid', $params['docid']);
+				$parser = new newChunkie($this->modx);
+				$parser->setPlaceholder('wrapper', implode($params['outputSeparator'], $wrapper));
+				$parser->setPlaceholder('rows', array('offset' => $params['offset'], 'total' => $countOutput));
+				$parser->setPlaceholder('docid', $params['docid']);
 				if ($params['paginate']) {
 					$pagination = new Pagination(array(
 						'per_page' => $limit,
@@ -650,9 +656,11 @@ class multiTV {
 						'next_link' => $this->language['paginate.next'],
 						'last_link' => $this->language['paginate.last']
 					));
-					$parser->AddVar('pagination', $pagination->create_links());
+					$parser->setPlaceholder('pagination', $pagination->create_links());
 				}
-				$output = $parser->Render();
+				$parser->setTpl($parser->getTemplateChunk($params['outerTpl']));
+				$parser->prepareTemplate();
+				$output = $parser->process();
 			} else {
 				$output = json_encode($wrapper);
 			}
