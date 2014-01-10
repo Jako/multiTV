@@ -65,6 +65,11 @@
 						href: $(this).attr('href'),
 						width: '500px',
 						height: '350px',
+						onComplete: function() {
+							if ($('input:radio[name=pasteas]:checked', _this.fieldPasteForm).length === 0) {
+								$('input:radio[name=pasteas]:first', _this.fieldPasteForm).attr('checked', 'checked');
+							}
+						},
 						onClosed: function() {
 							_this.fieldPasteArea.html('');
 						},
@@ -160,7 +165,7 @@
 		saveMultiValue: function() {
 			var _this = this;
 
-			_this.data.values = [];
+			_this.data.value = [];
 			_this.fieldList.children('li').each(function() {
 				var multiElement = $(this);
 				var fieldValues = new Object();
@@ -179,10 +184,10 @@
 						_this.data.settings.autoincrement++;
 					}
 				});
-				_this.data.values.push(fieldValues);
+				_this.data.value.push(fieldValues);
 			});
 			_this.$el.setValue($.toJSON({
-				fieldValue: _this.data.values,
+				fieldValue: _this.data.value,
 				fieldSettings: _this.data.settings
 			}));
 		},
