@@ -409,7 +409,7 @@
 					});
 					break;
 				case 'csv':
-					clean = _this.fieldPasteArea[0].innerText;
+					clean = _this.fieldPasteArea.text();
 					clean = clean.split('\n');
 					$.each(clean, function(index, value) {
 						// CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
