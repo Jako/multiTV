@@ -17,6 +17,7 @@ $settings['scripts'] = array_merge($settings['scripts'], array(
 	'js/jquery-json-2.3.min.js',
 	'js/jquery-ui-1.8.24.custom.min.js',
 	'js/jquery-ui-timepicker-addon.js',
+	'js/ui.datepicker-ru.js',
 	'js/jquery-field-0.9.6.min.js'
 		)
 );
