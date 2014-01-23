@@ -23,27 +23,33 @@ $language['connector.nodoc'] = 'Questo documento non esiste! Salva il documento 
 $language['connector.rights'] = 'Non hai i permessi necessari per effettuare questa azione!';
 $language['connector.nomultitv'] = 'multiTV non esiste!';
 $language['connector.noprocessor'] = 'Processor non esiste!';
-$language['dataTables'] = '{
-    "sEmptyTable":     "Nessun elemento disponibile nella tabella",
-    "sInfo":           "Mostro gli elementi da _START_ a _END_ di _TOTAL_ elementi in totale",
-    "sInfoEmpty":      "Mostro gli elementi da 0 a 0 di 0 elementi in totale",
-    "sInfoFiltered":   "(filtrati da un totale di _MAX_ elementi)",
-    "sInfoPostFix":    "",
-    "sInfoThousands":  ",",
-    "sLengthMenu":     "Mostra _MENU_ elementi",
-    "sLoadingRecords": "Sto caricando …",
-    "sProcessing":     "Sto elaborando …",
-    "sSearch":         "Cerca:",
-    "sZeroRecords":    "Nessun elemento trovato",
-    "oPaginate": {
-        "sFirst":    "Primo",
-        "sLast":     "Ultimo",
-        "sNext":     "Successivo",
-        "sPrevious": "Prossimo"
-    },
-    "oAria": {
-        "sSortAscending":  ": attivare per l\'ordinamento crescente delle colonne",
-        "sSortDescending": ": attivare per l\'ordinamento decrescente delle colonne"
-    }
-}';
+$language['dataTables.emptyTable'] = 'Nessun elemento disponibile nella tabella';
+$language['dataTables.info'] = 'Mostro gli elementi da _START_ a _END_ di _TOTAL_ elementi in totale';
+$language['dataTables.infoEmpty'] = 'Mostro gli elementi da 0 a 0 di 0 elementi in totale';
+$language['dataTables.infoFiltered'] = '(filtrati da un totale di _MAX_ elementi)';
+$language['dataTables.infoPostFix'] = '';
+$language['dataTables.infoThousands'] = ',';
+$language['dataTables.lengthMenu'] = 'Mostra _MENU_ elementi';
+$language['dataTables.loadingRecords'] = 'Sto caricando …';
+$language['dataTables.processing'] = 'Sto elaborando …';
+$language['dataTables.search'] = 'Cerca:';
+$language['dataTables.zeroRecords'] = 'Nessun elemento trovato';
+$language['dataTables.paginate.first'] = 'Primo';
+$language['dataTables.paginate.last'] = 'Ultimo';
+$language['dataTables.paginate.next'] = 'Successivo';
+$language['dataTables.paginate.previous'] = 'Prossimo';
+$language['dataTables.aria.sortAscending'] = ': attivare per l\'ordinamento crescente delle colonne';
+$language['dataTables.aria.sortDescending'] = ': attivare per l\'ordinamento decrescente delle colonne';
+$language['datepicker.closeText'] = 'Chiudi';
+$language['datepicker.prevText'] = 'Prec';
+$language['datepicker.nextText'] = 'Succ';
+$language['datepicker.currentText'] = 'Oggi';
+$language['datepicker.monthNames'] = '["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"]';
+$language['datepicker.monthNamesShort'] = '["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"]';
+$language['datepicker.dayNames'] = '["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]';
+$language['datepicker.dayNamesShort'] = '["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"]';
+$language['datepicker.dayNamesMin'] = '["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"]';
+$language['datepicker.dateFormat'] = 'dd/mm/yy';
+$language['datepicker.firstDay'] = '1';
+$language['datepicker.isRTL'] = 'false';
 ?>

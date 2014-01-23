@@ -23,27 +23,33 @@ $language['connector.nodoc'] = 'Dokument nie istnieje! Zapisz dokument przed pr�
 $language['connector.rights'] = 'Niewystarczające uprawnienia!';
 $language['connector.nomultitv'] = 'multiTV nie istnieje!';
 $language['connector.noprocessor'] = 'Procesor nie istnieje!';
-$language['dataTables'] = '{
-	"sEmptyTable":     "Brak wpisów w tabeli",
-    "sInfo":           "Wyświetlane _START_ do _END_ z _TOTAL_ wpisów",
-    "sInfoEmpty":      "Wyświetlane 0 do 0 z 0 wpisów",
-    "sInfoFiltered":   "(odfiltrowano z _MAX_ wszystkich)",
-    "sInfoPostFix":    "",
-    "sInfoThousands":  ",",
-    "sLengthMenu":     "Pokaż _MENU_ wpisów",
-    "sLoadingRecords": "Ładowanie…",
-    "sProcessing":     "Przetwarzanie…",
-    "sSearch":         "Szukaj:",
-    "sZeroRecords":    "Brak pasujących wpisów",
-    "oPaginate": {
-        "sFirst":    "Początek",
-        "sLast":     "Koniec",
-        "sNext":     "Następne",
-        "sPrevious": "Poprzednie"
-    },
-    "oAria": {
-        "sSortAscending":  ": aktywuj, by posortować kolumnę rosnąco",
-        "sSortDescending": ": aktywuj, by posortować kolumnę malejąco"
-    }
-}';
+$language['dataTables.emptyTable'] = 'Brak wpisów w tabeli';
+$language['dataTables.info'] = 'Wyświetlane _START_ do _END_ z _TOTAL_ wpisów';
+$language['dataTables.infoEmpty'] = 'Wyświetlane 0 do 0 z 0 wpisów';
+$language['dataTables.infoFiltered'] = '(odfiltrowano z _MAX_ wszystkich)';
+$language['dataTables.infoPostFix'] = '';
+$language['dataTables.infoThousands'] = ',';
+$language['dataTables.lengthMenu'] = 'Pokaż _MENU_ wpisów';
+$language['dataTables.loadingRecords'] = 'Ładowanie…';
+$language['dataTables.processing'] = 'Przetwarzanie…';
+$language['dataTables.search'] = 'Szukaj:';
+$language['dataTables.zeroRecords'] = 'Brak pasujących wpisów';
+$language['dataTables.paginate.first'] = 'Początek';
+$language['dataTables.paginate.last'] = 'Koniec';
+$language['dataTables.paginate.next'] = 'Następne';
+$language['dataTables.paginate.previous'] = 'Poprzednie';
+$language['dataTables.aria.sortAscending'] = ': aktywuj, by posortować kolumnę rosnąco';
+$language['dataTables.aria.sortDescending'] = ': aktywuj, by posortować kolumnę malejąco';
+$language['datepicker.closeText'] = 'Zamknij';
+$language['datepicker.prevText'] = 'Poprzedni';
+$language['datepicker.nextText'] = 'Następny';
+$language['datepicker.currentText'] = 'Dziś';
+$language['datepicker.monthNames'] = '["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"]';
+$language['datepicker.monthNamesShort'] = '["Sty", "Lu", "Mar", "Kw", "Maj", "Cze", "Lip", "Sie", "Wrz", "Pa", "Lis", "Gru"]';
+$language['datepicker.dayNames'] = '["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"]';
+$language['datepicker.dayNamesShort'] = '["Nie", "Pn", "Wt", "Śr", "Czw", "Pt", "So"]';
+$language['datepicker.dayNamesMin'] = '["N", "Pn", "Wt", "Śr", "Cz", "Pt", "So"]';
+$language['datepicker.dateFormat'] = 'dd.mm.yy';
+$language['datepicker.firstDay'] = '1';
+$language['datepicker.isRTL'] = 'false';
 ?>

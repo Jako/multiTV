@@ -23,27 +23,33 @@ $language['connector.nodoc'] = 'Dokumentet finns inte! Spara ett nytt dokument i
 $language['connector.rights'] = 'Otillräckliga rättigheter för denna aktion!';
 $language['connector.nomultitv'] = 'multiTV finns inte!';
 $language['connector.noprocessor'] = 'Processorn finns inte!';
-$language['dataTables'] = '{
-	"sEmptyTable":     "Ingen tillgänglig data i tabellen",
-    "sInfo":           "Visar _START_ till _END_ av _TOTAL_ poster",
-    "sInfoEmpty":      "Visar 0 till 0 av 0 poster",
-    "sInfoFiltered":   "(filtrerad från totalt _MAX_ poster)",
-    "sInfoPostFix":    "",
-    "sInfoThousands":  ",",
-    "sLengthMenu":     "Visa _MENU_ poster",
-    "sLoadingRecords": "Laddar …",
-    "sProcessing":     "Behandlar …",
-    "sSearch":         "Sök:",
-    "sZeroRecords":    "Inga poster hittades",
-    "oPaginate": {
-        "sFirst":    "Första",
-        "sLast":     "Sista",
-        "sNext":     "Nästa",
-        "sPrevious": "Föregående"
-    },
-    "oAria": {
-        "sSortAscending":  ": aktivera för att sortera kolumnen stigande",
-        "sSortDescending": ": aktivera för att sortera kolumnen fallande"
-    }
-}';
+$language['dataTables.emptyTable'] = 'Ingen tillgänglig data i tabellen';
+$language['dataTables.info'] = 'Visar _START_ till _END_ av _TOTAL_ poster';
+$language['dataTables.infoEmpty'] = 'Visar 0 till 0 av 0 poster';
+$language['dataTables.infoFiltered'] = '(filtrerad från totalt _MAX_ poster)';
+$language['dataTables.infoPostFix'] = '';
+$language['dataTables.infoThousands'] = ',';
+$language['dataTables.lengthMenu'] = 'Visa _MENU_ poster';
+$language['dataTables.loadingRecords'] = 'Laddar …';
+$language['dataTables.processing'] = 'Behandlar …';
+$language['dataTables.search'] = 'Sök:';
+$language['dataTables.zeroRecords'] = 'Inga poster hittades';
+$language['dataTables.paginate.first'] = 'Första';
+$language['dataTables.paginate.last'] = 'Sista';
+$language['dataTables.paginate.next'] = 'Nästa';
+$language['dataTables.paginate.previous'] = 'Föregående';
+$language['dataTables.aria.sortAscending'] = ': aktivera för att sortera kolumnen stigande';
+$language['dataTables.aria.sortDescending'] = ': aktivera för att sortera kolumnen fallande';
+$language['datepicker.closeText'] = 'Stäng';
+$language['datepicker.prevText'] = 'Förra';
+$language['datepicker.nextText'] = 'Nästa';
+$language['datepicker.currentText'] = 'Idag';
+$language['datepicker.monthNames'] = '["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"]';
+$language['datepicker.monthNamesShort'] = '["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"]';
+$language['datepicker.dayNames'] = '["Söndag", "Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag"]';
+$language['datepicker.dayNamesShort'] = '["Sön", "Mån", "Tis", "Ons", "Tor", "Fre", "Lör"]';
+$language['datepicker.dayNamesMin'] = '["Sö", "Må", "Ti", "On", "To", "Fr", "Lö"]';
+$language['datepicker.dateFormat'] = 'yy-mm-dd';
+$language['datepicker.firstDay'] = '1';
+$language['datepicker.isRTL'] = 'false';
 ?>

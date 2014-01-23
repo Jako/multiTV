@@ -216,12 +216,13 @@
 
 			// datepicker
 			$('.mtvDatePicker', el).click(function() {
-				var picker = $(this).datetimepicker({
+				$.extend(datepickerOptions, {
 					changeMonth: true,
 					changeYear: true,
 					dateFormat: 'dd-mm-yy',
 					timeFormat: 'h:mm:ss'
 				});
+				var picker = $(this).datetimepicker(datepickerOptions);
 				picker.datepicker('show');
 			});
 			// file field browser
@@ -738,12 +739,13 @@
 
 			// datepicker
 			$('.mtvDatePicker', el).click(function() {
-				var picker = $(this).datetimepicker({
+				$.extend(datepickerOptions, {
 					changeMonth: true,
 					changeYear: true,
 					dateFormat: 'dd-mm-yy',
 					timeFormat: 'h:mm:ss'
 				});
+				var picker = $(this).datetimepicker(datepickerOptions);
 				picker.datepicker('show');
 			});
 			// file field browser

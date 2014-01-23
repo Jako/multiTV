@@ -1,5 +1,6 @@
 var rteOptions;
 var dataTableLanguage;
+var datepickerOptions;
 
 if (!String.prototype.supplant) {
 	String.prototype.supplant = function(o) {
