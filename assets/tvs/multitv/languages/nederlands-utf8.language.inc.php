@@ -14,32 +14,42 @@ $language['cancel'] = 'Annuleer';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
-$language['connector.illegal'] = 'Illegal parameter!';
-$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!!';
-$language['connector.rights'] = 'Insufficient rights for this action!';
-$language['connector.nomultitv'] = 'multiTV does not exist!';
-$language['connector.noprocessor'] = 'Processor does not exist!';
-$language['dataTables'] = '{
-	"sEmptyTable":     "Geen data beschikbaar in tabel",
-    "sInfo":           "Getoond _START_ tot _END_ van _TOTAL_ entries",
-    "sInfoEmpty":      "Getoond 0 tot 0 van 0 entries",
-    "sInfoFiltered":   "(gefilterd uit _MAX_ totale entries)",
-    "sInfoPostFix":    "",
-    "sInfoThousands":  ",",
-    "sLengthMenu":     "Toon _MENU_ entries",
-    "sLoadingRecords": "Laden …",
-    "sProcessing":     "Bewerken …",
-    "sSearch":         "Zoek:",
-    "sZeroRecords":    "Geen resultaten gevonden",
-    "oPaginate": {
-        "sFirst":    "Eerste",
-        "sLast":     "Laaste",
-        "sNext":     "Volgende",
-        "sPrevious": "Vorige"
-    },
-    "oAria": {
-        "sSortAscending":  ": activeer om kolom oplopend te sorteren",
-        "sSortDescending": ": activeer om kolom aflopend te sorteren"
-    }
-}';
+$language['paginate.first'] = '&lsaquo; Eerste';
+$language['paginate.prev'] = '&lt;';
+$language['paginate.next'] = '&gt;';
+$language['paginate.last'] = 'Laaste &rsaquo;';
+$language['connector.illegal'] = 'Foutieve parameter!';
+$language['connector.nodoc'] = 'Document bestaat niet! Sla een nieuw document eerst op voor het toevoegen van een regel!';
+$language['connector.rights'] = 'Geen rechten voor deze actie!';
+$language['connector.nomultitv'] = 'multiTV bestaat niet!';
+$language['connector.noprocessor'] = 'Processor bestaat niet!';
+$language['dataTables.emptyTable'] = 'Geen data beschikbaar in tabel';
+$language['dataTables.info'] = 'Getoond _START_ tot _END_ van _TOTAL_ entries';
+$language['dataTables.infoEmpty'] = 'Getoond 0 tot 0 van 0 entries';
+$language['dataTables.infoFiltered'] = '(gefilterd uit _MAX_ totale entries)';
+$language['dataTables.infoPostFix'] = '';
+$language['dataTables.infoThousands'] = ',';
+$language['dataTables.lengthMenu'] = 'Toon _MENU_ entries';
+$language['dataTables.loadingRecords'] = 'Laden …';
+$language['dataTables.processing'] = 'Bewerken …';
+$language['dataTables.search'] = 'Zoek:';
+$language['dataTables.zeroRecords'] = 'Geen resultaten gevonden';
+$language['dataTables.paginate.first'] = 'Eerste';
+$language['dataTables.paginate.last'] = 'Laaste';
+$language['dataTables.paginate.next'] = 'Volgende';
+$language['dataTables.paginate.previous'] = 'Vorige';
+$language['dataTables.aria.sortAscending'] = ': activeer om kolom oplopend te sorteren';
+$language['dataTables.aria.sortDescending'] = ': activeer om kolom aflopend te sorteren';
+$language['datepicker.closeText'] = 'Sluiten';
+$language['datepicker.prevText'] = '←';
+$language['datepicker.nextText'] = '→';
+$language['datepicker.currentText'] = 'Vandaag';
+$language['datepicker.monthNames'] = '["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"]';
+$language['datepicker.monthNamesShort'] = '["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"]';
+$language['datepicker.dayNames'] = '["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"]';
+$language['datepicker.dayNamesShort'] = '["zon", "maa", "din", "woe", "don", "vri", "zat"]';
+$language['datepicker.dayNamesMin'] = '["zo", "ma", "di", "wo", "do", "vr", "za"]';
+$language['datepicker.dateFormat'] = 'dd-mm-yy';
+$language['datepicker.firstDay'] = '1';
+$language['datepicker.isRTL'] = 'false';
 ?>

@@ -1,5 +1,42 @@
 <script type="text/javascript">
-	dataTableLanguage = [+tvlang.dataTables+];
+	/* <![CDATA[ */
+	dataTableLanguage = {
+		sEmptyTable: '[+tvlang.dataTables.emptyTable+]',
+		sInfo: '[+tvlang.dataTables.info+]',
+		sInfoEmpty: '[+tvlang.dataTables.infoEmpty+]',
+		sInfoFiltered: '[+tvlang.dataTables.infoFiltered+]',
+		sInfoPostFix: '[+tvlang.dataTables.infoPostFix+]',
+		sInfoThousands: '[+tvlang.dataTables.infoThousands+]',
+		sLengthMenu: '[+tvlang.dataTables.lengthMenu+]',
+		sLoadingRecords: '[+tvlang.dataTables.loadingRecords+]',
+		sProcessing: '[+tvlang.dataTables.processing+]',
+		sSearch: '[+tvlang.dataTables.search+]',
+		sZeroRecords: '[+tvlang.dataTables.zeroRecords+]',
+		oPaginate: {
+			sFirst: '[+tvlang.dataTables.paginate.first+]',
+			sLast: '[+tvlang.dataTables.paginate.last+]',
+			sNext: '[+tvlang.dataTables.paginate.next+]',
+			sPrevious: '[+tvlang.dataTables.paginate.previous+]'
+		},
+		oAria: {
+			sSortAscending: '[+tvlang.dataTables.aria.sortAscending+]',
+			sSortDescending: '[+tvlang.dataTables.aria.sortDescending+]'
+		}
+	};
+	datepickerOptions = {
+		closeText: '[+tvlang.datepicker.closeText+]',
+		prevText: '[+tvlang.datepicker.prevText+]',
+		nextText: '[+tvlang.datepicker.nextText+]',
+		currentText: '[+tvlang.datepicker.currentText+]',
+		monthNames: [+tvlang.datepicker.monthNames+],
+		monthNamesShort: [+tvlang.datepicker.monthNamesShort+],
+		dayNames: [+tvlang.datepicker.dayNames+],
+		dayNamesShort: [+tvlang.datepicker.dayNamesShort+],
+		dayNamesMin: [+tvlang.datepicker.dayNamesMin+],
+		dateFormat: '[+tvlang.datepicker.dateFormat+]',
+		firstDay: [+tvlang.datepicker.firstDay+],
+		isRTL: [+tvlang.datepicker.isRTL+]
+	};
 	$j(document).ready(function() {
 		$j('#[+tvid+]').transformDatatable({
 			fieldsettings: [+tvfields+],
@@ -9,4 +46,5 @@
 			mtvpath: '[+tvmtvpath+]'
 		});
 	});
+	/* ]]> */
 </script>

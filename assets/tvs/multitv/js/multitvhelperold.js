@@ -1,3 +1,5 @@
+var $j = jQuery.noConflict();
+
 var lastImageCtrl;
 var lastFileCtrl;
 var rteOptions;
@@ -16,14 +18,13 @@ if (!String.prototype.supplant) {
 }
 
 function SetUrl(url, width, height, alt) {
-	url = url.replace(/^.*\/assets\/images\//, 'assets/images/');
 	if (lastFileCtrl) {
-		var fileCtrl = $('#' + lastFileCtrl);
+		var fileCtrl = $j('#' + lastFileCtrl);
 		fileCtrl.val(url);
 		fileCtrl.trigger('change');
 		lastFileCtrl = '';
 	} else if (lastImageCtrl) {
-		var imageCtrl = $('#' + lastImageCtrl);
+		var imageCtrl = $j('#' + lastImageCtrl);
 		imageCtrl.val(url);
 		imageCtrl.trigger('change');
 		lastImageCtrl = '';

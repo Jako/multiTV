@@ -61,13 +61,13 @@ $settings['form'] = array(
 $settings['templates'] = array(
 	'outerTpl' => '
 
-[+wrapper+]
+[+wrapper+][+pagination+]
 ',
 	'rowTpl' => '
 [+img_bg+]
 [+row.number+]
 [+iteration+]
-[+title+]
+[+title:ucase+]
 [+row.class+]
 <br/>'
 );
@@ -75,8 +75,4 @@ $settings['configuration'] = array(
 	'enablePaste' => FALSE,
 	'csvseparator' => ','
 );
-$settings['templatesTest'] = array(
-	'outerTpl' => '<ul>[+wrapper+]</ul>',
-	'rowTpl' => '<li>[+text+], [+image+], [+thumb+], [+textarea+], [+date+], [+dropdown+], [+listbox+], [+listbox-multiple+], [+checkbox+], [+option+]</li>'
-		)
 ?>

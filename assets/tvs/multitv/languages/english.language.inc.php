@@ -14,32 +14,42 @@ $language['cancel'] = 'Cancel';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
+$language['paginate.first'] = '&lsaquo; First';
+$language['paginate.prev'] = '&lt;';
+$language['paginate.next'] = '&gt;';
+$language['paginate.last'] = 'Last &rsaquo;';
 $language['connector.illegal'] = 'Illegal parameter!';
 $language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!';
 $language['connector.rights'] = 'Insufficient rights for this action!';
 $language['connector.nomultitv'] = 'multiTV does not exist!';
 $language['connector.noprocessor'] = 'Processor does not exist!';
-$language['dataTables'] = '{
-	"sEmptyTable":     "No data available in table",
-    "sInfo":           "Showing _START_ to _END_ of _TOTAL_ entries",
-    "sInfoEmpty":      "Showing 0 to 0 of 0 entries",
-    "sInfoFiltered":   "(filtered from _MAX_ total entries)",
-    "sInfoPostFix":    "",
-    "sInfoThousands":  ",",
-    "sLengthMenu":     "Show _MENU_ entries",
-    "sLoadingRecords": "Loading …",
-    "sProcessing":     "Processing …",
-    "sSearch":         "Search:",
-    "sZeroRecords":    "No matching records found",
-    "oPaginate": {
-        "sFirst":    "First",
-        "sLast":     "Last",
-        "sNext":     "Next",
-        "sPrevious": "Previous"
-    },
-    "oAria": {
-        "sSortAscending":  ": activate to sort column ascending",
-        "sSortDescending": ": activate to sort column descending"
-    }
-}';
+$language['dataTables.emptyTable'] = 'No data available in table';
+$language['dataTables.info'] = 'Showing _START_ to _END_ of _TOTAL_ entries';
+$language['dataTables.infoEmpty'] = 'Showing 0 to 0 of 0 entries';
+$language['dataTables.infoFiltered'] = '(filtered from _MAX_ total entries)';
+$language['dataTables.infoPostFix'] = '';
+$language['dataTables.infoThousands'] = ',';
+$language['dataTables.lengthMenu'] = 'Show _MENU_ entries';
+$language['dataTables.loadingRecords'] = 'Loading …';
+$language['dataTables.processing'] = 'Processing …';
+$language['dataTables.search'] = 'Search:';
+$language['dataTables.zeroRecords'] = 'No matching records found';
+$language['dataTables.paginate.first'] = 'First';
+$language['dataTables.paginate.last'] = 'Last';
+$language['dataTables.paginate.next'] = 'Next';
+$language['dataTables.paginate.previous'] = 'Previous';
+$language['dataTables.aria.sortAscending'] = ': activate to sort column ascending';
+$language['dataTables.aria.sortDescending'] = ': activate to sort column descending';
+$language['datepicker.closeText'] = 'Done';
+$language['datepicker.prevText'] = 'Prev';
+$language['datepicker.nextText'] = 'Next';
+$language['datepicker.currentText'] = 'Today';
+$language['datepicker.monthNames'] = '["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]';
+$language['datepicker.monthNamesShort'] = '["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]';
+$language['datepicker.dayNames'] = '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]';
+$language['datepicker.dayNamesShort'] = '["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]';
+$language['datepicker.dayNamesMin'] = '["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]';
+$language['datepicker.dateFormat'] = 'mm/dd/yy';
+$language['datepicker.firstDay'] = '0';
+$language['datepicker.isRTL'] = 'false';
 ?>

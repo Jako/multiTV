@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category 	customtv
- * @version 	1.7.2
+ * @version 	1.8
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.7.2</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.8</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
  * @internal    input option code: @INCLUDE/assets/tvs/multitv/multitv.customtv.php
  */
 if (IN_MANAGER_MODE != 'true') {
@@ -19,10 +19,10 @@ define('MTV_PATH', str_replace(MODX_BASE_PATH, '', str_replace('\\', '/', realpa
 define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 if (!class_exists('multiTV')) {
-	include MTV_BASE_PATH . 'multitv.class.php';
+	include MTV_BASE_PATH . 'includes/multitv.class.php';
 }
 
-$multiTV = new multiTV($row);
+$multiTV = new multiTV($modx, $row);
 echo $multiTV->generateScript();
 
 //echo '<pre>'.print_r($row, TRUE).'</pre>';

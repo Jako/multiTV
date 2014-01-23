@@ -14,32 +14,42 @@ $language['cancel'] = 'Отмена';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
-$language['connector.illegal'] = 'Illegal parameter!';
-$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!!';
-$language['connector.rights'] = 'Insufficient rights for this action!';
-$language['connector.nomultitv'] = 'multiTV does not exist!';
-$language['connector.noprocessor'] = 'Processor does not exist!';
-$language['dataTables'] = '{
-	"sEmptyTable":     "No data available in table",
-    "sInfo":           "Записи с _START_ до _END_ из _TOTAL_ записей",
-    "sInfoEmpty":      "Записи с 0 до 0 из 0 записей",
-    "sInfoFiltered":   "(отфильтровано из _MAX_ записей)",
-    "sInfoPostFix":    "",
-    "sInfoThousands":  "",
-    "sLengthMenu":     "Показать _MENU_ записей",
-    "sLoadingRecords": "Loading …",
-    "sProcessing":     "Подождите …",
-    "sSearch":         "Поиск:",
-    "sZeroRecords":    "Записи отсутствуют",
-    "oPaginate": {
-        "sFirst":    "Первая",
-        "sLast":     "Последняя",
-        "sNext":     "Следующая",
-        "sPrevious": "Предыдущая"
-    },
-    "oAria": {
-        "sSortAscending":  ": активировать для сортировки столбца по возрастанию",
-        "sSortDescending": ": активировать для сортировки столбцов по убыванию"
-    }
-}';
+$language['paginate.first'] = '&lsaquo; Первая';
+$language['paginate.prev'] = '&lt;';
+$language['paginate.next'] = '&gt;';
+$language['paginate.last'] = 'Последняя &rsaquo;';
+$language['connector.illegal'] = 'Некоректный параметр!';
+$language['connector.nodoc'] = 'Документ не создан! Пожалуйста сохраните документ перед добавлением строк!';
+$language['connector.rights'] = 'Недостаточно прав для этого действия!';
+$language['connector.nomultitv'] = 'multiTV не установлен!';
+$language['connector.noprocessor'] = 'multiTV Processor не существует!';
+$language['dataTables.emptyTable'] = 'Нет данных в таблице';
+$language['dataTables.info'] = 'Записи с _START_ до _END_ из _TOTAL_ записей';
+$language['dataTables.infoEmpty'] = 'Записи с 0 до 0 из 0 записей';
+$language['dataTables.infoFiltered'] = '(отфильтровано из _MAX_ записей)';
+$language['dataTables.infoPostFix'] = '';
+$language['dataTables.infoThousands'] = ' ';
+$language['dataTables.lengthMenu'] = 'Показать _MENU_ записей';
+$language['dataTables.loadingRecords'] = 'Loading …';
+$language['dataTables.processing'] = 'Подождите …';
+$language['dataTables.search'] = 'Поиск:';
+$language['dataTables.zeroRecords'] = 'Записи отсутствуют';
+$language['dataTables.paginate.first'] = 'Первая';
+$language['dataTables.paginate.last'] = 'Последняя';
+$language['dataTables.paginate.next'] = 'Следующая';
+$language['dataTables.paginate.previous'] = 'Предыдущая';
+$language['dataTables.aria.sortAscending'] = ': активировать для сортировки столбца по возрастанию';
+$language['dataTables.aria.sortDescending'] = ': активировать для сортировки столбцов по убыванию';
+$language['datepicker.closeText'] = 'Закрыть';
+$language['datepicker.prevText'] = '&#x3c;Пред';
+$language['datepicker.nextText'] = 'След&#x3e;';
+$language['datepicker.currentText'] = 'Сегодня';
+$language['datepicker.monthNames'] = '["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]';
+$language['datepicker.monthNamesShort'] = '["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"]';
+$language['datepicker.dayNames'] = '["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"]';
+$language['datepicker.dayNamesShort'] = '["вск", "пнд", "втр", "срд", "чтв", "птн", "сбт"]';
+$language['datepicker.dayNamesMin'] = '["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]';
+$language['datepicker.dateFormat'] = 'dd.mm.yy';
+$language['datepicker.firstDay'] = '1';
+$language['datepicker.isRTL'] = 'false';
 ?>

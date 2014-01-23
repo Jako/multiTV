@@ -65,6 +65,11 @@
 						href: $(this).attr('href'),
 						width: '500px',
 						height: '350px',
+						onComplete: function() {
+							if ($('input:radio[name=pasteas]:checked', _this.fieldPasteForm).length === 0) {
+								$('input:radio[name=pasteas]:first', _this.fieldPasteForm).attr('checked', 'checked');
+							}
+						},
 						onClosed: function() {
 							_this.fieldPasteArea.html('');
 						},
@@ -85,7 +90,7 @@
 
 				// save pasted form
 				$('.replace, .append', _this.fieldPasteForm).click(function() {
-					_this.paste();
+					_this.paste($(this).attr('class'), $('input:radio[name=pasteas]:checked', _this.fieldPasteForm).val());
 					_this.prefillInputs();
 					_this.saveMultiValue();
 					_this.pasteBox.colorbox.close();
@@ -160,7 +165,7 @@
 		saveMultiValue: function() {
 			var _this = this;
 
-			_this.data.values = [];
+			_this.data.value = [];
 			_this.fieldList.children('li').each(function() {
 				var multiElement = $(this);
 				var fieldValues = new Object();
@@ -179,10 +184,10 @@
 						_this.data.settings.autoincrement++;
 					}
 				});
-				_this.data.values.push(fieldValues);
+				_this.data.value.push(fieldValues);
 			});
 			_this.$el.setValue($.toJSON({
-				fieldValue: _this.data.values,
+				fieldValue: _this.data.value,
 				fieldSettings: _this.data.settings
 			}));
 		},
@@ -211,12 +216,13 @@
 
 			// datepicker
 			$('.mtvDatePicker', el).click(function() {
-				var picker = $(this).datetimepicker({
+				$.extend(datepickerOptions, {
 					changeMonth: true,
 					changeYear: true,
 					dateFormat: 'dd-mm-yy',
 					timeFormat: 'h:mm:ss'
 				});
+				var picker = $(this).datetimepicker(datepickerOptions);
 				picker.datepicker('show');
 			});
 			// file field browser
@@ -376,12 +382,10 @@
 			this.addElementEvents(clone);
 			return false;
 		},
-		paste: function() {
+		paste: function(mode, pasteas) {
 			var _this = this;
 
 			var pastedArray = [];
-			var mode = $(this).attr('class');
-			var pasteas = $('input:radio[name=pasteas]:checked').val();
 			var clean;
 			switch (pasteas) {
 				case 'google':
@@ -406,7 +410,7 @@
 					});
 					break;
 				case 'csv':
-					clean = _this.fieldPasteArea[0].innerText;
+					clean = _this.fieldPasteArea.text();
 					clean = clean.split('\n');
 					$.each(clean, function(index, value) {
 						// CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
@@ -562,12 +566,16 @@
 							_this.contextMenu(nRow, iDisplayIndex);
 							_this.toggleRow(nRow);
 						}
-					}).rowReordering({
-						fnAfterMove: function() {
-							_this.saveMultiValue();
-							_this.fieldTable.fnDraw();
-						}
 					}).addClass(_this.tableClasses);
+
+					if (!_this.options.fieldsettings['sorting']) {
+						_this.fieldTable.rowReordering({
+							fnAfterMove: function() {
+								_this.saveMultiValue();
+								_this.fieldTable.fnDraw();
+							}
+						});
+					}
 
 					// buttons above datatable
 					_this.fieldTable.parent().prepend(_this.tableButtons);
@@ -683,6 +691,7 @@
 						return full[this.render];
 					};
 				}
+				this.sDefaultContent = '';
 			});
 		},
 		prepareMultiValue: function() {
@@ -730,12 +739,13 @@
 
 			// datepicker
 			$('.mtvDatePicker', el).click(function() {
-				var picker = $(this).datetimepicker({
+				$.extend(datepickerOptions, {
 					changeMonth: true,
 					changeYear: true,
 					dateFormat: 'dd-mm-yy',
 					timeFormat: 'h:mm:ss'
 				});
+				var picker = $(this).datetimepicker(datepickerOptions);
 				picker.datepicker('show');
 			});
 			// file field browser

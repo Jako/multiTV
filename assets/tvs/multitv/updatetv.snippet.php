@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.7.2
+ * @version 	1.8
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.7.2</strong> Transform template variables into a sortable multi item list.
+ * @internal    description: <strong>1.8</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/updatetv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -22,13 +22,8 @@ define('MTV_BASE_PATH', MODX_BASE_PATH . MTV_PATH);
 
 // include classfile
 if (!class_exists('multiTV')) {
-	include MTV_BASE_PATH . 'multitv.class.php';
+	include MTV_BASE_PATH . 'includes/multitv.class.php';
 }
-// include chunke class
-if (!class_exists('evoChunkie')) {
-	include (MTV_BASE_PATH . '/includes/chunkie.class.inc.php');
-}
-
 // load template variable settings
 $tvNames = isset($tvNames) ? explode(',', $tvNames) : array();
 
@@ -44,7 +39,7 @@ foreach ($tvNames as $tvName) {
 		$tvSettings['tpl_config'] = (isset($tplConfig)) ? $tplConfig : '';
 
 		// init multiTV class
-		$multiTV = new multiTV($tvSettings);
+		$multiTV = new multiTV($modx, $tvSettings);
 		$columns = $multiTV->fieldnames;
 
 		$res = $modx->db->select('*', $modx->getFullTableName('site_tmplvar_contentvalues'), 'tmplvarid="' . $multiTV->tvID . '"');
