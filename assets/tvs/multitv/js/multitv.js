@@ -690,6 +690,7 @@
 						return full[this.render];
 					};
 				}
+				this.sDefaultContent = '';
 			});
 		},
 		prepareMultiValue: function() {
