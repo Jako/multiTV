@@ -67,7 +67,7 @@
 						height: '350px',
 						onComplete: function() {
 							if ($('input:radio[name=pasteas]:checked', _this.fieldPasteForm).length === 0) {
-								$('input:radio[name=pasteas]:first', _this.fieldPasteForm).attr('checked', 'checked');
+								$('input:radio[name=pasteas]:first', _this.fieldPasteForm).prop('checked', true);
 							}
 						},
 						onClosed: function() {
@@ -154,7 +154,7 @@
 						break;
 					case 'checkbox':
 					case 'radio':
-						$(this).attr('checked', false);
+						$(this).prop('checked', false);
 						break;
 					default:
 						$(this).val('');
@@ -271,7 +271,7 @@
 								break;
 							case 'checkbox':
 							case 'radio':
-								$(this).attr('checked', false);
+								$(this).prop('checked', false);
 								break;
 							default:
 								$(this).val('');
@@ -640,7 +640,7 @@
 						break;
 					case 'checkbox':
 					case 'radio':
-						$(this).attr('checked', false);
+						$(this).prop('checked', false);
 						break;
 					default:
 						$(this).val('');
@@ -783,7 +783,7 @@
 					}
 				});
 			} else {
-				$('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').attr('checked', 'checked');
+				$('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
 			}
 			$('.mode', _this.fieldEditForm).hide();
 			$('.mode.' + mode, _this.fieldEditForm).show();
@@ -792,8 +792,8 @@
 				animate: false
 			}).bind('easytabs:after', function() {
 				_this.editBox.colorbox.resize();
-				$('.formtabradio input[type="radio"]', _this.fieldEditForm).attr('checked', false);
-				$('.formtabradio.active input[type="radio"]', _this.fieldEditForm).attr('checked', 'checked');
+				$('.formtabradio:not(.active) input[type="radio"]', _this.fieldEditForm).prop('checked', false);
+				$('.formtabradio.active input[type="radio"]', _this.fieldEditForm).prop('checked', true);
 			});
 			$('.formtabradio input[type="radio"]', _this.fieldEditForm).click(function() {
 				$(this).siblings('a').click();
@@ -815,8 +815,8 @@
 					}
 					if (lineValue && lineValue.fieldTab) {
 						$('.editformtabs', _this.fieldEditArea).easytabs('select', '#' + _this.tvid + 'tab_radio_' + lineValue.fieldTab);
-						$('.formtabradio input[type="radio"]', _this.fieldEditArea).attr('checked', false);
-						$('.formtabradio.active input[type="radio"]', _this.fieldEditArea).attr('checked', 'checked');
+						$('.formtabradio:not(.active) input[type="radio"]', _this.fieldEditArea).prop('checked', false);
+						$('.formtabradio.active input[type="radio"]', _this.fieldEditArea).prop('checked', true);
 					}
 					$('.tabEditor', _this.fieldEditArea).each(function() {
 						var editorId = $(this).attr('id');
