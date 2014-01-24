@@ -74,7 +74,7 @@
 .tveditform .formtabradio { display: inline-block; zoom: 1; color: #313131; font-weight: normal; font-size: 12px; cursor: pointer; margin: 3px 5px 3px 0px; padding: 0 }
 .tveditform .formtabradio input { display: inline-block; margin-right: 5px; position: relative; top: -1px }
 .tveditform .formtabradio a { text-decoration: none; color: #313131 }
-.tveditform .actionButtons { margin-bottom: 5px }
+.tveditform .actionButtons { margin-bottom: 5px; min-height: 25px }
 
 #ui-datepicker-div { z-index: 9999999 !important;}
 
