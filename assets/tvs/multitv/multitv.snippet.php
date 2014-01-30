@@ -27,10 +27,19 @@ if (!class_exists('multiTV')) {
 
 // load template variable settings
 $tvName = isset($tvName) ? $tvName : '';
-$res = $modx->db->select('*', $modx->getFullTableName('site_tmplvars'), 'name="' . $tvName . '"');
-$tvSettings = $modx->db->getRow($res);
+$fromJson = isset($fromJson) ? $fromJson : '';
+
+if (!empty($fromJson)) {
+	$tvSettings = array(
+		'name' => $tvName,
+		'value' => $fromJson
+	);
+} else {
+	$res = $modx->db->select('*', $modx->getFullTableName('site_tmplvars'), 'name="' . $tvName . '"');
+	$tvSettings = $modx->db->getRow($res);
+}
 if (!$tvSettings) {
-	return 'Template variable ' . $tvName . ' does not exists';
+	return 'Template variable ' . $tvName . ' does not exists or parameter fromJson empty.';
 }
 
 // pre-init template configuration
@@ -65,5 +74,9 @@ $params['paginate'] = (isset($paginate) && $paginate) ? TRUE : FALSE;
 $params['offsetKey'] = (isset($offsetKey)) ? $offsetKey : 'page';
 $params['offset'] = ($params['paginate'] && ($params['display'] != 'all') && isset($_GET[$params['offsetKey']])) ? (intval($_GET[$params['offsetKey']]) - 1) * $params['display'] : $params['offset'];
 
-$tvOutput = $multiTV->getMultiValue($params);
+if (!empty($fromJson)) {
+	$tvOutput = json_decode($fromJson, TRUE);
+} else {
+	$tvOutput = $multiTV->getMultiValue($params);
+}
 return $multiTV->displayMultiValue($tvOutput, $params);
