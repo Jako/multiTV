@@ -296,6 +296,9 @@ class multiTV {
 						$type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
 						$elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
 						$default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
+						if ($this->fields[$fieldname]['width']) {
+							$tvcss .= '.multitv #[+tvid+]list li.element .' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px !important }' . "\r\n";
+						}
 						switch ($type) {
 							case 'thumb': {
 									$tvelement .= '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
