@@ -20,7 +20,7 @@
  *
  * @package chunkie
  * @subpackage classfile
- * @version 1.0.2
+ * @version 1.0.3
  *
  * newChunkie Class.
  *
@@ -526,9 +526,9 @@ class newChunkie {
 	 *
 	 * @access public
 	 * @param string $tpl The name of a MODX chunk (could be prefixed by
-	 * @FILE, @INLINE or @CHUNK). Chunknames starting with '@FILE' are
+	 * @FILE, @CODE or @CHUNK). Chunknames starting with '@FILE' are
 	 * loading a chunk from the filesystem (prefixed by $basepath).
-	 * Chunknames starting with '@INLINE' contain the template code itself.
+	 * Chunknames starting with '@CODE' contain the template code itself.
 	 * @return string The template chunk.
 	 */
 	public function getTemplateChunk($tpl) {
@@ -538,13 +538,15 @@ class newChunkie {
 				if (!isset($this->modx->chunkieCache['@FILE'])) {
 					$this->modx->chunkieCache['@FILE'] = array();
 				}
-				if (!array_key_exists($filename, $this->modx->chunkieCache['@FILE'])) {
+				if (!empty($filename) && !array_key_exists($filename, $this->modx->chunkieCache['@FILE'])) {
 					if (file_exists($this->options['basepath'] . $filename)) {
 						$template = file_get_contents($this->options['basepath'] . $filename);
+					} else {
+						$template = '';
 					}
 					$this->modx->chunkieCache['@FILE'][$filename] = $template;
 				} else {
-					$template = $this->modx->chunkieCache['@FILE'][$filename];
+					$template = !empty($filename) ? $this->modx->chunkieCache['@FILE'][$filename] : '';
 				}
 				break;
 			case (substr($tpl, 0, 5) == '@CODE'):
@@ -555,22 +557,17 @@ class newChunkie {
 					$chunkname = trim(substr($tpl, 6), ' :');
 				} else {
 					$chunkname = $tpl;
-					if (empty($chunkname)) {
-						return '';
-					}
 				}
 				if (!isset($this->modx->chunkieCache['@CHUNK'])) {
 					$this->modx->chunkieCache['@CHUNK'] = array();
 				}
-				if (!array_key_exists($chunkname, $this->modx->chunkieCache['@CHUNK'])) {
+				if (!empty($chunkname) && !array_key_exists($chunkname, $this->modx->chunkieCache['@CHUNK'])) {
 					$chunk = $this->modx->getChunk($chunkname);
-					if ($chunk) {
-						$this->modx->chunkieCache['@CHUNK'][$chunkname] = $chunk;
-					} else {
-						$this->modx->chunkieCache['@CHUNK'][$chunkname] = FALSE;
-					}
+					$template = ($chunk) ? $chunk : $chunkname;
+					$this->modx->chunkieCache['@CHUNK'][$chunkname] = $template;
+				} else {
+					$template = (!empty($chunkname)) ? $this->modx->chunkieCache['@CHUNK'][$chunkname] : '';
 				}
-				$template = $this->modx->chunkieCache['@CHUNK'][$chunkname];
 				break;
 		}
 		return $template;
