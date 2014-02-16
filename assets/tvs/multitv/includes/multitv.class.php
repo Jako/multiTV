@@ -556,13 +556,18 @@ class multiTV {
 
 		// stop if there is no output
 		if (!$countOutput || $firstEmpty) {
+			$noResults = '';
+			if ($params['noResults'] != '') {
+				$parser = new newChunkie($this->modx);
+				$noResults = $parser->getTemplateChunk($params['noResults']);
+			}
 			if ($params['emptyOutput']) {
 				// output nothing
-				return '';
+				return $noResults;
 			} else {
 				// output empty outer template
 				$parser = new newChunkie($this->modx);
-				$parser->setPlaceholder('wrapper', '');
+				$parser->setPlaceholder('wrapper', $noResults);
 				$parser->setTpl($parser->getTemplateChunk($params['outerTpl']));
 				$parser->prepareTemplate();
 				return $parser->process();

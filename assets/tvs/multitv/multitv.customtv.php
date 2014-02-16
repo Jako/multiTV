@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category 	customtv
- * @version 	1.8
+ * @version 	1.8.1
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.8</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
+ * @internal    description: <strong>1.8.1</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
  * @internal    input option code: @INCLUDE/assets/tvs/multitv/multitv.customtv.php
  */
 if (IN_MANAGER_MODE != 'true') {

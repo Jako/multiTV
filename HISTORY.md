@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 1.8.1 January 9, 2014
+    - Snippet: `noResults` parameter
+
 - 1.8 January 9, 2014
     - Snippet: Pagination
     - Snippet/CustomTV: use newChunkie class

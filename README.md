@@ -166,6 +166,7 @@ Call the snippet like this (most expample parameters are using the default value
 &toJson=`0`
 &published=`1`
 &emptyOutput=`1`
+&noResults=``
 &outputSeparator=``
 &firstClass=`first`
 &lastClass=`last`
@@ -196,6 +197,7 @@ toPlaceholder | the snippet output is assigned to a placeholder named as the par
 toJson | the snippet output contains the json encoded result of the multitv snippet call. Useful to retreive the multiTV results other snippets by runSnippet | 0
 published | display only multiTVs of published (1), unpublished (0) or both (2) kind of documents | 1
 emptyOutput | return empty string if the multiTV is empty, otherwise return outer template | 1
+noResults | no results template: chunkname, filename (value starts with `@FILE`) or code (value starts with `@CODE`) | -
 outputSeparator | string inserted between two row templates | empty
 firstClass | content of row.class placeholder in the first row | first
 lastClass | content of row.class placeholder in the last row | last

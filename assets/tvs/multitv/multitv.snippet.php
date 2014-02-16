@@ -3,11 +3,11 @@
  * multiTV
  * 
  * @category 	snippet
- * @version 	1.8
+ * @version 	1.8.1
  * @license 	http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author		Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>1.8</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
+ * @internal    description: <strong>1.8.1</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -54,6 +54,7 @@ $params = array();
 $params['docid'] = (isset($docid)) ? $docid : $modx->documentObject['id'];
 $params['outerTpl'] = (isset($outerTpl)) ? $outerTpl : (isset($templates['outerTpl']) ? '@CODE:' . $templates['outerTpl'] : '@CODE:<select name="' . $tvName . '">[+wrapper+]' . ((isset($paginate) && $paginate) ? '[+pagination+]' : '') . '</select>');
 $params['emptyOutput'] = (isset($emptyOutput) && !$emptyOutput) ? FALSE : TRUE;
+$params['noResults'] = (isset($noResults)) ? $noResults : '';
 $params['rowTpl'] = (isset($rowTpl)) ? $rowTpl : (isset($templates['rowTpl']) ? '@CODE:' . $templates['rowTpl'] : '@CODE:<option value="[+value+]">[+key+]</option>');
 $params['display'] = (isset($display)) ? $display : 5;
 $params['offset'] = (isset($offset)) ? intval($offset) : 0;
