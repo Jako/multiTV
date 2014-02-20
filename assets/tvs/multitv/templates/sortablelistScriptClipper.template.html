@@ -1,0 +1,28 @@
+<script type="text/javascript">
+	/* <![CDATA[ */
+	datepickerOptions = {
+		closeText: '[+tvlang.datepicker.closeText+]',
+		prevText: '[+tvlang.datepicker.prevText+]',
+		nextText: '[+tvlang.datepicker.nextText+]',
+		currentText: '[+tvlang.datepicker.currentText+]',
+		monthNames: [+tvlang.datepicker.monthNames+],
+		monthNamesShort: [+tvlang.datepicker.monthNamesShort+],
+		dayNames: [+tvlang.datepicker.dayNames+],
+		dayNamesShort: [+tvlang.datepicker.dayNamesShort+],
+		dayNamesMin: [+tvlang.datepicker.dayNamesMin+],
+		dateFormat: '[+tvlang.datepicker.dateFormat+]',
+		firstDay: [+tvlang.datepicker.firstDay+],
+		isRTL: [+tvlang.datepicker.isRTL+]
+	};
+	$(document).ready(function() {
+		$('#[+tvid+]').transformField({
+			mode: '[+tvmode+]',
+			fieldsettings: [+tvfields+],
+			language: [+tvlanguage+],
+			kcfinder: [+tvkcfinder+],
+			thumbs: '[+tvthumbs+]',
+			mtvpath: '[+tvmtvpath+]'
+		});
+	});
+	/* ]]> */
+</script>

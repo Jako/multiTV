@@ -27,6 +27,8 @@ Dmytro Lukianenko - https://github.com/dmi3yy – dmi3yy@gmail.com
 Salvatore Tedde - https://github.com/microcipcip - info@jertix.org
 
 - Better styling of the editing layer
+- Italian Language
+- A lot of testing for ClipperCMS
 
 Vitor - https://github.com/vmoreira
 
@@ -39,5 +41,18 @@ falkon - https://github.com/falkon
 Bruno Perner - https://github.com/Bruno17 - info@webcmsolutions.de
 
 - Ditto customsort extender
+
+Witek Galecki - https://github.com/witq
+
+- Polish language
+- Option to enable dataTable sorting by column headers
+
+Marc - https://github.com/fourroses666 - info@graffx.nl
+
+- Dutch language
+
+Pontus Ågren - https://github.com/Pont
+
+- Swedish language
 
 And a lot of testers ...

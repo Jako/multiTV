@@ -1,0 +1,39 @@
+<?php
+$language['editSwitch'] = 'Conteudo herdado do documento pai e/ou apagado. Clicar <a href="#">aqui</a> para editar.';
+$language['clear'] = 'Apagar todos os registos.';
+$language['confirmclear'] = 'Pretende apagar todos os registos?';
+$language['paste'] = 'Colar tabela aqui (i.e. HTML, Word, CSV)';
+$language['pastehere'] = 'Colar aqui:';
+$language['add'] = 'Adicionar';
+$language['remove'] = 'Apagar';
+$language['edit'] = 'Edit';
+$language['save'] = 'Guardar';
+$language['replace'] = 'Substituir';
+$language['append'] = 'Anexar';
+$language['cancel'] = 'Cancelar';
+$language['word'] = 'Word/HTML';
+$language['google'] = 'Google Docs';
+$language['csv'] = 'CSV';
+$language['connector.illegal'] = 'Illegal parameter!';
+$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!!';
+$language['connector.rights'] = 'Insufficient rights for this action!';
+$language['connector.nomultitv'] = 'multiTV does not exist!';
+$language['connector.noprocessor'] = 'Processor does not exist!';
+$language['dataTables.emptyTable'] = 'No data available in table';
+$language['dataTables.info'] = 'Showing _START_ to _END_ of _TOTAL_ entries';
+$language['dataTables.infoEmpty'] = 'Showing 0 to 0 of 0 entries';
+$language['dataTables.infoFiltered'] = '(filtered from _MAX_ total entries)';
+$language['dataTables.infoPostFix'] = '';
+$language['dataTables.infoThousands'] = ',';
+$language['dataTables.lengthMenu'] = 'Show _MENU_ entries';
+$language['dataTables.loadingRecords'] = 'Loading …';
+$language['dataTables.processing'] = 'Processing …';
+$language['dataTables.search'] = 'Search:';
+$language['dataTables.zeroRecords'] = 'No matching records found';
+$language['dataTables.paginate.first'] = 'First';
+$language['dataTables.paginate.last'] = 'Last';
+$language['dataTables.paginate.next'] = 'Next';
+$language['dataTables.paginate.previous'] = 'Previous';
+$language['dataTables.aria.sortAscending'] = ': activate to sort column ascending';
+$language['dataTables.aria.sortDescending'] = ': activate to sort column descending'
+?>

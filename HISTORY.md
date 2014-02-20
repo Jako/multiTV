@@ -1,5 +1,23 @@
 History
 ================================================================================
+- 1.8.1 January 9, 2014
+    - Snippet: `noResults` parameter
+
+- 1.8 January 9, 2014
+    - Snippet: Pagination
+    - Snippet/CustomTV: use newChunkie class
+
+- 1.7.3 November 21, 2013
+    - Ditto Extender: new Ditto multiTV filter extender
+
+- 1.7.2 October 10, 2013
+    - Snippet: `toJson` parameter
+    - CustomTV: bugfix for inheritanced value in sortable list view
+    - CustomTV: thumbnails possible in dataTable layer
+
+- 1.7.1 October 3, 2013
+    - CustomTV: package code is now folder independent
+
 - 1.7.0 October 2, 2013
     - CustomTV: MODX 1.0.12/Clipper 1.2 compatibility
     - Snippet: firstClass, lastClass, evenClass, oddClass parameter
