@@ -41,6 +41,9 @@
 
 .multitv .tvedit, .multitv .tvclear, .multitv .tvpaste { float: left; margin-right: 10px }
 
+.multitv .chosen { width: 308px !important }
+.multitv .chosen-container-multi .chosen-choices { background: #fff; border-color: #999 #ddd #ddd #999; border-style: solid; border-width: 1px; margin: 0 5px 0 0; min-height: 17px; vertical-align: baseline; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; -moz-box-shadow: 0px 1px 3px #e8e8e8 inset; -webkit-box-shadow: 0px 1px 3px #e8e8e8 inset; box-shadow: 0px 1px 3px #e8e8e8 inset }
+
 .multitv .dataTables_wrapper a { text-decoration: none }
 .multitv .dataTables_wrapper .dataTables_filter input { width: auto !important }
 .multitv .dataTables_wrapper .actionButtons { margin-bottom: 9px }

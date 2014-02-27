@@ -283,6 +283,14 @@
 				e.preventDefault();
 				_this.saveMultiValue();
 			});
+			// chosen
+			$('.chosen', el).chosen({
+				allow_single_deselect: true,
+				allow_sortable: true
+			}).chosenSortable();
+			$('.chosen', el).on('change', function() {
+				_this.saveMultiValue();
+			});
 		},
 		setThumbnail: function(path, name, el) {
 			var _this = this;

@@ -203,6 +203,13 @@ class multiTV {
 					}
 					break;
 				}
+			case 'listbox-chosen' : {
+					$fieldClass[] = 'chosen';
+					$fieldClass[] = 'chosen-sortable';
+					$fieldClass[] = 'inputBox';
+					$fieldType = 'listbox-multiple';
+					break;
+				}
 		}
 		$formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
 		$formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute

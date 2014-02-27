@@ -1,6 +1,7 @@
 <?php
 $settings['css'] = array(
 	'css/jquery-ui-1.10.4.custom.css',
+	'css/chosen.css',
 	'css/multitv.css'
 );
 
@@ -17,7 +18,9 @@ $settings['scripts'] = array_merge($settings['scripts'], array(
 	'js/jquery-json-2.4.min.js',
 	'js/jquery-ui-1.10.4.custom.min.js',
 	'js/jquery-ui-timepicker-addon.js',
-	'js/jquery-field-0.9.6.min.js'
+	'js/jquery-field-0.9.6.min.js',
+	'js/jquery-chosen-1.1.0.js',
+	'js/jquery-chosensortable-1.0.0.js'
 		)
 );
 ?>
