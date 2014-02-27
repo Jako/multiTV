@@ -37,7 +37,6 @@
 		this.pasteBox = '';
 		this.init();
 	}
-	;
 
 	// Separate functionality from object creation
 	Plugin.prototype = {
@@ -105,7 +104,6 @@
 
 					_this.$el.hide();
 					_this.fieldEdit.hide();
-					_this.addElementEvents(_this.fieldListElement);
 
 					// sortable
 					if (_this.options.mode !== 'single') {
@@ -118,6 +116,7 @@
 						});
 					}
 					_this.prefillInputs(_this.data.value);
+					_this.addElementEvents(_this.fieldListElement);
 					_this.$el.addClass('transformed');
 				}
 
@@ -468,6 +467,8 @@
 			_this.fieldListCounter = 1;
 			if (mode === 'append') {
 				_this.data.value = $.merge(_this.data.value, pastedArray);
+			} else {
+				_this.data.value = pastedArray;
 			}
 		}
 	};
