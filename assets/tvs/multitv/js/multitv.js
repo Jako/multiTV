@@ -392,7 +392,7 @@
 						allowedTags: ['div', 'span']
 					});
 					$('div', clean).each(function() {
-						var pastedRow = [];
+						var pastedRow = {};
 						var tableData = $(this).html().split('<span></span>');
 						if (tableData.length > 0) {
 							var i = 0;
@@ -446,7 +446,7 @@
 					}).html();
 					clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg, '<table>').replace(/<\/table>.*/mg, '</table>');
 					$('tr', $(clean)).each(function() {
-						var pastedRow = [];
+						var pastedRow = {};
 						var tableData = $('td', $(this));
 						if (tableData.length > 0) {
 							var i = 0;
@@ -455,7 +455,7 @@
 									pastedRow[_this.fieldNames[i]] = '';
 									i++;
 								}
-								pastedRow[_this.fieldNames[i]] = $.trim(this);
+								pastedRow[_this.fieldNames[i]] = $(this).html();
 								i++;
 							});
 							pastedArray.push(pastedRow);
