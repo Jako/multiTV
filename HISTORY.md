@@ -1,5 +1,9 @@
 History
 ================================================================================
+- 2.0 alpha 1 April 8, 2014
+    - Module: new multiDB - Database Manager
+    - CustomTV/Module: JSON config files
+
 - 1.8.1 January 9, 2014
     - Snippet: `noResults` parameter
 

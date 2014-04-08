@@ -19,7 +19,8 @@ $language['paginate.prev'] = '&lt;';
 $language['paginate.next'] = '&gt;';
 $language['paginate.last'] = 'Last &rsaquo;';
 $language['connector.illegal'] = 'Illegal parameter!';
-$language['connector.nodoc'] = 'Document does not exists! Please save a new document before adding a line!';
+$language['connector.nodoc'] = 'Document does not exist! Please save a new document before adding a line!';
+$language['connector.noconfig'] = 'Table configuration does not exist!';
 $language['connector.rights'] = 'Insufficient rights for this action!';
 $language['connector.nomultitv'] = 'multiTV does not exist!';
 $language['connector.noprocessor'] = 'Processor does not exist!';
@@ -52,4 +53,10 @@ $language['datepicker.dayNamesMin'] = '["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"
 $language['datepicker.dateFormat'] = 'mm/dd/yy';
 $language['datepicker.firstDay'] = '0';
 $language['datepicker.isRTL'] = 'false';
-?>
+
+$language['modulename'] = 'Database Manager';
+$language['reload'] = 'Reload';
+$language['close'] = 'Close';
+$language['close_button'] = 'Close [+lang.modulename+]';
+$language['config'] = 'Configuration';
+

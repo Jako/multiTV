@@ -35,5 +35,4 @@ $language['dataTables.paginate.last'] = 'Last';
 $language['dataTables.paginate.next'] = 'Next';
 $language['dataTables.paginate.previous'] = 'Previous';
 $language['dataTables.aria.sortAscending'] = ': activate to sort column ascending';
-$language['dataTables.aria.sortDescending'] = ': activate to sort column descending'
-?>
+$language['dataTables.aria.sortDescending'] = ': activate to sort column descending';

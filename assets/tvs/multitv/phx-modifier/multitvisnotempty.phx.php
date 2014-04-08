@@ -22,9 +22,8 @@ if ((($tvOutput == false) && ($mode == 2)) || ($mode == 0)) {
 	$tvOutput = $modx->getTemplateVarOutput(array($tvname), $docid, '0');
 }
 
-$tvOutput = json_decode($tvOutput, TRUE);
+$tvOutput = json_decode($tvOutput, true);
 if ($tvOutput['fieldValue']) {
 	$tvOutput = $tvOutput['fieldValue'];
 }
 $condition[] = intval($tvOutput != '[]' && $tvOutput != '');
-?>

@@ -14,4 +14,3 @@ $settings['scripts'] = array(
 if (CMS_RELEASE_VERSION != '1.2') {
 	$settings['scripts'][] = array('name' => 'jquery-datatables', 'path' => 'js/jquery-dataTables-1.9.4.min.js');
 }
-?>

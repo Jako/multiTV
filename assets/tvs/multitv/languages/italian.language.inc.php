@@ -52,4 +52,3 @@ $language['datepicker.dayNamesMin'] = '["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"
 $language['datepicker.dateFormat'] = 'dd/mm/yy';
 $language['datepicker.firstDay'] = '1';
 $language['datepicker.isRTL'] = 'false';
-?>
