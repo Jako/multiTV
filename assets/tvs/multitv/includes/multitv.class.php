@@ -9,6 +9,9 @@
 if (!function_exists('renderFormElement')) {
     include MODX_MANAGER_PATH . 'includes/tmplvars.inc.php';
 }
+if (!function_exists('ProcessTVCommand')) {
+    include MODX_MANAGER_PATH . 'includes/tmplvars.commands.inc.php';
+}
 if (!class_exists('newChunkie')) {
     include(MTV_BASE_PATH . 'includes/newchunkie.class.php');
 }
@@ -185,11 +188,11 @@ class multiTV
     function loadLanguage($name)
     {
         $language = array();
+        include($this->includeFile('english', 'language'));
         if ($languageFile = $this->includeFile($name, 'language')) {
             include($languageFile);
-        } elseif ($languageFile = $this->includeFile('english', 'language')) {
-            include($languageFile);
-        } else {
+        }
+        if (!count($language)) {
             $this->modx->messageQuit($name . ' and english multiTV language file "' . MTV_BASE_PATH . 'languages/' . $name . '.language.inc.php" not found.');
         }
         return $language;

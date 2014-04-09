@@ -27,7 +27,6 @@ if (!file_exists($class_file)) {
 }
 require_once($class_file);
 
-$configs = 'event_log';
 $configs = array_map('trim', explode(',', $configs));
 
 $options = array(

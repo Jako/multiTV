@@ -1,43 +1,51 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>[+lang.modulename+]</title>
-        <link rel="stylesheet" type="text/css" href="media/style/[+options.managerTheme+]/style.css" />
-        <link rel="stylesheet" type="text/css" href="../[+options.moduleUrl+]css/multitv.css" />
-        <script type="text/javascript">
-			var moduleId = '[+options.moduleId+]';
-			var moduleLanguage = {
-				confirm_delete_extra: '[+lang.confirm_delete_extra+]'
-			}
-        </script>
-    </head>
-    <body>
-        <h1>[+lang.modulename+]</h1>
-        <div id="actions">
-            <ul class="actionButtons">
-                <li id="Button1"><a href="index.php?a=112&amp;id=[+options.moduleId+]"><img src="media/style/[+options.managerTheme+]/images/icons/refresh.png" alt="Neu laden" /> [+lang.reload+]</a></li>
-                <li id="Button2"><a href="index.php?a=106"><img src="media/style/[+options.managerTheme+]/images/icons/stop.png" alt="[+lang.close+] [+lang.modulename+]" /> [+lang.close+] [+lang.modulename+]</a></li>
-            </ul>
+<head>
+    <title>[+lang.modulename+]</title>
+    <link rel="stylesheet" type="text/css" href="media/style/[+options.managerTheme+]/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../[+options.moduleUrl+]css/multitv.css"/>
+    <script type="text/javascript">
+        var moduleId = '[+options.moduleId+]';
+        var moduleLanguage = {
+            confirm_delete_extra: '[+lang.confirm_delete_extra+]'
+        }
+    </script>
+    <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-cookie-1.4.0.js"></script>
+    <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-easytabs-3.2.0.min.js"></script>
+</head>
+<body>
+<h1>[+lang.modulename+]</h1>
+
+<div id="actions">
+    <ul class="actionButtons">
+        <li id="Button1"><a href="index.php?a=112&amp;id=[+options.moduleId+]"><img
+                src="media/style/[+options.managerTheme+]/images/icons/refresh.png" alt="Neu laden"/>
+            [+lang.reload+]</a></li>
+        <li id="Button2"><a href="index.php?a=106"><img src="media/style/[+options.managerTheme+]/images/icons/stop.png"
+                                                        alt="[+lang.close+] [+lang.modulename+]"/> [+lang.close+]
+            [+lang.modulename+]</a></li>
+    </ul>
+</div>
+<div class="sectionBody">
+    <div class="dynamic-tab-pane-control tab-pane" id="multiTvPanes">
+        <div class='tab-row'>
+            [+moduleTabheads+]
+            [+disabled:outer=`<h2 id="tabs-multitvconfig" class='tab'><a href="#tabpanel-multitvconfig"><span>[+lang.config+]</span></a>
+        </h2>`+]
         </div>
-		<div class="sectionBody">
-			<div class="dynamic-tab-pane-control tab-pane" id="multiTvPanes">
-				<div class='tab-row'>
-                    [+moduleTabheads+]
-					[+disabled:outer=`<h2 id="tabs-multitvconfig" class='tab'><a href="#tabpanel-multitvconfig"><span>[+lang.config+]</span></a></h2>`+]
-				</div>
-				<div class="tab-page panel-container">
-                    [+moduleTabs+]
-                    [+disabled<div id="tabpanel-multitvconfig">
-						<h2>[+lang.config+]</h2>
-						[+lang.config_intro+]
-                        [+multiTvConfig+]
-					</div>`+]
-				</div>
-			</div>
-		</div>
-        <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-cookie-1.4.0.js"></script>
-        <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-easytabs-3.2.0.min.js"></script>
-        <script type="text/javascript" src="../[+options.moduleUrl+]js/multitvmodule.js"></script>
-    </body>
+        <div class="tab-page panel-container">
+            [+moduleTabs+]
+            [+disabled
+            <div id="tabpanel-multitvconfig">
+                <h2>[+lang.config+]</h2>
+                [+lang.config_intro+]
+                [+multiTvConfig+]
+            </div>
+            `+]
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../[+options.moduleUrl+]js/multitvmodule.js"></script>
+</body>
 </html>
