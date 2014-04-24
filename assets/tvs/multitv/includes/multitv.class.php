@@ -104,6 +104,13 @@ class multiTV
     function runModule($moduleConfigs)
     {
         switch ($this->options['action']) {
+            case 'save_config':
+            {
+                $newModuleConfigs = isset($_POST['moduleconfigs']) ? $_POST['moduleconfigs'] : $moduleConfigs;
+                $
+                echo $this->uploadLocalPackages();
+                exit();
+            }
             case 'load':
             default :
                 {
