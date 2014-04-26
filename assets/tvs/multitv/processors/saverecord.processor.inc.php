@@ -1,5 +1,8 @@
 <?php
 $rowId = isset($_POST['rowId']) ? intval($_POST['rowId']) : false;
+if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+    $_POST['value'] = stripslashes($_POST['value']);
+}
 $value = isset($_POST['value']) ? json_decode($_POST['value'], true) : null;
 
 if ($rowId !== false && $value) {
@@ -17,14 +20,28 @@ if ($rowId !== false && $value) {
     }
 
     foreach ($saveValue as $key => $value) {
-        if (isset($settings['fields'][$key]['saveaction'])) {
-            switch ($settings['fields'][$key]['saveaction']) {
-                case 'alias':
-                    if ($saveValue[$key] == '' && isset($settings['fields'][$key]['aliasof'])) {
-                        $aliasof = $settings['fields'][$key]['aliasof'];
-                        $saveValue[$key] = $multiTV->CleanAlias($saveValue[$aliasof]);
-                    }
-                    break;
+        if (isset($settings['fields'][$key])) {
+            if ($saveValue[$key] == '' && $settings['fields'][$key]['default'] != '') {
+                $saveValue[$key] = str_replace(array('{i}', '{time}'), array($rowId, $modx->toDateFormat(time())), $settings['fields'][$key]['default']);
+            }
+            if (isset($settings['fields'][$key]['type'])) {
+                switch ($settings['fields'][$key]['type']) {
+                    case 'unixtime':
+                        if ($saveValue[$key] != '') {
+                            $saveValue[$key] = $modx->toTimeStamp($saveValue[$key]);
+                        }
+                        break;
+                }
+            }
+            if (isset($settings['fields'][$key]['saveaction'])) {
+                switch ($settings['fields'][$key]['saveaction']) {
+                    case 'alias':
+                        if ($saveValue[$key] == '' && isset($settings['fields'][$key]['aliasof'])) {
+                            $aliasof = $settings['fields'][$key]['aliasof'];
+                            $saveValue[$key] = $multiTV->CleanAlias($saveValue[$aliasof]);
+                        }
+                        break;
+                }
             }
         }
     }

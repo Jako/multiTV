@@ -69,6 +69,7 @@
 .tveditform .formtabpage .inlinelabel { display: inline-block }
 .tveditform .formtabpage .tvimage img { width: auto; height: 96px; float: right }
 .tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
+.tveditform .formtabpage select { height: 28px; width: 308px }
 .tveditform .formtabpage textarea { width: 306px }
 .tveditform .formtabpage input.DatePicker { width: 203px; padding: 3px 3px 3px 24px }
 .tveditform .formtabradio { display: inline-block; zoom: 1; color: #313131; font-weight: normal; font-size: 12px; cursor: pointer; margin: 3px 5px 3px 0; padding: 0 }

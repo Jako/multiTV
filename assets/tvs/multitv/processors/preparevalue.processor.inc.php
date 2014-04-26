@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['value']) && $_POST['value'] != '') {
-    if (get_magic_quotes_gpc()) {
+    if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
         $_POST['value'] = stripslashes($_POST['value']);
     }
     $value = '{"fieldValue":[' . $_POST['value'] . ']}';

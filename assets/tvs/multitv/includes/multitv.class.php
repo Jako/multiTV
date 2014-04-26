@@ -107,7 +107,6 @@ class multiTV
             case 'save_config':
             {
                 $newModuleConfigs = isset($_POST['moduleconfigs']) ? $_POST['moduleconfigs'] : $moduleConfigs;
-                $
                 echo $this->uploadLocalPackages();
                 exit();
             }
@@ -191,7 +190,7 @@ class multiTV
         return $settings;
     }
 
-// Load language file and return language array
+	// Load language file and return language array
     function loadLanguage($name)
     {
         $language = array();
@@ -205,7 +204,7 @@ class multiTV
         return $language;
     }
 
-// Load template file and return template string
+	// Load template file and return template string
     function loadTemplate($name)
     {
         $template = '';
@@ -217,7 +216,7 @@ class multiTV
         return $template;
     }
 
-// Initialize customtv settings
+    // Initialize customtv settings
     function prepareSettings($settings)
     {
         $this->fields = $settings['fields'];
@@ -267,7 +266,7 @@ class multiTV
         $this->tvValue = $value;
     }
 
-// mask MODX tags
+    // mask MODX tags
     function maskTags($value)
     {
         $unmasked = array('[', ']', '{', '}');
@@ -282,7 +281,7 @@ class multiTV
         return str_replace($masked, $unmasked, $value);
     }
 
-// render a template in multiTV templates folder
+    // render a template in multiTV templates folder
     function renderTemplate($template, $placeholder)
     {
         $output = '';
@@ -298,7 +297,7 @@ class multiTV
         return $output;
     }
 
-// invoke modx renderFormElement and change the output (to multiTV demands)
+    // invoke modx renderFormElement and change the output (to multiTV demands)
     function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass, $fieldDefault)
     {
         $fieldName .= '_mtv';
@@ -308,6 +307,9 @@ class multiTV
         switch ($fieldType) {
             case 'url' :
                 $fieldType = 'text';
+                break;
+            case 'unixtime' :
+                $fieldType = 'date';
                 break;
             case 'image' :
                 if ($this->display == 'datatable' || $this->display == 'vertical') {
@@ -358,7 +360,7 @@ class multiTV
         return trim($formElement);
     }
 
-// build the output of multiTV script and css
+    // build the output of multiTV script and css
     function generateScript()
     {
         $tvid = "tv" . $this->tvID;
@@ -375,41 +377,39 @@ class multiTV
             // horizontal template
             case 'horizontal':
                 $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
-                $tvheading = '<div id="[+tvid+]heading" class="heading">' . "\r\n";
-                $tvelement = '';
+                $tvheading = array('<div id="[+tvid+]heading" class="heading">');
+                $tvelement = array('<li class="element inline' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
-                    $tvheading .= '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>' . "\r\n";
+                    $tvheading[] = '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>';
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     if ($this->fields[$fieldname]['width']) {
-                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }' . "\r\n";
+                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
                     }
                     switch ($type) {
                         case 'thumb':
-                            $tvelement .= '<div class="inline tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                            $tvelement[] = '<div class="inline tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                             $hasthumb = ' hasthumb';
                             break;
                         case 'date':
-                            $tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default) . "\r\n";
-                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 48) . 'px }' . "\r\n";
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
+                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 48) . 'px }';
                             break;
                         default:
-                            $tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default) . "\r\n";
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
                     }
                 }
-                $tvheading .= '</div>' . "\r\n";
-                // wrap tvelements
-                $tvelement = '<li class="element inline' . $hasthumb . '"><div>' . $tvelement;
-                $tvelement .= '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>' . "\r\n";
-                $tvelement .= '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>' . "\r\n";
-                $tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
+                $tvheading[] = '</div>';
+                $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>';
+                $tvelement[] = '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>';
+                $tvelement[] = '</div><div class="clear"></div></li>';
                 break;
             // vertical template
             case 'vertical':
                 $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
-                $tvheading = '';
-                $tvelement = '';
+                $tvheading = array();
+                $tvelement = array('<li class="element' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
@@ -419,40 +419,39 @@ class multiTV
                     }
                     switch ($type) {
                         case 'thumb':
-                            $tvelement .= '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                            $tvelement[] = '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                             $hasthumb = ' hasthumb';
                             break;
                         default:
-                            $tvelement .= '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-                            $tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />' . "\r\n";
+                            $tvelement[] = '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />';
                     }
                 }
-                $tvelement = '<li class="element' . $hasthumb . '"><div>' . $tvelement;
-                $tvelement .= '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>' . "\r\n";
-                $tvelement .= '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>' . "\r\n";
-                $tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
+                $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>';
+                $tvelement[] = '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>';
+                $tvelement[] = '</div><div class="clear"></div></li>';
                 break;
             // horizontal template
             case 'single':
                 $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
-                $tvheading = '';
-                $tvelement = '';
+                $tvheading = array();
+                $tvelement = array();
                 foreach ($this->fieldnames as $fieldname) {
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     switch ($type) {
                         case 'thumb':
-                            $tvelement .= '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                            $tvelement[] = '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                             $hasthumb = ' hasthumb';
                             break;
                         default:
-                            $tvelement .= '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-                            $tvelement .= $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />' . "\r\n";
+                            $tvelement[] = '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />';
                     }
                 }
-                $tvelement = '<li class="element single' . $hasthumb . '"><div>' . $tvelement;
-                $tvelement .= '</div><div class="clear"></div></li>' . "\r\n";
+                $tvelement[] = '<li class="element single' . $hasthumb . '"><div>';
+                $tvelement[] = '</div><div class="clear"></div></li>';
                 break;
             // datatable template
             case 'datatable':
@@ -519,7 +518,7 @@ class multiTV
                         'tvid' => $tvid,
                         'caption' => $tab['caption'],
                         'value' => $tab['value'],
-                        'content' => implode("\r\n", $tvElements),
+                        'content' => implode("\n", $tvElements),
                         'radio' => ($this->configuration['radioTabs']) ? '1' : '0'
                     );
                     $formTabTemplate = (!$this->configuration['radioTabs']) ? 'editFormTab' : 'editFormTabRadio';
@@ -529,7 +528,7 @@ class multiTV
                 $placeholder = array();
                 $placeholder['tabs'] = implode("\r\n", $tabs);
                 $placeholder['tabpages'] = implode("\r\n", $tabPages);
-                $tvelement = $this->renderTemplate('editForm', $placeholder);
+                $tvelement = array($this->renderTemplate('editForm', $placeholder));
                 if ($this->configuration['hideHeader']) {
                     $tableClasses[] = 'hideHeader';
                 }
@@ -605,7 +604,7 @@ class multiTV
         $placeholder['tvmode'] = $this->display;
         $placeholder['tvfields'] = $tvfields;
         $placeholder['tvlanguage'] = $tvlanguage;
-        $placeholder['tvelement'] = $tvelement;
+        $placeholder['tvelement'] = implode("\n", $tvelement);
         $placeholder['tvvalue'] = $tvvalue;
         $placeholder['tvid'] = $tvid;
         $placeholder['tvpath'] = $tvpath;
