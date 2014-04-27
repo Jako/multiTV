@@ -5,47 +5,44 @@ if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
 }
 $value = isset($_POST['value']) ? json_decode($_POST['value'], true) : null;
 
+// get form fields
+$formfields = array();
+foreach ($settings['form'] as $formtab) {
+    foreach ($formtab['content'] as $fieldname => $field) {
+        $formfields[$fieldname] = array_merge($settings['fields'][$fieldname], $field);
+    }
+}
+
+// save form values
 if ($rowId !== false && $value) {
-    $res = $modx->db->select('*', $modx->getFullTableName($settings['table']));
-    $dbColumns = $modx->db->getColumnNames($res);
-
     $saveValue = array();
-    foreach ($dbColumns as $dbColumn) {
-        if ($dbColumn == 'id') {
-            continue;
-        }
-        if (isset($value[$dbColumn])) {
-            $saveValue[$dbColumn] = $value[$dbColumn];
-        }
-    }
-
-    foreach ($saveValue as $key => $value) {
-        if (isset($settings['fields'][$key])) {
-            if ($saveValue[$key] == '' && $settings['fields'][$key]['default'] != '') {
-                $saveValue[$key] = str_replace(array('{i}', '{time}'), array($rowId, $modx->toDateFormat(time())), $settings['fields'][$key]['default']);
+    foreach ($formfields as $fieldname => $field) {
+        if (isset($value[$fieldname])) {
+            $saveValue[$fieldname] = $value[$fieldname];
+            if ($value[$fieldname] == '' && $field['default'] != '') {
+                $field['default'] = str_replace(array('{i}', '{time}'), array($rowId, $modx->toDateFormat(time())), $field['default']);
+                $saveValue[$fieldname] = $field['default'];
             }
-            if (isset($settings['fields'][$key]['type'])) {
-                switch ($settings['fields'][$key]['type']) {
+            if (isset($field['type'])) {
+                switch ($field['type']) {
                     case 'unixtime':
-                        if ($saveValue[$key] != '') {
-                            $saveValue[$key] = $modx->toTimeStamp($saveValue[$key]);
+                        if ($saveValue[$fieldname] != '') {
+                            $saveValue[$fieldname] = $modx->toTimeStamp($saveValue[$fieldname]);
                         }
                         break;
                 }
             }
-            if (isset($settings['fields'][$key]['saveaction'])) {
-                switch ($settings['fields'][$key]['saveaction']) {
+            if (isset($field['saveaction'])) {
+                switch ($field['saveaction']) {
                     case 'alias':
-                        if ($saveValue[$key] == '' && isset($settings['fields'][$key]['aliasof'])) {
-                            $aliasof = $settings['fields'][$key]['aliasof'];
-                            $saveValue[$key] = $multiTV->CleanAlias($saveValue[$aliasof]);
+                        if ($saveValue[$fieldname] == '' && isset($field['aliasof'])) {
+                            $saveValue[$fieldname] = $multiTV->CleanAlias($saveValue[$field['aliasof']]);
                         }
                         break;
                 }
             }
         }
     }
-
     if ($rowId) {
         $answer = $modx->db->update($saveValue, $modx->getFullTableName($settings['table']), 'id =' . $rowId);
     } else {
