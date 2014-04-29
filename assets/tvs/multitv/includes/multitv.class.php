@@ -573,7 +573,7 @@ class multiTV
             $placeholder['data'] = $this->loadTemplate('datatable');
             $placeholder['script'] = $this->loadTemplate('datatableScript' . $this->cmsinfo['clipper']);
             $placeholder['edit'] = $this->loadTemplate('edit');
-            $placeholder['editform'] = $tvelement;
+            $placeholder['editform'] = implode("\n", $tvelement);
         } else {
             $placeholder['data'] = $this->loadTemplate('sortablelist');
             $placeholder['script'] = $this->loadTemplate('sortablelistScript' . $this->cmsinfo['clipper']);
