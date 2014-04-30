@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0 alpha 2 April 30, 2014
+    - CustomTV: dbtable mode
+
 - 2.0 alpha 1 April 8, 2014
     - Module: new multiDB - Database Manager
     - CustomTV/Module: JSON config files

@@ -1,4 +1,5 @@
 {
+    "display": "dbtable",
     "table": "event_log",
     "caption": "Event Log",
     "fields": {
@@ -6,16 +7,13 @@
             "caption": "Event ID"
         },
         "createdon": {
-            "caption": "Created On",
-            "type": "unixtime"
+            "caption": "Created On"
         },
         "type": {
             "caption": "Type"
         },
         "user": {
-            "caption": "User",
-            "type": "dropdown",
-            "elements": "@SELECT 'Unknown' AS username, 0 as id FROM [+PREFIX+]web_users LIMIT 1 UNION (SELECT username, id FROM [+PREFIX+]web_users ORDER BY username ASC)"
+            "caption": "User ID"
         },
         "usertype": {
             "caption": "User Type"

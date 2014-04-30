@@ -180,17 +180,17 @@ class multiTV
     {
         $types = (substr($type, -1) != 'y') ? $type . 's' : substr($type, 0, -1) . 'ies';
         $settings = array();
-        if ($includeFile = $this->includeFile($name, $type, '.inc.php')) {
-            include($includeFile);
-        } elseif ($includeFile = $this->includeFile($name, $type, '.json')) {
+        if ($includeFile = $this->includeFile($name, $type, '.json')) {
             $settings = json_decode(file_get_contents($includeFile), true);
+        } elseif ($includeFile = $this->includeFile($name, $type, '.inc.php')) {
+            include($includeFile);
         } elseif ($breakOnError) {
             $this->modx->messageQuit($name . ' multiTV ' . $type . ' file "' . MTV_BASE_PATH . $types . '/' . $name . '.' . $type . '.inc.php" not found.');
         }
         return $settings;
     }
 
-	// Load language file and return language array
+    // Load language file and return language array
     function loadLanguage($name)
     {
         $language = array();
@@ -204,7 +204,7 @@ class multiTV
         return $language;
     }
 
-	// Load template file and return template string
+    // Load template file and return template string
     function loadTemplate($name)
     {
         $template = '';
@@ -455,18 +455,26 @@ class multiTV
                 break;
             // datatable template
             case 'datatable':
-                if (!$this->configuration['sorting']) {
-                    $fieldcolumns = array(
-                        array(
-                            'mData' => 'MTV_RowId',
-                            'sTitle' => '',
-                            'sClass' => 'handle',
-                            'bSortable' => false,
-                            'sWidth' => '2px'
-                        )
+            case 'dbtable':
+                $tableClasses = array();
+                $fieldcolumns = array();
+                if ($this->display == 'dbtable') {
+                    $fieldcolumns[] = array(
+                        'mData' => 'id',
+                        'sTitle' => '',
+                        'bSortable' => false,
+                        'bVisible' => false
                     );
                 }
-                $tableClasses = array();
+                if (!$this->configuration['sorting']) {
+                    $fieldcolumns[] = array(
+                        'mData' => 'MTV_RowId',
+                        'sTitle' => '',
+                        'sClass' => 'handle',
+                        'bSortable' => false,
+                        'sWidth' => '2px'
+                    );
+                }
                 if ($this->configuration['radioTabs']) {
                     $fieldcolumns[] = array(
                         'mData' => 'fieldTab',
@@ -533,6 +541,8 @@ class multiTV
                     $tableClasses[] = 'hideHeader';
                 }
                 $tvfields = json_encode(array(
+                    'fieldconfig' => $this->tvName,
+                    'fieldconfigtype' => 'tv',
                     'fieldnames' => $this->fieldnames,
                     'fieldtypes' => $this->fieldtypes,
                     'fieldcolumns' => $fieldcolumns,
@@ -542,6 +552,7 @@ class multiTV
                     'radioTabs' => $this->configuration['radioTabs'],
                     'sorting' => $this->configuration['sorting']
                 ));
+                break;
         }
 
         // populate tv template
@@ -566,7 +577,7 @@ class multiTV
         } else {
             $placeholder['clear'] = '';
         }
-        if ($this->display == 'datatable') {
+        if ($this->display == 'datatable' || $this->display == 'dbtable') {
             $settings = $this->loadSettings('datatable' . $this->cmsinfo['clipper'], 'setting');
             $files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
             $files['css'] = array_merge($files['css'], $settings['css']);
@@ -638,7 +649,6 @@ class multiTV
                 'sWidth' => '2px'
             );
         }
-        $tableClasses = array();
         if ($this->configuration['radioTabs']) {
             $fieldcolumns[] = array(
                 'mData' => 'fieldTab',
@@ -666,7 +676,6 @@ class multiTV
                 );
             }
         }
-        //   die('<pre>' . print_r($this->configuration, true) . print_r($config, true));
         $tabs = array();
         $tabPages = array();
         foreach ($config['form'] as $key => $tab) {
@@ -704,6 +713,7 @@ class multiTV
         $tvelement = $this->renderTemplate('editForm', $placeholder);
         $tvfields = json_encode(array(
             'fieldconfig' => $config['name'],
+            'fieldconfigtype' => 'module',
             'fieldnames' => $this->fieldnames,
             'fieldtypes' => $this->fieldtypes,
             'fieldcolumns' => $fieldcolumns,

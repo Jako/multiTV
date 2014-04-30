@@ -580,6 +580,7 @@
                                     { name: 'mode', value: 'dbtable' },
                                     { name: 'action', value: 'loadtable' },
                                     { name: 'config', value: _this.options.fieldsettings.fieldconfig },
+                                    { name: 'configtype', value: _this.options.fieldsettings.fieldconfigtype },
                                     { name: 'mtvpath', value: _this.options.mtvpath }
                                 );
                                 oSettings.jqXHR = $.ajax({
@@ -828,6 +829,7 @@
                             mode: 'dbtable',
                             action: 'loadrecord',
                             config: _this.options.fieldsettings.fieldconfig,
+                            configtype: _this.options.fieldsettings.fieldconfigtype,
                             mtvpath: _this.options.mtvpath,
                             rowId: lineValue.id
                         },
@@ -856,6 +858,7 @@
                             mode: 'dbtable',
                             action: 'createrecord',
                             config: _this.options.fieldsettings.fieldconfig,
+                            configtype: _this.options.fieldsettings.fieldconfigtype,
                             mtvpath: _this.options.mtvpath
                         },
                         success: function (data) {
@@ -987,6 +990,7 @@
                         mode: 'dbtable',
                         action: 'saverecord',
                         config: _this.options.fieldsettings.fieldconfig,
+                        configtype: _this.options.fieldsettings.fieldconfigtype,
                         mtvpath: _this.options.mtvpath,
                         rowId: lineId,
                         value: $.toJSON(values)

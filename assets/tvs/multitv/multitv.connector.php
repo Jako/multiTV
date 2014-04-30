@@ -1,4 +1,12 @@
 <?php
+/**
+ * multiTV
+ *
+ * @category    connector
+ * @version     2.0 alpha 2
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
+ * @author      Jako (thomas.jakobi@partout.info)
+ */
 $base_path = str_replace($_POST['mtvpath'], '', str_replace('\\', '/', realpath(dirname(__FILE__))) . '/');
 if (is_file($base_path . 'assets/cache/siteManager.php')) {
     include_once($base_path . 'assets/cache/siteManager.php');
@@ -46,9 +54,20 @@ if (file_exists(MTV_BASE_PATH . 'languages/' . $modx->config['manager_language']
 // retrieve parameter
 $mode = isset($_POST['mode']) ? preg_replace('/[^a-zA-Z0-9_-]+/', '', $_POST['mode']) : false;
 $config = isset($_POST['config']) ? preg_replace('/[^a-zA-Z0-9_-]+/', '', $_POST['config']) : false;
+$configtype = isset($_POST['configtype']) ? preg_replace('/[^a-zA-Z0-9_-]+/', '', $_POST['configtype']) : 'tv';
 $action = isset($_POST['action']) ? preg_replace('/[^a-zA-Z0-9_-]+/', '', $_POST['action']) : false;
 $docid = isset($_POST['id']) ? intval($_POST['id']) : false;
 $tvid = isset($_POST['tvid']) ? intval(str_replace('tv', '', $_POST['tvid'])) : false;
+
+switch ($configtype) {
+    case 'module' :
+        $type = 'moduleconfig';
+        break;
+    case 'tv' :
+    default:
+        $type = 'config';
+        break;
+}
 
 $answer = array();
 switch ($mode) {
@@ -59,7 +78,7 @@ switch ($mode) {
                     'type' => 'module'
                 ));
                 // config exists?
-                $settings = $multiTV->loadSettings($config, 'moduleconfig', false);
+                $settings = $multiTV->loadSettings($config, $type, false);
                 if ($settings) {
                     $includeFile = $multiTV->includeFile($action, 'processor');
                     // processor available?
