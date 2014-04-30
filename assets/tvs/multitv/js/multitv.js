@@ -557,7 +557,7 @@
                     _this.prepareMultiValue();
                     _this.$el.hide();
                     _this.fieldEdit.hide();
-                    if (_this.options.mode == 'datatable') {
+                    if (_this.options.mode != 'dbtable') {
                         _this.fieldTable.dataTable({
                             sDom: '<"clear">lfrtip',
                             aaData: _this.data.value,
@@ -729,7 +729,7 @@
         prepareMultiValue: function () {
             var _this = this;
 
-            if (_this.options.mode == 'datatable') {
+            if (_this.options.mode != 'dbtable') {
                 var jsonValue = $.evalJSON(_this.$el.val().replace(/&#x005B;/g, '[').replace(/&#x005D;/g, ']').replace(/&#x007B;/g, '{').replace(/&#x007B;/g, '}'));
                 if (jsonValue) {
                     if (jsonValue.constructor === Array) {
@@ -811,7 +811,7 @@
 
             if (selector && mode === 'edit') {
                 var lineValue = _this.fieldTable.fnGetData(selector);
-                if (_this.options.mode == 'datatable') {
+                if (_this.options.mode != 'dbtable') {
                     $.each(lineValue, function (key, value) {
                         var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
                         fieldInput.setValue(value);
@@ -847,6 +847,31 @@
                 }
             } else {
                 $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
+                if (_this.options.mode == 'dbtable') {
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        url: '../' + _this.options.mtvpath + 'multitv.connector.php',
+                        data: {
+                            mode: 'dbtable',
+                            action: 'createrecord',
+                            config: _this.options.fieldsettings.fieldconfig,
+                            mtvpath: _this.options.mtvpath
+                        },
+                        success: function (data) {
+                            if (data) {
+                                lineValue = data;
+                                $.each(lineValue, function (key, value) {
+                                    var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
+                                    fieldInput.setValue(value);
+                                    if (fieldInput.hasClass('image')) {
+                                        _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
             }
             $('.mode', _this.fieldEditForm).hide();
             $('.mode.' + mode, _this.fieldEditForm).show();
@@ -914,7 +939,7 @@
                 }
             });
 
-            if (_this.options.mode == 'datatable') {
+            if (_this.options.mode != 'dbtable') {
                 $.ajax({
                     url: '../' + _this.options.mtvpath + 'multitv.connector.php',
                     data: {
@@ -988,7 +1013,7 @@
             $(selector).removeClass('row_selected');
             $('a', _this.tableButtonEdit).addClass('disabled');
             $('a', _this.tableButtonRemove).addClass('disabled');
-            if (_this.options.mode == 'datatable') {
+            if (_this.options.mode != 'dbtable') {
                 _this.fieldTable.fnDeleteRow(selector);
                 _this.saveMultiValue();
             } else {
