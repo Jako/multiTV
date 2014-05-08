@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    connector
- * @version     2.0 alpha 2
+ * @version     2.0 alpha 3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  */
@@ -80,7 +80,8 @@ switch ($mode) {
                 // config exists?
                 $settings = $multiTV->loadSettings($config, $type, false);
                 if ($settings) {
-                    $includeFile = $multiTV->includeFile($action, 'processor');
+                    $processors = (isset($settings['processors'])) ? $settings['processors'] : '';
+                    $includeFile = $multiTV->includeFile($action, 'processor', '.inc.php', $processors);
                     // processor available?
                     if ($includeFile) {
                         include $includeFile;

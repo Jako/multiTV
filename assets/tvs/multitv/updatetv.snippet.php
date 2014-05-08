@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category    snippet
- * @version     2.0 alpha 2
+ * @version     2.0 alpha 3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>2.0 alpha 2</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
+ * @internal    description: <strong>2.0 alpha 3</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/updatetv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {

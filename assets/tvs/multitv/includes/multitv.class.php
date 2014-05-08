@@ -53,6 +53,7 @@ class multiTV
 
         $this->language = $this->loadLanguage($this->modx->config['manager_language']);
         $this->options = $options;
+        $this->options['modulename'] = ($this->options['modulename']) ? $this->options['modulename'] : $this->language['modulename'];
 
         $version = $this->modx->getVersionData();
         switch ($version['branch']) {
@@ -149,22 +150,30 @@ class multiTV
     }
 
     // Return the include path of a configuration/template/whatever file
-    function includeFile($name, $type = 'config', $extension = '.inc.php')
+    function includeFile($name, $type = 'config', $extension = '.inc.php', $folder = '')
     {
-        $folder = (substr($type, -1) != 'y') ? $type . 's/' : substr($type, 0, -1) . 'ies/';
-        $allowedConfigs = glob(MTV_BASE_PATH . $folder . '*.' . $type . $extension);
+        if ($folder == '') {
+            $folder = MTV_BASE_PATH . ((substr($type, -1) != 'y') ? $type . 's/' : substr($type, 0, -1) . 'ies/');
+        } else {
+            if (is_dir(MTV_BASE_PATH . ((substr($type, -1) != 'y') ? $type . 's/' : substr($type, 0, -1) . 'ies/') . $folder)) {
+                $folder = MTV_BASE_PATH . ((substr($type, -1) != 'y') ? $type . 's/' : substr($type, 0, -1) . 'ies/') . $folder . '/';
+            } else {
+                $folder = MODX_BASE_PATH . $folder . '/';
+            }
+        }
+        $allowedConfigs = glob($folder . '*.' . $type . $extension);
 
         if ($allowedConfigs) {
             $configs = array();
             foreach ($allowedConfigs as $config) {
-                $configs[] = preg_replace('=.*/' . $folder . '([^.]*).' . $type . $extension . '=', '$1', $config);
+                $configs[] = preg_replace('=' . $folder . '([^.]*).' . $type . $extension . '=', '$1', $config);
             }
 
             if (in_array($name, $configs)) {
-                $filePath = MTV_BASE_PATH . $folder . $name . '.' . $type . $extension;
+                $filePath = $folder . $name . '.' . $type . $extension;
             } else {
-                if (file_exists(MTV_BASE_PATH . $folder . 'default.' . $type . $extension)) {
-                    $filePath = MTV_BASE_PATH . $folder . 'default.' . $type . $extension;
+                if (file_exists($folder . 'default.' . $type . $extension)) {
+                    $filePath = $folder . 'default.' . $type . $extension;
                 } else {
                     $filePath = false;
                 }
@@ -251,7 +260,7 @@ class multiTV
                                 foreach ($elem as $k => $v) {
                                     $parser->setPlaceholder($k, $this->maskTags($v));
                                 }
-                                $parser->setTpl($parser->getTemplateChunk('@CODE ' . $column['render']));
+                                $parser->setTpl($column['render']);
                                 $parser->prepareTemplate();
                                 $elem->{'mtvRender' . ucfirst($column['fieldname'])} = $parser->process();
                             }
@@ -489,8 +498,8 @@ class multiTV
                             'mData' => (isset($column['render']) && $column['render'] != '') ? 'mtvRender' . ucfirst($column['fieldname']) : $column['fieldname'],
                             'sTitle' => (isset($column['caption'])) ? $column['caption'] : ((isset($this->fields[$column['fieldname']]['caption'])) ? $this->fields[$column['fieldname']]['caption'] : $column['fieldname']),
                             'sWidth' => (isset($column['width'])) ? $column['width'] : ((isset($this->fields[$column['fieldname']]['width'])) ? $this->fields[$column['fieldname']]['width'] : ''),
-                            'bSortable' => $this->configuration['sorting'],
-                            'bVisible' => (isset($column['visible'])) ? (bool)$column['visible'] : ((isset($this->fields[$column['fieldname']]['visible'])) ? (bool)$this->fields[$column['fieldname']]['visible'] : true),
+                            'bSortable' => ($this->configuration['sorting']) ? ((isset($column['sortable'])) ? (bool)$column['sortable'] : true) : false,
+                            'bVisible' => (isset($column['visible'])) ? (bool)$column['visible'] : ((isset($this->fields[$column['fieldname']]['visible'])) ? (bool)$this->fields[$column['fieldname']]['visible'] : true)
                         );
                     }
                 } else {
@@ -498,7 +507,7 @@ class multiTV
                         $fieldcolumns[] = array(
                             'mData' => $key,
                             'sTitle' => (isset($column['caption'])) ? $column['caption'] : $column['fieldname'],
-                            'bSortable' => $this->configuration['sorting']
+                            'bSortable' => ($this->configuration['sorting']) ? ((isset($column['sortable'])) ? (bool)$column['sortable'] : true) : false,
                         );
                     }
                 }
@@ -663,7 +672,7 @@ class multiTV
                     'mData' => (isset($column['render']) && $column['render'] != '') ? 'mtvRender' . ucfirst($column['fieldname']) : $column['fieldname'],
                     'sTitle' => (isset($column['caption'])) ? $column['caption'] : ((isset($this->fields[$column['fieldname']]['caption'])) ? $this->fields[$column['fieldname']]['caption'] : $column['fieldname']),
                     'sWidth' => (isset($column['width'])) ? $column['width'] : ((isset($this->fields[$column['fieldname']]['width'])) ? $this->fields[$column['fieldname']]['width'] : ''),
-                    'bSortable' => $this->configuration['sorting'],
+                    'bSortable' => ($this->configuration['sorting']) ? ((isset($column['sortable'])) ? (bool)$column['sortable'] : true) : false,
                     'bVisible' => (isset($column['visible'])) ? (bool)$column['visible'] : ((isset($this->fields[$column['fieldname']]['visible'])) ? (bool)$this->fields[$column['fieldname']]['visible'] : true),
                 );
             }
@@ -672,7 +681,7 @@ class multiTV
                 $fieldcolumns[] = array(
                     'mData' => $key,
                     'sTitle' => (isset($column['caption'])) ? $column['caption'] : $column['fieldname'],
-                    'bSortable' => $this->configuration['sorting']
+                    'bSortable' => ($this->configuration['sorting']) ? ((isset($column['sortable'])) ? (bool)$column['sortable'] : true) : false,
                 );
             }
         }

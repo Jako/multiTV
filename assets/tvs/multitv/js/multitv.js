@@ -719,11 +719,6 @@
             var _this = this;
 
             $.each(_this.options.fieldsettings.fieldcolumns, function (key, value) {
-                if (this.render) {
-                    this.mRender = function (data, type, full) {
-                        return full[this.render];
-                    };
-                }
                 this.sDefaultContent = '';
             });
         },

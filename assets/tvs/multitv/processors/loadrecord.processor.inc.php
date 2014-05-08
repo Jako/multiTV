@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    processor
- * @version     2.0 alpha 2
+ * @version     2.0 alpha 3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
@@ -15,7 +15,6 @@ if ($rowId) {
     $res = $modx->db->select('*', $modx->getFullTableName($settings['table']), 'id =' . $rowId);
     if ($modx->db->getRecordCount($res)) {
         $row = $modx->db->getRow($res);
-        $answer = array();
         foreach ($settings['fields'] as $fieldname => $field) {
             if ($row[$fieldname] == '' && $field['default'] != '') {
                 $field['default'] = str_replace(array('{i}', '{time}'), array($rowId, time()), $field['default']);

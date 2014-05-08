@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    processor
- * @version     2.0 alpha 2
+ * @version     2.0 alpha 3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
@@ -72,6 +72,15 @@ foreach ($displayRecords as $record) {
     }
     foreach ($columnNames as $columnName) {
         $aaData[$i][$columnName] = $record[$columnName];
+    }
+    foreach ($settings['columns'] as $column) {
+        if (isset($column['render']) && $column['render'] != '') {
+            $parser = new newChunkie($modx);
+            $parser->setPlaceholders($record);
+            $parser->setTpl($column['render']);
+            $parser->prepareTemplate();
+            $aaData[$i]['mtvRender' . ucfirst($column['fieldname'])] = $parser->process();
+        }
     }
     $i++;
 }

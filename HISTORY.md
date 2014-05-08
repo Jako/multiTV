@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0 alpha 3 May 9, 2014
+    - CustomTV: custom processors in dbtable mode
+
 - 2.0 alpha 2 April 30, 2014
     - CustomTV: dbtable mode
 

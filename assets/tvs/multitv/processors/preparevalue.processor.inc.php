@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    processor
- * @version     2.0 alpha 2
+ * @version     2.0 alpha 3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *

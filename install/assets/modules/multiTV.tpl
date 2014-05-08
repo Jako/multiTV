@@ -5,7 +5,7 @@
  * CRUD module
  *
  * @category    snippet, module, tv
- * @version     2.0 alpha 2
+ * @version     2.0 alpha 3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako
  * @internal    @properties &logDeletion=Log the delete event?;list;true,false;true

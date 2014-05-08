@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category    module
- * @version     2.0 alpha 2
+ * @version     2.0 alpha 3
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>2.0 alpha 2</strong> Custom Template Variabe containing a sortable multi item list or a datatable and a datatable CRUD module.
+ * @internal    description: <strong>2.0 alpha 3</strong> Custom Template Variabe containing a sortable multi item list or a datatable and a datatable CRUD module.
  * @internal    module code: include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.module.php');
  */
 if (IN_MANAGER_MODE != 'true') {
@@ -27,7 +27,7 @@ if (!file_exists($class_file)) {
 }
 require_once($class_file);
 
-$configs = array_map('trim', explode(',', $configs));
+$configs = isset($configs) ? array_map('trim', explode(',', $configs)) : array();
 
 $options = array(
     'moduleId' => (int)$_GET['id'],
@@ -35,10 +35,16 @@ $options = array(
     'managerDir' => MGR_DIR . '/',
     'moduleUrl' => MTV_PATH,
     'managerTheme' => $modx->config['manager_theme'],
-    'type' => 'module'
+    'type' => 'module',
+    'modulename' => $_SESSION['itemname']
 );
 
 $multiTV = new multiTV($modx, $options);
-$output = $multiTV->runModule($configs);
+
+if ($configs) {
+    $output = $multiTV->runModule($configs);
+} else {
+    $output = '<h3>Please specify at least one configuration in module config</h3>';
+}
 
 echo $output;
