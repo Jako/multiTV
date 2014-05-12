@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category    module
- * @version     2.0 alpha 3
+ * @version     2.0 beta 1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>2.0 alpha 3</strong> Custom Template Variabe containing a sortable multi item list or a datatable and a datatable CRUD module.
+ * @internal    description: <strong>2.0 beta 1</strong> Custom Template Variabe containing a sortable multi item list or a datatable and a datatable CRUD module.
  * @internal    module code: include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.module.php');
  */
 if (IN_MANAGER_MODE != 'true') {
@@ -33,7 +33,7 @@ $options = array(
     'moduleId' => (int)$_GET['id'],
     'action' => isset($_GET['action']) ? trim(strip_tags($_GET['action'])) : 'load',
     'managerDir' => MGR_DIR . '/',
-    'moduleUrl' => MTV_PATH,
+    'tvUrl' => MTV_PATH,
     'managerTheme' => $modx->config['manager_theme'],
     'type' => 'module',
     'modulename' => $_SESSION['itemname']

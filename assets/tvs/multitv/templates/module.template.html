@@ -3,28 +3,31 @@
 <head>
     <title>[+options.modulename+]</title>
     <link rel="stylesheet" type="text/css" href="media/style/[+options.managerTheme+]/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../[+options.moduleUrl+]css/multitv.css"/>
+    <link rel="stylesheet" type="text/css" href="../[+options.tvUrl+]css/multitv.css"/>
     <script type="text/javascript">
         var moduleId = '[+options.moduleId+]';
         var moduleLanguage = {
             confirm_delete_extra: '[+lang.confirm_delete_extra+]'
         }
     </script>
-    <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-cookie-1.4.0.js"></script>
-    <script type="text/javascript" src="../[+options.moduleUrl+]js/jquery-easytabs-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../[+options.tvUrl+]js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../[+options.tvUrl+]js/jquery-cookie-1.4.0.js"></script>
+    <script type="text/javascript" src="../[+options.tvUrl+]js/jquery-easytabs-3.2.0.min.js"></script>
+    <script type="text/javascript" src="../[+options.tvUrl+]js/jquery-fileDownload-1.4.2.js"></script>
 </head>
 <body>
 <h1>[+options.modulename+]</h1>
 
 <div id="actions">
     <ul class="actionButtons">
-        <li id="Button1"><a href="index.php?a=112&amp;id=[+options.moduleId+]"><img
-                src="media/style/[+options.managerTheme+]/images/icons/refresh.png" alt="Neu laden"/>
-            [+lang.reload+]</a></li>
-        <li id="Button2"><a href="index.php?a=106"><img src="media/style/[+options.managerTheme+]/images/icons/stop.png"
-                                                        alt="[+lang.close+] [+options.modulename+]"/> [+lang.close+]
-            [+options.modulename+]</a></li>
+        <li id="Button1"><a href="index.php?a=112&amp;id=[+options.moduleId+]">
+            <img src="media/style/[+options.managerTheme+]/images/icons/refresh.png" alt="Neu laden"/>
+            [+lang.reload+]
+        </a></li>
+        <li id="Button2"><a href="index.php?a=106">
+            <img src="media/style/[+options.managerTheme+]/images/icons/stop.png" alt="[+lang.close+] [+options.modulename+]"/>
+            [+lang.close+] [+options.modulename+]
+        </a></li>
     </ul>
 </div>
 <div class="sectionBody">
@@ -46,6 +49,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="../[+options.moduleUrl+]js/multitvmodule.js"></script>
+<script type="text/javascript" src="../[+options.tvUrl+]js/multitvmodule.js"></script>
 </body>
 </html>

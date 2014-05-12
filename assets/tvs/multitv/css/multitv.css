@@ -89,3 +89,10 @@
 .tvpasteform .buttons li { margin-right: 0; margin-left: 10px }
 
 .dynamic-tab-pane-control .tab-row .tab a { text-decoration: none }
+
+.tabpanel_content { position: relative }
+.tabpanel_bottom { padding-top: 10px; clear: both }
+.modulebuttons.topright { position: absolute; top: 0; right: 0; z-index: 10 }
+.modulebuttons.bottomleft { float: left }
+.modulebuttons.bottomright { float: right }
+.modulebuttons ul.actionButtons { min-height: 30px }

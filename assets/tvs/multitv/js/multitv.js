@@ -1024,6 +1024,7 @@
                         mode: 'dbtable',
                         action: 'deleterecord',
                         config: _this.options.fieldsettings.fieldconfig,
+                        configtype: _this.options.fieldsettings.fieldconfigtype,
                         mtvpath: _this.options.mtvpath,
                         rowId: lineId
                     },

@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    processor
- * @version     2.0 alpha 3
+ * @version     2.0 beta 1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
@@ -21,10 +21,10 @@ foreach ($settings['columns'] as $column) {
 }
 
 $where = isset($settings['where']) ? $settings['where'] : '';
-$start = isset($_POST['iDisplayStart']) ? $_POST['iDisplayStart'] : 0;
-$length = isset($_POST['iDisplayLength']) ? $_POST['iDisplayLength'] : 10;
+$start = isset($_POST['iDisplayStart']) ? intval($_POST['iDisplayStart']) : 0;
+$length = isset($_POST['iDisplayLength']) ? intval($_POST['iDisplayLength']) : 10;
 $search = isset($_POST['sSearch']) ? $modx->db->escape($_POST['sSearch']) : '';
-$sortby = isset($_POST['iSortCol_0']) ? intval($_POST['iSortCol_0']) : 1;
+$sortby = isset($_POST['iSortCol_0']) ? intval(intval($_POST['iSortCol_0'])) : 1;
 $sortdir = (isset($_POST['sSortDir_0']) && strtolower($_POST['sSortDir_0']) == 'asc') ? 'ASC' : 'DESC';
 $limit = $start . ',' . $length;
 

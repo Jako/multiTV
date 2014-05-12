@@ -3,11 +3,11 @@
  * multiTV
  *
  * @category    snippet
- * @version     2.0 alpha 3
+ * @version     2.0 beta 1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>2.0 alpha 3</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
+ * @internal    description: <strong>2.0 beta 1</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
@@ -48,7 +48,9 @@ $tvSettings['tpl_config'] = (isset($tplConfig)) ? $tplConfig : '';
 // init multiTV class
 $multiTV = new multiTV($modx, array(
         'type' => 'tv',
-        'tvDefinitions' => $tvSettings)
+        'tvDefinitions' => $tvSettings,
+        'tvUrl' => MTV_PATH
+    )
 );
 $templates = $multiTV->templates;
 

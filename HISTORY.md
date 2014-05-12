@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0 beta 1 May 12, 2014
+    - CustomTV: create popup processor
+
 - 2.0 alpha 3 May 9, 2014
     - CustomTV: custom processors in dbtable mode
 

@@ -36,6 +36,7 @@ class multiTV
     public $fieldtypes = array();
     public $fields = array();
     public $fieldsrte = array();
+    public $modulebuttons = array();
     public $templates = array();
     public $language = array();
     public $configuration = array();
@@ -106,24 +107,29 @@ class multiTV
     {
         switch ($this->options['action']) {
             case 'save_config':
-            {
                 $newModuleConfigs = isset($_POST['moduleconfigs']) ? $_POST['moduleconfigs'] : $moduleConfigs;
                 echo $this->uploadLocalPackages();
                 exit();
-            }
             case 'load':
             default :
-                {
                 $moduleTabs = array();
                 $moduleTabheads = array();
                 foreach ($moduleConfigs as $moduleConfig) {
                     $settings = $this->loadSettings($moduleConfig, 'moduleconfig');
                     $this->prepareSettings($settings);
                     $settings['name'] = $moduleConfig;
-                    $chunkie = new newChunkie($this->modx, array('basepath' => MTV_PATH));
+                    $chunkie = new newChunkie($this->modx, array('basepath' => $this->options['tvUrl']));
                     $chunkie->setPlaceholder('lang', $this->language, 'module');
                     $chunkie->setPlaceholder('options', $this->options, 'module');
                     $chunkie->setPlaceholder('', $settings, 'module');
+                    if ($settings['buttons']) {
+                        $this->generateButtonGroups($settings['name'], $settings['buttons']);
+                        $buttons = array(
+                            'top' => $this->displayButtonGroups($settings['name'], 'topleft') . "\n" . $this->displayButtonGroups($settings['name'], 'topright'),
+                            'bottom' => $this->displayButtonGroups($settings['name'], 'bottomleft') . "\n" . $this->displayButtonGroups($settings['name'], 'bottomright')
+                        );
+                        $chunkie->setPlaceholder('buttons', $buttons, 'module');
+                    }
                     $chunkie->setPlaceholder('content', $this->generateModuleTab($settings), 'module');
 
                     $chunkie->setTpl($chunkie->getTemplateChunk('@FILE templates/moduleTabhead.template.html'));
@@ -134,7 +140,7 @@ class multiTV
                     $chunkie->prepareTemplate('', array(), 'module');
                     $moduleTabs[] = $chunkie->process('module', "\r\n", true);
                 }
-                $chunkie = new newChunkie($this->modx, array('basepath' => MTV_PATH));
+                $chunkie = new newChunkie($this->modx, array('basepath' => $this->options['tvUrl']));
                 $chunkie->setPlaceholder('lang', $this->language, 'module');
                 $chunkie->setPlaceholder('options', $this->options, 'module');
                 $chunkie->setPlaceholder('moduleTabheads', implode("\n", $moduleTabheads), 'module');
@@ -144,7 +150,6 @@ class multiTV
                 $chunkie->prepareTemplate('', array(), 'module');
 
                 $output = $chunkie->process('module');
-                }
         }
         return $output;
     }
@@ -362,6 +367,7 @@ class multiTV
         $formElement = preg_replace('/(onclick="BrowseServer[^\"]+\")/', 'class="browseimage ' . $fieldClass . '"', $formElement, 1); // remove imagebrowser onclick script
         $formElement = preg_replace('/(onclick="BrowseFileServer[^\"]+\")/', 'class="browsefile ' . $fieldClass . '"', $formElement, 1); // remove filebrowser onclick script
         $formElement = str_replace('document.forms[\'mutate\'].elements[\'tv0\'].value=\'\';document.forms[\'mutate\'].elements[\'tv0\'].onblur(); return true;', '$j(this).prev(\'input\').val(\'\').trigger(\'change\');', $formElement); // change datepicker onclick script
+        $formElement = preg_replace('/(<script.*?DatePicker.*?script>)/s', '', $formElement); // remove datepicker script
         $formElement = preg_replace('/( onmouseover=\"[^\"]+\")/', '', $formElement); // delete onmouseover attribute
         $formElement = preg_replace('/( onmouseout=\"[^\"]+\")/', '', $formElement); // delete onmouseout attribute
         $formElement = str_replace(array('&nbsp;'), ' ', $formElement); // change whitespace
@@ -376,7 +382,7 @@ class multiTV
         $tvvalue = ($this->tvValue != '') ? $this->tvValue : '[]';
         $tvvalue = $this->maskTags($tvvalue);
         $tvlanguage = json_encode($this->language);
-        $tvpath = '../' . MTV_PATH;
+        $tvpath = '../' . $this->options['tvUrl'];
 
         // generate tv elements
         $tvcss = '';
@@ -630,7 +636,7 @@ class multiTV
         $placeholder['tvpath'] = $tvpath;
         $placeholder['tvkcfinder'] = $this->cmsinfo['kcfinder'];
         $placeholder['tvthumbs'] = $this->cmsinfo['thumbsdir'];
-        $placeholder['tvmtvpath'] = MTV_PATH;
+        $placeholder['tvmtvpath'] = $this->options['tvUrl'];
 
         $tvtemplate = $this->renderTemplate('multitv', $placeholder);
 
@@ -639,7 +645,7 @@ class multiTV
 
     function generateModuleTab($config)
     {
-        $modulepath = '../' . MTV_PATH;
+        $modulepath = '../' . $this->options['tvUrl'];
 
         $tableClasses = array();
         $fieldcolumns = array();
@@ -699,7 +705,7 @@ class multiTV
                         $tvElements[] = '<div class="tvimage" id="' . $config['table'] . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                         break;
                     default:
-                        $tvElements[] = '<label for="' . $config['table'] . $fieldname . '">' . $caption . '</label>' .
+                        $tvElements[] = '<label for="' . $config['table'] . $fieldname . '_mtv">' . $caption . '</label>' .
                             $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . "\r\n";
                 }
             }
@@ -716,6 +722,7 @@ class multiTV
             $tabs[] = $this->renderTemplate($formTabTemplate, $tabplaceholder);
             $tabPages[] = $this->renderTemplate('editFormTabpage', $tabplaceholder);
         }
+
         $placeholder = array();
         $placeholder['tabs'] = implode("\r\n", $tabs);
         $placeholder['tabpages'] = implode("\r\n", $tabPages);
@@ -768,11 +775,38 @@ class multiTV
         $placeholder['tvid'] = $config['table'];
         $placeholder['tvkcfinder'] = $this->cmsinfo['kcfinder'];
         $placeholder['tvthumbs'] = $this->cmsinfo['thumbsdir'];
-        $placeholder['tvmtvpath'] = MTV_PATH;
+        $placeholder['tvmtvpath'] = $this->options['tvUrl'];
 
         $tvtemplate = $this->renderTemplate('multitv', $placeholder);
 
         return $tvtemplate;
+    }
+
+    function generateButtons($buttons, $group, $config)
+    {
+        $output = array();
+        foreach ($buttons as $name => $options) {
+            $icon = ($options['icon']) ? '<img alt="' . $options['caption'] . '" src="../' . $this->options['tvUrl'] . 'css/images/' . $options['icon'] . '">' : '';
+            $output[] = '<li><a id="' . ucfirst($group) . ucfirst($name) . '" href="#">' . $icon . ' ' . $options['caption'] . '</a></li>' .
+                '<script type="text/javascript">var ' . $name . 'Config = "' . $config . '"</script>' .
+                '<script type="text/javascript">var ' . $name . 'Group = "' . $group . '"</script>' .
+                '<script type="text/javascript">var ' . $name . 'Button = "' . $name . '"</script>' .
+                '<script type="text/javascript">var mtvpath = "' . $this->options['tvUrl'] . '"</script>' .
+                '<script type="text/javascript" src="../' . $this->options['tvUrl'] . 'buttons/' . $group . '/' . $name . '.button.js"></script>';
+        }
+        return implode("\n", $output);
+    }
+
+    function generateButtonGroups($tab, $buttons)
+    {
+        foreach ($buttons as $name => $options) {
+            $this->modulebuttons[$tab][$options['position']][$name] = '<ul class="actionButtons">' . $this->generateButtons($options['buttons'], $name, $tab) . '</ul>';
+        }
+    }
+
+    function displayButtonGroups($tab, $position)
+    {
+        return (isset($this->modulebuttons[$tab][$position])) ? '<div class="modulebuttons ' . $position . '">' . implode("\n", $this->modulebuttons[$tab][$position]) . '</div>' : '';
     }
 
     function GetTransaliasSettings()

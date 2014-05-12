@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    connector
- * @version     2.0 alpha 3
+ * @version     2.0 beta 1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  */
@@ -75,13 +75,17 @@ switch ($mode) {
         if ($modx->hasPermission('exec_module')) {
             if ($action && $config) {
                 $multiTV = new multiTV($modx, array(
-                    'type' => 'module'
+                    'type' => 'module',
+                    'tvUrl' => MTV_PATH
                 ));
                 // config exists?
                 $settings = $multiTV->loadSettings($config, $type, false);
                 if ($settings) {
                     $processors = (isset($settings['processors'])) ? $settings['processors'] : '';
                     $includeFile = $multiTV->includeFile($action, 'processor', '.inc.php', $processors);
+                    if (!$includeFile) {
+                        $includeFile = $multiTV->includeFile($action, 'processor', '.inc.php');
+                    }
                     // processor available?
                     if ($includeFile) {
                         include $includeFile;
@@ -116,7 +120,8 @@ switch ($mode) {
                     if ($tvSettings && $tvSettings['elements'] = '@INCLUDE' . MTV_PATH . 'multitv.customtv.php') {
                         $multiTV = new multiTV($modx, array(
                             'type' => 'tv',
-                            'tvDefinitions' => $tvSettings
+                            'tvDefinitions' => $tvSettings,
+                            'tvUrl' => MTV_PATH
                         ));
                         $includeFile = $multiTV->includeFile($action, 'processor');
                         // processor available?
