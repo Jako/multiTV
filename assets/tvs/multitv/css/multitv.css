@@ -58,20 +58,21 @@
 .multitv table.display th { border: 1px solid #fff; color: #fff; font-weight: bold; background-color: #88939e }
 .multitv table.display tr.even > td, .multitv table.display tr.odd > td { border: 1px solid #fff; border-top: none }
 .multitv table.display tr.even > td:first-child, .multitv table.display tr.odd > td:first-child, .multitv table.display tr > th:first-child { border-right: none }
-.multitv table.display td.handle { background-image: url('images/arrow_updown.png'); background-repeat: no-repeat; background-position: center center; text-indent: -999em; cursor: pointer }
+.multitv table.display td.handle { background: url('images/arrow_updown.png') no-repeat center center; text-indent: -999em; cursor: pointer }
 .multitv table.display th, .multitv table.display td { text-overflow: ellipsis; overflow:hidden }
 .multitv table.display tr.row_selected td { background-color: #ccc !important }
-.multitv table.display.hideHeader thead { font-size: 0px; color: transparent; background-color: transparent }
+.multitv table.display.hideHeader thead { font-size: 0; color: transparent; background-color: transparent }
 .multitv table.display.hideHeader thead th { padding: 0 18px 0 10px; border-bottom: none }
 
 .tveditform { width: 590px }
-.tveditform .formtabpage label { display: block; margin-top: 10px }
+.tveditform .formtabpage label { display: block; margin-top: 10px; clear: both }
 .tveditform .formtabpage .inlinelabel { display: inline-block }
 .tveditform .formtabpage .tvimage img { width: auto; height: 96px; float: right }
 .tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
+.tveditform .formtabpage select { height: 28px; width: 308px }
 .tveditform .formtabpage textarea { width: 306px }
 .tveditform .formtabpage input.DatePicker { width: 203px; padding: 3px 3px 3px 24px }
-.tveditform .formtabradio { display: inline-block; zoom: 1; color: #313131; font-weight: normal; font-size: 12px; cursor: pointer; margin: 3px 5px 3px 0px; padding: 0 }
+.tveditform .formtabradio { display: inline-block; zoom: 1; color: #313131; font-weight: normal; font-size: 12px; cursor: pointer; margin: 3px 5px 3px 0; padding: 0 }
 .tveditform .formtabradio input { display: inline-block; margin-right: 5px; position: relative; top: -1px }
 .tveditform .formtabradio a { text-decoration: none; color: #313131 }
 .tveditform .actionButtons { margin-bottom: 5px; min-height: 25px }
@@ -86,3 +87,12 @@
 .tvpasteform .radio { margin: 2px 5px 5px }
 .tvpasteform .buttons { text-align: right; margin: 0 auto 0 }
 .tvpasteform .buttons li { margin-right: 0; margin-left: 10px }
+
+.dynamic-tab-pane-control .tab-row .tab a { text-decoration: none }
+
+.tabpanel_content { position: relative }
+.tabpanel_bottom { padding-top: 10px; clear: both }
+.modulebuttons.topright { position: absolute; top: 0; right: 0; z-index: 10 }
+.modulebuttons.bottomleft { float: left }
+.modulebuttons.bottomright { float: right }
+.modulebuttons ul.actionButtons { min-height: 30px }

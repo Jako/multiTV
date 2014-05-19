@@ -1,5 +1,21 @@
 History
 ================================================================================
+- 2.0 rc 1 May 19, 2014
+    - CustomTV: updated documentation and moved to github pages
+
+- 2.0 beta 1 May 12, 2014
+    - CustomTV: create popup processor
+
+- 2.0 alpha 3 May 9, 2014
+    - CustomTV: custom processors in dbtable mode
+
+- 2.0 alpha 2 April 30, 2014
+    - CustomTV: dbtable mode
+
+- 2.0 alpha 1 April 8, 2014
+    - Module: new multiDB - Database Manager
+    - CustomTV/Module: JSON config files
+
 - 1.8.1 January 9, 2014
     - Snippet: `noResults` parameter
 
