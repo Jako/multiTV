@@ -65,7 +65,7 @@
 .multitv table.display.hideHeader thead th { padding: 0 18px 0 10px; border-bottom: none }
 
 .tveditform { width: 590px }
-.tveditform .formtabpage label { display: block; margin-top: 10px }
+.tveditform .formtabpage label { display: block; margin-top: 10px; clear: both }
 .tveditform .formtabpage .inlinelabel { display: inline-block }
 .tveditform .formtabpage .tvimage img { width: auto; height: 96px; float: right }
 .tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
