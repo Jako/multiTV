@@ -8,7 +8,7 @@
  * @version     2.0 beta 1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako
- * @internal    @properties &logDeletion=Log the delete event?;list;true,false;true
+ * @internal    @properties &configs=Load Configurations;text;event_log
  * @internal    @modx_category Content
  * @internal    @installset base, sample
  */
