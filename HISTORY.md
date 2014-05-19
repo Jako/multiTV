@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0 rc 1 May 19, 2014
+    - CustomTV: updated documentation and moved to github pages
+
 - 2.0 beta 1 May 12, 2014
     - CustomTV: create popup processor
 
