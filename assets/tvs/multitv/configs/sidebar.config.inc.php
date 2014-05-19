@@ -8,8 +8,8 @@ $settings['fields'] = array(
     )
 );
 $settings['templates'] = array(
-    'outerTpl' => '[+wrapper:trim=`,`+]',
-    'rowTpl' => '[+element+],'
+    'outerTpl' => '[+wrapper+]',
+    'rowTpl' => '[+element+]'
 );
 $settings['configuration'] = array(
     'enablePaste' => false,
