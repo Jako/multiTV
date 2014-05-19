@@ -1,0 +1,65 @@
+{
+    "display": "dbtable",
+    "table": "event_log",
+    "caption": "Event Log",
+    "fields": {
+        "eventid": {
+            "caption": "Event ID"
+        },
+        "createdon": {
+            "caption": "Created On"
+        },
+        "type": {
+            "caption": "Type"
+        },
+        "user": {
+            "caption": "User ID"
+        },
+        "usertype": {
+            "caption": "User Type"
+        },
+        "source": {
+            "caption": "Source"
+        },
+        "description": {
+            "caption": "Description",
+            "type": "textarea"
+        }
+    },
+    "columns": [
+        {
+            "fieldname": "eventid",
+            "width": "70"
+        },
+        {
+            "fieldname": "createdon",
+            "width": "100"
+        },
+        {
+            "fieldname": "type",
+            "width": "50"
+        },
+        {
+            "fieldname": "source",
+            "width": "150"
+        }
+    ],
+    "form": [
+        {
+            "caption": "Event",
+            "content": {
+                "eventid": {},
+                "createdon": {},
+                "type": {},
+                "user": {},
+                "usertype": {},
+                "source": {},
+                "description": {}
+            }
+        }
+    ],
+    "configuration": {
+        "radioTabs": 0,
+        "sorting": 1
+    }
+}

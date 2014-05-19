@@ -36,7 +36,7 @@ $language['dataTables.search'] = 'Szukaj:';
 $language['dataTables.zeroRecords'] = 'Brak pasujących wpisów';
 $language['dataTables.paginate.first'] = 'Początek';
 $language['dataTables.paginate.last'] = 'Koniec';
-$language['dataTables.paginate.next'] = 'Następne';
+$language['dataTables.paginate.next'] = 'Następny';
 $language['dataTables.paginate.previous'] = 'Poprzednie';
 $language['dataTables.aria.sortAscending'] = ': aktywuj, by posortować kolumnę rosnąco';
 $language['dataTables.aria.sortDescending'] = ': aktywuj, by posortować kolumnę malejąco';
@@ -52,4 +52,3 @@ $language['datepicker.dayNamesMin'] = '["N", "Pn", "Wt", "Śr", "Cz", "Pt", "So"
 $language['datepicker.dateFormat'] = 'dd.mm.yy';
 $language['datepicker.firstDay'] = '1';
 $language['datepicker.isRTL'] = 'false';
-?>

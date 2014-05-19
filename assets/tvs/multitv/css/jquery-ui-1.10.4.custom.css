@@ -684,10 +684,8 @@ button.ui-button::-moz-focus-inner {
 	background: none;
 	color: inherit;
 	padding: 0;
-	margin: .2em 0;
-	vertical-align: middle;
-	margin-left: .4em;
-	margin-right: 22px;
+    vertical-align: middle;
+    margin: .2em 22px .2em .4em;
 }
 .ui-spinner-button {
 	width: 16px;

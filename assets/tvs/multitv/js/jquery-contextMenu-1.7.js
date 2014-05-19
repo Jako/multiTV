@@ -99,7 +99,7 @@
       });
 
       return false;
-    }
+    };
 
     if (options.delegateEventTo) {
       return me.on(mouseEvent, options.delegateEventTo, mouseEventFunc)

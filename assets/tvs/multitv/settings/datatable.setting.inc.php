@@ -12,4 +12,3 @@ $settings['scripts'] = array(
 	'js/jquery-dataTables.rowReordering-1.0.0.js',
 	'js/jquery-contextMenu-1.7.js'
 );
-?>
