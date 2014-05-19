@@ -35,7 +35,8 @@
         },
         {
             "fieldname": "createdon",
-            "width": "100"
+            "width": "100",
+            "render": "[+createdon:ne=`0`:then=`[+createdon:date=`%d.%m.%Y`+]`+]"
         },
         {
             "fieldname": "type",
