@@ -12,4 +12,4 @@
  * @internal    @modx_category Content
  * @internal    @installset base, sample
  */
-include(MODX_BASE_PATH.'develop/multitv/assets/tvs/multitv/multitv.module.php');
+include(MODX_BASE_PATH.'assets/tvs/multitv/multitv.module.php');
