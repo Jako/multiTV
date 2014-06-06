@@ -574,6 +574,8 @@
                             sDom: '<"clear">lfrtip',
                             bProcessing: true,
                             bServerSide: true,
+                            iDisplayLength: 10,
+                            aLengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, this.options.language.all]],
                             sAjaxSource: '../' + _this.options.mtvpath + 'multitv.connector.php',
                             fnServerData: function (sSource, aoData, fnCallback, oSettings) {
                                 aoData.push(
@@ -602,12 +604,29 @@
                     }
 
                     if (!_this.options.fieldsettings['sorting']) {
-                        _this.fieldTable.rowReordering({
-                            fnAfterMove: function () {
-                                _this.saveMultiValue();
-                                _this.fieldTable.fnDraw();
-                            }
-                        });
+                        if (_this.options.mode != 'dbtable') {
+                            _this.fieldTable.rowReordering({
+                                fnAfterMove: function () {
+                                    _this.saveMultiValue();
+                                    _this.fieldTable.fnDraw();
+                                }
+                            });
+                        } else {
+                            _this.fieldTable.rowReordering({
+                                iIndexColumn: 2,
+                                sURL: '../' + _this.options.mtvpath + 'multitv.connector.php',
+                                sData: {
+                                    mode: 'dbtable',
+                                    action: 'sorttable',
+                                    config: _this.options.fieldsettings.fieldconfig,
+                                    configtype: _this.options.fieldsettings.fieldconfigtype,
+                                    mtvpath: _this.options.mtvpath
+                                },
+                                fnAfterMove: function () {
+                                    _this.fieldTable.fnDraw();
+                                }
+                            });
+                        }
                     }
 
                     // buttons above datatable

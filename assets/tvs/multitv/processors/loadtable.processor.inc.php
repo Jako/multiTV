@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    processor
- * @version     2.0 rc 1
+ * @version     2.0
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
@@ -26,7 +26,8 @@ $length = isset($_POST['iDisplayLength']) ? intval($_POST['iDisplayLength']) : 1
 $search = isset($_POST['sSearch']) ? $modx->db->escape($_POST['sSearch']) : '';
 $sortby = isset($_POST['iSortCol_0']) ? intval(intval($_POST['iSortCol_0'])) : 1;
 $sortdir = (isset($_POST['sSortDir_0']) && strtolower($_POST['sSortDir_0']) == 'asc') ? 'ASC' : 'DESC';
-$limit = $start . ',' . $length;
+
+$limit = ($length != -1) ? $start . ',' . $length : $start;
 
 $i = 1;
 foreach ($columnNames as $columnName) {
@@ -65,7 +66,7 @@ $i = 0;
 foreach ($displayRecords as $record) {
     $aaData[$i]['id'] = $record['id'];
     if (!$settings['configuration']['sorting']) {
-        $aaData[$i]['MTV_RowId'] = $i;
+        $aaData[$i]['DT_RowId'] = (string)$i;
     }
     if ($settings['configuration']['radioTabs']) {
         $aaData[$i]['fieldTab'] = isset($record['fieldTab']) ? $record['fieldTab'] : 0;

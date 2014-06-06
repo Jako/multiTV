@@ -14,6 +14,7 @@ $language['cancel'] = 'Cancel';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
+$language['all'] = 'All';
 $language['paginate.first'] = '&lsaquo; First';
 $language['paginate.prev'] = '&lt;';
 $language['paginate.next'] = '&gt;';

@@ -1,7 +1,7 @@
 .multitv { position: relative }
 
 .multitv .heading { padding-left: 20px; clear: left }
-.multitv .heading span { border: 1px solid transparent }
+.multitv .heading span { border: 1px solid transparent; box-sizing: border-box }
 
 .multitv .list { margin: 0; padding: 0; clear: left; position: relative }
 .multitv .list li.element { position: relative; padding: 4px 4px 4px 20px; margin-bottom: 4px; border: 1px solid #e3e3e3; background: url('images/arrow_updown.png') no-repeat left center; list-style: none }
@@ -22,9 +22,9 @@
 .multitv .list li.element table.url { width: 300px; display: inline-block }
 .multitv .list li.element table.url input[type="text"] { width: 221px !important }
 
-.multitv .list li.element .inline, .multitv .heading .inline { display: block; float: left; width: 300px; padding: 3px; margin: 0 5px 0 0 }
+.multitv .list li.element .inline, .multitv .heading .inline { display: block; float: left; width: 300px; padding: 3px 6px 3px 0; margin: 0 3px 0 0 }
 .multitv .list li.element .inline[type="checkbox"] { margin-top: 7px }
-.multitv .list li.element .inline[type="text"] { margin-bottom: 0 }
+.multitv .list li.element .inline[type="text"] { margin-bottom: 0; box-sizing: border-box }
 .multitv .list li.element .inlinelabel { width: auto }
 
 .multitv .list li.element .DatePicker { padding: 3px 3px 3px 24px }
@@ -80,10 +80,10 @@
 #ui-datepicker-div { z-index: 9999999 !important;}
 
 .tvpasteform { width: 450px }
-.tvpasteform .pastearea, .tvpasteform .buttons { width: 438px } 
+.tvpasteform .pastearea, .tvpasteform .buttons { width: 438px }
 .tvpasteform .legend { float: left; margin-left: 5px }
 .tvpasteform .pastearea { width: 418px; height: 215px; overflow: hidden; border: 1px solid #e3e3e3; padding: 10px; margin: 0 auto 10px; clear: left }
-.tvpasteform .radios { float: right; margin: 0 5px 5px 0 } 
+.tvpasteform .radios { float: right; margin: 0 5px 5px 0 }
 .tvpasteform .radio { margin: 2px 5px 5px }
 .tvpasteform .buttons { text-align: right; margin: 0 auto 0 }
 .tvpasteform .buttons li { margin-right: 0; margin-left: 10px }

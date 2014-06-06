@@ -626,7 +626,7 @@ class multiTV
         $placeholder['cssfiles'] = implode("\r\n", $cssfiles);
         $placeholder['scriptfiles'] = implode("\r\n", $scriptfiles);
         $placeholder['tvcss'] = '<style type="text/css">' . "\r\n" . $tvcss . "\r\n" . '</style>';
-        $placeholder['tvheading'] = $tvheading;
+        $placeholder['tvheading'] = implode("\n", $tvheading);
         $placeholder['tvmode'] = $this->display;
         $placeholder['tvfields'] = $tvfields;
         $placeholder['tvlanguage'] = $tvlanguage;

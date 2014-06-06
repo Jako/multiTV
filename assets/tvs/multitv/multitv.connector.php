@@ -3,7 +3,7 @@
  * multiTV
  *
  * @category    connector
- * @version     2.0 rc 1
+ * @version     2.0
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  */
