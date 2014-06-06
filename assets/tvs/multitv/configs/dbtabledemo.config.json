@@ -7,13 +7,16 @@
             "caption": "Event ID"
         },
         "createdon": {
-            "caption": "Created On"
+            "caption": "Created On",
+            "type": "unixtime"
         },
         "type": {
             "caption": "Type"
         },
         "user": {
-            "caption": "User ID"
+            "caption": "User",
+            "type": "dropdown",
+            "elements": "@SELECT 'Unknown' AS username, 0 as id FROM [+PREFIX+]web_users LIMIT 1 UNION (SELECT username, id FROM [+PREFIX+]web_users ORDER BY username ASC)"
         },
         "usertype": {
             "caption": "User Type"
@@ -33,7 +36,8 @@
         },
         {
             "fieldname": "createdon",
-            "width": "100"
+            "width": "100",
+            "render": "[+createdon:ne=`0`:then=`[+createdon:date=`%d.%m.%Y`+]`+]"
         },
         {
             "fieldname": "type",

@@ -250,6 +250,7 @@ class multiTV
         $this->configuration['hideHeader'] = isset($settings['configuration']['hideHeader']) ? $settings['configuration']['hideHeader'] : false;
         $this->configuration['radioTabs'] = isset($settings['configuration']['radioTabs']) ? $settings['configuration']['radioTabs'] : false;
         $this->configuration['sorting'] = isset($settings['configuration']['sorting']) ? $settings['configuration']['sorting'] : false;
+        $this->configuration['sortindex'] = isset($settings['configuration']['sortindex']) ? $settings['configuration']['sortindex'] : '';
     }
 
     function prepareValue($value)
@@ -481,7 +482,7 @@ class multiTV
                         'bVisible' => false
                     );
                 }
-                if (!$this->configuration['sorting']) {
+                if (!$this->configuration['sorting'] && !$this->display == 'dbtable' && $this->configuration['sortindex']) {
                     $fieldcolumns[] = array(
                         'mData' => 'MTV_RowId',
                         'sTitle' => '',
@@ -565,7 +566,8 @@ class multiTV
                     'csvseparator' => $this->configuration['csvseparator'],
                     'tableClasses' => implode(' ', $tableClasses),
                     'radioTabs' => $this->configuration['radioTabs'],
-                    'sorting' => $this->configuration['sorting']
+                    'sorting' => $this->configuration['sorting'],
+                    'sortindex' => $this->configuration['sortindex']
                 ));
                 break;
         }
@@ -579,7 +581,7 @@ class multiTV
         $settings = $this->loadSettings('default' . $this->cmsinfo['clipper'], 'setting');
         $files['scripts'] = $settings['scripts'];
         $files['css'] = $settings['css'];
-        if ($this->configuration['enablePaste']) {
+        if ($this->configuration['enablePaste'] && $this->display != 'dbtable') {
             $settings = $this->loadSettings('paste' . $this->cmsinfo['clipper'], 'setting');
             $files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
             $files['css'] = array_merge($files['css'], $settings['css']);
@@ -587,7 +589,7 @@ class multiTV
         } else {
             $placeholder['paste'] = '';
         }
-        if ($this->configuration['enableClear'] && $this->display != 'datatable') {
+        if ($this->configuration['enableClear'] && $this->display != 'datatable' && $this->display != 'dbtable') {
             $placeholder['clear'] = $this->loadTemplate('clear');
         } else {
             $placeholder['clear'] = '';
@@ -655,7 +657,7 @@ class multiTV
             'bSortable' => false,
             'bVisible' => false
         );
-        if (!$this->configuration['sorting']) {
+        if (!$this->configuration['sorting'] && $this->configuration['sortindex'] != '') {
             $fieldcolumns[] = array(
                 'mData' => 'MTV_RowId',
                 'sTitle' => '',
@@ -736,7 +738,8 @@ class multiTV
             'fieldrte' => $this->fieldsrte,
             'tableClasses' => implode(' ', $tableClasses),
             'radioTabs' => $this->configuration['radioTabs'],
-            'sorting' => $this->configuration['sorting']
+            'sorting' => $this->configuration['sorting'],
+            'sortindex' => $this->configuration['sortindex']
         ));
 
         // populate tv template
@@ -823,10 +826,10 @@ class multiTV
                     $row = $this->modx->db->getRow($res);
                     $properties = $this->modx->parseProperties($row['properties']);
                 } else {
-                    $properties = NULL;
+                    $properties = null;
                 }
             } else {
-                $properties = NULL;
+                $properties = null;
             }
             $_SESSION['TransAliasSettings'] = $properties;
         } else {

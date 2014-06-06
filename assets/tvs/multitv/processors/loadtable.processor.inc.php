@@ -10,7 +10,7 @@
  * Load table processor
  */
 $columnNames = array();
-if (!$settings['configuration']['sorting']) {
+if (!$settings['configuration']['sorting'] && $settings['configuration']['sortindex']) {
     $columnNames[] = 'MTV_RowId';
 }
 if ($settings['configuration']['radioTabs']) {
@@ -30,12 +30,17 @@ $sortdir = (isset($_POST['sSortDir_0']) && strtolower($_POST['sSortDir_0']) == '
 $limit = ($length != -1) ? $start . ',' . $length : $start;
 
 $i = 1;
-foreach ($columnNames as $columnName) {
-    if ($i == $sortby) {
-        $orderby = $columnName . ' ' . $sortdir;
-        break;
+$orderby = '';
+if ($settings['configuration']['sorting']) {
+    foreach ($columnNames as $columnName) {
+        if ($i == $sortby) {
+            $orderby = $columnName . ' ' . $sortdir;
+            break;
+        }
+        $i++;
     }
-    $i++;
+} elseif ($settings['configuration']['sortindex']) {
+    $orderby = $settings['configuration']['sortindex'] . ' ASC';
 }
 
 $res = $modx->db->select('*', $modx->getFullTableName($settings['table']), $where);
@@ -65,7 +70,7 @@ $aaData = array();
 $i = 0;
 foreach ($displayRecords as $record) {
     $aaData[$i]['id'] = $record['id'];
-    if (!$settings['configuration']['sorting']) {
+    if (!$settings['configuration']['sorting'] && $settings['configuration']['sortindex']) {
         $aaData[$i]['DT_RowId'] = (string)$i;
     }
     if ($settings['configuration']['radioTabs']) {

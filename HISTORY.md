@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0 June 6, 2014
+    - Module: new `sortindex` option (enables draggable sorting in the module)
+
 - 2.0 rc 1 May 19, 2014
     - CustomTV: updated documentation and moved to github pages
 
