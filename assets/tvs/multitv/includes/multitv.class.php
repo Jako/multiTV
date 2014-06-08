@@ -410,7 +410,7 @@ class multiTV
                             break;
                         case 'date':
                             $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
-                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 48) . 'px }';
+                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 26) . 'px }';
                             break;
                         default:
                             $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
