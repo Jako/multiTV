@@ -575,7 +575,10 @@
                             bProcessing: true,
                             bServerSide: true,
                             iDisplayLength: 10,
-                            aLengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, this.options.language.all]],
+                            aLengthMenu: [
+                                [10, 25, 50, 100, -1],
+                                [10, 25, 50, 100, this.options.language.all]
+                            ],
                             sAjaxSource: '../' + _this.options.mtvpath + 'multitv.connector.php',
                             fnServerData: function (sSource, aoData, fnCallback, oSettings) {
                                 aoData.push(
@@ -603,7 +606,7 @@
                         }).addClass(_this.tableClasses);
                     }
 
-                    if (!_this.options.fieldsettings['sorting'] && _this.options.fieldsettings['sortindex']) {
+                    if (!_this.options.fieldsettings['sorting'] && _this.options.fieldsettings['sortindex'] == '') {
                         if (_this.options.mode != 'dbtable') {
                             _this.fieldTable.rowReordering({
                                 fnAfterMove: function () {
@@ -862,7 +865,9 @@
                     });
                 }
             } else {
-                $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
+                if (_this.options.fieldsettings.radioTabs) {
+                    $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
+                }
                 if (_this.options.mode == 'dbtable') {
                     $.ajax({
                         dataType: 'json',

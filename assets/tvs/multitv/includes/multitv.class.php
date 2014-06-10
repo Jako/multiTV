@@ -482,7 +482,7 @@ class multiTV
                         'bVisible' => false
                     );
                 }
-                if (!$this->configuration['sorting'] && !$this->display == 'dbtable' && $this->configuration['sortindex']) {
+                if (!$this->configuration['sorting'] && $this->display == 'datatable') {
                     $fieldcolumns[] = array(
                         'mData' => 'MTV_RowId',
                         'sTitle' => '',
@@ -628,11 +628,11 @@ class multiTV
         $placeholder['cssfiles'] = implode("\r\n", $cssfiles);
         $placeholder['scriptfiles'] = implode("\r\n", $scriptfiles);
         $placeholder['tvcss'] = '<style type="text/css">' . "\r\n" . $tvcss . "\r\n" . '</style>';
-        $placeholder['tvheading'] = implode("\n", $tvheading);
+        $placeholder['tvheading'] = is_array($tvheading) ? implode("\n", $tvheading) : '';
         $placeholder['tvmode'] = $this->display;
         $placeholder['tvfields'] = $tvfields;
         $placeholder['tvlanguage'] = $tvlanguage;
-        $placeholder['tvelement'] = implode("\n", $tvelement);
+        $placeholder['tvheading'] = is_array($tvelement) ? implode("\n", $tvelement) : '';
         $placeholder['tvvalue'] = $tvvalue;
         $placeholder['tvid'] = $tvid;
         $placeholder['tvpath'] = $tvpath;
