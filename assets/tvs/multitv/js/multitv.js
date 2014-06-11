@@ -606,7 +606,7 @@
                         }).addClass(_this.tableClasses);
                     }
 
-                    if (!_this.options.fieldsettings['sorting'] && _this.options.fieldsettings['sortindex'] == '') {
+                    if (!_this.options.fieldsettings['sorting'] && _this.options.fieldsettings['sortindex'] != '') {
                         if (_this.options.mode != 'dbtable') {
                             _this.fieldTable.rowReordering({
                                 fnAfterMove: function () {

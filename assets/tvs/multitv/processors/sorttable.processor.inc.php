@@ -27,7 +27,6 @@ if ($id !== false && $fromPosition !== false && $toPosition !== false && $direct
     $res = $modx->db->select($settings['configuration']['sortindex'], $modx->getFullTableName($settings['table']), '', $settings['configuration']['sortindex'], ($toPosition - 1) . ',1');
     $endindex = $modx->db->getValue($res);
 
-    //die($startindex . ' ' . $endindex. ' '. $startid);
     if ($direction == 'forward') {
         for ($i = $startindex; $i < $endindex; $i++) {
             $modx->db->update(array($settings['configuration']['sortindex'] => $i), $modx->getFullTableName($settings['table']), $settings['configuration']['sortindex'] . '=' . ($i + 1));
