@@ -632,7 +632,7 @@ class multiTV
         $placeholder['tvmode'] = $this->display;
         $placeholder['tvfields'] = $tvfields;
         $placeholder['tvlanguage'] = $tvlanguage;
-        $placeholder['tvheading'] = is_array($tvelement) ? implode("\n", $tvelement) : '';
+        $placeholder['tvelement'] = is_array($tvelement) ? implode("\n", $tvelement) : '';
         $placeholder['tvvalue'] = $tvvalue;
         $placeholder['tvid'] = $tvid;
         $placeholder['tvpath'] = $tvpath;
