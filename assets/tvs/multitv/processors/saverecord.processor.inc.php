@@ -28,7 +28,7 @@ if ($rowId !== false && $value) {
     $saveValue = array();
     foreach ($formfields as $fieldname => $field) {
         if (isset($value[$fieldname])) {
-            $saveValue[$fieldname] = $value[$fieldname];
+            $saveValue[$fieldname] = $modx->db->escape($value[$fieldname]);
             if ($value[$fieldname] == '' && $field['default'] != '') {
                 $field['default'] = str_replace(array('{i}', '{time}'), array($rowId, $modx->toDateFormat(time())), $field['default']);
                 $saveValue[$fieldname] = $field['default'];
