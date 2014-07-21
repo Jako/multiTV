@@ -70,6 +70,12 @@ class multiTV
                 $this->cmsinfo['thumbsdir'] = 'thumbs/';
                 $this->cmsinfo['seturl'] = version_compare($version['version'], '1.2.0', '>') ? '' : 'old';
                 break;
+			case 'BolmerCMS':
+                $this->cmsinfo['clipper'] = '';
+                $this->cmsinfo['kcfinder'] = 'true';
+                $this->cmsinfo['thumbsdir'] = ($this->modx->config['thumbsDir']) ? $this->modx->config['thumbsDir'] . '/' : '';
+                $this->cmsinfo['seturl'] = '';
+                break;
         }
 
         switch ($options['type']) {
