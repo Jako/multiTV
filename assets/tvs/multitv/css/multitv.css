@@ -1,7 +1,7 @@
 .multitv { position: relative }
 
 .multitv .heading { padding-left: 20px; clear: left }
-.multitv .heading span { border: 1px solid transparent }
+.multitv .heading span { border: 1px solid transparent; box-sizing: border-box }
 
 .multitv .list { margin: 0; padding: 0; clear: left; position: relative }
 .multitv .list li.element { position: relative; padding: 4px 4px 4px 20px; margin-bottom: 4px; border: 1px solid #e3e3e3; background: url('images/arrow_updown.png') no-repeat left center; list-style: none }
@@ -13,18 +13,18 @@
 
 .multitv .list li.element.single { padding: 10px; background: none; list-style: none }
 
-.multitv .list li.element label { display: inline-block; width: 150px }
+.multitv .list li.element label { display: inline-block; width: 150px; vertical-align: top }
 .multitv .list li.element select.inline { margin-right: 9px }
-.multitv .list li.element input[type="text"] { margin: 0 3px 5px 0 }
+.multitv .list li.element input[type="text"], .multitv .list li.element input[type="password"], .multitv .list li.element input[type="number"] { margin: 0 3px 5px 0 }
 .multitv .list li.element a.copy, .multitv .list li.element a.remove { position: absolute; right: 22px; top: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px; padding: 0 }
 .multitv .list li.element a.remove { right: 4px; background-image: url('images/delete.png') }
 
 .multitv .list li.element table.url { width: 300px; display: inline-block }
 .multitv .list li.element table.url input[type="text"] { width: 221px !important }
 
-.multitv .list li.element .inline, .multitv .heading .inline { display: block; float: left; width: 300px; padding: 3px; margin: 0 5px 0 0 }
+.multitv .list li.element .inline, .multitv .heading .inline { display: block; float: left; width: 300px; padding: 2px 6px 3px 3px; margin: 0 3px 0 0 }
 .multitv .list li.element .inline[type="checkbox"] { margin-top: 7px }
-.multitv .list li.element .inline[type="text"] { margin-bottom: 0 }
+.multitv .list li.element .inline[type="text"] { margin-bottom: 0; box-sizing: border-box }
 .multitv .list li.element .inlinelabel { width: auto }
 
 .multitv .list li.element .DatePicker { padding: 3px 3px 3px 24px }
@@ -43,6 +43,9 @@
 
 .multitv .dataTables_wrapper a { text-decoration: none }
 .multitv .dataTables_wrapper .dataTables_filter input { width: auto !important }
+.multitv .dataTables_wrapper .dataTables_length select { width: auto !important }
+.multitv .dataTables_wrapper .dataTables_length, .multitv .dataTables_wrapper .dataTables_filter { margin-bottom: 5px }
+.multitv .dataTables_wrapper .dataTables_filter input { margin-right: 0 }
 .multitv .dataTables_wrapper .actionButtons { margin-bottom: 9px }
 .multitv .dataTables_wrapper .actionButtons a.disabled { padding: 4px 6px; border: 1px solid #c7ced2 }
 .multitv table.display { width: 100%; background-color: #fff; border: 1px solid silver; border-collapse: separate; border-spacing: 0; table-layout: fixed }
@@ -58,20 +61,21 @@
 .multitv table.display th { border: 1px solid #fff; color: #fff; font-weight: bold; background-color: #88939e }
 .multitv table.display tr.even > td, .multitv table.display tr.odd > td { border: 1px solid #fff; border-top: none }
 .multitv table.display tr.even > td:first-child, .multitv table.display tr.odd > td:first-child, .multitv table.display tr > th:first-child { border-right: none }
-.multitv table.display td.handle { background-image: url('images/arrow_updown.png'); background-repeat: no-repeat; background-position: center center; text-indent: -999em; cursor: pointer }
+.multitv table.display td.handle { background: url('images/arrow_updown.png') no-repeat center center; text-indent: -999em; cursor: pointer }
 .multitv table.display th, .multitv table.display td { text-overflow: ellipsis; overflow:hidden }
 .multitv table.display tr.row_selected td { background-color: #ccc !important }
-.multitv table.display.hideHeader thead { font-size: 0px; color: transparent; background-color: transparent }
+.multitv table.display.hideHeader thead { font-size: 0; color: transparent; background-color: transparent }
 .multitv table.display.hideHeader thead th { padding: 0 18px 0 10px; border-bottom: none }
 
 .tveditform { width: 590px }
-.tveditform .formtabpage label { display: block; margin-top: 10px }
+.tveditform .formtabpage label { display: block; margin-top: 10px; clear: both }
 .tveditform .formtabpage .inlinelabel { display: inline-block }
 .tveditform .formtabpage .tvimage img { width: auto; height: 96px; float: right }
 .tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
+.tveditform .formtabpage select { height: 28px; width: 308px }
 .tveditform .formtabpage textarea { width: 306px }
 .tveditform .formtabpage input.DatePicker { width: 203px; padding: 3px 3px 3px 24px }
-.tveditform .formtabradio { display: inline-block; zoom: 1; color: #313131; font-weight: normal; font-size: 12px; cursor: pointer; margin: 3px 5px 3px 0px; padding: 0 }
+.tveditform .formtabradio { display: inline-block; zoom: 1; color: #313131; font-weight: normal; font-size: 12px; cursor: pointer; margin: 3px 5px 3px 0; padding: 0 }
 .tveditform .formtabradio input { display: inline-block; margin-right: 5px; position: relative; top: -1px }
 .tveditform .formtabradio a { text-decoration: none; color: #313131 }
 .tveditform .actionButtons { margin-bottom: 5px; min-height: 25px }
@@ -79,10 +83,19 @@
 #ui-datepicker-div { z-index: 9999999 !important;}
 
 .tvpasteform { width: 450px }
-.tvpasteform .pastearea, .tvpasteform .buttons { width: 438px } 
+.tvpasteform .pastearea, .tvpasteform .buttons { width: 438px }
 .tvpasteform .legend { float: left; margin-left: 5px }
 .tvpasteform .pastearea { width: 418px; height: 215px; overflow: hidden; border: 1px solid #e3e3e3; padding: 10px; margin: 0 auto 10px; clear: left }
-.tvpasteform .radios { float: right; margin: 0 5px 5px 0 } 
+.tvpasteform .radios { float: right; margin: 0 5px 5px 0 }
 .tvpasteform .radio { margin: 2px 5px 5px }
 .tvpasteform .buttons { text-align: right; margin: 0 auto 0 }
 .tvpasteform .buttons li { margin-right: 0; margin-left: 10px }
+
+.dynamic-tab-pane-control .tab-row .tab a { text-decoration: none }
+
+.tabpanel_content { position: relative }
+.tabpanel_bottom { padding-top: 10px; clear: both }
+.modulebuttons.topright { position: absolute; top: 0; right: 0; z-index: 10 }
+.modulebuttons.bottomleft { float: left }
+.modulebuttons.bottomright { float: right }
+.modulebuttons ul.actionButtons { min-height: 30px }

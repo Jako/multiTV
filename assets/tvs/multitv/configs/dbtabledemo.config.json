@@ -1,0 +1,69 @@
+{
+    "display": "dbtable",
+    "table": "event_log",
+    "caption": "Event Log",
+    "fields": {
+        "eventid": {
+            "caption": "Event ID"
+        },
+        "createdon": {
+            "caption": "Created On",
+            "type": "unixtime"
+        },
+        "type": {
+            "caption": "Type"
+        },
+        "user": {
+            "caption": "User",
+            "type": "dropdown",
+            "elements": "@SELECT 'Unknown' AS username, 0 as id FROM [+PREFIX+]web_users LIMIT 1 UNION (SELECT username, id FROM [+PREFIX+]web_users ORDER BY username ASC)"
+        },
+        "usertype": {
+            "caption": "User Type"
+        },
+        "source": {
+            "caption": "Source"
+        },
+        "description": {
+            "caption": "Description",
+            "type": "textarea"
+        }
+    },
+    "columns": [
+        {
+            "fieldname": "eventid",
+            "width": "70"
+        },
+        {
+            "fieldname": "createdon",
+            "width": "100",
+            "render": "[+createdon:ne=`0`:then=`[+createdon:date=`%d.%m.%Y`+]`+]"
+        },
+        {
+            "fieldname": "type",
+            "width": "50"
+        },
+        {
+            "fieldname": "source",
+            "width": "150"
+        }
+    ],
+    "form": [
+        {
+            "caption": "Event",
+            "content": {
+                "eventid": {},
+                "createdon": {},
+                "type": {},
+                "user": {},
+                "usertype": {},
+                "source": {},
+                "description": {}
+            }
+        }
+    ],
+    "configuration": {
+        "radioTabs": 0,
+        "sorting": 1
+    }
+}

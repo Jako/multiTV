@@ -14,12 +14,14 @@ $language['cancel'] = 'Annuleer';
 $language['word'] = 'Word/HTML';
 $language['google'] = 'Google Docs';
 $language['csv'] = 'CSV';
+$language['all'] = 'Alle';
 $language['paginate.first'] = '&lsaquo; Eerste';
 $language['paginate.prev'] = '&lt;';
 $language['paginate.next'] = '&gt;';
 $language['paginate.last'] = 'Laaste &rsaquo;';
 $language['connector.illegal'] = 'Foutieve parameter!';
-$language['connector.nodoc'] = 'Document bestaat niet! Sla een nieuw document eerst op voor het toevoegen van een regel!';
+$language['connector.nodoc'] = 'Document bestaat niet! Sla eerst een nieuw document op voor het toevoegen van een nieuwe regel!';
+$language['connector.noconfig'] = 'Tabel bestaat niet!';
 $language['connector.rights'] = 'Geen rechten voor deze actie!';
 $language['connector.nomultitv'] = 'multiTV bestaat niet!';
 $language['connector.noprocessor'] = 'Processor bestaat niet!';
@@ -52,4 +54,9 @@ $language['datepicker.dayNamesMin'] = '["zo", "ma", "di", "wo", "do", "vr", "za"
 $language['datepicker.dateFormat'] = 'dd-mm-yy';
 $language['datepicker.firstDay'] = '1';
 $language['datepicker.isRTL'] = 'false';
-?>
+
+$language['modulename'] = 'Database Manager';
+$language['reload'] = 'Herlaad';
+$language['close'] = 'Sluit';
+$language['close_button'] = 'Sluit [+lang.modulename+]';
+$language['config'] = 'Configuratie';
