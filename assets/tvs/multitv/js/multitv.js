@@ -606,7 +606,7 @@
                         }).addClass(_this.tableClasses);
                     }
 
-                    if (!_this.options.fieldsettings['sorting'] && _this.options.fieldsettings['sortindex'] != '') {
+                    if (!_this.options.fieldsettings['sorting']) {
                         if (_this.options.mode != 'dbtable') {
                             _this.fieldTable.rowReordering({
                                 fnAfterMove: function () {
@@ -615,20 +615,22 @@
                                 }
                             });
                         } else {
-                            _this.fieldTable.rowReordering({
-                                iIndexColumn: 2,
-                                sURL: '../' + _this.options.mtvpath + 'multitv.connector.php',
-                                sData: {
-                                    mode: 'dbtable',
-                                    action: 'sorttable',
-                                    config: _this.options.fieldsettings.fieldconfig,
-                                    configtype: _this.options.fieldsettings.fieldconfigtype,
-                                    mtvpath: _this.options.mtvpath
-                                },
-                                fnAfterMove: function () {
-                                    _this.fieldTable.fnDraw();
-                                }
-                            });
+                            if (_this.options.fieldsettings['sortindex'] != '') {
+                                _this.fieldTable.rowReordering({
+                                    iIndexColumn: 2,
+                                    sURL: '../' + _this.options.mtvpath + 'multitv.connector.php',
+                                    sData: {
+                                        mode: 'dbtable',
+                                        action: 'sorttable',
+                                        config: _this.options.fieldsettings.fieldconfig,
+                                        configtype: _this.options.fieldsettings.fieldconfigtype,
+                                        mtvpath: _this.options.mtvpath
+                                    },
+                                    fnAfterMove: function () {
+                                        _this.fieldTable.fnDraw();
+                                    }
+                                });
+                            }
                         }
                     }
 
