@@ -410,7 +410,8 @@
                     break;
                 case 'csv':
                     clean = _this.fieldPasteArea.text();
-                    clean = clean.split('\n');
+                    //clean = clean.split('\n');
+                    clean = clean.replace(/""/g,"\"\n\"").split('\n');
                     $.each(clean, function (index, value) {
                         // CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
                         for (var tableData = value.split(_this.options.fieldsettings['csvseparator']), x = tableData.length - 1, tl; x >= 0; x--) {
