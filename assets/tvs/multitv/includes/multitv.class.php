@@ -70,7 +70,7 @@ class multiTV
                 $this->cmsinfo['thumbsdir'] = 'thumbs/';
                 $this->cmsinfo['seturl'] = version_compare($version['version'], '1.2.0', '>') ? '' : 'old';
                 break;
-			case 'BolmerCMS':
+            case 'BolmerCMS':
                 $this->cmsinfo['clipper'] = '';
                 $this->cmsinfo['kcfinder'] = 'true';
                 $this->cmsinfo['thumbsdir'] = ($this->modx->config['thumbsDir']) ? $this->modx->config['thumbsDir'] . '/' : '';
@@ -402,12 +402,12 @@ class multiTV
                 $tvheading = array('<div id="[+tvid+]heading" class="heading">');
                 $tvelement = array('<li class="element inline' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
-                    $tvheading[] = '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>';
+                    $tvheading[] = '<span class="inline mtv_' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>';
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     if ($this->fields[$fieldname]['width']) {
-                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
+                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ', .multitv #[+tvid+]heading .inline.mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
                     }
                     switch ($type) {
                         case 'thumb':
@@ -415,11 +415,11 @@ class multiTV
                             $hasthumb = ' hasthumb';
                             break;
                         case 'date':
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
-                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 26) . 'px }';
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
+                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 26) . 'px }';
                             break;
                         default:
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
                     }
                 }
                 $tvheading[] = '</div>';
@@ -437,7 +437,7 @@ class multiTV
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     if ($this->fields[$fieldname]['width']) {
-                        $tvcss .= '.multitv #[+tvid+]list li.element .' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px !important }' . "\r\n";
+                        $tvcss .= '.multitv #[+tvid+]list li.element .mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px !important }' . "\r\n";
                     }
                     switch ($type) {
                         case 'thumb':
@@ -446,7 +446,7 @@ class multiTV
                             break;
                         default:
                             $tvelement[] = '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />';
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . '<br />';
                     }
                 }
                 $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>';
@@ -469,7 +469,7 @@ class multiTV
                             break;
                         default:
                             $tvelement[] = '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . '<br />';
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . '<br />';
                     }
                 }
                 $tvelement[] = '<li class="element single' . $hasthumb . '"><div>';
@@ -539,7 +539,7 @@ class multiTV
                                 break;
                             default:
                                 $tvElements[] = '<label for="' . $tvid . $fieldname . '">' . $caption . '</label>' .
-                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . "\r\n";
+                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_'.$fieldname, $default) . "\r\n";
                         }
                     }
 
@@ -714,7 +714,7 @@ class multiTV
                         break;
                     default:
                         $tvElements[] = '<label for="' . $config['table'] . $fieldname . '_mtv">' . $caption . '</label>' .
-                            $this->renderMultiTVFormElement($type, $fieldname, $elements, $fieldname, $default) . "\r\n";
+                            $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_'.$fieldname, $default) . "\r\n";
                 }
             }
 
