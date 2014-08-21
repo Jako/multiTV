@@ -1,5 +1,9 @@
 History
 ================================================================================
+- 2.0.1 August 21, 2014
+    - CustomTV/Module: CSS classes changed
+    - CustomTV/Module: Support for BolmerCMS
+
 - 2.0 June 6, 2014
     - Module: new `sortindex` option (enables draggable sorting in the module)
 

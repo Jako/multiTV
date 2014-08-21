@@ -5,7 +5,7 @@
  * Custom Template Variabe containing a sortable multi item list or a datatable
  *
  * @category    snippet, tv
- * @version     2.0
+ * @version     2.0.1
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako
  * @internal    @modx_category Content

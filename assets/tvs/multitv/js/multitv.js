@@ -171,7 +171,7 @@
                 $.each(_this.fieldNames, function () {
                     var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', multiElement);
                     fieldValues[this] = fieldInput.getValue().replace('&quot;', '"');
-                    if (fieldInput.hasClass('image')) {
+                    if (fieldInput.hasClass('mtvImage')) {
                         _this.setThumbnail(fieldValues[this], fieldInput.attr('name'), multiElement);
                     }
                     if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
@@ -276,6 +276,7 @@
                                 $(this).val('');
                         }
                     });
+                    $('.mtvThumb', $(this).parent()).html('');
                 }
             });
             // change field
@@ -314,7 +315,7 @@
                             var fieldName = (typeof key === 'number') ? _this.fieldNames[key] : key;
                             var fieldInput = $('[name^="' + _this.tvid + fieldName + '_mtv"][type!="hidden"]', _this.fieldListElement);
                             fieldInput.setValue(values[key]);
-                            if (fieldInput.hasClass('image')) {
+                            if (fieldInput.hasClass('mtvImage')) {
                                 _this.setThumbnail(values[key], fieldInput.attr('name'), _this.fieldListElement);
                             }
                             if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
@@ -333,7 +334,7 @@
                             var fieldName = (typeof key === 'number') ? _this.fieldNames[key] : key;
                             var fieldInput = $('[name^="' + _this.tvid + fieldName + '_mtv"][type!="hidden"]', clone);
                             fieldInput.setValue(values[key]);
-                            if (fieldInput.hasClass('image')) {
+                            if (fieldInput.hasClass('mtvImage')) {
                                 _this.setThumbnail(values[key], fieldInput.attr('name'), clone);
                             }
                             if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
@@ -703,7 +704,7 @@
                         $(this).val('');
                 }
             });
-            $('.tvimage', el).html('');
+            $('.mtvThumb', el).html('');
         },
         saveMultiValue: function () {
             var _this = this;

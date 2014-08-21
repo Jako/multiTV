@@ -333,12 +333,12 @@ class multiTV
                 $fieldType = 'date';
                 break;
             case 'image' :
-                if ($this->display == 'datatable' || $this->display == 'vertical') {
-                    $fieldClass[] = 'image';
+                if ($this->display == 'datatable' || $this->display == 'dbtatable' || $this->display == 'vertical') {
+                    $fieldClass[] = 'mtvImage';
                 }
                 break;
             case 'richtext' :
-                if ($this->display == 'datatable') {
+                if ($this->display == 'datatable' || $this->display == 'dbtable') {
                     $this->fieldsrte[] = "tv" . $this->tvID . $fieldName;
                     $fieldClass[] = 'tabEditor';
                 } else {
@@ -411,7 +411,7 @@ class multiTV
                     }
                     switch ($type) {
                         case 'thumb':
-                            $tvelement[] = '<div class="inline tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                            $tvelement[] = '<div class="inline mtvThumb" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                             $hasthumb = ' hasthumb';
                             break;
                         case 'date':
@@ -441,7 +441,7 @@ class multiTV
                     }
                     switch ($type) {
                         case 'thumb':
-                            $tvelement[] = '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                            $tvelement[] = '<div class="mtvThumb" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                             $hasthumb = ' hasthumb';
                             break;
                         default:
@@ -464,7 +464,7 @@ class multiTV
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     switch ($type) {
                         case 'thumb':
-                            $tvelement[] = '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                            $tvelement[] = '<div class="mtvThumb" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                             $hasthumb = ' hasthumb';
                             break;
                         default:
@@ -535,7 +535,7 @@ class multiTV
                         $caption = (is_array($tv) && isset($tv['caption'])) ? $tv['caption'] : $this->fields[$fieldname]['caption'];
                         switch ($type) {
                             case 'thumb':
-                                $tvElements[] = '<div class="tvimage" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                                $tvElements[] = '<div class="mtvThumb" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                                 break;
                             default:
                                 $tvElements[] = '<label for="' . $tvid . $fieldname . '">' . $caption . '</label>' .
@@ -710,7 +710,7 @@ class multiTV
                 $caption = (is_array($tv) && isset($tv['caption'])) ? $tv['caption'] : $this->fields[$fieldname]['caption'];
                 switch ($type) {
                     case 'thumb':
-                        $tvElements[] = '<div class="tvimage" id="' . $config['table'] . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                        $tvElements[] = '<div class="mtvThumb" id="' . $config['table'] . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
                         break;
                     default:
                         $tvElements[] = '<label for="' . $config['table'] . $fieldname . '_mtv">' . $caption . '</label>' .

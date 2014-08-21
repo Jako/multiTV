@@ -30,7 +30,7 @@ if ($form) {
             $caption = (is_array($tv) && isset($tv['caption'])) ? $tv['caption'] : $settings['fields'][$fieldname]['caption'];
             switch ($type) {
                 case 'thumb':
-                    $tvElements[] = '<div class="tvimage" id="' . $button . $settings['fields'][$fieldname]['thumbof'] . '_mtvpreview"></div>';
+                    $tvElements[] = '<div class="mtvThumb" id="' . $button . $settings['fields'][$fieldname]['thumbof'] . '_mtvpreview"></div>';
                     break;
                 default:
                     $tvElements[] = '<label for="' . $button . $fieldname . '_mtv">' . $caption . '</label>' .
