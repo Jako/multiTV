@@ -393,6 +393,7 @@
                         allowedTags: ['div', 'span']
                     });
                     $('div', clean).each(function () {
+                        // assign html div content field values
                         var pastedRow = {};
                         var tableData = $(this).html().split('<span></span>');
                         if (tableData.length > 0) {
@@ -410,9 +411,15 @@
                     });
                     break;
                 case 'csv':
-                    clean = _this.fieldPasteArea.text();
-                    clean = clean.split('\n');
+                    clean = _this.fieldPasteArea.htmlClean({
+                        allowedTags: ['br', 'p', 'div']
+                    }).html();
+                    clean = clean.replace(/<(br|p|div)?>/g, '\n').replace(/<[^>]+>/g, '').split('\n');
                     $.each(clean, function (index, value) {
+                        // skip empty lines
+                        if (value == '') {
+                            return;
+                        }
                         // CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
                         for (var tableData = value.split(_this.options.fieldsettings['csvseparator']), x = tableData.length - 1, tl; x >= 0; x--) {
                             if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) === '"') {
@@ -425,6 +432,7 @@
                             } else
                                 tableData[x].replace(/""/g, '"');
                         }
+                        // assign csv row to field values
                         var pastedRow = {};
                         if (tableData.length > 0) {
                             var i = 0;
@@ -447,6 +455,7 @@
                     }).html();
                     clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg, '<table>').replace(/<\/table>.*/mg, '</table>');
                     $('tr', $(clean)).each(function () {
+                        // assign html table row field values
                         var pastedRow = {};
                         var tableData = $('td', $(this));
                         if (tableData.length > 0) {
