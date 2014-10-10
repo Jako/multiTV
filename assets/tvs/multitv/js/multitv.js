@@ -948,7 +948,7 @@
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
                     });
-                    _this.editBox.colorbox.resize();
+                    setTimeout(function() { _this.editBox.colorbox.resize(); }, 250)
                 },
                 onCleanup: function () {
                     _this.clearInputs(_this.fieldEditArea);

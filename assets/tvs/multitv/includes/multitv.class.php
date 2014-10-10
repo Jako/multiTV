@@ -50,7 +50,7 @@ class multiTV
 
     function __construct(&$modx, $options)
     {
-        $this->modx = & $modx;
+        $this->modx = &$modx;
 
         $this->language = $this->loadLanguage($this->modx->config['manager_language']);
         $this->options = $options;
@@ -146,6 +146,19 @@ class multiTV
                     $chunkie->prepareTemplate('', array(), 'module');
                     $moduleTabs[] = $chunkie->process('module', "\r\n", true);
                 }
+
+                if (count($this->fieldsrte)) {
+                    $richTextEditor = $this->modx->invokeEvent("OnRichTextEditorInit", array(
+                            'editor' => $this->modx->config['which_editor'],
+                            'elements' => $this->fieldsrte,
+                            'height' => '200px'
+                        )
+                    );
+                    $richTextEditor = (is_array($richTextEditor)) ? implode('', $richTextEditor) : '';
+                } else {
+                    $richTextEditor = '';
+                }
+
                 $chunkie = new newChunkie($this->modx, array('basepath' => $this->options['tvUrl']));
                 $chunkie->setPlaceholder('lang', $this->language, 'module');
                 $chunkie->setPlaceholder('options', $this->options, 'module');
@@ -155,7 +168,7 @@ class multiTV
                 $chunkie->setTpl($chunkie->getTemplateChunk('@FILE templates/module.template.html'));
                 $chunkie->prepareTemplate('', array(), 'module');
 
-                $output = $chunkie->process('module');
+                $output = str_replace('</head>', $richTextEditor . '</head>', $chunkie->process('module'));
         }
         return $output;
     }
@@ -338,8 +351,8 @@ class multiTV
                 }
                 break;
             case 'richtext' :
-                if ($this->display == 'datatable' || $this->display == 'dbtable') {
-                    $this->fieldsrte[] = "tv" . $this->tvID . $fieldName;
+                if ($this->display == 'datatable' || $this->display == 'dbtable' || $this->options['type'] == 'module') {
+                    $this->fieldsrte[] = ($this->options['type'] == 'module') ? $fieldName : "tv" . $this->tvID . $fieldName;
                     $fieldClass[] = 'tabEditor';
                 } else {
                     $fieldType = 'textarea';
@@ -539,7 +552,7 @@ class multiTV
                                 break;
                             default:
                                 $tvElements[] = '<label for="' . $tvid . $fieldname . '">' . $caption . '</label>' .
-                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_'.$fieldname, $default) . "\r\n";
+                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . "\r\n";
                         }
                     }
 
@@ -714,7 +727,7 @@ class multiTV
                         break;
                     default:
                         $tvElements[] = '<label for="' . $config['table'] . $fieldname . '_mtv">' . $caption . '</label>' .
-                            $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_'.$fieldname, $default) . "\r\n";
+                            $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . "\r\n";
                 }
             }
 
