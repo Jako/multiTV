@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0.2 October 10, 2014
+    - Module: richtext is now possible
+
 - 2.0.1 August 21, 2014
     - CustomTV/Module: CSS classes changed
     - CustomTV/Module: Support for BolmerCMS

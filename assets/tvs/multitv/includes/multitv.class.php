@@ -270,6 +270,7 @@ class multiTV
         $this->configuration['radioTabs'] = isset($settings['configuration']['radioTabs']) ? $settings['configuration']['radioTabs'] : false;
         $this->configuration['sorting'] = isset($settings['configuration']['sorting']) ? $settings['configuration']['sorting'] : false;
         $this->configuration['sortindex'] = isset($settings['configuration']['sortindex']) ? $settings['configuration']['sortindex'] : '';
+        $this->configuration['editBoxWidth'] = isset($settings['configuration']['editBoxWidth']) ? $settings['configuration']['editBoxWidth'] : '';
     }
 
     function prepareValue($value)
@@ -758,7 +759,8 @@ class multiTV
             'tableClasses' => implode(' ', $tableClasses),
             'radioTabs' => $this->configuration['radioTabs'],
             'sorting' => $this->configuration['sorting'],
-            'sortindex' => $this->configuration['sortindex']
+            'sortindex' => $this->configuration['sortindex'],
+            'editBoxWidth' => $this->configuration['editBoxWidth']
         ));
 
         // populate tv template

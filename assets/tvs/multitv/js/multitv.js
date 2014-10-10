@@ -592,11 +592,11 @@
                             sAjaxSource: '../' + _this.options.mtvpath + 'multitv.connector.php',
                             fnServerData: function (sSource, aoData, fnCallback, oSettings) {
                                 aoData.push(
-                                    { name: 'mode', value: 'dbtable' },
-                                    { name: 'action', value: 'loadtable' },
-                                    { name: 'config', value: _this.options.fieldsettings.fieldconfig },
-                                    { name: 'configtype', value: _this.options.fieldsettings.fieldconfigtype },
-                                    { name: 'mtvpath', value: _this.options.mtvpath }
+                                    {name: 'mode', value: 'dbtable'},
+                                    {name: 'action', value: 'loadtable'},
+                                    {name: 'config', value: _this.options.fieldsettings.fieldconfig},
+                                    {name: 'configtype', value: _this.options.fieldsettings.fieldconfigtype},
+                                    {name: 'mtvpath', value: _this.options.mtvpath}
                                 );
                                 oSettings.jqXHR = $.ajax({
                                     dataType: 'json',
@@ -835,7 +835,7 @@
                 }
             });
         },
-        // open edit box
+        // load edit data/create new data
         editRow: function (mode, selector) {
             var _this = this;
 
@@ -849,6 +849,7 @@
                             _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
                         }
                     });
+                    _this.editBoxOpen(mode);
                 } else {
                     $.ajax({
                         dataType: 'json',
@@ -873,12 +874,14 @@
                                     }
                                 });
                             }
+                            _this.editBoxOpen(mode, lineValue);
                         }
                     });
                 }
             } else {
                 if (_this.options.fieldsettings.radioTabs) {
                     $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
+                    _this.editBoxOpen(mode);
                 }
                 if (_this.options.mode == 'dbtable') {
                     $.ajax({
@@ -903,10 +906,16 @@
                                     }
                                 });
                             }
+                            _this.editBoxOpen(mode, lineValue);
                         }
                     });
                 }
             }
+        },
+        // open edit box
+        editBoxOpen: function (mode, lineValue) {
+            var _this = this;
+
             $('.mode', _this.fieldEditForm).hide();
             $('.mode.' + mode, _this.fieldEditForm).show();
             $('.editformtabs', _this.fieldEditForm).easytabs({
@@ -923,7 +932,7 @@
             $.colorbox({
                 inline: true,
                 href: '#' + _this.tvid + 'editform',
-                width: '640px',
+                width: (_this.options.fieldsettings['editBoxWidth'] != '') ? _this.options.fieldsettings['editBoxWidth'] : '640px',
                 close: '',
                 open: true,
                 opacity: '0.35',
@@ -935,7 +944,7 @@
                     if (!_this.fieldEditArea.children('form').length) {
                         _this.fieldEditArea.wrapInner('<form/>');
                     }
-                    if (lineValue && lineValue.fieldTab) {
+                    if (typeof lineValue !== 'undefined' && lineValue.fieldTab) {
                         $('.editformtabs', _this.fieldEditArea).easytabs('select', '#' + _this.tvid + 'tab_radio_' + lineValue.fieldTab);
                         $('.formtabradio:not(.active) input[type="radio"]', _this.fieldEditArea).prop('checked', false);
                         $('.formtabradio.active input[type="radio"]', _this.fieldEditArea).prop('checked', true);
@@ -948,13 +957,16 @@
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
                     });
-                    setTimeout(function() { _this.editBox.colorbox.resize(); }, 250)
+                    setTimeout(function () {
+                        _this.editBox.colorbox.resize();
+                    }, 250)
                 },
                 onCleanup: function () {
                     _this.clearInputs(_this.fieldEditArea);
                 }
             });
         },
+
         // save/append edit box
         saveRow: function (mode) {
             var _this = this;
