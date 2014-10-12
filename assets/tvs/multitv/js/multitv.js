@@ -23,8 +23,8 @@
         this.tvid = this.$el.attr('id');
         this.data = new Object();
         this.fieldHeading = $('#' + this.tvid + 'heading');
-        this.fieldNames = this.options.fieldsettings['fieldnames'];
-        this.fieldTypes = this.options.fieldsettings['fieldtypes'];
+        this.fieldNames = this.options.fieldsettings.fieldnames;
+        this.fieldTypes = this.options.fieldsettings.fieldtypes;
         this.fieldList = $('#' + this.tvid + 'list');
         this.fieldListElement = $('li:first', this.fieldList);
         this.fieldListElementEmpty = this.fieldListElement.clone();
@@ -421,14 +421,14 @@
                             return;
                         }
                         // CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
-                        for (var tableData = value.split(_this.options.fieldsettings['csvseparator']), x = tableData.length - 1, tl; x >= 0; x--) {
+                        for (var tableData = value.split(_this.options.fieldsettings.csvseparator), x = tableData.length - 1, tl; x >= 0; x--) {
                             if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) === '"') {
                                 if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) === '"') {
                                     tableData[x] = tableData[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
                                 } else if (x) {
-                                    tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(_this.options.fieldsettings['csvseparator']));
+                                    tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(_this.options.fieldsettings.csvseparator));
                                 } else
-                                    tableData = tableData.shift().split(_this.options.fieldsettings['csvseparator']).concat(tableData);
+                                    tableData = tableData.shift().split(_this.options.fieldsettings.csvseparator).concat(tableData);
                             } else
                                 tableData[x].replace(/""/g, '"');
                         }
@@ -533,8 +533,8 @@
         this.tvid = this.$el.attr('id');
         this.data = new Object();
         this.fieldHeading = $('#' + this.tvid + 'heading');
-        this.fieldNames = this.options.fieldsettings['fieldnames'];
-        this.fieldTypes = this.options.fieldsettings['fieldtypes'];
+        this.fieldNames = this.options.fieldsettings.fieldnames;
+        this.fieldTypes = this.options.fieldsettings.fieldtypes;
         this.fieldTable = $('#' + this.tvid + 'table');
         this.fieldEdit = $('#' + this.tvid + 'edit');
         this.fieldClear = $('#' + this.tvid + 'clear');
@@ -548,8 +548,8 @@
         this.tableButtonAppend = $('<li>').attr('id', this.tvid + 'tableAppend').append($('<a>').attr('href', '#').html(this.tableAppend));
         this.tableButtonEdit = $('<li>').attr('id', this.tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableEdit));
         this.tableButtonRemove = $('<li>').attr('id', this.tvid + 'tableRemove').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableRemove));
-        this.tableClasses = this.options.fieldsettings['tableClasses'];
-        this.radioTabs = this.options.fieldsettings['radioTabs'];
+        this.tableClasses = this.options.fieldsettings.tableClasses;
+        this.radioTabs = this.options.fieldsettings.radioTabs;
         this.editBox = '';
 
         this.init();
@@ -573,6 +573,11 @@
                             aaData: _this.data.value,
                             aoColumns: _this.options.fieldsettings.fieldcolumns,
                             bAutoWidth: false,
+                            iDisplayLength: _this.options.fieldsettings.displayLength,
+                            aLengthMenu: [
+                                _this.options.fieldsettings.displayLengthMenu,
+                                _this.options.fieldsettings.displayLengthMenutext
+                            ],
                             oLanguage: dataTableLanguage,
                             fnRowCallback: function (nRow, aData, iDisplayIndex) {
                                 _this.contextMenu(nRow, iDisplayIndex);
@@ -584,10 +589,11 @@
                             sDom: '<"clear">lfrtip',
                             bProcessing: true,
                             bServerSide: true,
-                            iDisplayLength: 10,
+                            bLengthChange: true,
+                            iDisplayLength: _this.options.fieldsettings.displayLength,
                             aLengthMenu: [
-                                [10, 25, 50, 100, -1],
-                                [10, 25, 50, 100, this.options.language.all]
+                                _this.options.fieldsettings.displayLengthMenu,
+                                _this.options.fieldsettings.displayLengthMenutext
                             ],
                             sAjaxSource: '../' + _this.options.mtvpath + 'multitv.connector.php',
                             fnServerData: function (sSource, aoData, fnCallback, oSettings) {
@@ -616,7 +622,7 @@
                         }).addClass(_this.tableClasses);
                     }
 
-                    if (!_this.options.fieldsettings['sorting']) {
+                    if (!_this.options.fieldsettings.sorting) {
                         if (_this.options.mode != 'dbtable') {
                             _this.fieldTable.rowReordering({
                                 fnAfterMove: function () {
@@ -625,7 +631,7 @@
                                 }
                             });
                         } else {
-                            if (_this.options.fieldsettings['sortindex'] != '') {
+                            if (_this.options.fieldsettings.sortindex != '') {
                                 _this.fieldTable.rowReordering({
                                     iIndexColumn: 2,
                                     sURL: '../' + _this.options.mtvpath + 'multitv.connector.php',
@@ -932,7 +938,7 @@
             $.colorbox({
                 inline: true,
                 href: '#' + _this.tvid + 'editform',
-                width: (_this.options.fieldsettings['editBoxWidth'] != '') ? _this.options.fieldsettings['editBoxWidth'] : '640px',
+                width: (_this.options.fieldsettings.editBoxWidth != '') ? _this.options.fieldsettings.editBoxWidth : '640px',
                 close: '',
                 open: true,
                 opacity: '0.35',

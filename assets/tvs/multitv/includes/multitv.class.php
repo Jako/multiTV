@@ -270,6 +270,18 @@ class multiTV
         $this->configuration['radioTabs'] = isset($settings['configuration']['radioTabs']) ? $settings['configuration']['radioTabs'] : false;
         $this->configuration['sorting'] = isset($settings['configuration']['sorting']) ? $settings['configuration']['sorting'] : false;
         $this->configuration['sortindex'] = isset($settings['configuration']['sortindex']) ? $settings['configuration']['sortindex'] : '';
+        $this->configuration['displayLength'] = isset($settings['configuration']['displayLength']) ? intval($settings['configuration']['displayLength']) : 10;
+        $this->configuration['displayLengthMenu'] = isset($settings['configuration']['displayLengthMenu']) ? array_map('intval', explode(',', $settings['configuration']['displayLengthMenu'])) : array(10, 25, 50, 100);
+        if (!in_array($this->configuration['displayLength'], $this->configuration['displayLengthMenu'])) {
+            array_unshift($this->configuration['displayLengthMenu'], $this->configuration['displayLength']);
+        }
+        if (!in_array(-1, $this->configuration['displayLengthMenu'])) {
+            $this->configuration['displayLengthMenu'][] = -1;
+        }
+        $this->configuration['displayLengthMenutext'] = array();
+        foreach ($this->configuration['displayLengthMenu'] as $displayLength) {
+            $this->configuration['displayLengthMenutext'][] = ($displayLength != -1) ? $displayLength : $this->language['all'];
+        }
         $this->configuration['editBoxWidth'] = isset($settings['configuration']['editBoxWidth']) ? $settings['configuration']['editBoxWidth'] : '';
     }
 
@@ -587,7 +599,10 @@ class multiTV
                     'tableClasses' => implode(' ', $tableClasses),
                     'radioTabs' => $this->configuration['radioTabs'],
                     'sorting' => $this->configuration['sorting'],
-                    'sortindex' => $this->configuration['sortindex']
+                    'sortindex' => $this->configuration['sortindex'],
+                    'displayLength' => $this->configuration['displayLength'],
+                    'displayLengthMenu' => $this->configuration['displayLengthMenu'],
+                    'displayLengthMenutext' => $this->configuration['displayLengthMenutext']
                 ));
                 break;
         }
