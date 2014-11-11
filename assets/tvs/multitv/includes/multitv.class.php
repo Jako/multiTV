@@ -483,7 +483,7 @@ class multiTV
             case 'single':
                 $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
                 $tvheading = array();
-                $tvelement = array();
+                $tvelement = array('<li class="element single' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
@@ -498,7 +498,6 @@ class multiTV
                             $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . '<br />';
                     }
                 }
-                $tvelement[] = '<li class="element single' . $hasthumb . '"><div>';
                 $tvelement[] = '</div><div class="clear"></div></li>';
                 break;
             // datatable template
