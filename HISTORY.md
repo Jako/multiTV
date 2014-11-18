@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0.3 November 18, 2014
+    - Snippet: `where` parameter
+
 - 2.0.2 October 10, 2014
     - Module: richtext is now possible
 

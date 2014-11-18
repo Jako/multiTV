@@ -79,10 +79,14 @@ $params['oddClass'] = (isset($oddClass)) ? $oddClass : '';
 $params['paginate'] = (isset($paginate) && $paginate) ? true : false;
 $params['offsetKey'] = (isset($offsetKey)) ? $offsetKey : 'page';
 $params['offset'] = ($params['paginate'] && ($params['display'] != 'all') && isset($_GET[$params['offsetKey']])) ? (intval($_GET[$params['offsetKey']]) - 1) * $params['display'] : $params['offset'];
+$params['where'] = isset($where) ? json_decode($where, true) : false;
 
 if (!empty($fromJson)) {
     $tvOutput = json_decode($fromJson, true);
 } else {
     $tvOutput = $multiTV->getMultiValue($params);
+}
+if ($params['where']) {
+    $tvOutput = $multiTV->filterMultiValue($tvOutput, $params);
 }
 return $multiTV->displayMultiValue($tvOutput, $params);

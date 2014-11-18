@@ -915,6 +915,74 @@ class multiTV
         return $tvOutput;
     }
 
+    function filterMultiValue($tvOutput, $params)
+    {
+        foreach ($params['where'] as $fieldclause => $value) {
+            $fieldclause = explode(':', $fieldclause, 2);
+            $fieldname = $fieldclause[0];
+            $fieldclause = (count($fieldclause) == 1) ? '' : $fieldclause[1];
+            switch (htmlspecialchars_decode($fieldclause)) {
+                case '':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if ($tvOut[$fieldname] != $value) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+                case '!=':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if ($tvOut[$fieldname] == $value) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+                case '>':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if ($tvOut[$fieldname] <= $value) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+                case '<':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if ($tvOut[$fieldname] >= $value) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+                case '>=':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if ($tvOut[$fieldname] < $value) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+                case '<=':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if ($tvOut[$fieldname] > $value) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+                case 'LIKE':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if (strpos($tvOut[$fieldname], $value) === false) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+                case 'NOT LIKE':
+                    foreach ($tvOutput as $tvKey => $tvOut) {
+                        if (strpos($tvOut[$fieldname], $value) !== false) {
+                            unset($tvOutput[$tvKey]);
+                        }
+                    }
+                    break;
+            }
+        }
+        return $tvOutput;
+    }
+
     function displayMultiValue($tvOutput, $params)
     {
         // replace masked placeholder tags (for templates that are set directly set in snippet call by @CODE)
@@ -926,7 +994,7 @@ class multiTV
         $firstEmpty = true;
         if ($countOutput) {
             // check for first item empty
-            foreach ($tvOutput[0] as $value) {
+            foreach (current($tvOutput) as $value) {
                 if ($value != '') {
                     $firstEmpty = false;
                 }
