@@ -1,5 +1,10 @@
 History
 ================================================================================
+- 2.0.4 December 12, 2014
+    - CustomTV: Bugfix for Add button in datatable mode
+    - CustomTV: Update EasyTabs script to solve anchor issues.
+    - Snippet: Bugfix for UpdateTV snippet
+
 - 2.0.3 November 18, 2014
     - Snippet: `where` parameter
 

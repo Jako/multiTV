@@ -889,7 +889,9 @@
                     $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
                     _this.editBoxOpen(mode);
                 }
-                if (_this.options.mode == 'dbtable') {
+                if (_this.options.mode != 'dbtable') {
+                    _this.editBoxOpen(mode);
+                } else {
                     $.ajax({
                         dataType: 'json',
                         type: 'POST',

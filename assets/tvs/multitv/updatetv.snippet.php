@@ -47,7 +47,7 @@ foreach ($tvNames as $tvName) {
         );
         $columns = $multiTV->fieldnames;
 
-        $res = $modx->db->select('*', $modx->getFullTableName('site_tmplvar_contentvalues'), 'tmplvarid="' . $multiTV->tvID . '"');
+        $res = $modx->db->select('*', $modx->getFullTableName('site_tmplvar_contentvalues'), 'tmplvarid=' . $multiTV->tvID);
         $output[] = 'Updating template variable ' . $tvName;
         while ($row = $modx->db->getRow($res)) {
             if ($row['value'] == '[]') {
@@ -62,11 +62,11 @@ foreach ($tvNames as $tvName) {
                 $newValue = array();
                 foreach ($tvValue as $key => $value) {
                     $fieldname = (is_int($key)) ? $columns[$key] : $key;
-                    $newValue[$fieldname] = $value;
+                    $newValue[$fieldname] = htmlentities($value);
                 }
                 $tvValues->fieldValue[$tvValueKey] = $newValue;
             }
-            $modx->db->update(array('value' => json_encode($tvValues)), $modx->getFullTableName('site_tmplvar_contentvalues'), 'id="' . $row['id'] . '"');
+            $modx->db->update(array('value' => $modx->db->escape(html_entity_decode(json_encode($tvValues)))), $modx->getFullTableName('site_tmplvar_contentvalues'), 'id=' . $row['id']);
             $output[] = 'Updated ' . $row['contentid'];
         }
     }

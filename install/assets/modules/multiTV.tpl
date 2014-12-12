@@ -5,7 +5,7 @@
  * CRUD module
  *
  * @category    snippet, module, tv
- * @version     2.0.3
+ * @version     2.0.4
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako
  * @internal    @properties &configs=Configurations;text;event_log
