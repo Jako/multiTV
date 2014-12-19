@@ -21,6 +21,11 @@ $settings['fields'] = array(
     'author' => array(
         'caption' => 'Author',
         'type' => 'text'
+    ),
+    'id' => array(
+        'caption' => 'ID',
+        'type' => 'text',
+        'default' => 'img{i}'
     )
 );
 $settings['templates'] = array(
