@@ -155,6 +155,7 @@ if (!function_exists('multiTvFilter')) {
                                     break;
                                 case 'allisnot': // filtered if all values are not filterValue
                                     $filteredCurrent = (isset($filteredCurrent)) ? $filteredCurrent && ($currentValue !== $filterValue) : ($currentValue !== $filterValue);
+                                    break;
                                 default:
                                     break;
                             }
