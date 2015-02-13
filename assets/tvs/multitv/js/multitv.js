@@ -21,7 +21,7 @@
         this.$el = $(el);
 
         this.tvid = this.$el.attr('id');
-        this.data = new Object();
+        this.data = {};
         this.fieldHeading = $('#' + this.tvid + 'heading');
         this.fieldNames = this.options.fieldsettings.fieldnames;
         this.fieldTypes = this.options.fieldsettings.fieldtypes;
@@ -167,7 +167,7 @@
             _this.data.value = [];
             _this.fieldList.children('li').each(function () {
                 var multiElement = $(this);
-                var fieldValues = new Object();
+                var fieldValues = {};
                 $.each(_this.fieldNames, function () {
                     var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', multiElement);
                     fieldValues[this] = fieldInput.getValue().replace('&quot;', '"');
@@ -198,7 +198,7 @@
                 if (jsonValue.constructor === Array) {
                     _this.data.value = jsonValue;
                     if (!_this.data.settings) {
-                        _this.data.settings = new Object();
+                        _this.data.settings = {};
                     }
                     _this.data.settings.autoincrement = _this.data.value.length + 1;
                 } else {
@@ -531,7 +531,7 @@
         this.$el = $(el);
 
         this.tvid = this.$el.attr('id');
-        this.data = new Object();
+        this.data = {};
         this.fieldHeading = $('#' + this.tvid + 'heading');
         this.fieldNames = this.options.fieldsettings.fieldnames;
         this.fieldTypes = this.options.fieldsettings.fieldtypes;
@@ -733,12 +733,12 @@
             }
 
             var currentValue = _this.fieldTable.fnGetData();
-            var saveValue = new Array();
+            var saveValue = [];
 
             currentValue.sort(compare);
 
             $.each(currentValue, function () {
-                var row = new Object();
+                var row = {};
                 $.each(this, function (key, value) {
                     if (key !== 'DT_RowId' && key !== 'MTV_RowId' && key.substr(0, 9) !== 'mtvRender') {
                         row[key] = value.replace('&quot;', '"');
@@ -771,7 +771,7 @@
                     if (jsonValue.constructor === Array) {
                         _this.data.value = jsonValue;
                         if (!_this.data.settings) {
-                            _this.data.settings = new Object();
+                            _this.data.settings = {};
                         }
                         _this.data.settings.autoincrement = _this.data.value.length + 1;
                     } else {
@@ -982,7 +982,7 @@
             if (typeof tinyMCE !== 'undefined') {
                 tinyMCE.triggerSave();
             }
-            var values = new Object();
+            var values = {};
             var saveTab = $('[name^="' + _this.tvid + 'tab_radio_mtv"]', _this.fieldEditForm).getValue();
             values.fieldTab = (saveTab !== '') ? saveTab : '';
             $.each(_this.fieldNames, function () {
@@ -1073,7 +1073,7 @@
                 _this.saveMultiValue();
             } else {
                 var lineValue = _this.fieldTable.fnGetData(selector);
-                lineId = lineValue.id;
+                var lineId = lineValue.id;
                 $.ajax({
                     url: '../' + _this.options.mtvpath + 'multitv.connector.php',
                     data: {

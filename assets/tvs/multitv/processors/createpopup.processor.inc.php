@@ -13,7 +13,7 @@ $config = isset($_POST['config']) ? preg_replace('/[^a-zA-Z0-9_-]+/', '', $_POST
 $group = isset($_POST['group']) ? preg_replace('/[^a-zA-Z0-9_-]+/', '', $_POST['group']) : false;
 $button = isset($_POST['button']) ? preg_replace('/[^a-zA-Z0-9_-]+/', '', $_POST['button']) : false;
 
-$form = isset($settings['buttons'][$group]['buttons'][$button]['form']) ? $settings['buttons'][$group]['buttons'][$button]['form'] : FALSE;
+$form = isset($settings['buttons'][$group]['buttons'][$button]['form']) ? $settings['buttons'][$group]['buttons'][$button]['form'] : null;
 
 if ($form) {
     $buttoncaption = $settings['buttons'][$group]['buttons'][$button]['caption'];
