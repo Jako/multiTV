@@ -1,13 +1,13 @@
 <?php
 /**
- * multiTV
+ * updateTV
  *
  * @category    snippet
  * @version     2.0
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>2.0</strong> Custom Template Variabe containing a sortable multi item list or a datatable.
+ * @internal    description: <strong>2.0</strong> Update the value of a multiTV to the new format (changed with 1.4.11)
  * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/updatetv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
