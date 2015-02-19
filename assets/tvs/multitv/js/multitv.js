@@ -994,45 +994,50 @@
             });
 
             if (_this.options.mode != 'dbtable') {
-                $.ajax({
-                    url: '../' + _this.options.mtvpath + 'multitv.connector.php',
-                    data: {
-                        action: 'preparevalue',
-                        id: $('form#mutate [name="id"]').val(),
-                        tvid: _this.tvid,
-                        value: $.toJSON(values),
-                        mtvpath: _this.options.mtvpath
-                    },
-                    dataType: 'json',
-                    type: 'POST',
-                    success: function (answer) {
-                        if (answer.error) {
-                            alert(answer.msg);
+                if ($('form#mutate [name="id"]').val()) {
+                    $.ajax({
+                        url: '../' + _this.options.mtvpath + 'multitv.connector.php',
+                        data: {
+                            action: 'preparevalue',
+                            id: $('form#mutate [name="id"]').val(),
+                            tvid: _this.tvid,
+                            value: $.toJSON(values),
+                            mtvpath: _this.options.mtvpath
+                        },
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function (answer) {
+                            if (answer.error) {
+                                alert(answer.msg);
+                                return false;
+                            }
+                            answer = $.parseJSON(answer.msg);
+                            values = answer.fieldValue[0];
+                            if (mode === 'edit') {
+                                var selected = $('.row_selected', _this.fieldTable)[0];
+                                var lineValue = _this.fieldTable.fnGetData(selected);
+                                values.MTV_RowId = lineValue.MTV_RowId;
+                                values.DT_RowId = lineValue.DT_RowId;
+                                _this.fieldTable.fnUpdate(values, selected);
+                            } else {
+                                values.MTV_RowId = _this.fieldTable.fnGetData().length + 1;
+                                values.DT_RowId = _this.tvid + (_this.fieldTable.fnGetData().length + 1);
+                                _this.fieldTable.fnAddData(values);
+                            }
+                            _this.clearInputs(_this.fieldEditArea);
+                            _this.saveMultiValue();
+                            _this.editBox.colorbox.close();
+                            return false;
+                        },
+                        error: function (answer) {
+                            alert(this.options.language.notprepared);
                             return false;
                         }
-                        answer = $.parseJSON(answer.msg);
-                        values = answer.fieldValue[0];
-                        if (mode === 'edit') {
-                            var selected = $('.row_selected', _this.fieldTable)[0];
-                            var lineValue = _this.fieldTable.fnGetData(selected);
-                            values.MTV_RowId = lineValue.MTV_RowId;
-                            values.DT_RowId = lineValue.DT_RowId;
-                            _this.fieldTable.fnUpdate(values, selected);
-                        } else {
-                            values.MTV_RowId = _this.fieldTable.fnGetData().length + 1;
-                            values.DT_RowId = _this.tvid + (_this.fieldTable.fnGetData().length + 1);
-                            _this.fieldTable.fnAddData(values);
-                        }
-                        _this.clearInputs(_this.fieldEditArea);
-                        _this.saveMultiValue();
-                        _this.editBox.colorbox.close();
-                        return false;
-                    },
-                    error: function (answer) {
-                        alert(this.options.language.connector.nosave);
-                        return false;
-                    }
-                });
+                    });
+                } else {
+                    alert(this.options.language.noidprepare);
+                    return false;
+                }
             } else {
                 var lineId = false;
                 if (mode === 'edit') {
