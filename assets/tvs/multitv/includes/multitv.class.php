@@ -208,7 +208,7 @@ class multiTV
         return $filePath;
     }
 
-// Load setting file (php array or json) and return settings
+    // Load setting file (php array or json) and return settings
     function loadSettings($name, $type, $breakOnError = true)
     {
         $types = (substr($type, -1) != 'y') ? $type . 's' : substr($type, 0, -1) . 'ies';
