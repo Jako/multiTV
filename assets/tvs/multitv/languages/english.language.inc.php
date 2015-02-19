@@ -25,6 +25,7 @@ $language['connector.noconfig'] = 'Table configuration does not exist!';
 $language['connector.rights'] = 'Insufficient rights for this action!';
 $language['connector.nomultitv'] = 'multiTV does not exist!';
 $language['connector.noprocessor'] = 'Processor does not exist!';
+$language['connector.nosave'] = 'Error while saving the row!';
 $language['dataTables.emptyTable'] = 'No data available in table';
 $language['dataTables.info'] = 'Showing _START_ to _END_ of _TOTAL_ entries';
 $language['dataTables.infoEmpty'] = 'Showing 0 to 0 of 0 entries';

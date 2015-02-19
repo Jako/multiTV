@@ -1006,6 +1006,10 @@
                     dataType: 'json',
                     type: 'POST',
                     success: function (answer) {
+                        if (answer.error) {
+                            alert(answer.msg);
+                            return false;
+                        }
                         answer = $.parseJSON(answer.msg);
                         values = answer.fieldValue[0];
                         if (mode === 'edit') {
@@ -1025,7 +1029,7 @@
                         return false;
                     },
                     error: function (answer) {
-                        alert(answer.msg);
+                        alert(this.options.language.connector.nosave);
                         return false;
                     }
                 });
