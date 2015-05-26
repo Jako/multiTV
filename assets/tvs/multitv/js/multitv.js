@@ -219,10 +219,11 @@
                     changeMonth: true,
                     changeYear: true,
                     dateFormat: 'dd-mm-yy',
-                    timeFormat: 'h:mm:ss'
+                    timeFormat: 'HH:mm:ss',
+                    showTimepicker: true
                 });
                 var picker = $(this).datetimepicker(datepickerOptions);
-                picker.datepicker('show');
+                picker.datetimepicker('show');
             });
             // file field browser
             $('.browsefile', el).click(function (e) {
@@ -815,10 +816,11 @@
                     changeMonth: true,
                     changeYear: true,
                     dateFormat: 'dd-mm-yy',
-                    timeFormat: 'h:mm:ss'
+                    timeFormat: 'HH:mm:ss',
+                    showTimepicker: true
                 });
                 var picker = $(this).datetimepicker(datepickerOptions);
-                picker.datepicker('show');
+                picker.datetimepicker('show');
             });
             // file field browser
             $('.browsefile', el).click(function () {
