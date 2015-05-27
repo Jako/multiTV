@@ -759,19 +759,6 @@ class multiTV
             $tabPages[] = $this->renderTemplate('editFormTabpage', $tabplaceholder);
         }
 
-        $displayLength = isset($this->configuration['displayLength']) ? intval($this->configuration['displayLength']) : 10;
-        $displayLengthMenu = isset($this->configuration['displayLengthMenu']) ? array_map('intval', explode(',', $this->configuration['displayLengthMenu'])) : array(10, 25, 50, 100);
-        if (!in_array($displayLength, $displayLengthMenu)) {
-            array_unshift($displayLengthMenu, $displayLength);
-        }
-        if (!in_array(-1, $displayLengthMenu)) {
-            $displayLengthMenu[] = -1;
-        }
-        $displayLengthMenutext = array();
-        foreach ($displayLengthMenu as $displayLength) {
-            $displayLengthMenutext[] = ($displayLength != -1) ? $displayLength : $this->language['all'];
-        }
-
         $placeholder = array();
         $placeholder['tabs'] = implode("\r\n", $tabs);
         $placeholder['tabpages'] = implode("\r\n", $tabPages);
@@ -787,9 +774,9 @@ class multiTV
             'radioTabs' => $this->configuration['radioTabs'],
             'sorting' => $this->configuration['sorting'],
             'sortindex' => $this->configuration['sortindex'],
-            'displayLength' => $displayLength,
-            'displayLengthMenu' => $displayLengthMenu,
-            'displayLengthMenutext' => $displayLengthMenutext,
+            'displayLength' => $this->configuration['displayLength'],
+            'displayLengthMenu' => $this->configuration['displayLengthMenu'],
+            'displayLengthMenutext' => $this->configuration['displayLengthMenutext'],
             'editBoxWidth' => $this->configuration['editBoxWidth']
         ));
 
