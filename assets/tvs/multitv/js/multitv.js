@@ -837,7 +837,7 @@
             });
             $('[name]', el).bind('change keyup mouseup', function (e) {
                 e.preventDefault();
-                if ($(this).hasClass('image')) {
+                if ($(this).hasClass('mtvImage')) {
                     _this.setThumbnail($(this).val(), $(this).attr('name'), _this.fieldEditForm);
                     _this.editBox.colorbox.resize();
                 }
@@ -846,6 +846,7 @@
         // load edit data/create new data
         editRow: function (mode, selector) {
             var _this = this;
+            var lineValue;
 
             if (selector && mode === 'edit') {
                 var lineValue = _this.fieldTable.fnGetData(selector);
@@ -853,8 +854,15 @@
                     $.each(lineValue, function (key, value) {
                         var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
                         fieldInput.setValue(value);
-                        if (fieldInput.hasClass('image')) {
+                        if (fieldInput.hasClass('mtvImage')) {
                             _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
+                        }
+                        if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
+                            fieldInput.setValue(fieldInput.attr('alt').supplant({
+                                i: _this.data.settings.autoincrement,
+                                alias: $('[name="alias"]').getValue()
+                            }));
+                            _this.data.settings.autoincrement++;
                         }
                     });
                     _this.editBoxOpen(mode);
@@ -877,7 +885,7 @@
                                 $.each(lineValue, function (key, value) {
                                     var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
                                     fieldInput.setValue(value);
-                                    if (fieldInput.hasClass('image')) {
+                                    if (fieldInput.hasClass('mtvImage')) {
                                         _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
                                     }
                                 });
@@ -887,11 +895,20 @@
                     });
                 }
             } else {
-                if (_this.options.fieldsettings.radioTabs) {
-                    $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
-                    _this.editBoxOpen(mode);
-                }
                 if (_this.options.mode != 'dbtable') {
+                    if (_this.options.fieldsettings.radioTabs) {
+                        $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
+                    }
+                    $.each(_this.fieldNames, function (index, value) {
+                        var fieldInput = $('[name^="' + _this.tvid + value + '_mtv"][type!="hidden"]', _this.fieldEditArea);
+                        if (fieldInput.hasClass('setdefault')) {
+                            fieldInput.setValue(fieldInput.attr('alt').supplant({
+                                i: _this.data.settings.autoincrement,
+                                alias: $('[name="alias"]').getValue()
+                            }));
+                            _this.data.settings.autoincrement++;
+                        }
+                    });
                     _this.editBoxOpen(mode);
                 } else {
                     $.ajax({
@@ -911,7 +928,7 @@
                                 $.each(lineValue, function (key, value) {
                                     var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
                                     fieldInput.setValue(value);
-                                    if (fieldInput.hasClass('image')) {
+                                    if (fieldInput.hasClass('mtvImage')) {
                                         _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
                                     }
                                 });
@@ -990,7 +1007,7 @@
             $.each(_this.fieldNames, function () {
                 var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', _this.fieldEditForm);
                 values[this] = fieldInput.getValue();
-                if (fieldInput.hasClass('image')) {
+                if (fieldInput.hasClass('mtvImage')) {
                     _this.setThumbnail(values[this], fieldInput.attr('name'), _this.fieldEditForm);
                 }
             });
