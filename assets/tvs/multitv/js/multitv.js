@@ -281,7 +281,7 @@
                 }
             });
             // change field
-            $('[name]', el).bind('change keyup mouseup', function (e) {
+            $('[name]', el).bind('change keyup', function (e) {
                 e.preventDefault();
                 _this.saveMultiValue();
             });
@@ -835,7 +835,7 @@
                 BrowseServer(field);
                 return false;
             });
-            $('[name]', el).bind('change keyup mouseup', function (e) {
+            $('[name]', el).bind('change keyup', function (e) {
                 e.preventDefault();
                 if ($(this).hasClass('mtvImage')) {
                     _this.setThumbnail($(this).val(), $(this).attr('name'), _this.fieldEditForm);

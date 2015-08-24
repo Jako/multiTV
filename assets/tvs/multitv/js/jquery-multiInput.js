@@ -164,7 +164,7 @@
 		 */
 		addElementEvents: function(el) {
 			var _this = this;
-			$('[name]', el).bind('change keyup mouseup', function() {
+			$('[name]', el).bind('change keyup', function() {
 				_this.saveElementsValues();
 				return false;
 			});
