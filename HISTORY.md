@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0.5 August 24, 2015
+    - CustomTV: Bugfix for select dropdowns in Firefox
+
 - 2.0.4 December 12, 2014
     - CustomTV: Bugfix for Add button in datatable mode
     - CustomTV: Update EasyTabs script to solve anchor issues.
