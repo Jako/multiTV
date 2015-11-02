@@ -21,10 +21,10 @@
         this.$el = $(el);
 
         this.tvid = this.$el.attr('id');
-        this.data = new Object();
+        this.data = {};
         this.fieldHeading = $('#' + this.tvid + 'heading');
-        this.fieldNames = this.options.fieldsettings['fieldnames'];
-        this.fieldTypes = this.options.fieldsettings['fieldtypes'];
+        this.fieldNames = this.options.fieldsettings.fieldnames;
+        this.fieldTypes = this.options.fieldsettings.fieldtypes;
         this.fieldList = $('#' + this.tvid + 'list');
         this.fieldListElement = $('li:first', this.fieldList);
         this.fieldListElementEmpty = this.fieldListElement.clone();
@@ -167,11 +167,11 @@
             _this.data.value = [];
             _this.fieldList.children('li').each(function () {
                 var multiElement = $(this);
-                var fieldValues = new Object();
+                var fieldValues = {};
                 $.each(_this.fieldNames, function () {
                     var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', multiElement);
                     fieldValues[this] = fieldInput.getValue().replace('&quot;', '"');
-                    if (fieldInput.hasClass('image')) {
+                    if (fieldInput.hasClass('mtvImage')) {
                         _this.setThumbnail(fieldValues[this], fieldInput.attr('name'), multiElement);
                     }
                     if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
@@ -198,7 +198,7 @@
                 if (jsonValue.constructor === Array) {
                     _this.data.value = jsonValue;
                     if (!_this.data.settings) {
-                        _this.data.settings = new Object();
+                        _this.data.settings = {};
                     }
                     _this.data.settings.autoincrement = _this.data.value.length + 1;
                 } else {
@@ -219,10 +219,11 @@
                     changeMonth: true,
                     changeYear: true,
                     dateFormat: 'dd-mm-yy',
-                    timeFormat: 'h:mm:ss'
+                    timeFormat: 'HH:mm:ss',
+                    showTimepicker: true
                 });
                 var picker = $(this).datetimepicker(datepickerOptions);
-                picker.datepicker('show');
+                picker.datetimepicker('show');
             });
             // file field browser
             $('.browsefile', el).click(function (e) {
@@ -276,10 +277,11 @@
                                 $(this).val('');
                         }
                     });
+                    $('.mtvThumb', $(this).parent()).html('');
                 }
             });
             // change field
-            $('[name]', el).bind('change keyup mouseup', function (e) {
+            $('[name]', el).bind('change keyup', function (e) {
                 e.preventDefault();
                 _this.saveMultiValue();
             });
@@ -314,7 +316,7 @@
                             var fieldName = (typeof key === 'number') ? _this.fieldNames[key] : key;
                             var fieldInput = $('[name^="' + _this.tvid + fieldName + '_mtv"][type!="hidden"]', _this.fieldListElement);
                             fieldInput.setValue(values[key]);
-                            if (fieldInput.hasClass('image')) {
+                            if (fieldInput.hasClass('mtvImage')) {
                                 _this.setThumbnail(values[key], fieldInput.attr('name'), _this.fieldListElement);
                             }
                             if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
@@ -333,7 +335,7 @@
                             var fieldName = (typeof key === 'number') ? _this.fieldNames[key] : key;
                             var fieldInput = $('[name^="' + _this.tvid + fieldName + '_mtv"][type!="hidden"]', clone);
                             fieldInput.setValue(values[key]);
-                            if (fieldInput.hasClass('image')) {
+                            if (fieldInput.hasClass('mtvImage')) {
                                 _this.setThumbnail(values[key], fieldInput.attr('name'), clone);
                             }
                             if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
@@ -392,6 +394,7 @@
                         allowedTags: ['div', 'span']
                     });
                     $('div', clean).each(function () {
+                        // assign html div content field values
                         var pastedRow = {};
                         var tableData = $(this).html().split('<span></span>');
                         if (tableData.length > 0) {
@@ -409,21 +412,28 @@
                     });
                     break;
                 case 'csv':
-                    clean = _this.fieldPasteArea.text();
-                    clean = clean.split('\n');
+                    clean = _this.fieldPasteArea.htmlClean({
+                        allowedTags: ['br', 'p', 'div']
+                    }).html();
+                    clean = clean.replace(/<(br|p|div)?>/g, '\n').replace(/<[^>]+>/g, '').split('\n');
                     $.each(clean, function (index, value) {
+                        // skip empty lines
+                        if (value == '') {
+                            return;
+                        }
                         // CSV Parser credit goes to Brian Huisman, from his blog entry entitled "CSV String to Array in JavaScript": http://www.greywyvern.com/?post=258
-                        for (var tableData = value.split(_this.options.fieldsettings['csvseparator']), x = tableData.length - 1, tl; x >= 0; x--) {
+                        for (var tableData = value.split(_this.options.fieldsettings.csvseparator), x = tableData.length - 1, tl; x >= 0; x--) {
                             if (tableData[x].replace(/"\s+$/, '"').charAt(tableData[x].length - 1) === '"') {
                                 if ((tl = tableData[x].replace(/^\s+"/, '"')).length > 1 && tl.charAt(0) === '"') {
                                     tableData[x] = tableData[x].replace(/^\s*"|"\s*$/g, '').replace(/""/g, '"');
                                 } else if (x) {
-                                    tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(_this.options.fieldsettings['csvseparator']));
+                                    tableData.splice(x - 1, 2, [tableData[x - 1], tableData[x]].join(_this.options.fieldsettings.csvseparator));
                                 } else
-                                    tableData = tableData.shift().split(_this.options.fieldsettings['csvseparator']).concat(tableData);
+                                    tableData = tableData.shift().split(_this.options.fieldsettings.csvseparator).concat(tableData);
                             } else
                                 tableData[x].replace(/""/g, '"');
                         }
+                        // assign csv row to field values
                         var pastedRow = {};
                         if (tableData.length > 0) {
                             var i = 0;
@@ -446,6 +456,7 @@
                     }).html();
                     clean = clean.replace(/\n/mg, '').replace(/.*<table>/mg, '<table>').replace(/<\/table>.*/mg, '</table>');
                     $('tr', $(clean)).each(function () {
+                        // assign html table row field values
                         var pastedRow = {};
                         var tableData = $('td', $(this));
                         if (tableData.length > 0) {
@@ -521,10 +532,10 @@
         this.$el = $(el);
 
         this.tvid = this.$el.attr('id');
-        this.data = new Object();
+        this.data = {};
         this.fieldHeading = $('#' + this.tvid + 'heading');
-        this.fieldNames = this.options.fieldsettings['fieldnames'];
-        this.fieldTypes = this.options.fieldsettings['fieldtypes'];
+        this.fieldNames = this.options.fieldsettings.fieldnames;
+        this.fieldTypes = this.options.fieldsettings.fieldtypes;
         this.fieldTable = $('#' + this.tvid + 'table');
         this.fieldEdit = $('#' + this.tvid + 'edit');
         this.fieldClear = $('#' + this.tvid + 'clear');
@@ -538,8 +549,8 @@
         this.tableButtonAppend = $('<li>').attr('id', this.tvid + 'tableAppend').append($('<a>').attr('href', '#').html(this.tableAppend));
         this.tableButtonEdit = $('<li>').attr('id', this.tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableEdit));
         this.tableButtonRemove = $('<li>').attr('id', this.tvid + 'tableRemove').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableRemove));
-        this.tableClasses = this.options.fieldsettings['tableClasses'];
-        this.radioTabs = this.options.fieldsettings['radioTabs'];
+        this.tableClasses = this.options.fieldsettings.tableClasses;
+        this.radioTabs = this.options.fieldsettings.radioTabs;
         this.editBox = '';
 
         this.init();
@@ -563,6 +574,11 @@
                             aaData: _this.data.value,
                             aoColumns: _this.options.fieldsettings.fieldcolumns,
                             bAutoWidth: false,
+                            iDisplayLength: _this.options.fieldsettings.displayLength,
+                            aLengthMenu: [
+                                _this.options.fieldsettings.displayLengthMenu,
+                                _this.options.fieldsettings.displayLengthMenutext
+                            ],
                             oLanguage: dataTableLanguage,
                             fnRowCallback: function (nRow, aData, iDisplayIndex) {
                                 _this.contextMenu(nRow, iDisplayIndex);
@@ -574,19 +590,20 @@
                             sDom: '<"clear">lfrtip',
                             bProcessing: true,
                             bServerSide: true,
-                            iDisplayLength: 10,
+                            bLengthChange: true,
+                            iDisplayLength: _this.options.fieldsettings.displayLength,
                             aLengthMenu: [
-                                [10, 25, 50, 100, -1],
-                                [10, 25, 50, 100, this.options.language.all]
+                                _this.options.fieldsettings.displayLengthMenu,
+                                _this.options.fieldsettings.displayLengthMenutext
                             ],
                             sAjaxSource: '../' + _this.options.mtvpath + 'multitv.connector.php',
                             fnServerData: function (sSource, aoData, fnCallback, oSettings) {
                                 aoData.push(
-                                    { name: 'mode', value: 'dbtable' },
-                                    { name: 'action', value: 'loadtable' },
-                                    { name: 'config', value: _this.options.fieldsettings.fieldconfig },
-                                    { name: 'configtype', value: _this.options.fieldsettings.fieldconfigtype },
-                                    { name: 'mtvpath', value: _this.options.mtvpath }
+                                    {name: 'mode', value: 'dbtable'},
+                                    {name: 'action', value: 'loadtable'},
+                                    {name: 'config', value: _this.options.fieldsettings.fieldconfig},
+                                    {name: 'configtype', value: _this.options.fieldsettings.fieldconfigtype},
+                                    {name: 'mtvpath', value: _this.options.mtvpath}
                                 );
                                 oSettings.jqXHR = $.ajax({
                                     dataType: 'json',
@@ -606,7 +623,7 @@
                         }).addClass(_this.tableClasses);
                     }
 
-                    if (!_this.options.fieldsettings['sorting'] && _this.options.fieldsettings['sortindex'] != '') {
+                    if (!_this.options.fieldsettings.sorting) {
                         if (_this.options.mode != 'dbtable') {
                             _this.fieldTable.rowReordering({
                                 fnAfterMove: function () {
@@ -615,20 +632,22 @@
                                 }
                             });
                         } else {
-                            _this.fieldTable.rowReordering({
-                                iIndexColumn: 2,
-                                sURL: '../' + _this.options.mtvpath + 'multitv.connector.php',
-                                sData: {
-                                    mode: 'dbtable',
-                                    action: 'sorttable',
-                                    config: _this.options.fieldsettings.fieldconfig,
-                                    configtype: _this.options.fieldsettings.fieldconfigtype,
-                                    mtvpath: _this.options.mtvpath
-                                },
-                                fnAfterMove: function () {
-                                    _this.fieldTable.fnDraw();
-                                }
-                            });
+                            if (_this.options.fieldsettings.sortindex != '') {
+                                _this.fieldTable.rowReordering({
+                                    iIndexColumn: 2,
+                                    sURL: '../' + _this.options.mtvpath + 'multitv.connector.php',
+                                    sData: {
+                                        mode: 'dbtable',
+                                        action: 'sorttable',
+                                        config: _this.options.fieldsettings.fieldconfig,
+                                        configtype: _this.options.fieldsettings.fieldconfigtype,
+                                        mtvpath: _this.options.mtvpath
+                                    },
+                                    fnAfterMove: function () {
+                                        _this.fieldTable.fnDraw();
+                                    }
+                                });
+                            }
                         }
                     }
 
@@ -701,7 +720,7 @@
                         $(this).val('');
                 }
             });
-            $('.tvimage', el).html('');
+            $('.mtvThumb', el).html('');
         },
         saveMultiValue: function () {
             var _this = this;
@@ -715,12 +734,12 @@
             }
 
             var currentValue = _this.fieldTable.fnGetData();
-            var saveValue = new Array();
+            var saveValue = [];
 
             currentValue.sort(compare);
 
             $.each(currentValue, function () {
-                var row = new Object();
+                var row = {};
                 $.each(this, function (key, value) {
                     if (key !== 'DT_RowId' && key !== 'MTV_RowId' && key.substr(0, 9) !== 'mtvRender') {
                         row[key] = value.replace('&quot;', '"');
@@ -753,7 +772,7 @@
                     if (jsonValue.constructor === Array) {
                         _this.data.value = jsonValue;
                         if (!_this.data.settings) {
-                            _this.data.settings = new Object();
+                            _this.data.settings = {};
                         }
                         _this.data.settings.autoincrement = _this.data.value.length + 1;
                     } else {
@@ -797,10 +816,11 @@
                     changeMonth: true,
                     changeYear: true,
                     dateFormat: 'dd-mm-yy',
-                    timeFormat: 'h:mm:ss'
+                    timeFormat: 'HH:mm:ss',
+                    showTimepicker: true
                 });
                 var picker = $(this).datetimepicker(datepickerOptions);
-                picker.datepicker('show');
+                picker.datetimepicker('show');
             });
             // file field browser
             $('.browsefile', el).click(function () {
@@ -815,17 +835,18 @@
                 BrowseServer(field);
                 return false;
             });
-            $('[name]', el).bind('change keyup mouseup', function (e) {
+            $('[name]', el).bind('change keyup', function (e) {
                 e.preventDefault();
-                if ($(this).hasClass('image')) {
+                if ($(this).hasClass('mtvImage')) {
                     _this.setThumbnail($(this).val(), $(this).attr('name'), _this.fieldEditForm);
                     _this.editBox.colorbox.resize();
                 }
             });
         },
-        // open edit box
+        // load edit data/create new data
         editRow: function (mode, selector) {
             var _this = this;
+            var lineValue;
 
             if (selector && mode === 'edit') {
                 var lineValue = _this.fieldTable.fnGetData(selector);
@@ -833,10 +854,18 @@
                     $.each(lineValue, function (key, value) {
                         var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
                         fieldInput.setValue(value);
-                        if (fieldInput.hasClass('image')) {
+                        if (fieldInput.hasClass('mtvImage')) {
                             _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
                         }
+                        if (fieldInput.hasClass('setdefault') && fieldInput.getValue() === '') {
+                            fieldInput.setValue(fieldInput.attr('alt').supplant({
+                                i: _this.data.settings.autoincrement,
+                                alias: $('[name="alias"]').getValue()
+                            }));
+                            _this.data.settings.autoincrement++;
+                        }
                     });
+                    _this.editBoxOpen(mode);
                 } else {
                     $.ajax({
                         dataType: 'json',
@@ -856,19 +885,32 @@
                                 $.each(lineValue, function (key, value) {
                                     var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
                                     fieldInput.setValue(value);
-                                    if (fieldInput.hasClass('image')) {
+                                    if (fieldInput.hasClass('mtvImage')) {
                                         _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
                                     }
                                 });
                             }
+                            _this.editBoxOpen(mode, lineValue);
                         }
                     });
                 }
             } else {
-                if (_this.options.fieldsettings.radioTabs) {
-                    $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
-                }
-                if (_this.options.mode == 'dbtable') {
+                if (_this.options.mode != 'dbtable') {
+                    if (_this.options.fieldsettings.radioTabs) {
+                        $('.formtabradio:first', _this.fieldEditForm).addClass('active').find('input[type="radio"]').prop('checked', true);
+                    }
+                    $.each(_this.fieldNames, function (index, value) {
+                        var fieldInput = $('[name^="' + _this.tvid + value + '_mtv"][type!="hidden"]', _this.fieldEditArea);
+                        if (fieldInput.hasClass('setdefault')) {
+                            fieldInput.setValue(fieldInput.attr('alt').supplant({
+                                i: _this.data.settings.autoincrement,
+                                alias: $('[name="alias"]').getValue()
+                            }));
+                            _this.data.settings.autoincrement++;
+                        }
+                    });
+                    _this.editBoxOpen(mode);
+                } else {
                     $.ajax({
                         dataType: 'json',
                         type: 'POST',
@@ -886,15 +928,21 @@
                                 $.each(lineValue, function (key, value) {
                                     var fieldInput = $('[name^="' + _this.tvid + key + '_mtv"][type!="hidden"]', _this.fieldEditArea);
                                     fieldInput.setValue(value);
-                                    if (fieldInput.hasClass('image')) {
+                                    if (fieldInput.hasClass('mtvImage')) {
                                         _this.setThumbnail(value, fieldInput.attr('name'), _this.fieldListElement);
                                     }
                                 });
                             }
+                            _this.editBoxOpen(mode, lineValue);
                         }
                     });
                 }
             }
+        },
+        // open edit box
+        editBoxOpen: function (mode, lineValue) {
+            var _this = this;
+
             $('.mode', _this.fieldEditForm).hide();
             $('.mode.' + mode, _this.fieldEditForm).show();
             $('.editformtabs', _this.fieldEditForm).easytabs({
@@ -911,7 +959,7 @@
             $.colorbox({
                 inline: true,
                 href: '#' + _this.tvid + 'editform',
-                width: '640px',
+                width: (_this.options.fieldsettings.editBoxWidth != '') ? _this.options.fieldsettings.editBoxWidth : '640px',
                 close: '',
                 open: true,
                 opacity: '0.35',
@@ -923,7 +971,7 @@
                     if (!_this.fieldEditArea.children('form').length) {
                         _this.fieldEditArea.wrapInner('<form/>');
                     }
-                    if (lineValue && lineValue.fieldTab) {
+                    if (typeof lineValue !== 'undefined' && lineValue.fieldTab) {
                         $('.editformtabs', _this.fieldEditArea).easytabs('select', '#' + _this.tvid + 'tab_radio_' + lineValue.fieldTab);
                         $('.formtabradio:not(.active) input[type="radio"]', _this.fieldEditArea).prop('checked', false);
                         $('.formtabradio.active input[type="radio"]', _this.fieldEditArea).prop('checked', true);
@@ -936,13 +984,16 @@
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
                     });
-                    _this.editBox.colorbox.resize();
+                    setTimeout(function () {
+                        _this.editBox.colorbox.resize();
+                    }, 250)
                 },
                 onCleanup: function () {
                     _this.clearInputs(_this.fieldEditArea);
                 }
             });
         },
+
         // save/append edit box
         saveRow: function (mode) {
             var _this = this;
@@ -950,53 +1001,62 @@
             if (typeof tinyMCE !== 'undefined') {
                 tinyMCE.triggerSave();
             }
-            var values = new Object();
+            var values = {};
             var saveTab = $('[name^="' + _this.tvid + 'tab_radio_mtv"]', _this.fieldEditForm).getValue();
             values.fieldTab = (saveTab !== '') ? saveTab : '';
             $.each(_this.fieldNames, function () {
                 var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', _this.fieldEditForm);
                 values[this] = fieldInput.getValue();
-                if (fieldInput.hasClass('image')) {
+                if (fieldInput.hasClass('mtvImage')) {
                     _this.setThumbnail(values[this], fieldInput.attr('name'), _this.fieldEditForm);
                 }
             });
 
             if (_this.options.mode != 'dbtable') {
-                $.ajax({
-                    url: '../' + _this.options.mtvpath + 'multitv.connector.php',
-                    data: {
-                        action: 'preparevalue',
-                        id: $('form#mutate [name="id"]').val(),
-                        tvid: _this.tvid,
-                        value: $.toJSON(values),
-                        mtvpath: _this.options.mtvpath
-                    },
-                    dataType: 'json',
-                    type: 'POST',
-                    success: function (answer) {
-                        answer = $.parseJSON(answer.msg);
-                        values = answer.fieldValue[0];
-                        if (mode === 'edit') {
-                            var selected = $('.row_selected', _this.fieldTable)[0];
-                            var lineValue = _this.fieldTable.fnGetData(selected);
-                            values.MTV_RowId = lineValue.MTV_RowId;
-                            values.DT_RowId = lineValue.DT_RowId;
-                            _this.fieldTable.fnUpdate(values, selected);
-                        } else {
-                            values.MTV_RowId = _this.fieldTable.fnGetData().length + 1;
-                            values.DT_RowId = _this.tvid + (_this.fieldTable.fnGetData().length + 1);
-                            _this.fieldTable.fnAddData(values);
+                if ($('form#mutate [name="id"]').val()) {
+                    $.ajax({
+                        url: '../' + _this.options.mtvpath + 'multitv.connector.php',
+                        data: {
+                            action: 'preparevalue',
+                            id: $('form#mutate [name="id"]').val(),
+                            tvid: _this.tvid,
+                            value: $.toJSON(values),
+                            mtvpath: _this.options.mtvpath
+                        },
+                        dataType: 'json',
+                        type: 'POST',
+                        success: function (answer) {
+                            if (answer.error) {
+                                alert(answer.msg);
+                                return false;
+                            }
+                            answer = $.parseJSON(answer.msg);
+                            values = answer.fieldValue[0];
+                            if (mode === 'edit') {
+                                var selected = $('.row_selected', _this.fieldTable)[0];
+                                var lineValue = _this.fieldTable.fnGetData(selected);
+                                values.MTV_RowId = lineValue.MTV_RowId;
+                                values.DT_RowId = lineValue.DT_RowId;
+                                _this.fieldTable.fnUpdate(values, selected);
+                            } else {
+                                values.MTV_RowId = _this.fieldTable.fnGetData().length + 1;
+                                values.DT_RowId = _this.tvid + (_this.fieldTable.fnGetData().length + 1);
+                                _this.fieldTable.fnAddData(values);
+                            }
+                            _this.clearInputs(_this.fieldEditArea);
+                            _this.saveMultiValue();
+                            _this.editBox.colorbox.close();
+                            return false;
+                        },
+                        error: function (answer) {
+                            alert(this.options.language.notprepared);
+                            return false;
                         }
-                        _this.clearInputs(_this.fieldEditArea);
-                        _this.saveMultiValue();
-                        _this.editBox.colorbox.close();
-                        return false;
-                    },
-                    error: function (answer) {
-                        alert(answer.msg);
-                        return false;
-                    }
-                });
+                    });
+                } else {
+                    alert(this.options.language.noidprepare);
+                    return false;
+                }
             } else {
                 var lineId = false;
                 if (mode === 'edit') {
@@ -1041,7 +1101,7 @@
                 _this.saveMultiValue();
             } else {
                 var lineValue = _this.fieldTable.fnGetData(selector);
-                lineId = lineValue.id;
+                var lineId = lineValue.id;
                 $.ajax({
                     url: '../' + _this.options.mtvpath + 'multitv.connector.php',
                     data: {

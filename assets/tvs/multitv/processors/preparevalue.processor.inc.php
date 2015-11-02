@@ -29,5 +29,5 @@ if (isset($_POST['value']) && $_POST['value'] != '') {
     $answer['msg'] = $multiTV->tvValue;
 } else {
     $answer['error'] = true;
-    $answer['msg'] = 'No value to prepare';
+    $answer['msg'] = $language['novalue'];
 }

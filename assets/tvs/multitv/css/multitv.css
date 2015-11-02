@@ -29,13 +29,13 @@
 
 .multitv .list li.element .DatePicker { padding: 3px 3px 3px 24px }
 
-.multitv .list li.element .tvimage { float: right; margin-right: 12px; width: 96px }
-.multitv .list li.element .tvimage img { width: auto; height: 96px; float: right }
+.multitv .list li.element .mtvThumb { float: right; margin-right: 12px; width: 96px }
+.multitv .list li.element .mtvThumb img { width: auto; height: 96px; float: right }
 .multitv .list li.element .thumb { border: 1px solid #ccc !important }
 
-.multitv .list li.element .tvimage.inline { float: left; margin-right: 5px; width: 26px }
-.multitv .list li.element .tvimage.inline img { position: absolute; width: 26px; height: 26px; z-index: 1 }
-.multitv .list li.element .tvimage.inline img:hover { width: auto; height: auto; z-index: 2 }
+.multitv .list li.element .mtvThumb.inline { float: left; margin-right: 5px; width: 26px }
+.multitv .list li.element .mtvThumb.inline img { position: absolute; width: 26px; height: 26px; z-index: 1 }
+.multitv .list li.element .mtvThumb.inline img:hover { width: auto; height: auto; z-index: 2 }
 
 .multitv .hidden { display: none }
 
@@ -68,9 +68,9 @@
 .multitv table.display.hideHeader thead th { padding: 0 18px 0 10px; border-bottom: none }
 
 .tveditform { width: 590px }
-.tveditform .formtabpage label { display: block; margin-top: 10px; clear: both }
+.tveditform .formtabpage label { display: block; margin-top: 10px; clear: left }
 .tveditform .formtabpage .inlinelabel { display: inline-block }
-.tveditform .formtabpage .tvimage img { width: auto; height: 96px; float: right }
+.tveditform .formtabpage .mtvThumb { width: auto; height: 96px; float: right }
 .tveditform .formtabpage select, .tveditform .formtabpage input { width: 300px }
 .tveditform .formtabpage select { height: 28px; width: 308px }
 .tveditform .formtabpage textarea { width: 306px }
