@@ -61,6 +61,25 @@
             }
         }
     ],
+    "buttons": {
+        "logfile": {
+            "position": "topright",
+            "buttons": {
+                "csvexport": {
+                    "caption": "CSV exportiern",
+                    "icon": "table_save.png",
+                    "processor": "csvexport",
+                    "form": [
+                        {
+                            "caption": "CSV exportiern",
+                            "content": {
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    },
     "configuration": {
         "radioTabs": 0,
         "sorting": 0

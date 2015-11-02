@@ -8,7 +8,7 @@
  */
 
 $options = explode('|', $options);
-$tvname = $tvname;
+$tvname = isset($tvname) ? $tvname : '';
 $docid = isset($docid) ? $docid : $modx->documentIdentifier;
 $mode = isset($mode) ? $mode : 1;
 

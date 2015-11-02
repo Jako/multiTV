@@ -47,11 +47,12 @@ $res = $modx->db->select('*', $modx->getFullTableName($settings['table']), $wher
 $totalRecords = $modx->db->getRecordCount($res);
 
 if ($search != '') {
+    $res = $modx->db->select('*', $modx->getFullTableName($settings['table']));
     $dbColumns = $modx->db->getColumnNames($res);
     $whereSearch = array();
     foreach ($dbColumns as $dbColumn) {
-        if ($dbColumn != 'id') {
-            $whereSearch[] = $dbColumn . ' LIKE "%' . $search . '%"';
+        if ($dbColumn && $dbColumn != 'id') {
+            $whereSearch[] = '`' . $dbColumn . '`' . ' LIKE "%' . $search . '%"';
         }
     }
     $where = (($where != '') ? $where . ' AND ' : '') . '(' . implode(' OR ', $whereSearch) . ')';

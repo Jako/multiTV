@@ -1,0 +1,21 @@
+site_name: multiTV
+docs_dir: assets/tvs/multitv/docs
+site_dir: _site
+
+repo_url: https://github.com/Jako/multiTV
+
+pages:
+- Home: index.md
+- Installation: installation.md
+- Documentation:
+    - Template Variable: template_variable.md
+    - Snippet: snippet.md
+    - Module: module.md
+    - Extras: extras.md
+- Examples: examples.md
+- Contributors: contributors.md
+- Donate: donate.md
+
+theme: yeti
+
+markdown_extensions: [footnotes,tables]

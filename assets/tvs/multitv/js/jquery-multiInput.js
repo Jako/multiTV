@@ -77,7 +77,7 @@
 		 * Create one element
 		 * @param {jQuery} el The element to create
 		 * @param {Number} suffix The new id suffix
-		 * @param {string} or {json} data The value for the element to create
+		 * @param {string/json} data The value for the element to create
 		 * @return {jQuery} The new created element
 		 */
 		createElement: function(el, suffix, data) {
@@ -164,7 +164,7 @@
 		 */
 		addElementEvents: function(el) {
 			var _this = this;
-			$('[name]', el).bind('change keyup mouseup', function() {
+			$('[name]', el).bind('change keyup', function() {
 				_this.saveElementsValues();
 				return false;
 			});
@@ -180,10 +180,10 @@
 			var _this = this;
 			if (_this.elementInputs) {
 				var elements = _this.elementInputs.children('.inputWrapper');
-				var data = new Array();
+				var data = [];
 				elements.each(function() {
 					var inputs = $(':input', $(this));
-					var values = new Array();
+					var values = [];
 					$.each(inputs, function() {
 						values.push($(this).val());
 					});

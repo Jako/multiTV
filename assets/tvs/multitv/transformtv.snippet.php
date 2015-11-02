@@ -1,14 +1,14 @@
 <?php
 /**
- * updateTV
+ * transformTV
  *
  * @category    snippet
  * @version     2.0
  * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
  * @author      Jako (thomas.jakobi@partout.info)
  *
- * @internal    description: <strong>2.0</strong> Update the value of a multiTV to the new format (changed with 1.4.11)
- * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/updatetv.snippet.php');
+ * @internal    description: <strong>2.0</strong> Transform a normal TV into a multiTV.
+ * @internal    snippet code: return include(MODX_BASE_PATH.'assets/tvs/multitv/transformtv.snippet.php');
  */
 if (MODX_BASE_PATH == '') {
     die('<h1>ERROR:</h1><p>Please use do not access this file directly.</p>');
@@ -26,6 +26,7 @@ if (!class_exists('multiTV')) {
 }
 // load template variable settings
 $tvNames = isset($tvNames) ? explode(',', $tvNames) : array();
+$fieldName = isset($fieldName) ? $fieldName : 'value';
 
 $output = array();
 foreach ($tvNames as $tvName) {
@@ -50,23 +51,14 @@ foreach ($tvNames as $tvName) {
         $res = $modx->db->select('*', $modx->getFullTableName('site_tmplvar_contentvalues'), 'tmplvarid=' . $multiTV->tvID);
         $output[] = 'Updating template variable ' . $tvName;
         while ($row = $modx->db->getRow($res)) {
-            if ($row['value'] == '[]') {
-                $output[] = 'Skipped ' . $row['contentid'] . ' (multiTV is empty)';
-                continue;
-            }
-            $tvValues = json_decode($row['value']);
-            if (!is_object($tvValues)) {
-                $tvValues = (object)array('fieldValue' => $tvValues);
-            }
-            foreach ($tvValues->fieldValue as $tvValueKey => $tvValue) {
-                $newValue = array();
-                foreach ($tvValue as $key => $value) {
-                    $fieldname = (is_int($key)) ? $columns[$key] : $key;
-                    $newValue[$fieldname] = htmlentities($value);
-                }
-                $tvValues->fieldValue[$tvValueKey] = $newValue;
-            }
-            $modx->db->update(array('value' => $modx->db->escape(html_entity_decode(json_encode($tvValues)))), $modx->getFullTableName('site_tmplvar_contentvalues'), 'id=' . $row['id']);
+            $tvValues = new stdClass();
+            $tvValues->fieldValue = array(array(
+                'phone' => htmlentities($row['value'])
+            ));
+            $modx->db->update(array(
+                'value' => $modx->db->escape(html_entity_decode(json_encode($tvValues)))), $modx->getFullTableName('site_tmplvar_contentvalues'),
+                'id=' . $row['id']
+            );
             $output[] = 'Updated ' . $row['contentid'];
         }
     }

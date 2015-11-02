@@ -9,4 +9,3 @@ $settings['fields'] = array(
         'caption' => 'Value',
         'type' => 'text'
     ));
-

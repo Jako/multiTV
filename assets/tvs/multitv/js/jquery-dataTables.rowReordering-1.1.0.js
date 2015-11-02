@@ -44,7 +44,7 @@
         function fnGetStartPosition(sSelector) {
             var iStart = 1000000;
             $(sSelector, oTable).each(function () {
-                iPosition = parseInt(oTable.fnGetData(this, properties.iIndexColumn));
+                var iPosition = parseInt(oTable.fnGetData(this, properties.iIndexColumn));
                 if (iPosition < iStart)
                     iStart = iPosition;
             });
@@ -191,7 +191,7 @@
 
         return this.each(function () {
 
-            var aaSortingFixed = (oTable.fnSettings().aaSortingFixed == null ? new Array() : oTable.fnSettings().aaSortingFixed);
+            var aaSortingFixed = (oTable.fnSettings().aaSortingFixed == null ? [] : oTable.fnSettings().aaSortingFixed);
             aaSortingFixed.push([properties.iIndexColumn, "asc"]);
 
             oTable.fnSettings().aaSortingFixed = aaSortingFixed;
