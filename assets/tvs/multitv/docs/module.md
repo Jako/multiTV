@@ -31,7 +31,6 @@ loadrecord | Loads a table row into the editing layer
 createrecord | Creates a new table row for the editing layer
 deleterecord | Deletes a table row
 saverecord | Saves the values of the editing layer into a table row
-{:.table .table-striped .table-hover}
 
 ### Fields
 
@@ -45,7 +44,6 @@ elements | [Same options](http://rtfm.modx.com/evolution/1.0/developers-guide/te
 default | Default value for the input. This value could contain calculated parts. There are two placeholders available: `{i}` contains an autoincremented index `{alias}` contains the alias of the edited document. | -
 thumbof | Name of an image input. A thumbnail of the selected image will be rendered into this area | -
 width | Width of the input | 100
-{:.table .table-striped .table-hover}
 
 [^1]: Supported MODX input types: text, rawtext, email, number, textareamini, textarea, rawtextarea, htmlarea, date, dropdown, listbox, listbox-multiple, checkbox, option, image, file
 [^2]: See [images config](https://github.com/Jako/multiTV/blob/master/assets/tvs/multitv/configs/images.config.inc.php) for thumb
@@ -62,7 +60,6 @@ fieldname | **(required)** Fieldname that is displayed in this column | -
 caption | Caption of the column | Caption for fieldname in `fields`
 width | Width of the column | Width for fieldname in `fields`
 render | Enable rengering of the column content with this PHx capable string | -
-{:.table .table-striped .table-hover}
 
 ### Editing Layer
 
@@ -72,14 +69,12 @@ Property | Description | Default
 -------- | ----------- | -------
 caption | **(required)** Caption for the form tab | -
 content | **(required)** Associative array of field settings | -
-{:.table .table-striped .table-hover}
 
 Each form tab setting contains an associative array of field properties (the key contains the fieldname in `fields`). If a field property is not set, the field property in `fields` is used.
 
 Property | Description | Default
 -------- | ----------- | -------
 caption | Caption for the input | Caption for fieldname in `fields`
-{:.table .table-striped .table-hover}
 
 ### Buttons
 
@@ -89,7 +84,6 @@ Property | Description | Default
 -------- | ----------- | -------
 position | **(required)** Position of the button group (could be `topleft`, `topright`, `bottomleft` or `bottom right`)| -
 buttons | **(required)** Associative array of button configs | -
-{:.table .table-striped .table-hover}
 
 Each button config contains an associative array of button settings.
 
@@ -99,7 +93,6 @@ caption | Caption for the button | -
 icon | Icon for the button located in *assets/tvs/multitv/css/images* | -
 processor | name of the processor file located in *assets/tvs/multitv/processors/[groupkey]* (groupkey contains the group config key)| -
 form | Array of form tab settings (see [Editing layer](#editing-layer)) | -
-{:.table .table-striped .table-hover}
 
 For every button a javascript file will be included with the following path *assets/tvs/multitv/buttons/[groupkey]/[buttonkey].button.js* (groupkey contains the button group config key, buttonkey contains the button config key)
 
@@ -142,7 +135,6 @@ Property | Description | Default
 radioTabs | Tabs in the datatable editing layer are displayed as radio buttons. The button state is saved in *fieldTab* column of each table row (this column has to exist). | false
 sorting | Enable sorting by column header. | false
 sortindex | Column name that ist used as sorting index. The column type has to be integer and it should contain an autoincremented index (see in [Fields](#fields)) as default value. | false
-{:.table .table-striped .table-hover}
 
 <!-- Piwik -->
 <script type="text/javascript">
