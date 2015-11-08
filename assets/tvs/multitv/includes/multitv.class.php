@@ -359,7 +359,7 @@ class multiTV
                 $fieldType = 'date';
                 break;
             case 'image' :
-                if ($this->display == 'datatable' || $this->display == 'dbtatable' || $this->display == 'vertical') {
+                if ($this->display == 'datatable' || $this->display == 'dbtatable' || $this->display == 'vertical' || $this->display == 'horizontal') {
                     $fieldClass[] = 'mtvImage';
                 }
                 break;
