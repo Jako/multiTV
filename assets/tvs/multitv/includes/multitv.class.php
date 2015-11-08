@@ -359,7 +359,7 @@ class multiTV
                 $fieldType = 'date';
                 break;
             case 'image' :
-                if ($this->display == 'datatable' || $this->display == 'dbtatable' || $this->display == 'vertical') {
+                if ($this->display == 'datatable' || $this->display == 'dbtatable' || $this->display == 'vertical' || $this->display == 'horizontal') {
                     $fieldClass[] = 'mtvImage';
                 }
                 break;
@@ -428,12 +428,12 @@ class multiTV
                 $tvheading = array('<div id="[+tvid+]heading" class="heading">');
                 $tvelement = array('<li class="element inline' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
-                    $tvheading[] = '<span class="inline mtv_' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>';
+                    $tvheading[] = '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>';
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     if ($this->fields[$fieldname]['width']) {
-                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ', .multitv #[+tvid+]heading .inline.mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
+                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
                     }
                     switch ($type) {
                         case 'thumb':
@@ -445,7 +445,7 @@ class multiTV
                             $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 26) . 'px }';
                             break;
                         default:
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
                     }
                 }
                 $tvheading[] = '</div>';
