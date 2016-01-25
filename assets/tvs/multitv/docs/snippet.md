@@ -79,6 +79,7 @@ Multiple where clauses are combined with `AND` i.e. ``&where=`{"city:LIKE":"Lond
 Name | Description
 ---- | -----------
 "fieldname" | Each fieldname defined in config file could be used
+"property" | Each snippet property in snippet call could be used
 iteration | Contains the iteration of the current multiTV element
 row.number | Contains the row number of the current multiTV element
 row.class | FirstClass parameter setting for first displayed row, lastClass parameter setting for last displayed row, evenClass/oddClass parameter setting for even/odd rows.
@@ -90,6 +91,7 @@ docid | Value of docid parameter or current document id
 Name | Description
 ---- | -----------
 wrapper | Contains the output of all rows
+"property" | Each snippet property in snippet call could be used
 rows.offset | Contains the count of rows from start that are not displayed
 rows.total | Contains the count of all displayable rows
 docid | Value of docid parameter or current document id
