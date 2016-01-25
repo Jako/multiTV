@@ -55,7 +55,7 @@ $multiTV = new multiTV($modx, array(
 $templates = $multiTV->templates;
 
 // get snippet parameter
-$params = array();
+$params = &$modx->event->params;
 $params['docid'] = (isset($docid)) ? $docid : $modx->documentObject['id'];
 $params['outerTpl'] = (isset($outerTpl)) ? $outerTpl : (isset($templates['outerTpl']) ? '@CODE:' . $templates['outerTpl'] : '@CODE:<select name="' . $tvName . '">[+wrapper+]' . ((isset($paginate) && $paginate) ? '[+pagination+]' : '') . '</select>');
 $params['emptyOutput'] = (isset($emptyOutput) && !$emptyOutput) ? false : true;

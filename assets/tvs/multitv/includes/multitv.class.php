@@ -1069,6 +1069,7 @@ class multiTV
                     $classes[] = $params['evenClass'];
                 }
                 $parser = new newChunkie($this->modx);
+                $parser->setPlaceholders($params);
                 foreach ($value as $key => $fieldvalue) {
                     $fieldname = (is_int($key)) ? $this->fieldnames[$key] : $key;
                     $parser->setPlaceholder($fieldname, $fieldvalue);
@@ -1098,6 +1099,7 @@ class multiTV
             if (!$params['toJson']) {
                 // wrap rowTpl output in outerTpl
                 $parser = new newChunkie($this->modx);
+                $parser->setPlaceholders($params);
                 $parser->setPlaceholder('wrapper', implode($params['outputSeparator'], $wrapper));
                 $parser->setPlaceholder('rows', array('offset' => $params['offset'], 'total' => $countOutput));
                 $parser->setPlaceholder('docid', $params['docid']);

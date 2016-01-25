@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0.6 January 25, 2016
+    - Snippet: All snippet properties are available as placeholders in the snippet chunks
+
 - 2.0.5 August 24, 2015
     - CustomTV: Bugfix for select dropdowns in Firefox
 
