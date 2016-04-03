@@ -700,7 +700,11 @@
         clearInputs: function (el) {
             $('.tabEditor', el).each(function () {
                 var editorId = $(this).attr('id');
-                tinyMCE.execCommand('mceRemoveControl', false, editorId);
+                if(tinyMCE.majorVersion == 4) {
+                    tinyMCE.execCommand('mceRemoveEditor', false, editorId);
+                } else {
+                    tinyMCE.execCommand('mceRemoveControl', false, editorId);
+                }
             });
             $(':input', el).each(function () {
                 var inputtype = $(this).attr('type');
@@ -978,7 +982,17 @@
                     }
                     $('.tabEditor', _this.fieldEditArea).each(function () {
                         var editorId = $(this).attr('id');
-                        tinyMCE.execCommand('mceAddControl', false, editorId);
+                        if(tinyMCE.majorVersion == 4) {
+                            if(modxRTEbridge_tinymce4 != undefined) {
+                                var configObj = window[modxRTEbridge_tinymce4.default];
+                                configObj['selector'] = '#'+editorId;
+                                tinymce.init(configObj);
+                            } else {
+                                tinyMCE.execCommand('mceAddEditor', false, editorId);
+                            }
+                        } else {
+                            tinyMCE.execCommand('mceAddControl', false, editorId);
+                        }
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'height', '200px');
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'height', 'auto');
                         tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
