@@ -1,5 +1,8 @@
 History
 ================================================================================
+- 2.0.7 April 4, 2016
+    - CustomTV: Compatibility with TinyMCE4
+
 - 2.0.6 January 25, 2016
     - Snippet: All snippet properties are available as placeholders in the snippet chunks
 
