@@ -1,2 +1,4 @@
 .gitattributes export-ignore
 .tx export-ignore
+mkdocs.yml export-ignore
+HISTORY.md export-ignore
