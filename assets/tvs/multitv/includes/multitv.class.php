@@ -428,12 +428,12 @@ class multiTV
                 $tvheading = array('<div id="[+tvid+]heading" class="heading">');
                 $tvelement = array('<li class="element inline' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
-                    $tvheading[] = '<span class="inline ' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>';
+                    $tvheading[] = '<span class="inline mtv_' . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</span>';
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     if ($this->fields[$fieldname]['width']) {
-                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.' . $fieldname . ', .multitv #[+tvid+]heading .inline.' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
+                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ', .multitv #[+tvid+]heading .inline.mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
                     }
                     switch ($type) {
                         case 'thumb':
@@ -445,7 +445,7 @@ class multiTV
                             $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 26) . 'px }';
                             break;
                         default:
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline ' . $fieldname, $default);
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
                     }
                 }
                 $tvheading[] = '</div>';
@@ -1069,6 +1069,7 @@ class multiTV
                     $classes[] = $params['evenClass'];
                 }
                 $parser = new newChunkie($this->modx);
+                $parser->setPlaceholders($params);
                 foreach ($value as $key => $fieldvalue) {
                     $fieldname = (is_int($key)) ? $this->fieldnames[$key] : $key;
                     $parser->setPlaceholder($fieldname, $fieldvalue);
@@ -1098,6 +1099,7 @@ class multiTV
             if (!$params['toJson']) {
                 // wrap rowTpl output in outerTpl
                 $parser = new newChunkie($this->modx);
+                $parser->setPlaceholders($params);
                 $parser->setPlaceholder('wrapper', implode($params['outputSeparator'], $wrapper));
                 $parser->setPlaceholder('rows', array('offset' => $params['offset'], 'total' => $countOutput));
                 $parser->setPlaceholder('docid', $params['docid']);

@@ -14,7 +14,6 @@ Name | Description
 ---- | -----------
 multiTvFilterBy | multiTV name to filter by (required)
 multiTvFilterOptions | (Array of) json encoded object(s) of filter options
-{:.table .table-striped .table-hover}
 
 The following **filter options** could be used
 
@@ -25,7 +24,6 @@ type | Type of the multiTV field content (possible content: date, text)
 value | The value the multiTV field content is filtered with
 mode | Mode for filtering the multiTV field content
 conjunction | Logical conjunction with the previous filter result (AND/OR)
-{:.table .table-striped .table-hover}
 
 The following modes could be used for **text** type:
 
@@ -39,7 +37,6 @@ is | filtered if one value is filterValue
 allis | filtered if all values are filterValue
 isnot | filtered if one value is not filterValue
 allisnot | filtered if all values are not filterValue
-{:.table .table-striped .table-hover}
 
 The following modes could be used for **date** type:
 
@@ -51,7 +48,6 @@ equal | filtered if one value is equal filterValue
 equalall | filtered if all values are equal filterValue
 after | filtered if one value is after filterValue
 afterall | filtered if one value is after filterValue
-{:.table .table-striped .table-hover}
 
 ### Examples
 
@@ -107,7 +103,6 @@ Call the snippet on one (temporary) MODX document like this:
 Name | Description | Default value
 ---- | ----------- | -------------
 tvNames | **(required)** comma separated list of template variable names that contain multiTV data | -
-{:.table .table-striped .table-hover}
 
 
 [^1]: The JSON string the multitv is converted to starts with `[[` and ends with `]]` so the MODX parser thinks it contains a snippet and you can't place the template variable directly in the template.

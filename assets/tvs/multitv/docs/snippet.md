@@ -59,7 +59,6 @@ evenClass | Content of row.class placeholder in an even row | -
 oddClass | Content of row.class placeholder in an odd row | -
 paginate | Show pagination | 0
 offsetKey | Pagination offset parameter key | page
-{:.table .table-striped .table-hover}
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by `rowTpl` and `outerTpl` in snippet call. Both template chunks are parsed by PHx (chunkie class).
 
@@ -80,23 +79,23 @@ Multiple where clauses are combined with `AND` i.e. ``&where=`{"city:LIKE":"Lond
 Name | Description
 ---- | -----------
 "fieldname" | Each fieldname defined in config file could be used
+"property" | Each snippet property in snippet call could be used
 iteration | Contains the iteration of the current multiTV element
 row.number | Contains the row number of the current multiTV element
 row.class | FirstClass parameter setting for first displayed row, lastClass parameter setting for last displayed row, evenClass/oddClass parameter setting for even/odd rows.
 row.total | Contains the count of all displayable rows
 docid | Value of docid parameter or current document id
-{:.table .table-striped .table-hover}
 
 ###Placeholder in outerTpl
 
 Name | Description
 ---- | -----------
 wrapper | Contains the output of all rows
+"property" | Each snippet property in snippet call could be used
 rows.offset | Contains the count of rows from start that are not displayed
 rows.total | Contains the count of all displayable rows
 docid | Value of docid parameter or current document id
 pagination | Contains the pagination (if parameter pagination is enabled)
-{:.table .table-striped .table-hover}
 
 [^1]: Older MODX versions don’t like =, ? and & in snippet parameters. If the template code has to use those signs, put the template code in a chunk or change the default templates in the config file.
 [^2]: If the snippet output is assigned to placeholder and PHx is installed, the page should be set to uncached and the Snippet should be called cached. Otherwise PHx will 'steal' the placeholders before the Snippet could fill them.
