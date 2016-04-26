@@ -698,14 +698,16 @@
             }
         },
         clearInputs: function (el) {
-            $('.tabEditor', el).each(function () {
-                var editorId = $(this).attr('id');
-                if(tinyMCE.majorVersion == 4) {
-                    tinyMCE.execCommand('mceRemoveEditor', false, editorId);
-                } else {
-                    tinyMCE.execCommand('mceRemoveControl', false, editorId);
-                }
-            });
+            if (typeof tinyMCE !== 'undefined') {
+                $('.tabEditor', el).each(function () {
+                    var editorId = $(this).attr('id');
+                    if(tinyMCE.majorVersion == 4) {
+                        tinyMCE.execCommand('mceRemoveEditor', false, editorId);
+                    } else {
+                        tinyMCE.execCommand('mceRemoveControl', false, editorId);
+                    }
+                });
+            }
             $(':input', el).each(function () {
                 var inputtype = $(this).attr('type');
                 var inputid = $(this).attr('id');
@@ -980,24 +982,26 @@
                         $('.formtabradio:not(.active) input[type="radio"]', _this.fieldEditArea).prop('checked', false);
                         $('.formtabradio.active input[type="radio"]', _this.fieldEditArea).prop('checked', true);
                     }
-                    $('.tabEditor', _this.fieldEditArea).each(function () {
-                        var editorId = $(this).attr('id');
-                        if(tinyMCE.majorVersion == 4) {
-                            if(modxRTEbridge_tinymce4 != undefined) {
-                                var configObj = window[modxRTEbridge_tinymce4.default];
-                                configObj['selector'] = '#'+editorId;
-                                tinymce.init(configObj);
+                    if (typeof tinyMCE !== 'undefined') {
+                        $('.tabEditor', _this.fieldEditArea).each(function () {
+                            var editorId = $(this).attr('id');
+                            if(tinyMCE.majorVersion == 4) {
+                                if(modxRTEbridge_tinymce4 != undefined) {
+                                    var configObj = window[modxRTEbridge_tinymce4.default];
+                                    configObj['selector'] = '#'+editorId;
+                                    tinyMCE.init(configObj);
+                                } else {
+                                    tinyMCE.execCommand('mceAddEditor', false, editorId);
+                                }
                             } else {
-                                tinyMCE.execCommand('mceAddEditor', false, editorId);
+                                tinyMCE.execCommand('mceAddControl', false, editorId);
                             }
-                        } else {
-                            tinyMCE.execCommand('mceAddControl', false, editorId);
-                        }
-                        tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'height', '200px');
-                        tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'height', 'auto');
-                        tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
-                        tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
-                    });
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'height', '200px');
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'height', 'auto');
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
+                        });
+                    }
                     setTimeout(function () {
                         _this.editBox.colorbox.resize();
                     }, 250)
