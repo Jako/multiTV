@@ -47,7 +47,7 @@
 .multitv .dataTables_wrapper .dataTables_length, .multitv .dataTables_wrapper .dataTables_filter { margin-bottom: 5px }
 .multitv .dataTables_wrapper .dataTables_filter input { margin-right: 0 }
 .multitv .dataTables_wrapper .actionButtons { margin-bottom: 9px }
-.multitv .dataTables_wrapper .actionButtons a.disabled { padding: 4px 6px; border: 1px solid #c7ced2 }
+.multitv .dataTables_wrapper .actionButtons a.disabled { color:#aaa; border: 1px solid #c7ced2; }
 .multitv table.display { width: 100%; background-color: #fff; border: 1px solid silver; border-collapse: separate; border-spacing: 0; table-layout: fixed }
 .multitv table.display thead { color: #333; height: 18px !important; background-color: #e4e4e4 }
 .multitv table.display tr.odd { background-color: #eee }
