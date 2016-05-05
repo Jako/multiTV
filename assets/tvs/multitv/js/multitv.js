@@ -545,10 +545,12 @@
         this.tableAppend = '<img alt="' + this.options.language.append + ' " src="../' + this.options.mtvpath + 'css/images/add.png" /> ' + this.options.language.append;
         this.tableEdit = '<img alt="' + this.options.language.edit + ' " src="../' + this.options.mtvpath + 'css/images/application_form_edit.png" /> ' + this.options.language.edit;
         this.tableRemove = '<img alt="' + this.options.language.remove + ' " src="../' + this.options.mtvpath + 'css/images/delete.png" /> ' + this.options.language.remove;
+        this.tableDuplicate = '<img alt="' + this.options.language.duplicate + ' " src="../' + this.options.mtvpath + 'css/images/copy.gif" /> ' + this.options.language.duplicate;
         this.tableButtons = $('<ul>').addClass('actionButtons');
         this.tableButtonAppend = $('<li>').attr('id', this.tvid + 'tableAppend').append($('<a>').attr('href', '#').html(this.tableAppend));
         this.tableButtonEdit = $('<li>').attr('id', this.tvid + 'tableEdit').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableEdit));
         this.tableButtonRemove = $('<li>').attr('id', this.tvid + 'tableRemove').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableRemove));
+        this.tableButtonDuplicate = $('<li>').attr('id', this.tvid + 'tableDuplicate').append($('<a>').attr('href', '#').addClass('disabled').html(this.tableDuplicate));
         this.tableClasses = this.options.fieldsettings.tableClasses;
         this.radioTabs = this.options.fieldsettings.radioTabs;
         this.editBox = '';
@@ -653,7 +655,7 @@
 
                     // buttons above datatable
                     _this.fieldTable.parent().prepend(_this.tableButtons);
-                    _this.tableButtons.append(_this.tableButtonAppend, _this.tableButtonRemove, _this.tableButtonEdit);
+                    _this.tableButtons.append(_this.tableButtonAppend, _this.tableButtonRemove, _this.tableButtonEdit, _this.tableButtonDuplicate);
 
                     // remove row event
                     $('a', _this.tableButtonRemove).click(function (e) {
@@ -673,10 +675,19 @@
                         _this.editRow($(this).parent().attr('id').replace(/[\w\d]+table/, '').toLowerCase(), $('.row_selected', _this.fieldTable)[0]);
                     });
 
+                    // duplicate row event
+                    $('a', _this.tableButtonDuplicate).click(function (e) {
+                        e.preventDefault();
+                        if ($(this).hasClass('disabled')) {
+                            return false;
+                        }
+                        _this.duplicateRow($('.row_selected', _this.fieldTable)[0]);
+                    });
+
                     // save/append edit box
                     $('.edit,.append', _this.fieldEditForm).click(function (e) {
                         e.preventDefault();
-                        _this.saveRow($(this).hasClass('edit') ? 'edit' : 'append');
+                        _this.saveRow($(this).hasClass('edit') ? 'edit' : 'append', false);
                     });
 
                     // close edit box
@@ -1013,22 +1024,24 @@
         },
 
         // save/append edit box
-        saveRow: function (mode) {
+        saveRow: function (mode, values) {
             var _this = this;
 
             if (typeof tinyMCE !== 'undefined') {
                 tinyMCE.triggerSave();
             }
-            var values = {};
-            var saveTab = $('[name^="' + _this.tvid + 'tab_radio_mtv"]', _this.fieldEditForm).getValue();
-            values.fieldTab = (saveTab !== '') ? saveTab : '';
-            $.each(_this.fieldNames, function () {
-                var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', _this.fieldEditForm);
-                values[this] = fieldInput.getValue();
-                if (fieldInput.hasClass('mtvImage')) {
-                    _this.setThumbnail(values[this], fieldInput.attr('name'), _this.fieldEditForm);
-                }
-            });
+            if(values === false) {
+                values = {};
+                var saveTab = $('[name^="' + _this.tvid + 'tab_radio_mtv"]', _this.fieldEditForm).getValue();
+                values.fieldTab = (saveTab !== '') ? saveTab : '';
+                $.each(_this.fieldNames, function () {
+                    var fieldInput = $('[name^="' + _this.tvid + this + '_mtv"][type!="hidden"]', _this.fieldEditForm);
+                    values[this] = fieldInput.getValue();
+                    if (fieldInput.hasClass('mtvImage')) {
+                        _this.setThumbnail(values[this], fieldInput.attr('name'), _this.fieldEditForm);
+                    }
+                });
+            };
 
             if (_this.options.mode != 'dbtable') {
                 if ($('form#mutate [name="id"]').val()) {
@@ -1114,6 +1127,7 @@
             $(selector).removeClass('row_selected');
             $('a', _this.tableButtonEdit).addClass('disabled');
             $('a', _this.tableButtonRemove).addClass('disabled');
+            $('a', _this.tableButtonDuplicate).addClass('disabled');
             if (_this.options.mode != 'dbtable') {
                 _this.fieldTable.fnDeleteRow(selector);
                 _this.saveMultiValue();
@@ -1143,8 +1157,16 @@
                 });
             }
         },
-        // toggle row
+        // duplicate row
+        duplicateRow: function (selector) {
+            var _this = this;
 
+            if (_this.options.mode != 'dbtable') {
+                var lineValue = _this.fieldTable.fnGetData(selector);
+                _this.saveRow('append', lineValue);
+            }
+        },
+        // toggle row
         toggleRow: function (row) {
             var _this = this;
 
@@ -1154,12 +1176,14 @@
                         $(this).removeClass('row_selected');
                         $('a', _this.tableButtonEdit).addClass('disabled');
                         $('a', _this.tableButtonRemove).addClass('disabled');
+                        $('a', _this.tableButtonDuplicate).addClass('disabled');
                     }
                     else {
                         _this.fieldTable.$('tr.row_selected').removeClass('row_selected');
                         $(this).addClass('row_selected');
                         $('a', _this.tableButtonEdit).removeClass('disabled');
                         $('a', _this.tableButtonRemove).removeClass('disabled');
+                        $('a', _this.tableButtonDuplicate).removeClass('disabled');
                     }
                 });
             }
@@ -1176,6 +1200,7 @@
                             $(element[0]).addClass('row_selected');
                             $('a', _this.tableButtonEdit).removeClass('disabled');
                             $('a', _this.tableButtonRemove).removeClass('disabled');
+                            $('a', _this.tableButtonDuplicate).removeClass('disabled');
                             _this.editRow('edit', element[0]);
                         },
                         link: _this.tableEdit
@@ -1185,6 +1210,12 @@
                             _this.editRow('append', element[0]);
                         },
                         link: _this.tableAppend
+                    },
+                    tableDuplicate: {
+                        click: function (element) {
+                            _this.duplicateRow(element[0]);
+                        },
+                        link: _this.tableDuplicate
                     },
                     tableRemove: {
                         click: function (element) {
