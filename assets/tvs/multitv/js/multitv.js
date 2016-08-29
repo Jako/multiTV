@@ -214,12 +214,13 @@
             var _this = this;
 
             // datepicker
+            var timeFormat = (typeof $.fn.datepicker == 'function') ? 'hh:ii' : 'HH:mm:ss'; // Check for old mootools / new jquery datepicker
             $('.mtvDatePicker', el).click(function () {
                 $.extend(datepickerOptions, {
                     changeMonth: true,
                     changeYear: true,
                     dateFormat: 'dd-mm-yy',
-                    timeFormat: 'HH:mm:ss',
+                    timeFormat: timeFormat,
                     showTimepicker: true
                 });
                 var picker = $(this).datetimepicker(datepickerOptions);
@@ -712,7 +713,7 @@
             if (typeof tinyMCE !== 'undefined') {
                 $('.tabEditor', el).each(function () {
                     var editorId = $(this).attr('id');
-                    if(tinyMCE.majorVersion == 4) {
+                    if (tinyMCE.majorVersion == 4) {
                         tinyMCE.execCommand('mceRemoveEditor', false, editorId);
                     } else {
                         tinyMCE.execCommand('mceRemoveControl', false, editorId);
@@ -828,12 +829,13 @@
             var _this = this;
 
             // datepicker
+            var timeFormat = (typeof $.fn.datepicker == 'function') ? 'hh:ii' : 'HH:mm:ss'; // Check for old mootools / new jquery datepicker
             $('.mtvDatePicker', el).click(function () {
                 $.extend(datepickerOptions, {
                     changeMonth: true,
                     changeYear: true,
                     dateFormat: 'dd-mm-yy',
-                    timeFormat: 'HH:mm:ss',
+                    timeFormat: timeFormat,
                     showTimepicker: true
                 });
                 var picker = $(this).datetimepicker(datepickerOptions);
