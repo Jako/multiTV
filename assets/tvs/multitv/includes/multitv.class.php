@@ -352,7 +352,7 @@ class multiTV
         $currentScript = array();
         $currentClass = array();
         $fieldClass = explode(' ', $fieldClass);
-        $theme = false;
+        $theme = '';
         $evtOut = '';
         switch ($fieldType) {
             case 'url' :
@@ -371,7 +371,7 @@ class multiTV
                     $this->fieldsrte[] = ($this->options['type'] == 'module') ? $fieldName : "tv" . $this->tvID . $fieldName;
                     // invoke OnRichTextEditorInit event for TinyMCE4
                     $fieldId = substr($fieldName, 0, -4);
-                    $theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : false;
+                    $theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : '';
                     if ($theme) {
                         if ($which_editor == 'TinyMCE4') {
                             $evtOut = $this->modx->invokeEvent('OnRichTextEditorInit', array(
@@ -389,7 +389,7 @@ class multiTV
                 break;
         }
         $formElement = $evtOut . renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
-        if ($theme) $formElement = str_replace('id="', 'data-theme="' . $theme . '" id="', $formElement); // add optional richtext-theme
+        $formElement = ($theme) ? str_replace('id="', 'data-theme="' . $theme . '" id="', $formElement) : $formElement; // add optional richtext-theme
         $formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
         $formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
         $formElement = preg_replace('/( id=\"[^\"]+)/', ' id="[+tvid+]' . $fieldName, $formElement); // change id attributes
