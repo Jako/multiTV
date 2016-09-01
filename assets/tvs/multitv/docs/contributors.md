@@ -34,6 +34,12 @@ Many thanks to everyone who has contributed to this project:
     - Dutch language
 - [Pontus Ågren](https://github.com/Pont)
     - Swedish language
+- [Borisov Evgeniy](https://github.com/AgelxNash)
+    - Support for BolmerCMS
+- [Dennis Helfensteller](https://github.com/Deesen)
+    - Support for TinyMCE4
+    - Duplicate button
+    - Better Evo 1.1 support
 
 And a lot of testers ...
 
