@@ -687,7 +687,7 @@
                     // save/append edit box
                     $('.edit,.append', _this.fieldEditForm).click(function (e) {
                         e.preventDefault();
-                        _this.saveRow($(this).hasClass('edit') ? 'edit' : 'append', false);
+                        _this.saveRow($(this).hasClass('edit') ? 'edit' : 'append');
                     });
 
                     // close edit box
