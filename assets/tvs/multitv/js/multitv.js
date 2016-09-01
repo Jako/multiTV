@@ -1030,7 +1030,7 @@
             if (typeof tinyMCE !== 'undefined') {
                 tinyMCE.triggerSave();
             }
-            if(values === false) {
+            if(typeof values === 'undefined') {
                 values = {};
                 var saveTab = $('[name^="' + _this.tvid + 'tab_radio_mtv"]', _this.fieldEditForm).getValue();
                 values.fieldTab = (saveTab !== '') ? saveTab : '';
