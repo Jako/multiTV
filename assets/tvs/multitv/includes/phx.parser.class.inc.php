@@ -353,7 +353,7 @@ class PHxParser
                         break;
                     case "value":
                         if ($i > 0 && $modifier_cmd[$i - 1] == "set") {
-                            $modx->SetPlaceholder("phx." . $output, $modifier_value[$i]);
+                            $modx->setPlaceholder("phx." . $output, $modifier_value[$i]);
                         }
                         $output = NULL;
                         break;
