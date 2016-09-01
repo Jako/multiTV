@@ -347,13 +347,13 @@ class multiTV
     // invoke modx renderFormElement and change the output (to multiTV demands)
     function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass, $fieldDefault)
     {
-    	global $which_editor;
+        global $which_editor;
         $fieldName .= '_mtv';
         $currentScript = array();
         $currentClass = array();
         $fieldClass = explode(' ', $fieldClass);
-		$theme = false;
-		$evtOut = '';
+        $theme = false;
+        $evtOut = '';
         switch ($fieldType) {
             case 'url' :
                 $fieldType = 'text';
@@ -369,28 +369,27 @@ class multiTV
             case 'richtext' :
                 if ($this->display == 'datatable' || $this->display == 'dbtable' || $this->options['type'] == 'module') {
                     $this->fieldsrte[] = ($this->options['type'] == 'module') ? $fieldName : "tv" . $this->tvID . $fieldName;
-					// invoke OnRichTextEditorInit event for TinyMCE4
-					$fieldId = substr($fieldName, 0, -4);
-					$theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : false;
-					if($theme) {
-						if($which_editor == 'TinyMCE4')
-						{
-							$evtOut = $this->modx->invokeEvent('OnRichTextEditorInit', array(
-								'editor'   => $which_editor,
-								'options'  => array('theme'=>$theme)
-							));
-							if (is_array($evtOut))
-								$evtOut = implode('', $evtOut);
-						};
-					}
+                    // invoke OnRichTextEditorInit event for TinyMCE4
+                    $fieldId = substr($fieldName, 0, -4);
+                    $theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : false;
+                    if ($theme) {
+                        if ($which_editor == 'TinyMCE4') {
+                            $evtOut = $this->modx->invokeEvent('OnRichTextEditorInit', array(
+                                'editor' => $which_editor,
+                                'options' => array('theme' => $theme)
+                            ));
+                            if (is_array($evtOut))
+                                $evtOut = implode('', $evtOut);
+                        };
+                    }
                     $fieldClass[] = 'tabEditor';
                 } else {
                     $fieldType = 'textarea';
                 }
                 break;
         }
-        $formElement = $evtOut.renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
-		if($theme) $formElement = str_replace('id="', 'data-theme="'.$theme.'" id="', $formElement); // add optional richtext-theme
+        $formElement = $evtOut . renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
+        if ($theme) $formElement = str_replace('id="', 'data-theme="' . $theme . '" id="', $formElement); // add optional richtext-theme
         $formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
         $formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
         $formElement = preg_replace('/( id=\"[^\"]+)/', ' id="[+tvid+]' . $fieldName, $formElement); // change id attributes
