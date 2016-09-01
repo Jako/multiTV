@@ -996,10 +996,11 @@
                     if (typeof tinyMCE !== 'undefined') {
                         $('.tabEditor', _this.fieldEditArea).each(function () {
                             var editorId = $(this).attr('id');
-                            if(tinyMCE.majorVersion == 4) {
-                                if(modxRTEbridge_tinymce4 != undefined) {
-                                    var configObj = window[modxRTEbridge_tinymce4.default];
-                                    configObj['selector'] = '#'+editorId;
+                            var theme = $(this).data('theme');
+                            if (tinyMCE.majorVersion == 4) {
+                                if (modxRTEbridge_tinymce4 != undefined) {
+                                    var configObj = theme != undefined ? window['config_tinymce4_'+theme] : window[modxRTEbridge_tinymce4.default];
+                                    configObj['selector'] = '#' + editorId;
                                     tinyMCE.init(configObj);
                                 } else {
                                     tinyMCE.execCommand('mceAddEditor', false, editorId);
