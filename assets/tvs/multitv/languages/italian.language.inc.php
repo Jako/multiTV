@@ -7,6 +7,7 @@ $language['pastehere'] = 'Incolla qui:';
 $language['add'] = 'Aggiungi';
 $language['remove'] = 'Cancella';
 $language['edit'] = 'Modifica';
+$language['duplicate'] = 'Duplicate';
 $language['save'] = 'Salva';
 $language['replace'] = 'Sostituisci';
 $language['append'] = 'Aggiungi';
@@ -56,7 +57,7 @@ $language['datepicker.dayNamesShort'] = '["Dom", "Lun", "Mar", "Mer", "Gio", "Ve
 $language['datepicker.dayNamesMin'] = '["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"]';
 $language['datepicker.dateFormat'] = 'dd/mm/yy';
 $language['datepicker.firstDay'] = '0';
-$language['datepicker.isRTL'] = 'false';
+$language['datepicker.isRTL'] = 'falso';
 
 $language['modulename'] = 'Database Manager';
 $language['reload'] = 'Ricarica';

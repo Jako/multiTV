@@ -7,6 +7,7 @@ $language['pastehere'] = 'Hier einfügen:';
 $language['add'] = 'Hinzufügen';
 $language['remove'] = 'Entfernen';
 $language['edit'] = 'Editieren';
+$language['duplicate'] = 'Duplicate';
 $language['save'] = 'Speichern';
 $language['replace'] = 'Ersetzen';
 $language['append'] = 'Hinzufügen';

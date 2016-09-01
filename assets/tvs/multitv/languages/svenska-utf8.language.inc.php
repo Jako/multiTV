@@ -7,6 +7,7 @@ $language['pastehere'] = 'Klistra in här:';
 $language['add'] = 'Lägg till';
 $language['remove'] = 'Ta bort';
 $language['edit'] = 'Redigera';
+$language['duplicate'] = 'Duplicate';
 $language['save'] = 'Spara';
 $language['replace'] = 'Ersätt';
 $language['append'] = 'Bifoga';

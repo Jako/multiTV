@@ -7,6 +7,7 @@ $language['pastehere'] = 'Plak hier:';
 $language['add'] = 'Toevoegen';
 $language['remove'] = 'Verwijder';
 $language['edit'] = 'Aanpassen';
+$language['duplicate'] = 'Duplicate';
 $language['save'] = 'Opslaan';
 $language['replace'] = 'Vervang';
 $language['append'] = 'Toevoegen';
