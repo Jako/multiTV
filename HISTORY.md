@@ -1,5 +1,9 @@
 History
 ================================================================================
+- 2.0.8 September 1, 2016
+    - CustomTV: TinyMCE4 themes for each field
+    - CustomTV: Duplicate button for datatable mode
+
 - 2.0.7 April 4, 2016
     - CustomTV: Compatibility with TinyMCE4
 
