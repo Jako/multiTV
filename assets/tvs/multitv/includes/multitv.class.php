@@ -345,7 +345,7 @@ class multiTV
     }
 
     // invoke modx renderFormElement and change the output (to multiTV demands)
-    function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass, $fieldDefault, $fields=array())
+    function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass, $fieldDefault)
     {
     	global $which_editor;
         $fieldName .= '_mtv';
@@ -371,7 +371,7 @@ class multiTV
                     $this->fieldsrte[] = ($this->options['type'] == 'module') ? $fieldName : "tv" . $this->tvID . $fieldName;
 					// invoke OnRichTextEditorInit event for TinyMCE4
 					$fieldId = substr($fieldName, 0, -4);
-					$theme = isset($fields[$fieldId]['theme']) ? $fields[$fieldId]['theme'] : false;
+					$theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : false;
 					if($theme) {
 						if($which_editor == 'TinyMCE4')
 						{
@@ -582,7 +582,7 @@ class multiTV
                                 break;
                             default:
                                 $tvElements[] = '<label for="' . $tvid . $fieldname . '">' . $caption . '</label>' .
-                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default, $this->fields) . "\r\n";
+                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . "\r\n";
                         }
                     }
 
