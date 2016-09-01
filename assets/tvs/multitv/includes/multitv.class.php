@@ -373,7 +373,7 @@ class multiTV
                     $fieldId = substr($fieldName, 0, -4);
                     $theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : '';
                     if ($theme) {
-                        if ($which_editor == 'TinyMCE4') {
+                        if (in_array($which_editor, array('TinyMCE4', 'CKEditor4'))) {
                             $evtOut = $this->modx->invokeEvent('OnRichTextEditorInit', array(
                                 'editor' => $which_editor,
                                 'options' => array('theme' => $theme)
