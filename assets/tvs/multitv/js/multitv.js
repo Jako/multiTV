@@ -718,6 +718,11 @@
                         tinyMCE.execCommand('mceRemoveControl', false, editorId);
                     }
                 });
+            } else if (typeof CKEDITOR !== 'undefined' && CKEDITOR.version.substr(0,1) == 4) {
+                $('.tabEditor', el).each(function () {
+                    var editorId = $(this).attr('id');
+                    CKEDITOR.instances[editorId].destroy();
+                });
             }
             $(':input', el).each(function () {
                 var inputtype = $(this).attr('type');
@@ -1012,6 +1017,13 @@
                             tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'height', 'auto');
                             tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
                             tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
+                        });
+                    } else if (typeof CKEDITOR !== 'undefined' && CKEDITOR.version.substr(0,1) == 4) {
+                        $('.tabEditor', _this.fieldEditArea).each(function () {
+                            var editorId = $(this).attr('id');
+                            var theme = $(this).data('theme');
+                            var configObj = theme != undefined ? window['config_ckeditor4_'+theme] : window[modxRTEbridge_ckeditor4.default];
+                            CKEDITOR.replace(editorId, configObj);
                         });
                     }
                     setTimeout(function () {
