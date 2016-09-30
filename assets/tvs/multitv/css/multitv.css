@@ -130,6 +130,7 @@
 }
 
 .multitv .list li.element textarea {
+  min-height: 100px;
 }
 
 .multitv .list li.element .mtvThumb { 
