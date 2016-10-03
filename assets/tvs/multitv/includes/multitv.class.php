@@ -347,10 +347,13 @@ class multiTV
     // invoke modx renderFormElement and change the output (to multiTV demands)
     function renderMultiTVFormElement($fieldType, $fieldName, $fieldElements, $fieldClass, $fieldDefault)
     {
+        global $which_editor;
         $fieldName .= '_mtv';
         $currentScript = array();
         $currentClass = array();
         $fieldClass = explode(' ', $fieldClass);
+        $theme = '';
+        $evtOut = '';
         switch ($fieldType) {
             case 'url' :
                 $fieldType = 'text';
@@ -366,13 +369,27 @@ class multiTV
             case 'richtext' :
                 if ($this->display == 'datatable' || $this->display == 'dbtable' || $this->options['type'] == 'module') {
                     $this->fieldsrte[] = ($this->options['type'] == 'module') ? $fieldName : "tv" . $this->tvID . $fieldName;
+                    // invoke OnRichTextEditorInit event for TinyMCE4
+                    $fieldId = substr($fieldName, 0, -4);
+                    $theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : '';
+                    if ($theme) {
+                        if (in_array($which_editor, array('TinyMCE4', 'CKEditor4'))) {
+                            $evtOut = $this->modx->invokeEvent('OnRichTextEditorInit', array(
+                                'editor' => $which_editor,
+                                'options' => array('theme' => $theme)
+                            ));
+                            if (is_array($evtOut))
+                                $evtOut = implode('', $evtOut);
+                        };
+                    }
                     $fieldClass[] = 'tabEditor';
                 } else {
                     $fieldType = 'textarea';
                 }
                 break;
         }
-        $formElement = renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
+        $formElement = $evtOut . renderFormElement($fieldType, 0, '', $fieldElements, '', '', array());
+        $formElement = ($theme) ? str_replace('id="', 'data-theme="' . $theme . '" id="', $formElement) : $formElement; // add optional richtext-theme
         $formElement = preg_replace('/( tvtype=\"[^\"]+\")/', '', $formElement); // remove tvtype attribute
         $formElement = preg_replace('/(<label[^>]*><\/label>)/', '', $formElement); // remove empty labels
         $formElement = preg_replace('/( id=\"[^\"]+)/', ' id="[+tvid+]' . $fieldName, $formElement); // change id attributes
@@ -1069,7 +1086,6 @@ class multiTV
                     $classes[] = $params['evenClass'];
                 }
                 $parser = new newChunkie($this->modx);
-                $parser->setPlaceholders($params);
                 foreach ($value as $key => $fieldvalue) {
                     $fieldname = (is_int($key)) ? $this->fieldnames[$key] : $key;
                     $parser->setPlaceholder($fieldname, $fieldvalue);
@@ -1099,7 +1115,6 @@ class multiTV
             if (!$params['toJson']) {
                 // wrap rowTpl output in outerTpl
                 $parser = new newChunkie($this->modx);
-                $parser->setPlaceholders($params);
                 $parser->setPlaceholder('wrapper', implode($params['outputSeparator'], $wrapper));
                 $parser->setPlaceholder('rows', array('offset' => $params['offset'], 'total' => $countOutput));
                 $parser->setPlaceholder('docid', $params['docid']);

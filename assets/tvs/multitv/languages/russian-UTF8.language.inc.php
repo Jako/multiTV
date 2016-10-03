@@ -7,6 +7,7 @@ $language['pastehere'] = 'Вставить:';
 $language['add'] = 'Добавить';
 $language['remove'] = 'Удалить';
 $language['edit'] = 'Редактировать';
+$language['duplicate'] = 'Duplicate';
 $language['save'] = 'Сохранить';
 $language['replace'] = 'Заменить';
 $language['append'] = 'Добавить';

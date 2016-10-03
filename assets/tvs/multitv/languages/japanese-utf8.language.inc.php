@@ -7,6 +7,7 @@ $language['pastehere'] = 'Paste here:';
 $language['add'] = 'Add';
 $language['remove'] = '削除';
 $language['edit'] = '編集';
+$language['duplicate'] = 'Duplicate';
 $language['save'] = '保存';
 $language['replace'] = '置換';
 $language['append'] = '追加';

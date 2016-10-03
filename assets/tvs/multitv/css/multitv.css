@@ -16,7 +16,7 @@
 .multitv .list li.element label { display: inline-block; width: 150px; vertical-align: top }
 .multitv .list li.element select.inline { margin-right: 9px }
 .multitv .list li.element input[type="text"], .multitv .list li.element input[type="password"], .multitv .list li.element input[type="number"] { margin: 0 3px 5px 0 }
-.multitv .list li.element a.copy, .multitv .list li.element a.remove { position: absolute; right: 22px; top: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -2000px; padding: 0 }
+.multitv .list li.element a.copy, .multitv .list li.element a.remove { position: absolute; right: 22px; top: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -9999em; padding: 0 }
 .multitv .list li.element a.remove { right: 4px; background-image: url('images/delete.png') }
 
 .multitv .list li.element table.url { width: 300px; display: inline-block }
@@ -47,7 +47,7 @@
 .multitv .dataTables_wrapper .dataTables_length, .multitv .dataTables_wrapper .dataTables_filter { margin-bottom: 5px }
 .multitv .dataTables_wrapper .dataTables_filter input { margin-right: 0 }
 .multitv .dataTables_wrapper .actionButtons { margin-bottom: 9px }
-.multitv .dataTables_wrapper .actionButtons a.disabled { padding: 4px 6px; border: 1px solid #c7ced2 }
+.multitv .dataTables_wrapper .actionButtons a.disabled { color:#aaa; border: 1px solid #c7ced2; }
 .multitv table.display { width: 100%; background-color: #fff; border: 1px solid silver; border-collapse: separate; border-spacing: 0; table-layout: fixed }
 .multitv table.display thead { color: #333; height: 18px !important; background-color: #e4e4e4 }
 .multitv table.display tr.odd { background-color: #eee }
