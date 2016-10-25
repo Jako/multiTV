@@ -374,12 +374,12 @@ class PHxParser
                     default:
                         if (!array_key_exists($modifier_cmd[$i], $this->cache["cm"])) {
                             $sql = "SELECT snippet FROM " . $modx->getFullTableName("site_snippets") . " WHERE " . $modx->getFullTableName("site_snippets") . ".name='phx:" . $modifier_cmd[$i] . "';";
-                            $result = $modx->dbQuery($sql);
-                            if ($modx->recordCount($result) == 1) {
-                                $row = $modx->fetchRow($result);
+                            $result = $modx->db->query($sql);
+                            if ($modx->db->getRecordCount($result) == 1) {
+                                $row = $modx->db->getRow($result);
                                 $cm = $this->cache["cm"][$modifier_cmd[$i]] = $row["snippet"];
                                 $this->Log("  |--- DB -> Custom Modifier");
-                            } else if ($modx->recordCount($result) == 0) { // If snippet not found, look in the modifiers folder
+                            } else if ($modx->db->getRecordCount($result) == 0) { // If snippet not found, look in the modifiers folder
                                 $filename = MODX_BASE_PATH . 'assets/plugins/phx/modifiers/' . $modifier_cmd[$i] . '.phx.php';
                                 if (@file_exists($filename)) {
                                     $file_contents = @file_get_contents($filename);
