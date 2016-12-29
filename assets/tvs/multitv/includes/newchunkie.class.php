@@ -118,7 +118,7 @@ class newChunkie
      */
     function __construct(&$modx, $config = array())
     {
-        $this->modx = & $modx;
+        $this->modx = &$modx;
 
         if (!class_exists("PHxParser")) {
             include_once(strtr(realpath(dirname(__FILE__)) . "/phx.parser.class.inc.php", '\\', '/'));
@@ -359,7 +359,7 @@ class newChunkie
             $this->templates[$queue]->templates = array();
             $this->templates[$queue]->wrapper = (!empty($this->tplWrapper)) ? $this->tplWrapper : '[+wrapper+]';
         }
-        $current = & $this->templates[$queue];
+        $current = &$this->templates[$queue];
 
         // Prepare default templates
         $currentkeypath = '';
@@ -371,7 +371,7 @@ class newChunkie
                 $current->templates[$currentkey]->wrapper = (!empty($this->tplWrapper)) ? $this->tplWrapper : '[+wrapper+]';
                 $current->templates[$currentkey]->template = '[+' . trim($currentkeypath, '.') . '+]';
             }
-            $current = & $current->templates[$currentkey];
+            $current = &$current->templates[$currentkey];
         }
         if (!empty($this->tpl)) {
             // Set curent template

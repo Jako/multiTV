@@ -60,6 +60,7 @@
                 _this.pasteBox = $('a', _this.fieldPaste).click(function (e) {
                     e.preventDefault();
                     $.colorbox({
+                        trapFocus: false,
                         inline: true,
                         href: $(this).attr('href'),
                         width: '500px',
@@ -979,6 +980,7 @@
                 $(this).siblings('a').click();
             });
             $.colorbox({
+                trapFocus: false,
                 inline: true,
                 href: '#' + _this.tvid + 'editform',
                 width: (_this.options.fieldsettings.editBoxWidth != '') ? _this.options.fieldsettings.editBoxWidth : '640px',
