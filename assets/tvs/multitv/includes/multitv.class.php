@@ -449,8 +449,9 @@ class multiTV
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
-                    if ($this->fields[$fieldname]['width']) {
-                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ', .multitv #[+tvid+]heading .inline.mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px }';
+                    if ($this->fields[$fieldname]['width']) {                        
+                        $prcnt = (substr($this->fields[$fieldname]['width'], -1) == '%') ? '' : 'px';
+                        $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ', .multitv #[+tvid+]heading .inline.mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . $prcnt . '}';
                     }
                     switch ($type) {
                         case 'thumb':
@@ -459,7 +460,7 @@ class multiTV
                             break;
                         case 'date':
                             $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
-                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ' { width: ' . strval($this->fields[$fieldname]['width'] - 26) . 'px }';
+                            $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ' { margin-right: -26px }';
                             break;
                         default:
                             $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
@@ -480,8 +481,8 @@ class multiTV
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
                     $default = (isset($this->fields[$fieldname]['default'])) ? $this->fields[$fieldname]['default'] : '';
                     if ($this->fields[$fieldname]['width']) {
-                        $tvcss .= '.multitv #[+tvid+]list li.element .mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . 'px !important }' . "\r\n";
-                    }
+                        $prcnt = (substr($this->fields[$fieldname]['width'], -1) == '%') ? '' : 'px';
+                        $tvcss .= '.multitv #[+tvid+]list li.element .mtv_' . $fieldname . ' { width: ' . $this->fields[$fieldname]['width'] . $prcnt . ' !important }' . "\r\n";                    }
                     switch ($type) {
                         case 'thumb':
                             $tvelement[] = '<div class="mtvThumb" id="' . $tvid . $this->fields[$fieldname]['thumbof'] . '_mtvpreview"></div>';
