@@ -1,5 +1,12 @@
 History
 ================================================================================
+- 2.0.9 January 6, 2017
+    - CustomTV: CSS fix for large monitors
+    - CustomTV: Fix loosing focus in TinyMCE4-modals
+    - CustomTV: Allow "%" for field width in TV configs
+    - CustomTV/Module: Added CKEditor4-support
+    - General: Replaced deprecated DB-methods
+
 - 2.0.8 September 1, 2016
     - CustomTV: TinyMCE4 themes for each field
     - CustomTV: Duplicate button for datatable mode
