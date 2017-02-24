@@ -619,7 +619,8 @@ class multiTV
                     'sortindex' => $this->configuration['sortindex'],
                     'displayLength' => $this->configuration['displayLength'],
                     'displayLengthMenu' => $this->configuration['displayLengthMenu'],
-                    'displayLengthMenutext' => $this->configuration['displayLengthMenutext']
+                    'displayLengthMenutext' => $this->configuration['displayLengthMenutext'],
+                    'editBoxWidth' => $this->configuration['editBoxWidth']
                 ));
                 break;
         }
