@@ -1,5 +1,9 @@
 History
 ================================================================================
+- 2.0.10 March 31, 2017
+    - CustomTV: Row reordering fix for Datatables
+    - CustomTV: editBoxWidth for datatable and dbtable-mode
+
 - 2.0.9 January 6, 2017
     - CustomTV: CSS fix for large monitors
     - CustomTV: Fix loosing focus in TinyMCE4-modals
