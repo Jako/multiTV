@@ -219,7 +219,7 @@
                         sSelector = "tbody tr[" + properties.sDataGroupAttribute + " ='" + sGroup + "']";
                     }
 
-                    var oState = fnGetState(sSelector, ui.item.context.id);
+                    var oState = fnGetState(sSelector, ui.item[0].id);
                     if (oState.iNewPosition == -1) {
                         fnCancelSorting(tbody, properties, 2);
                         return;
