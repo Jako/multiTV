@@ -383,7 +383,23 @@ class multiTV
                         };
                     }
                     $fieldClass[] = 'tabEditor';
-                } else {
+                } elseif( $this->display == 'vertical'){
+                   $this->fieldsrte[] = ($this->options['type'] == 'module') ? $fieldName : "tv" . $this->tvID . $fieldName;
+                    // invoke OnRichTextEditorInit event for TinyMCE4
+                    $fieldId = substr($fieldName, 0, -4);
+                    $theme = isset($this->fields[$fieldId]['theme']) ? $this->fields[$fieldId]['theme'] : '';
+                    if ($theme) {
+                        if (in_array($which_editor, array('TinyMCE4', 'CKEditor4'))) {
+                            $evtOut = $this->modx->invokeEvent('OnRichTextEditorInit', array(
+                                'editor' => $which_editor,
+                                'options' => array('theme' => $theme)
+                            ));
+                            if (is_array($evtOut))
+                                $evtOut = implode('', $evtOut);
+                        };
+                    }
+                    $fieldClass[] = 'inlineTabEditor';
+                } else{
                     $fieldType = 'textarea';
                 }
                 break;

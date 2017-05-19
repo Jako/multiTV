@@ -109,8 +109,30 @@
                     // sortable
                     if (_this.options.mode !== 'single') {
                         _this.fieldList.sortable({
-                            stop: function () {
-                                _this.saveMultiValue();
+                            start: function (e, ui) {
+                              $(ui.item).find('.inlineTabEditor').each(function () {
+                                 tinymce.execCommand('mceRemoveEditor', false, $(this).attr('id'));
+                              });
+                            },
+                            stop: function (e, ui) {
+                              $(ui.item).find('.inlineTabEditor').each(function () {
+                                var editorId = $(this).attr('id');
+                                var theme = $(this).data('theme');
+                                if (tinyMCE.majorVersion == 4) {
+                                    if (modxRTEbridge_tinymce4 != undefined) {
+                                        
+                                        var configObj = theme != undefined ? window['config_tinymce4_'+theme] : window[modxRTEbridge_tinymce4.default];
+                                        configObj['selector'] = '#' + editorId;
+                                        configObj['setup'] = function(ed) { ed.on("change", function(e) { documentDirty=true; tinymce.triggerSave(); jQuery('#'+_this.tvid).transformField("saveMultiValue"); }); };
+                                        tinyMCE.init(configObj);
+                                    } else {
+                                        tinyMCE.execCommand('mceAddEditor', false, editorId);
+                                    }
+                                } else {
+                                    tinyMCE.execCommand('mceAddControl', false, editorId);
+                                }
+                              });
+                               _this.saveMultiValue();
                             },
                             axis: 'y',
                             helper: 'clone'
@@ -247,6 +269,40 @@
                 clone.show('fast', function () {
                     $(this).removeAttr('style');
                 });
+
+                //Dmi3yy add inline tinyMCE
+                    if (typeof tinyMCE !== 'undefined') {
+                        $('.inlineTabEditor', _this.fieldEditArea).each(function () {
+                            var editorId = $(this).attr('id');
+                            var theme = $(this).data('theme');
+                            if (tinyMCE.majorVersion == 4) {
+                                if (modxRTEbridge_tinymce4 != undefined) {
+                                    var configObj = theme != undefined ? window['config_tinymce4_'+theme] : window[modxRTEbridge_tinymce4.default];
+                                    configObj['selector'] = '#' + editorId;
+                                    configObj['setup'] = function(ed) { ed.on("change", function(e) { documentDirty=true; tinymce.triggerSave(); jQuery('#'+_this.tvid).transformField("saveMultiValue"); }); };
+                                    tinyMCE.init(configObj);
+                                } else {
+                                    tinyMCE.execCommand('mceAddEditor', false, editorId);
+                                }
+                            } else {
+                                tinyMCE.execCommand('mceAddControl', false, editorId);
+                            }
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'height', '200px');
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'height', 'auto');
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
+                            tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
+                        });
+                    } else if (typeof CKEDITOR !== 'undefined' && CKEDITOR.version.substr(0,1) == 4) {
+                        $('.inlineTabEditor', _this.fieldEditArea).each(function () {
+                            var editorId = $(this).attr('id');
+                            var theme = $(this).data('theme');
+                            var configObj = theme != undefined ? window['config_ckeditor4_'+theme] : window[modxRTEbridge_ckeditor4.default];
+                            CKEDITOR.replace(editorId, configObj);
+                        });
+                    }
+            //Dmi3yy add inline tinyMCE
+
+
                 _this.saveMultiValue();
                 _this.fieldListCounter++;
             });
@@ -281,6 +337,38 @@
                     $('.mtvThumb', $(this).parent()).html('');
                 }
             });
+            //Dmi3yy add inline tinyMCE
+            if (typeof tinyMCE !== 'undefined' && this.options.mode == 'vertical' ) {
+                $('.inlineTabEditor', _this.fieldEditArea).each(function () {
+                    var editorId = $(this).attr('id');
+                    var theme = $(this).data('theme');
+                    if (tinyMCE.majorVersion == 4) {
+                        if (modxRTEbridge_tinymce4 != undefined) {
+
+                            var configObj = theme != undefined ? window['config_tinymce4_'+theme] : window[modxRTEbridge_tinymce4.default];
+                            configObj['selector'] = '#' + editorId;
+                            configObj['setup'] = function(ed) { ed.on("change", function(e) { documentDirty=true; tinymce.triggerSave(); jQuery('#'+_this.tvid).transformField("saveMultiValue"); }); };
+                            tinyMCE.init(configObj);
+                        } else {
+                            tinyMCE.execCommand('mceAddEditor', false, editorId);
+                        }
+                    } else {
+                        tinyMCE.execCommand('mceAddControl', false, editorId);
+                    }
+                    tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'height', '200px');
+                    tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'height', 'auto');
+                    tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_ifr'), 'width', '100%');
+                    tinyMCE.DOM.setStyle(tinyMCE.DOM.get(editorId + '_tbl'), 'width', '100%');
+                });
+            } else if (typeof CKEDITOR !== 'undefined' && CKEDITOR.version.substr(0,1) == 4) {
+                $('.inlineTabEditor', _this.fieldEditArea).each(function () {
+                    var editorId = $(this).attr('id');
+                    var theme = $(this).data('theme');
+                    var configObj = theme != undefined ? window['config_ckeditor4_'+theme] : window[modxRTEbridge_ckeditor4.default];
+                    CKEDITOR.replace(editorId, configObj);
+                });
+            }
+
             // change field
             $('[name]', el).bind('change keyup', function (e) {
                 e.preventDefault();
@@ -375,8 +463,30 @@
             this.fieldEdit.hide();
             // sortable
             this.fieldList.sortable({
-                stop: function () {
-                    this.saveMultiValue();
+                start: function (e, ui) {
+                  $(ui.item).find('.inlineTabEditor').each(function () {
+                     tinymce.execCommand('mceRemoveEditor', false, $(this).attr('id'));
+                  });
+                },
+                stop: function (e, ui) {
+                  $(ui.item).find('.inlineTabEditor').each(function () {
+                     var editorId = $(this).attr('id');
+                    var theme = $(this).data('theme');
+                    if (tinyMCE.majorVersion == 4) {
+                        if (modxRTEbridge_tinymce4 != undefined) {
+                            
+                            var configObj = theme != undefined ? window['config_tinymce4_'+theme] : window[modxRTEbridge_tinymce4.default];
+                            configObj['selector'] = '#' + editorId;
+                            configObj['setup'] = function(ed) { ed.on("change", function(e) { documentDirty=true; tinymce.triggerSave(); jQuery('#'+_this.tvid).transformField("saveMultiValue"); }); };
+                            tinyMCE.init(configObj);
+                        } else {
+                            tinyMCE.execCommand('mceAddEditor', false, editorId);
+                        }
+                    } else {
+                        tinyMCE.execCommand('mceAddControl', false, editorId);
+                    }
+                  });
+                   this.saveMultiValue();
                 },
                 axis: 'y',
                 helper: 'clone'
