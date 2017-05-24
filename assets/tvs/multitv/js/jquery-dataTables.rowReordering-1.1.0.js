@@ -238,7 +238,7 @@
                                 group: sGroup
                             }),
                             success: function () {
-                                fnMoveRows(sSelector, oState.iCurrentPosition, oState.iNewPosition, oState.sDirection, ui.item.context.id, sGroup);
+                                fnMoveRows(sSelector, oState.iCurrentPosition, oState.iNewPosition, oState.sDirection, ui.item[0].id, sGroup);
                                 properties.fnEndProcessingMode();
                             },
                             error: function (jqXHR) {
