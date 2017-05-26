@@ -134,7 +134,7 @@
             var oSettings = oTable.fnSettings();
 
             // Standing Redraw Extension
-            // Author: 	Jonathan Hoguet
+            // Author:  Jonathan Hoguet
             // http://datatables.net/plug-ins/api#fnStandingRedraw
             if (oSettings.oFeatures.bServerSide === false) {
                 var before = oSettings._iDisplayStart;

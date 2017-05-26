@@ -4,8 +4,24 @@
 .multitv .heading span { border: 1px solid transparent; box-sizing: border-box }
 
 .multitv .list { margin: 0; padding: 0; clear: left; position: relative }
-.multitv .list li.element { position: relative; padding: 4px 4px 4px 20px; margin-bottom: 4px; border: 1px solid #e3e3e3; background: url('images/arrow_updown.png') no-repeat left center; list-style: none }
+.multitv .list li.element { position: relative; padding: 4px 20px 4px 20px; margin-bottom: 4px; border: 1px solid #e3e3e3; background: #fff; /*url('images/arrow_updown.png') no-repeat left center;*/ list-style: none;}
 .multitv .list li.element { min-width: 600px }
+
+
+
+  .multitv li.element > div:before {
+        font-family: FontAwesome;
+		top: 40%;
+		left: 8px;
+		content: "\f07d";
+		position: absolute;
+		z-index: 100;
+		color: #449d44;
+    }
+   .multitv li.element.inline > div:before {
+   		top: 20%;
+   }
+
 .multitv .list li.element.hasthumb { }
 
 .multitv .list li.element.inline { display: list-item }
@@ -15,9 +31,24 @@
 
 .multitv .list li.element label { display: inline-block; width: 150px; vertical-align: top }
 .multitv .list li.element select.inline { margin-right: 9px }
-.multitv .list li.element input[type="text"], .multitv .list li.element input[type="password"], .multitv .list li.element input[type="number"] { margin: 0 3px 5px 0 }
-.multitv .list li.element a.copy, .multitv .list li.element a.remove { position: absolute; right: 22px; top: 7px; background: url('images/add.png') no-repeat left center; display: block; width: 16px; height: 16px; text-indent: -9999em; padding: 0 }
-.multitv .list li.element a.remove { right: 4px; background-image: url('images/delete.png') }
+.multitv .list li.element input[type="text"], .multitv .list li.element input[type="password"], .multitv .list li.element input[type="number"], .multitv .list li.element textarea { margin: 0 3px 5px 0; 
+ background-color: #FBFBFB!important;
+ border-color: #dbdbdb!important;
+}
+.multitv .list li.element .mtv_listbox,.multitv .list li.element .mtv_checkbox,
+.multitv .list li.element .mtv_dropdown,
+.multitv .list li.element .mtv_listbox-multiple
+
+{margin: 0 3px 5px 0; 
+ background-color: #FBFBFB!important;
+ border-color: #dbdbdb!important;
+} 
+
+
+.multitv .list li.element a.copy, .multitv .list li.element a.remove { position: absolute; right: 22px; top: 7px; /*background: url('images/add.png') no-repeat left center;*/ color: #449d44; display: block; width: 16px; height: 16px;  padding: 0 
+
+}
+.multitv .list li.element a.remove { right: 4px; /*background-image: url('images/delete.png')*/color: #c9302c;}
 
 .multitv .list li.element table.url { width: 300px; display: inline-block }
 .multitv .list li.element table.url input[type="text"] { width: 221px !important }
