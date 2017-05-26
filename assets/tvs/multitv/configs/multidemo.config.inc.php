@@ -22,6 +22,11 @@ $settings['fields'] = array(
         'caption' => 'Textarea',
         'type' => 'textarea'
     ),
+    'richtext' => array(
+        'caption' => 'Richtext',
+        'type' => 'richtext',
+        'theme' => 'mini'
+    ),
     'date' => array(
         'caption' => 'Date',
         'type' => 'date'

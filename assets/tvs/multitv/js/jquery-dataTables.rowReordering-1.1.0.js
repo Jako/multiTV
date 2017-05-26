@@ -134,7 +134,7 @@
             var oSettings = oTable.fnSettings();
 
             // Standing Redraw Extension
-            // Author: 	Jonathan Hoguet
+            // Author:  Jonathan Hoguet
             // http://datatables.net/plug-ins/api#fnStandingRedraw
             if (oSettings.oFeatures.bServerSide === false) {
                 var before = oSettings._iDisplayStart;
@@ -246,7 +246,7 @@
                             }
                         });
                     } else {
-                        fnMoveRows(sSelector, oState.iCurrentPosition, oState.iNewPosition, oState.sDirection, ui.item.context.id, sGroup);
+                        fnMoveRows(sSelector, oState.iCurrentPosition, oState.iNewPosition, oState.sDirection, ui.item[0].id, sGroup);
                     }
 
                 }
