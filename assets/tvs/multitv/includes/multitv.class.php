@@ -383,7 +383,7 @@ class multiTV
                         };
                     }
                     $fieldClass[] = 'tabEditor';
-                } elseif( $this->display == 'vertical'){
+                } elseif( $this->display == 'vertical' || $this->display == 'single'){
                    $this->fieldsrte[] = ($this->options['type'] == 'module') ? $fieldName : "tv" . $this->tvID . $fieldName;
                     // invoke OnRichTextEditorInit event for TinyMCE4
                     $fieldId = substr($fieldName, 0, -4);
