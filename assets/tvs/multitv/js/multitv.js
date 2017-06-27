@@ -237,7 +237,7 @@
             var _this = this;
 
             // datepicker
-            $('.mtvDatePicker', el).click(function () {
+            $('.mtv_date', el).click(function () {
                 $.extend(datepickerOptions, {
                     changeMonth: true,
                     changeYear: true,
@@ -944,7 +944,7 @@
             var _this = this;
 
             // datepicker
-            $('.mtvDatePicker', el).click(function () {
+            $('.mtv_date', el).click(function () {
                 $.extend(datepickerOptions, {
                     changeMonth: true,
                     changeYear: true,
