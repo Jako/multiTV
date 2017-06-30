@@ -54,7 +54,7 @@ class multiTV
 
         $this->language = $this->loadLanguage($this->modx->config['manager_language']);
         $this->options = $options;
-        $this->options['modulename'] = ($this->options['modulename']) ? $this->options['modulename'] : $this->language['modulename'];
+        $this->options['modulename'] = isset($this->options['modulename']) ? $this->options['modulename'] : $this->language['modulename'];
 
         $version = $this->modx->getVersionData();
         switch ($version['branch']) {
@@ -103,7 +103,7 @@ class multiTV
         }
         $settings = $this->loadSettings($this->tvName, 'config');
         $this->prepareSettings($settings);
-        if ($tvDefinitions['value']) {
+        if (isset($tvDefinitions['value'])) {
             $this->prepareValue($tvDefinitions['value']);
         }
     }
