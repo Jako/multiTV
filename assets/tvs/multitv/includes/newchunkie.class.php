@@ -133,8 +133,8 @@ class newChunkie
 
         $this->options['parseLazy'] = (boolean)(isset($config['parseLazy']) ? $config['parseLazy'] : false);
         $this->options['profile'] = (boolean)(isset($config['profile']) ? $config['profile'] : false);
-        $this->tpl = $this->getTemplateChunk($config['tpl']);
-        $this->tplWrapper = $this->getTemplateChunk($config['tplWrapper']);
+        $this->tpl = (isset($config['tpl']) ? $this->getTemplateChunk($config['tpl']) : '');
+        $this->tplWrapper = (isset($config['tplWrapper']) ? $this->getTemplateChunk($config['tplWrapper']) : '');
         $this->queue = (isset($config['queue']) ? $config['queue'] : 'default');
         $this->placeholders = array();
         $this->templates = array();
