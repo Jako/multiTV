@@ -54,7 +54,7 @@ class multiTV
 
         $this->language = $this->loadLanguage($this->modx->config['manager_language']);
         $this->options = $options;
-        $this->options['modulename'] = ($this->options['modulename']) ? $this->options['modulename'] : $this->language['modulename'];
+        $this->options['modulename'] = isset($this->options['modulename']) ? $this->options['modulename'] : $this->language['modulename'];
 
         $version = $this->modx->getVersionData();
         switch ($version['branch']) {
