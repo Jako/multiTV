@@ -103,7 +103,7 @@ class multiTV
         }
         $settings = $this->loadSettings($this->tvName, 'config');
         $this->prepareSettings($settings);
-        if ($tvDefinitions['value']) {
+        if (isset($tvDefinitions['value'])) {
             $this->prepareValue($tvDefinitions['value']);
         }
     }
