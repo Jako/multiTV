@@ -598,6 +598,32 @@ class multiTV
                     $tabs[] = $this->renderTemplate($formTabTemplate, $tabplaceholder);
                     $tabPages[] = $this->renderTemplate('editFormTabpage', $tabplaceholder);
                 }
+                
+                $files['css'] = $files['scripts'] = $this->cssfiles = $this->scriptfiles = [];
+                if ( $this->tvName !== $this->cmsinfo['clipper'] ){
+                    $tvfiles = $this->loadSettings($this->tvName, 'setting');
+                    $files['scripts'] = array_merge($files['scripts'], $tvfiles['scripts']);
+                    $files['css'] = array_merge($files['css'], $tvfiles['css']);
+                }
+
+                foreach ($files['css'] as $file) {
+                    $this->cssfiles[] = '	<link rel="stylesheet" type="text/css" href="' . $tvpath . $file . '" />';
+                }
+                if ($this->cmsinfo['clipper'] != 'Clipper') {
+                    $files['scripts'] = array_merge($files['scripts'], array('js/multitvhelper' . $this->cmsinfo['seturl'] . '.js', 'js/multitv.js'));
+                    foreach ($files['scripts'] as $file) {
+                        $this->scriptfiles[] = '	<script type="text/javascript" src="' . $tvpath . $file . '"></script>';
+                    }
+                } else {
+                    $files['scripts'] = array_merge($files['scripts'], array(
+                        array('name' => 'multitvhelper', 'path' => 'js/multitvhelperclipper' . $this->cmsinfo['seturl'] . '.js'),
+                        array('name' => 'multitv', 'path' => 'js/multitv.js'),
+                    ));
+                    foreach ($files['scripts'] as $file) {
+                        $this->scriptfiles[] = $this->modx->getJqueryPluginTag($file['name'], $tvpath . $file['path'], false);
+                    }
+                }
+                
                 $placeholder = array();
                 $placeholder['tabs'] = implode("\r\n", $tabs);
                 $placeholder['tabpages'] = implode("\r\n", $tabPages);
@@ -676,6 +702,13 @@ class multiTV
             foreach ($files['scripts'] as $file) {
                 $scriptfiles[] = $this->modx->getJqueryPluginTag($file['name'], $tvpath . $file['path'], false);
             }
+        }
+        
+        if ( isset($this->cssfiles) ) {
+            $cssfiles = $this->cssfiles + $cssfiles;
+            $scriptfiles = $this->scriptfiles + $scriptfiles;
+            unset($this->cssfiles);
+            unset($this->scriptfiles);
         }
 
         $placeholder['cssfiles'] = implode("\r\n", $cssfiles);
