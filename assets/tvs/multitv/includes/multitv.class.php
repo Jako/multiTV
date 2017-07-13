@@ -283,8 +283,8 @@ class multiTV
             $this->configuration['displayLengthMenutext'][] = ($displayLength != -1) ? $displayLength : $this->language['all'];
         }
         $this->configuration['editBoxWidth'] = isset($settings['configuration']['editBoxWidth']) ? $settings['configuration']['editBoxWidth'] : '';
-        $this->configuration['css'] = isset($settings['configuration']['css']) ? $settings['configuration']['css'] : '';
-        $this->configuration['scripts'] = isset($settings['configuration']['scripts']) ? $settings['configuration']['scripts'] : '';
+        $this->configuration['css'] = (isset($settings['configuration']['css']) && !empty($settings['configuration']['css'])) ? explode(',', $this->configuration['css']) : array();
+        $this->configuration['scripts'] = (isset($settings['configuration']['scripts']) && !empty($settings['configuration']['scripts'])) ? explode(',', $this->configuration['scripts']) : array();;
     }
 
     function prepareValue($value)
@@ -443,13 +443,7 @@ class multiTV
         switch ($this->display) {
             // horizontal template
             case 'horizontal':
-                $tvfields = json_encode(array(
-                    'fieldnames' => $this->fieldnames, 
-                    'fieldtypes' => $this->fieldtypes, 
-                    'csvseparator' => $this->configuration['csvseparator'],
-                    'tvCSS' => (!empty($this->configuration['css'])) ? explode(',', $this->configuration['css']) : array(),
-                    'tvJS' => (!empty($this->configuration['scripts'])) ? explode(',', $this->configuration['scripts']) : array()
-                    ));
+                $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
                 $tvheading = array('<div id="[+tvid+]heading" class="heading">');
                 $tvelement = array('<li class="element inline' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
@@ -481,13 +475,7 @@ class multiTV
                 break;
             // vertical template
             case 'vertical':
-                $tvfields = json_encode(array(
-                    'fieldnames' => $this->fieldnames, 
-                    'fieldtypes' => $this->fieldtypes, 
-                    'csvseparator' => $this->configuration['csvseparator'],
-                    'tvCSS' => (!empty($this->configuration['css'])) ? explode(',', $this->configuration['css']) : array(),
-                    'tvJS' => (!empty($this->configuration['scripts'])) ? explode(',', $this->configuration['scripts']) : array()
-                    ));
+                $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
                 $tvheading = array();
                 $tvelement = array('<li class="element' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
@@ -513,13 +501,7 @@ class multiTV
                 break;
             // horizontal template
             case 'single':
-                $tvfields = json_encode(array(
-                    'fieldnames' => $this->fieldnames, 
-                    'fieldtypes' => $this->fieldtypes, 
-                    'csvseparator' => $this->configuration['csvseparator'],
-                    'tvCSS' => (!empty($this->configuration['css'])) ? explode(',', $this->configuration['css']) : array(),
-                    'tvJS' => (!empty($this->configuration['scripts'])) ? explode(',', $this->configuration['scripts']) : array()
-                    ));
+                $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
                 $tvheading = array();
                 $tvelement = array('<li class="element single' . $hasthumb . '"><div>');
                 foreach ($this->fieldnames as $fieldname) {
@@ -640,9 +622,7 @@ class multiTV
                     'displayLength' => $this->configuration['displayLength'],
                     'displayLengthMenu' => $this->configuration['displayLengthMenu'],
                     'displayLengthMenutext' => $this->configuration['displayLengthMenutext'],
-                    'editBoxWidth' => $this->configuration['editBoxWidth'],
-                    'tvCSS' => (!empty($this->configuration['css'])) ? explode(',', $this->configuration['css']) : array(),
-                    'tvJS' => (!empty($this->configuration['scripts'])) ? explode(',', $this->configuration['scripts']) : array()
+                    'editBoxWidth' => $this->configuration['editBoxWidth']
                 ));
                 break;
         }
@@ -658,8 +638,8 @@ class multiTV
         $files['css'] = $settings['css'];
         if ($this->configuration['enablePaste'] && $this->display != 'dbtable') {
             $settings = $this->loadSettings('paste' . $this->cmsinfo['clipper'], 'setting');
-            $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], json_decode($tvfields ,1)['tvJS']);
-            $files['css'] = array_merge($files['css'], $settings['css'], json_decode($tvfields ,1)['tvCSS']);
+            $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], json_decode($tvfields ,1)['scripts']);
+            $files['css'] = array_merge($files['css'], $settings['css'], json_decode($tvfields ,1)['css']);
             $placeholder['paste'] = $this->loadTemplate('paste');
         } else {
             $placeholder['paste'] = '';
@@ -671,8 +651,8 @@ class multiTV
         }
         if ($this->display == 'datatable' || $this->display == 'dbtable') {
             $settings = $this->loadSettings('datatable' . $this->cmsinfo['clipper'], 'setting');
-            $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], json_decode($tvfields ,1)['tvJS']);
-            $files['css'] = array_merge($files['css'], $settings['css'], json_decode($tvfields ,1)['tvCSS']);
+            $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], json_decode($tvfields ,1)['scripts']);
+            $files['css'] = array_merge($files['css'], $settings['css'], json_decode($tvfields ,1)['css']);
             $placeholder['data'] = $this->loadTemplate('datatable');
             $placeholder['script'] = $this->loadTemplate('datatableScript' . $this->cmsinfo['clipper']);
             $placeholder['edit'] = $this->loadTemplate('edit');
@@ -818,9 +798,7 @@ class multiTV
             'displayLength' => $this->configuration['displayLength'],
             'displayLengthMenu' => $this->configuration['displayLengthMenu'],
             'displayLengthMenutext' => $this->configuration['displayLengthMenutext'],
-            'editBoxWidth' => $this->configuration['editBoxWidth'],
-            'tvCSS' => (!empty($this->configuration['css'])) ? explode(',', $this->configuration['css']) : array(),
-            'tvJS' => (!empty($this->configuration['scripts'])) ? explode(',', $this->configuration['scripts']) : array()
+            'editBoxWidth' => $this->configuration['editBoxWidth']
         ));
 
         // populate tv template
@@ -835,8 +813,8 @@ class multiTV
         $placeholder['paste'] = '';
         $placeholder['clear'] = '';
         $settings = $this->loadSettings('datatable' . $this->cmsinfo['clipper'], 'setting');
-        $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], json_decode($tvfields ,1)['tvJS']);
-        $files['css'] = array_merge($files['css'], $settings['css'], json_decode($tvfields ,1)['tvCSS']);
+        $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], json_decode($tvfields ,1)['scripts']);
+        $files['css'] = array_merge($files['css'], $settings['css'], json_decode($tvfields ,1)['css']);
         $placeholder['data'] = $this->loadTemplate('datatable');
         $placeholder['script'] = $this->loadTemplate('datatableScript' . $this->cmsinfo['clipper']);
         $placeholder['edit'] = $this->loadTemplate('edit');
