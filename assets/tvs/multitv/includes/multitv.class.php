@@ -284,7 +284,7 @@ class multiTV
         }
         $this->configuration['editBoxWidth'] = isset($settings['configuration']['editBoxWidth']) ? $settings['configuration']['editBoxWidth'] : '';
         $this->configuration['css'] = (isset($settings['configuration']['css']) && !empty($settings['configuration']['css'])) ? explode(',', $this->configuration['css']) : array();
-        $this->configuration['scripts'] = (isset($settings['configuration']['scripts']) && !empty($settings['configuration']['scripts'])) ? explode(',', $this->configuration['scripts']) : array();;
+        $this->configuration['scripts'] = (isset($settings['configuration']['scripts']) && !empty($settings['configuration']['scripts'])) ? explode(',', $this->configuration['scripts']) : array();
     }
 
     function prepareValue($value)
