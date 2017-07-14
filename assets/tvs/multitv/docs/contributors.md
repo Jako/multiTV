@@ -1,4 +1,4 @@
-#Contributors
+# Contributors
 
 The MultiTV project was started in 2012 and it is maintained and developed further by [Thomas Jakobi](https://github.com/jako).
 
@@ -40,6 +40,9 @@ Many thanks to everyone who has contributed to this project:
     - Support for TinyMCE4
     - Duplicate button
     - Better Evo 1.1 support
+- [Sergey Savelyev](https://github.com/atomoc)
+    - Reference individual CSS and JS files in a config file
+
 
 And a lot of testers ...
 
