@@ -1,4 +1,4 @@
-#Template Variable
+# Template Variable
 
 All options for a custom template variable are set in a PHP Array or JSON config file in the folder *configs* with the same name as the template variable (otherwise the default config is used) and *.config.inc.php* or *config.json* as extension (a JSON file is used in priority to PHP Array file).
 
@@ -60,7 +60,7 @@ Property | Description | Default
 rowTpl | Default row template chunk for the snippet output. Could be changed in snippet call. See [snippet documentation](/multiTV/snippet.html) for possible placeholders | -
 outerTpl | Default outer template chunk for the snippet output. Could be changed in snippet call. See [snippet documentation](/multiTV/snippet.html) for possible placeholders | -
 
-##   Other options
+## Other options
 
 The other options for one multiTV could be defined in the key `configuration`.
 
