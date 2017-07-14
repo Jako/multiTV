@@ -1,10 +1,10 @@
-#Module
+# Module
 
 The multiTV Database Manager is a MODX Evolution module providing almost the same options as a multiTV Template Variable in datatable mode. The main difference is the direct access of (custom) tables in the MODX Evolution database.
 
 With the Database Manager you could manage (CRUD) your own database tables and use MODX input types for managing table row fields.
 
-##Configuration
+## Configuration
 
 Each Database Manager configuration file will create a tab in a Database Manager module if it is referenced in the module configuration. The value of *Configurations* has to be filled by a comma separated list of config names in *assets/tvs/multitv/moduleconfigs* (i.e. event_log for referencing the event_log.moduleconfig.json)
 
@@ -135,6 +135,8 @@ Property | Description | Default
 radioTabs | Tabs in the datatable editing layer are displayed as radio buttons. The button state is saved in *fieldTab* column of each table row (this column has to exist). | false
 sorting | Enable sorting by column header. | false
 sortindex | Column name that ist used as sorting index. The column type has to be integer and it should contain an autoincremented index (see in [Fields](#fields)) as default value. | false
+css | Reference custom CSS files in a comma separated list. | -
+scripts | Reference custom JS files in a comma separated list. | -
 
 <!-- Piwik -->
 <script type="text/javascript">
