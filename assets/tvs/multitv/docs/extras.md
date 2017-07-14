@@ -1,10 +1,10 @@
-##PHx modifier
+## PHx modifier
 
 Since the JSON string in multiTV starts with `[[` and ends with `]]`[^1], you *can't* check if the multiTV is empty by i.e. ```[*multittvname:ne=``:then=`not empty`*]```.
 
 But you could to use the PHx modifier in the folder `phx-modifier` in that case. Move the two files to `assets/plugins/phx/modifiers` and call it like this ``[+phx:multitvisempty=`tvname|docid`:then=`xxx`:else=`yyy`+]`` or like this ``[+phx:multitvisnotempty=`tvname|docid`:then=`xxx`:else=`yyy`+]``. If docid is not set it defaults to current document.
 
-##Ditto filter extender
+## Ditto filter extender
 
 If you want to filter displayed Ditto rows by the values of multiTV field content, you could use the Ditto multitv filter extender. As all other Ditto filters it filters the row away if the condition is true.
 
@@ -78,7 +78,7 @@ If you want to filter Ditto by several multiTV values, you ave to append an opti
 ```
 
 
-##Update to the new data format
+## Update to the new data format
 
 Version 1.4.11 of multiTV uses a new data format (the column names are saved as key with each value). The custom tv and the snippet code supports the old and new format, so you don't have to update your multiTVs. It is only nessesary, if you want to add/remove columns in your multiTVs.
 
@@ -98,7 +98,7 @@ Call the snippet on one (temporary) MODX document like this:
 !]
 ```
 
-##Parameters
+## Parameters
 
 Name | Description | Default value
 ---- | ----------- | -------------
