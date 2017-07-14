@@ -1,6 +1,6 @@
-#Examples
+# Examples
 
-##Sortable Sidebar
+## Sortable Sidebar
 
 **Requirements**
 
