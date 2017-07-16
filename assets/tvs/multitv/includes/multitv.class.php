@@ -469,15 +469,15 @@ class multiTV
                     }
                 }
                 $tvheading[] = '</div>';
-                $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>';
-                $tvelement[] = '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>';
+                $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]"><i class="fa fa-plus-circle"></i></a>';
+                $tvelement[] = '<a href="#" class="remove" title="[+tvlang.remove+]"><i class="fa fa-minus-circle"></i></a>';
                 $tvelement[] = '</div><div class="clear"></div></li>';
                 break;
             // vertical template
             case 'vertical':
                 $tvfields = json_encode(array('fieldnames' => $this->fieldnames, 'fieldtypes' => $this->fieldtypes, 'csvseparator' => $this->configuration['csvseparator']));
                 $tvheading = array();
-                $tvelement = array('<li class="element' . $hasthumb . '"><div>');
+                $tvelement = array('<li class="element' . $hasthumb . '"><i class="fa fa-fa-arrows-v"></i><div>');
                 foreach ($this->fieldnames as $fieldname) {
                     $type = (isset($this->fields[$fieldname]['type'])) ? $this->fields[$fieldname]['type'] : 'text';
                     $elements = (isset($this->fields[$fieldname]['elements'])) ? $this->fields[$fieldname]['elements'] : '';
@@ -495,8 +495,8 @@ class multiTV
                             $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . '<br />';
                     }
                 }
-                $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]">[+tvlang.add+]</a>';
-                $tvelement[] = '<a href="#" class="remove" title="[+tvlang.remove+]">[+tvlang.remove+]</a>';
+                $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]"><i class="fa fa-plus-circle"></i></a>';
+                $tvelement[] = '<a href="#" class="remove" title="[+tvlang.remove+]"><i class="fa  fa-minus-circle"></i></a>';
                 $tvelement[] = '</div><div class="clear"></div></li>';
                 break;
             // horizontal template
