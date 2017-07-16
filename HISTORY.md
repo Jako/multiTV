@@ -1,7 +1,9 @@
 History
 ================================================================================
-- 2.0.11 TBA
+- 2.0.11 July 16, 2017
     - CustomTV: Reference individual CSS and JS files in a config file
+    - CustomTV: PHP7 compatibility
+    - CustomTV: CSS icons on base of FontAwesome
     
 - 2.0.10 March 31, 2017
     - CustomTV: Row reordering fix for Datatables
