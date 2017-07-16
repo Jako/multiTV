@@ -69,7 +69,7 @@ $params['toJson'] = (isset($toJson) && $toJson != '') ? $toJson : false;
 $params['randomize'] = (isset($randomize) && $randomize) ? true : false;
 $params['reverse'] = (isset($reverse) && $reverse) ? true : false;
 $params['orderBy'] = (isset($orderBy)) ? $orderBy : '';
-if($params['orderBy']) {
+if(isset($params['orderBy'])) {
 	list($params['sortBy'], $params['sortDir']) = explode(" ", $params['orderBy']);
 }
 $params['published'] = (isset($published)) ? $published : '1';
