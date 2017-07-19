@@ -54,7 +54,7 @@ class multiTV
 
         $this->language = $this->loadLanguage($this->modx->config['manager_language']);
         $this->options = $options;
-        $this->options['modulename'] = ($this->options['modulename']) ? $this->options['modulename'] : $this->language['modulename'];
+        $this->options['modulename'] = isset($this->options['modulename']) ? $this->options['modulename'] : $this->language['modulename'];
 
         $version = $this->modx->getVersionData();
         switch ($version['branch']) {
@@ -105,7 +105,7 @@ class multiTV
         }
         $settings = $this->loadSettings($this->tvName, 'config');
         $this->prepareSettings($settings);
-        if ($tvDefinitions['value']) {
+        if (isset($tvDefinitions['value'])) {
             $this->prepareValue($tvDefinitions['value']);
         }
     }
@@ -285,6 +285,8 @@ class multiTV
             $this->configuration['displayLengthMenutext'][] = ($displayLength != -1) ? $displayLength : $this->language['all'];
         }
         $this->configuration['editBoxWidth'] = isset($settings['configuration']['editBoxWidth']) ? $settings['configuration']['editBoxWidth'] : '';
+        $this->configuration['css'] = (isset($settings['configuration']['css']) && !empty($settings['configuration']['css'])) ? explode(',', $settings['configuration']['css']) : array();
+        $this->configuration['scripts'] = (isset($settings['configuration']['scripts']) && !empty($settings['configuration']['scripts'])) ? explode(',', $settings['configuration']['scripts']) : array();
     }
 
     function prepareValue($value)
@@ -654,8 +656,8 @@ class multiTV
         $files['css'] = $settings['css'];
         if ($this->configuration['enablePaste'] && $this->display != 'dbtable') {
             $settings = $this->loadSettings('paste' . $this->cmsinfo['clipper'], 'setting');
-            $files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
-            $files['css'] = array_merge($files['css'], $settings['css']);
+            $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], $this->configuration['scripts']);
+            $files['css'] = array_merge($files['css'], $settings['css'], $this->configuration['css']);
             $placeholder['paste'] = $this->loadTemplate('paste');
         } else {
             $placeholder['paste'] = '';
@@ -667,8 +669,8 @@ class multiTV
         }
         if ($this->display == 'datatable' || $this->display == 'dbtable') {
             $settings = $this->loadSettings('datatable' . $this->cmsinfo['clipper'], 'setting');
-            $files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
-            $files['css'] = array_merge($files['css'], $settings['css']);
+            $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], $this->configuration['scripts']);
+            $files['css'] = array_merge($files['css'], $settings['css'], $this->configuration['css']);
             $placeholder['data'] = $this->loadTemplate('datatable');
             $placeholder['script'] = $this->loadTemplate('datatableScript' . $this->cmsinfo['clipper']);
             $placeholder['edit'] = $this->loadTemplate('edit');
@@ -829,8 +831,8 @@ class multiTV
         $placeholder['paste'] = '';
         $placeholder['clear'] = '';
         $settings = $this->loadSettings('datatable' . $this->cmsinfo['clipper'], 'setting');
-        $files['scripts'] = array_merge($files['scripts'], $settings['scripts']);
-        $files['css'] = array_merge($files['css'], $settings['css']);
+        $files['scripts'] = array_merge($files['scripts'], $settings['scripts'], $this->configuration['scripts']);
+        $files['css'] = array_merge($files['css'], $settings['css'], $this->configuration['css']);
         $placeholder['data'] = $this->loadTemplate('datatable');
         $placeholder['script'] = $this->loadTemplate('datatableScript' . $this->cmsinfo['clipper']);
         $placeholder['edit'] = $this->loadTemplate('edit');
