@@ -58,12 +58,6 @@ class multiTV
 
         $version = $this->modx->getVersionData();
         switch ($version['branch']) {
-            case 'Evolution':
-                $this->cmsinfo['clipper'] = '';
-                $this->cmsinfo['kcfinder'] = version_compare($version['version'], '1.0.10', '>') ? 'true' : 'false';
-                $this->cmsinfo['thumbsdir'] = ($this->modx->config['thumbsDir']) ? $this->modx->config['thumbsDir'] . '/' : '';
-                $this->cmsinfo['seturl'] = version_compare($version['version'], '1.0.12', '>') ? '' : 'old';
-                break;
             case 'ClipperCMS':
                 $this->cmsinfo['clipper'] = 'Clipper';
                 $this->cmsinfo['kcfinder'] = version_compare($version['version'], '1.1', '>') ? 'true' : 'false';
@@ -76,6 +70,14 @@ class multiTV
                 $this->cmsinfo['thumbsdir'] = ($this->modx->config['thumbsDir']) ? $this->modx->config['thumbsDir'] . '/' : '';
                 $this->cmsinfo['seturl'] = '';
                 break;
+            case 'Evolution':
+            case 'Evolution CMS':
+            default:
+                $this->cmsinfo['clipper'] = '';
+                $this->cmsinfo['kcfinder'] = version_compare($version['version'], '1.0.10', '>') ? 'true' : 'false';
+                $this->cmsinfo['thumbsdir'] = ($this->modx->config['thumbsDir']) ? $this->modx->config['thumbsDir'] . '/' : '';
+                $this->cmsinfo['seturl'] = version_compare($version['version'], '1.0.12', '>') ? '' : 'old';
+                break;    
         }
 
         switch ($options['type']) {
