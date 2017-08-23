@@ -1,4 +1,4 @@
-#Donate
+# Donate
 
 multiTV is totally free and comes with no warranty or support. I give basic support on github tracker and like to receive suggestions for enhancements there.
 

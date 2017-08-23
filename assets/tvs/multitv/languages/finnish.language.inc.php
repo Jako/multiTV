@@ -7,6 +7,7 @@ $language['pastehere'] = 'Liitä tähän:';
 $language['add'] = 'Lisää';
 $language['remove'] = 'Poista';
 $language['edit'] = 'Edit';
+$language['duplicate'] = 'Duplicate';
 $language['save'] = 'Tallenna';
 $language['replace'] = 'Korvaa';
 $language['append'] = 'Liitä';

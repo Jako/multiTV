@@ -1,5 +1,25 @@
 History
 ================================================================================
+- 2.0.11 July 16, 2017
+    - CustomTV: Reference individual CSS and JS files in a config file
+    - CustomTV: PHP7 compatibility
+    - CustomTV: CSS icons on base of FontAwesome
+    
+- 2.0.10 March 31, 2017
+    - CustomTV: Row reordering fix for Datatables
+    - CustomTV: editBoxWidth for datatable and dbtable-mode
+
+- 2.0.9 January 6, 2017
+    - CustomTV: CSS fix for large monitors
+    - CustomTV: Fix loosing focus in TinyMCE4-modals
+    - CustomTV: Allow "%" for field width in TV configs
+    - CustomTV/Module: Added CKEditor4-support
+    - General: Replaced deprecated DB-methods
+
+- 2.0.8 September 1, 2016
+    - CustomTV: TinyMCE4 themes for each field
+    - CustomTV: Duplicate button for datatable mode
+
 - 2.0.7 April 4, 2016
     - CustomTV: Compatibility with TinyMCE4
 

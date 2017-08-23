@@ -1,4 +1,4 @@
-#Snippet
+# Snippet
 
 The multiTV snippet has to be called to display the content of a multiTV template variable. Call the snippet like this (most expample parameters are using the default values in this example call and could be removed from the call – parameter tvName is required)
 
@@ -31,7 +31,7 @@ The multiTV snippet has to be called to display the content of a multiTV templat
 !]
 ```
 
-##Parameters
+## Parameters
 
 Name | Description | Default value
 ---- | ----------- | -------------
@@ -62,7 +62,7 @@ offsetKey | Pagination offset parameter key | page
 
 The default templates for outer template and row template could be defined in the config file for the custom template variable. These custom definitions could be overwritten by `rowTpl` and `outerTpl` in snippet call. Both template chunks are parsed by PHx (chunkie class).
 
-###Where clause examples
+### Where clause examples
 
 The *where* parameter could be set with an JSON encoded array of where clauses. Each where clause has to use the following format: `{"fieldname:operator":"value"}` *fieldname* is the name of a multiTV field, *operator* is the comparing operator, *value* is the value the fieldname is compared with. Possible operators are `=`, `!=`, `>`, `<`, `>=`, `<=`, `LIKE NOT`, `LIKE`. The default operator is `=`.  
 
@@ -72,9 +72,9 @@ The *where* parameter could be set with an JSON encoded array of where clauses. 
 
 Multiple where clauses are combined with `AND` i.e. ``&where=`{"city:LIKE":"London","price":"2000"}` `` will filter all rows where the mulitTV field city does not contain London and where the mulitTV field price is not 2000.
 
-##Placeholder
+## Placeholder
 
-###Placeholder in rowTpl
+### Placeholder in rowTpl
 
 Name | Description
 ---- | -----------
@@ -86,7 +86,7 @@ row.class | FirstClass parameter setting for first displayed row, lastClass para
 row.total | Contains the count of all displayable rows
 docid | Value of docid parameter or current document id
 
-###Placeholder in outerTpl
+### Placeholder in outerTpl
 
 Name | Description
 ---- | -----------
