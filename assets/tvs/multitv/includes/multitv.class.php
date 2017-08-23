@@ -404,7 +404,7 @@ class multiTV
             }
             $formElement = $formElement . $currentScript[1]; // move the script tag to the end
         }
-        preg_match('/<.*class=\"([^\"]*)/s', $formElement, $currentClass); // get current classes
+        preg_match('/<.*?class=\"([^\"]*)/s', $formElement, $currentClass); // get current classes
         $formElement = preg_replace('/class=\"[^\"]*\"/s', '', $formElement, 1); // remove all classes
         if ($fieldDefault != '') {
             $formElement = preg_replace('/(<\w+)/', '$1 alt="' . $fieldDefault . '"', $formElement, 1); // add alt to first tag (the input)
@@ -461,11 +461,11 @@ class multiTV
                             $hasthumb = ' hasthumb';
                             break;
                         case 'date':
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $type, $default);
                             $tvcss .= '.multitv #[+tvid+]list li.element .inline.mtv_' . $fieldname . ' { margin-right: -26px }';
                             break;
                         default:
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $fieldname, $default);
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'inline mtv_' . $type, $default);
                     }
                 }
                 $tvheading[] = '</div>';
@@ -492,7 +492,7 @@ class multiTV
                             break;
                         default:
                             $tvelement[] = '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . '<br />';
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $type, $default) . '<br />';
                     }
                 }
                 $tvelement[] = '<a href="#" class="copy" title="[+tvlang.add+]"><i class="fa fa-plus-circle"></i></a>';
@@ -515,7 +515,7 @@ class multiTV
                             break;
                         default:
                             $tvelement[] = '<label for="' . $tvid . $fieldname . '">' . $this->fields[$fieldname]['caption'] . '</label>';
-                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . '<br />';
+                            $tvelement[] = $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $type, $default) . '<br />';
                     }
                 }
                 $tvelement[] = '</div><div class="clear"></div></li>';
@@ -584,7 +584,7 @@ class multiTV
                                 break;
                             default:
                                 $tvElements[] = '<label for="' . $tvid . $fieldname . '">' . $caption . '</label>' .
-                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . "\r\n";
+                                    $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $type, $default) . "\r\n";
                         }
                     }
 
@@ -763,7 +763,7 @@ class multiTV
                         break;
                     default:
                         $tvElements[] = '<label for="' . $config['table'] . $fieldname . '_mtv">' . $caption . '</label>' .
-                            $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $fieldname, $default) . "\r\n";
+                            $this->renderMultiTVFormElement($type, $fieldname, $elements, 'mtv_' . $type, $default) . "\r\n";
                 }
             }
 
